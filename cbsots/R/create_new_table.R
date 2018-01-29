@@ -1,8 +1,8 @@
+#' @importFrom cbsodataR get_meta
 #' @import data.table 
 create_new_table <- function(id){
   
   info <- get_meta(id = id, cache = TRUE)
-  info <<- info
   
   data_properties <- as.data.table(info$DataProperties)
   dimensies_en_topics <- get_dimensies_en_topics(data_properties)
@@ -23,6 +23,7 @@ create_new_table <- function(id){
     ret$Select <- FALSE
     ret$OrigKeyOrder <- ret$Key
     ret <- ret[, c("Key", "Select", "Code", "Title",  "OrigKeyOrder")]
+    return(as.data.table(ret))
   }
   dimcodes <- sapply(dimensies, FUN = create_dimcode, simplify = FALSE)
   codes <- c(codes, dimcodes)

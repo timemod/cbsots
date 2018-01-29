@@ -1,0 +1,448 @@
+"Key","Title","Description","CategoryGroupID"
+"NL00  ","Nederland, buitenland, niet in te delen","Het totaal van Nederland (NL01), Buitenland (NL98) en Niet in te delen (NL99).
+
+Niet in te delen: door een gebrek aan informatie of door onjuiste informatie is een toedeling aan Nederland of Buitenland niet altijd mogelijk.",
+"NL01  ","Nederland","",
+"NL98  ","Buitenland",,
+"NL99  ","Niet in te delen","Niet in te delen: door een gebrek aan informatie of door onjuiste informatie is een toedeling aan Nederland of Buitenland niet altijd mogelijk.",
+"LD01  ","Noord-Nederland (LD)","Noord-Nederland: Groningen, Friesland, Drenthe
+
+LD = Landsdeel
+
+Regionale groepering van provincies. Nederland telt 4 landsdelen.",
+"LD02  ","Oost-Nederland (LD)","Oost-Nederland: Overijssel, Flevoland, Gelderland
+
+LD = Landsdeel
+
+Regionale groepering van provincies. Nederland telt 4 landsdelen.",
+"LD03  ","West-Nederland (LD)","West-Nederland: Utrecht, Noord-Holland, Zuid-Holland, Zeeland
+
+LD = Landsdeel
+
+Regionale groepering van provincies. Nederland telt 4 landsdelen.",
+"LD04  ","Zuid-Nederland (LD)","Zuid-Nederland: Noord-Brabant, Limburg
+
+LD = Landsdeel
+
+Regionale groepering van provincies. Nederland telt 4 landsdelen.",
+"PV20  ","Groningen (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV21  ","Friesland (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV22  ","Drenthe (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV23  ","Overijssel (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV24  ","Flevoland (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV25  ","Gelderland (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV26  ","Utrecht (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV27  ","Noord-Holland (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV28  ","Zuid-Holland (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV29  ","Zeeland (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV30  ","Noord-Brabant (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"PV31  ","Limburg (PV)","PV = Provincie
+
+Bestuurlijke onderverdeling van het Nederlands grondgebied. Sinds het
+instellen van de provincie Flevoland per 1 januari 1986 telt Nederland 12
+provincies.",
+"CR01  ","Oost-Groningen (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR02  ","Delfzijl en omgeving (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR03  ","Overig Groningen (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR04  ","Noord-Friesland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR05  ","Zuidwest-Friesland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR06  ","Zuidoost-Friesland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR07  ","Noord-Drenthe (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR08  ","Zuidoost-Drenthe (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR09  ","Zuidwest-Drenthe (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR10  ","Noord-Overijssel (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR11  ","Zuidwest-Overijssel (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR12  ","Twente (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR13  ","Veluwe (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR14  ","Achterhoek (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR15  ","Arnhem/Nijmegen (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR16  ","Zuidwest-Gelderland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR17  ","Utrecht (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR18  ","Kop van Noord-Holland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR19  ","Alkmaar en omgeving (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR20  ","IJmond (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR21  ","Agglomeratie Haarlem (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR22  ","Zaanstreek (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR23  ","Groot-Amsterdam (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR24  ","Het Gooi en Vechtstreek (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR25  ","Agglomeratie Leiden en Bollenstreek (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR26  ","Agglomeratie 's-Gravenhage (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR27  ","Delft en Westland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR28  ","Oost-Zuid-Holland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR29  ","Groot-Rijnmond (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR30  ","Zuidoost-Zuid-Holland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR31  ","Zeeuwsch-Vlaanderen (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR32  ","Overig Zeeland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR33  ","West-Noord-Brabant (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR34  ","Midden-Noord-Brabant (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR35  ","Noordoost-Noord-Brabant (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR36  ","Zuidoost-Noord-Brabant (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR37  ","Noord-Limburg (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR38  ","Midden-Limburg (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR39  ","Zuid-Limburg (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"CR40  ","Flevoland (CR)","CR = COROP-gebied
+
+Regionaal niveau tussen gemeenten en provincies in. In 1970 ontworpen door
+de Coördinatie Commissie Regionaal Onderzoeksprogramma, waaraan de
+indeling haar naam dankt. Nederland telt 40 COROP-gebieden.",
+"SG00  ","Geen stadsgewest (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG01  ","Groningen (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG02  ","Leeuwarden (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG03  ","Zwolle (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG04  ","Enschede (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG05  ","Apeldoorn (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG06  ","Arnhem (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG07  ","Nijmegen (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG08  ","Amersfoort (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG09  ","Utrecht (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG10  ","Amsterdam (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG11  ","Haarlem (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG12  ","Leiden (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG13  ","'s-Gravenhage (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG14  ","Rotterdam (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG15  ","Dordrecht (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG16  ","Breda (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG17  ","Tilburg (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG18  ","'s-Hertogenbosch (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG19  ","Eindhoven (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG20  ","Geleen/Sittard (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG21  ","Heerlen (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",
+"SG22  ","Maastricht (SG)","SG = Stadsgewest
+
+Stedelijk gebied in functionele zin. Een stadsgewest bestaat uit een
+grootstedelijke agglomeratie en het omringende gebied dat georiënteerd is
+op deze agglomeratie. De huidige indeling in stadsgewesten is
+geïntroduceerd in 2000 en is niet landelijk dekkend. Nederland telt 22
+stadsgewesten.",

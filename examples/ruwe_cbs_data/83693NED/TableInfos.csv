@@ -1,0 +1,91 @@
+"ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
+0,"Consumentenvertrouwen, economisch klimaat en koopbereidheid; gecorrigeerd","Consumentenvertrouwen","83693NED","Verwachtingen van Nederlandse consumenten, gecorrigeerd, over
+algemene economische ontwikkelingen en de eigen financiële situatie ","2018-01-22T06:30:00","Actualisering","","nl","CBS","Permaand","april 1986 - januari 2018","
+Deze tabel bevat de (seizoen)gecorrigeerde gegevens over de opvattingen en verwachtingen van Nederlandse consumenten ten aanzien van de algemene economische ontwikkelingen en de eigen financiële situatie. Op basis van deze gegevens wordt de indicator consumentenvertrouwen en de deelindicatoren economisch klimaat en koopbereidheid berekend. De statistiek 'Consumenten Conjunctuuronderzoek' komt tot stand met medefinanciering door de Europese Commissie.
+
+Gegevens beschikbaar vanaf: april 1986 
+
+Status van de cijfers
+De cijfers tot en met december 2015 zijn definitief. Jaarlijks worden in februari de maanden van afgelopen twee jaar bijgesteld. Daarmee worden de cijfers van twee jaar eerder definitief. De cijfers van een jaar eerder blijven voorlopig. De bijstellingen van de cijfers zijn doorgaans gering.
+
+Wijzigingen per 22 januari 2018
+De cijfers van januari zijn toegevoegd. 
+
+Wanneer komen er nieuwe cijfers?
+De nieuwe cijfers verschijnen op 21 februari 2018.
+","
+INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie 
+
+1. TOELICHTING
+
+Deze tabel bevat de (seizoen)gecorrigeerde gegevens over de opvattingen en verwachtingen van Nederlandse consumenten ten aanzien van de algemene economische ontwikkelingen en de eigen financiële situatie. Op basis van deze gegevens wordt de indicator consumentenvertrouwen en de deelindicatoren economisch klimaat en koopbereidheid berekend. De statistiek 'Consumenten Conjunctuuronderzoek' komt tot stand met medefinanciering door de Europese Commissie.
+
+Gegevens beschikbaar vanaf: april 1986 
+
+Status van de cijfers
+De cijfers tot en met december 2015 zijn definitief. Jaarlijks worden in februari de maanden van afgelopen twee jaar bijgesteld. Daarmee worden de cijfers van twee jaar eerder definitief. De cijfers van een jaar eerder blijven voorlopig. De bijstellingen van de cijfers zijn doorgaans gering.
+
+Wijzigingen per 22 januari 2018
+De cijfers van januari zijn toegevoegd. 
+
+Wanneer komen er nieuwe cijfers?
+De nieuwe cijfers verschijnen op 21 februari 2018.
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Definities:
+Het consumentenvertrouwen is een indicator die informatie geeft over het vertrouwen en opvattingen van consumenten ten aanzien van de ontwikkelingen van de Nederlandse economie en hun eigen financiële situatie. Samen met de deelindicatoren economisch klimaat en koopbereidheid dragen deze bij aan de voorspelling van korte termijn schommelingen van de particuliere consumptie, met in het bijzonder de vraag naar en de aanschaf van duurzame consumptiegoederen.
+
+De indicator van het consumentenvertrouwen is het gemiddelde van de saldi van de percentages van positieve en negatieve antwoorden op de vragen over de economische situatie in de afgelopen en komende 12 maanden, de financiële situatie van het huishouden in de afgelopen en komende 12 maanden en of het een gunstige tijd is om grote aankopen te doen.
+
+De indicator van het economisch klimaat is het gemiddelde van de saldi van het percentage van positieve en negatieve antwoorden op de vragen over de economische situatie in de afgelopen en komende 12 maanden.
+
+De indicator van de koopbereidheid is het gemiddelde van de saldi van de percentages van positieve en negatieve antwoorden op de vragen over de financiële situatie van het huishouden in de afgelopen en komende 12 maanden en of het een gunstige tijd is om grote aankopen te doen.
+
+De indicatoren kunnen een waarde aannemen van -100 (iedereen antwoordt negatief) tot +100 (iedereen antwoordt positief). Bij een waarde van 0 is het aandeel pessimisten gelijk aan het aandeel optimisten.
+
+De indicatoren zijn gecorrigeerd voor seizoensinvloeden en steekproefruis. 
+
+Verklaring van symbolen:
+
+niets (blanco)	: het cijfer kan op logische gronden niet voorkomen
+. 		: het cijfer is onbekend, onvoldoende betrouwbaar of geheim
+*		: voorlopige cijfers
+**		: nader voorlopige cijfers
+
+3. KOPPELINGEN NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Relevante tabellen:
+
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83694NED/table?ts=1516261513574'>Consumentenvertrouwen; ongecorrigeerd</a>
+
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/71698ned/table?ts=1516261599740'>Consumentenvertrouwen; persoonskenmerken</a>
+
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/71696ned/table?ts=1516261631949'>Consumentenvertrouwen; huishoudenkenmerken</a>
+
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/71697ned/table?ts=1516261663487'>Consumentenvertrouwen; regionale kenmerken</a>
+
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/7388pcr/table?ts=1516261716061'>Consumentenvertrouwen; 1972-2016</a>
+
+Relevante artikelen:
+Maandelijks verschijnt een artikel over het consumentenvertrouwen in het <a href='https://www.cbs.nl/nl-nl/dossier/dossier-conjunctuur'>Conjunctuurbericht</a>.
+
+Meer informatie is te vinden op de themapagina <a href='https://www.cbs.nl/nl-nl/arbeid-en-inkomen/inkomen-en-bestedingen'>Inkomen en bestedingen</a>.
+
+4. BRONNEN EN METHODEN
+
+De onderzoeksmethode van deze tabel is te vinden in de onderzoeksbeschrijving <a href='https://www.cbs.nl/nl-nl/onze-diensten/methoden/onderzoeksomschrijvingen/korte-onderzoeksbeschrijvingen/consumenten-conjunctuuronderzoek--cco--'>Consumenten Conjunctuuronderzoek (CCO)</a>.
+
+5. MEER INFORMATIE
+
+<a href='https://www.cbs.nl/nl-nl/over-ons/contact/infoservice'>Infoservice</a>
+
+Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen 
+Verveelvoudiging is toegestaan, mits CBS als bron wordt vermeld.
+","ts=1511253874139&graphtype=Table&r=Perioden&k=Topics","$filter=((Perioden eq '2016MM11') or (Perioden eq '2016MM12') or (Perioden eq '2017MM01') or (Perioden eq '2017MM02') or (Perioden eq '2017MM03') or (Perioden eq '2017MM04') or (Perioden eq '2017MM05') or (Perioden eq '2017MM06') or (Perioden eq '2017MM07') or (Perioden eq '2017MM08') or (Perioden eq '2017MM09') or (Perioden eq '2017MM10') or (Perioden eq '2017MM11'))&$select=Perioden, Consumentenvertrouwen_1, EconomischKlimaat_2, Koopbereidheid_3, EconomischeSituatieAfgelopen12Maande_4, EconomischSituatieKomende12Maanden_5, FinancieleSituatieAfgelopen12Maanden_6, FinancieleSituatieKomende12Maanden_7, GunstigeTijdVoorGroteAankopen_8","Table,Bar,Line","Regulier","CBS.","2018-01-22T06:30:00","2"

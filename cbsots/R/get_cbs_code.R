@@ -1,3 +1,26 @@
+# Functie get_cbs_code is een hulpfunctie voor functie cbstable2ts. De functie
+# haalt de tabelcodering op met functie get_meta en maakt ook direct de 
+# tijdreekslabels aan.
+#
+# INPUT
+#   id     CBS open data table (inclusief extensie NED)
+#   ...    argument die worden doorgegeven aan functien cbsodataR::get_meta.
+# RETURN:  Een lijst met diverse data.tables die de ingelezen data bevatten.
+#
+get_cbs_code <- function(id, ...) {
+  
+  info <- get_meta(id, ...)
+  
+  data_properties <- as.data.table(info$DataProperties)
+  dimensies_en_topics <- get_dimensies_en_topics(data_properties)
+  list2env(dimensies_en_topics, env = environment())
+  
+  code <- sapply(dimensies, FUN = function(x) as.data.table(info[[x]]),
+                  simplify = FALSE)
+  code$Topic <- topics
+  return(code)
+}
+
 # Haal de dimensies, topics en bijbehorende omschrijvingen uit
 # de data_properties data frame zoals ingelezen / gedownload van het CBS.
 get_dimensies_en_topics <- function(data_properties) {

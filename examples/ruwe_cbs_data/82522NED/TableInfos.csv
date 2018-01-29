@@ -1,0 +1,125 @@
+"ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
+0,"Uitgesproken faillissementen; bedrijven en instellingen, regio","Uitgesproken faillissementen; regio","82522NED","Uitgesproken faillissementen
+Type gefailleerde en regio","2018-01-11T06:30:00","Actualisering","","nl","CBS","Permaand","januari 2009 - december 2017","
+Deze tabel bevat de aantallen door rechters in Nederland uitgesproken faillissementen uitgesplitst naar type gefailleerde (natuurlijke personen met eenmanszaak, bedrijven en instellingen) en regio's. 
+
+Gegevens beschikbaar vanaf: januari 2009.
+
+Status van de cijfers
+De uitkomsten van de laatste twee maanden zijn voorlopig.
+
+Wijzigingen per 11 januari 2018:
+De cijfers van december 2017 zijn toegevoegd.
+
+Wanneer komen er nieuwe cijfers?
+De uitkomsten over de maand januari 2018 verschijnen op 12 februari 2018.
+
+","INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie
+
+
+1. TOELICHTING
+
+Deze tabel bevat de aantallen door rechters in Nederland uitgesproken faillissementen uitgesplitst naar type gefailleerde (natuurlijke personen met eenmanszaak, bedrijven en instellingen) en regio's. 
+
+Gegevens beschikbaar vanaf: januari 2009.
+
+Status van de cijfers
+De uitkomsten van de laatste twee maanden zijn voorlopig.
+
+Wijzigingen per 11 januari 2018:
+De cijfers van december 2017 zijn toegevoegd.
+
+Wanneer komen er nieuwe cijfers?
+De uitkomsten over de maand januari 2018 verschijnen op 12 februari 2018.
+
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Definities:
+
+Faillissement
+Een rechter kan een juridische eenheid die heeft opgehouden te betalen in staat van faillissement verklaren. Het vermogen en de inkomsten van die juridische eenheid (de schuldenaar) worden dan ingenomen om de schulden af te lossen. Het faillissement kan worden uitgesproken op verzoek van een schuldeiser, de schuldenaar zelf of het Openbaar Ministerie. Nadat de inkomsten en het vermogen aan schuldeisers zijn uitgekeerd wordt het faillissement beëindigd maar is de schuldenaar vaak niet schuldenvrij. Restschulden blijven namelijk opeisbaar. Het failliet verklaren van een juridische eenheid op verzoek van een schuldeiser kan overigens alleen geschieden indien er ook sprake is van een schuld aan een andere schuldeiser.
+
+Uitgesproken faillissementen
+Het aantal natuurlijke personen met eenmanszaak, bedrijven of instellingen dat door uitspraak van de rechter in staat van faillissement is verklaard.
+
+Natuurlijke personen met eenmanszaak
+Rechtsvorm zonder rechtspersoonlijkheid met één natuurlijke persoon (m/v) als eigenaar van het bedrijf. Deze eigenaar is volledig aansprakelijk voor alle bedrijfshandelingen en vermogensaangelegenheden. Er is geen onderscheid tussen bedrijfs- en privébezittingen. Zaakschuldeisers kunnen zich verhalen op privébezittingen en privéschuldeisers kunnen zich op de bezittingen van het bedrijf verhalen. Er kunnen meerdere personen werken in de eenmanszaak; de eigenaar kan personeel in dienst hebben.
+
+Bedrijven en instellingen
+Hieronder worden de volgende typen bedrijven of samenwerkingsverbanden gerekend:
+- Besloten vennootschap
+- Naamloze Vennootschap
+- Stichting
+- Vereniging
+- Limited of andere buitenlandse rechtspersoon
+- Vennootschap onder Firma
+- Commanditaire Vennootschap 
+- Maatschap
+
+Regio
+Indeling van de gefailleerde bedrijven en instellingen naar regio’s. De regiospecificatie voor Nederland kent een nadere detaillering naar landsdelen, provincies, COROP-gebieden en stadsgewesten. De indeling in een bepaalde regio is gebaseerd op het vestigingsadres van het bedrijf (incl. eenmanszaken)/de instelling. 
+
+Verklaring van symbolen:
+
+niets (blanco)	: het cijfer kan op logische gronden niet voorkomen
+. 		: het cijfer is onbekend, onvoldoende betrouwbaar of geheim
+*		: voorlopige cijfers
+**		: nader voorlopige cijfers
+
+
+3. KOPPELINGEN NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Relevante tabellen:
+
+Relevante tabellen:
+
+Faillissementen; kerncijfers zijn te vinden in: 
+<a href=""https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82242NED""
+>Uitgesproken faillissementen; kerncijfers</a>
+
+Faillissementen; kerncijfers zittingsdaggecorrigeerd zijn te vinden in: 
+<a href=""https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83085NED""
+>Uitgesproken faillissementen; zittingsdaggecorrigeerd</a>
+
+Faillissementen van bedrijven en instellingen (inclusief eenmanszaken) naar SBI 2008 zijn te vinden in: 
+<a href=""https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82244NED""
+>Uitgesproken faillissementen; bedrijven en instellingen, SBI 2008</a>
+
+Faillissementen van natuurlijke personen (inclusief eenmanszaken) naar regio zijn te vinden in: 
+<a href=""https://opendata.cbs.nl/statline/#/CBS/nl/dataset/82243NED""
+>Uitgesproken faillissementen; natuurlijke personen, regio</a>
+
+Faillissementen van natuurlijke personen naar leeftijd zijn te vinden in: 
+<a href=""https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83719NED""
+>Uitgesproken faillissementen; natuurlijke personen, leeftijd</a>
+
+Maandcijfers over uitgesproken faillissementen naar rechtsvorm en regio van 1993 tot en met april 2014 zijn te vinden in: 
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/80045NED'
+>Faillissementen; maandcijfers naar rechtsvorm en regio 1993 - april 2014</a>
+
+
+4. BRONNEN EN METHODEN
+
+Bronnen
+De Nederlandse Rechtbanken
+
+Methode
+De onderzoeksmethode van deze tabel is te vinden in de onderzoeksbeschrijving <a href='http://www.cbs.nl/nl-NL/menu/themas/veiligheid-recht/methoden/dataverzameling/korte-onderzoeksbeschrijvingen/faillissementsstatistiek.htm'>Faillissementen</a>
+
+
+5. MEER INFORMATIE
+ 
+<a href='http://www.cbs.nl/nl-NL/menu/informatie/publiek/inlichtingen/default.htm'>Infoservice</a>
+
+Copyright © Centraal Bureau voor de Statistiek Den Haag/Heerlen
+
+Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.
+
+","ts=1515402544754&graphtype=Table&r=RegioS&k=Topics,TypeGefailleerde,Perioden&_gu=PV","$filter=((TypeGefailleerde eq 'TG07') or (TypeGefailleerde eq 'TG02') or (TypeGefailleerde eq 'TG05')) and ((Perioden eq '2017MM09') or (Perioden eq '2017MM10') or (Perioden eq '2017MM11') or (Perioden eq '2017MM12')) and ((RegioS eq 'NL00  ') or (RegioS eq 'NL01  ') or (RegioS eq 'NL98  ') or (RegioS eq 'NL99  ') or (RegioS eq 'PV20  ') or (RegioS eq 'PV21  ') or (RegioS eq 'PV22  ') or (RegioS eq 'PV23  ') or (RegioS eq 'PV24  ') or (RegioS eq 'PV25  ') or (RegioS eq 'PV26  ') or (RegioS eq 'PV27  ') or (RegioS eq 'PV28  ') or (RegioS eq 'PV29  ') or (RegioS eq 'PV30  ') or (RegioS eq 'PV31  '))&$select=TypeGefailleerde, Perioden, RegioS, UitgesprokenFaillissementen_1","Table,Bar,Line","Regulier","CBS.","2018-01-11T06:30:00","2"
