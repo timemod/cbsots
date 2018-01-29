@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+cbsots/inst/doc
+cbsots.pdf
+cbsots.log
+cbsots.Rcheck
+cbsots*zip
+cbsots*tar.gz
+tmp/
+

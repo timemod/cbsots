@@ -1,0 +1,27 @@
+Package: cbsots
+Type: Package
+Title: CBS open timeseires
+Version: 0.1
+Date: 2016-01-26
+Authors@R: c(
+ person("Rob", "van Harrevelt", email = "rvanharrevelt@gmail.com", role = c("aut", "cre"))
+ )
+Author: Rob van Harrevelt [aut, cre]
+Maintainer: Rob van Harrevelt <rvanharrevelt@gmail.com>
+Description: Tools from downloading timeseries using the cbsodataR package.
+License: GPL-3
+LazyData: TRUE
+RoxygenNote: 6.0.1
+Imports:
+    regts,
+    cbsodataR,
+    data.table,
+    readxl,
+    shiny,
+    rhandsontable,
+    shinyjqui
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
