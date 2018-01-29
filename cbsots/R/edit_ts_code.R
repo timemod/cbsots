@@ -11,8 +11,10 @@
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
   
-  tables <- readRDS(ts_code_file)
-
+  # TODO: special read function, check the package version
+  table_code_collection <- readRDS(ts_code_file)
+  tables <- table_code_collection$table_code
+  
   debug <- FALSE
  
   if (packageVersion("rhandsontable") == "0.3.5") {
@@ -294,13 +296,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         }
       }
       
-      cat("\n\nSummary of tables\n\n")
-      for (i in 1:length(values$tables)) {
-        cat(sprintf("Table is =  %s\n", names(values$tables)[i]))
-        tab <- values$tables[[i]]
-        print(tab)
-      }
-      saveRDS(values$tables, file = ts_code_file)
+      
+      table_code_collection <-
+        structure(list(package_version = packageVersion("cbsots"),
+                       table_code = values$tables),
+                  class = "table_code_collection")
+    
+      #print(table_code_collection)
+      saveRDS(table_code_collection, file = ts_code_file)
     })
   }
   

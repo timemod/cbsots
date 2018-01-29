@@ -28,7 +28,7 @@ create_new_table <- function(id){
   codes <- c(codes, dimcodes)
   return(structure(list(last_modified = Sys.time(), 
                         short_title = info$TableInfos$ShortTitle,
-              order = names(codes), codes = codes), class = "cbs_table"))
+              order = names(codes), codes = codes), class = "table_code"))
 }
 
 # Haal de dimensies, topics en bijbehorende omschrijvingen uit

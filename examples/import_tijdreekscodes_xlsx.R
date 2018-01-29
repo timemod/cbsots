@@ -15,6 +15,8 @@ xlsx_files <- file.path(tijdreekscode_dir, paste0(overzicht$naam_kort,
 names(xlsx_files) <- table_ids
 
 
+#xlsx_files <- xlsx_files[1:2]
+
 tables <- read_ts_code_xlsx(xlsx_files) 
 
 saveRDS(tables, output_rds)

@@ -28,12 +28,14 @@ read_ts_code_xlsx <- function(xlsx_files) {
   table_ids <- table_ids_cbs[idx]
 
   make_table <- function(i) {
-    return(read_ts_table_xlsx(table_id = table_ids[i], xlsx_file = xlsx_files[i]))
+    return(read_ts_table_xlsx(table_id = table_ids[i], 
+                              xlsx_file = xlsx_files[i]))
   }
-  tables <- lapply(seq_along(table_ids), FUN = make_table) 
-  names(tables) <- table_ids
-  
-  return(tables)
+  table_code <- lapply(seq_along(table_ids), FUN = make_table) 
+  names(table_code) <- table_ids
+  return(structure(list(package_version = packageVersion("cbsots"),
+                        table_code = table_code),
+         class = "table_code_collection"))
 }
 
 # internal function
