@@ -283,7 +283,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       
     
     observeEvent(input$save, {
-      cat("save button pressed\n")
       values$tables[[values$table_id]]$last_modifed <- values$last_modified
       if (!is.null(input$Topic)) {
         values$tables[[values$table_id]]$codes$Topic[, 1:4] <- 

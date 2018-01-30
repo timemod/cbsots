@@ -52,9 +52,20 @@ get_ts <- function(id, table_code_collection, download,
     code <- table_code$codes[[groep]]
     code <- code[Select == TRUE,]
     
-    # TODO: check for duplicates in column Code
-    # this if keys o.k. (compare with cbs_code): geen keys die niet meer bestaan
-  
+    # check for duplicates in Code
+    if (anyDuplicated(code$Code)) {
+      duplicates <- unique(code$Code[duplicated(code$Code)])
+      stop(paste0("Duplicate codes found for ",  groep, ":\n", 
+                  paste(duplicates, collapse = "\n")), "\n.")
+    }
+    
+    unknown_keys <- setdiff(code$Key, cbs_code[[groep]]$Key)
+    if (length(unknown_keys) > 0) {
+      stop(paste0("Unknown keys in ts code for ", groep, ":\n", 
+                  paste(unknown_keys, collapse = "\n")), "\n.")
+    }
+    
+    
     # Als de ts-code niet opgegeven is, dan wordt er voor deze dimensie
     # geen suffix worden toegevoegd aan de tijdreeksnaam en de label.
     code[(is.na(Code) | trimws(Code) == ""), c("Title", "Code") := ""]
@@ -150,8 +161,11 @@ get_ts <- function(id, table_code_collection, download,
     dim_index <- match(data[[dimensie]], keys)
     data[[dimensie]] <- ts[dim_index]
   }
-
   
+  if (!"Perioden" %in% colnames(data)) {
+    stop(paste("Table", id, "does not contain timeseries"))
+  }
+
   # In data frame data zijn de tijdreeksen voor hetzelfde onderwerp maar
   # met verschillende dimensies gestapeld in een enkel kolom.
   # Daarom gebruiken we functie dcast (to "cast" betekent "gieten")

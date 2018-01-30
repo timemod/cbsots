@@ -5,7 +5,7 @@ library(readxl)
 
 overzicht_xlsx <- "overzicht_opendata.xlsx"
 output_rds <- "tscodes/tscodes_example1.rds"
-tijdreekscode_dir <- "tijdreekscodes"
+tijdreekscode_dir <- "tscodes_xlsx_rob"
 
 overzicht <- read_excel(overzicht_xlsx, col_types = "text")
 
