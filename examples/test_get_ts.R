@@ -5,7 +5,7 @@ source("functions/check_ts_table.R")
 id <- "83693NED"
 id <- "82522NED"
 id <- "00376"
-ts_code_file <- "tscodes/tscodes_example1.rds"
+ts_code_file <- "tscode/tscode_example1.rds"
 
 table_code_collection <- readRDS(ts_code_file)
 

@@ -70,17 +70,22 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       values$table_descriptions <- paste(names(tables), "-", short_titles)
       values$table_ids_dict <- table_ids_dict
       values$table_description_dict <- table_description_dict
+      values$selected_table <- names(tables)[1]
     } else {
       values$table_descriptions <- character(0)
       values$table_ids_dict <- character(0)
       values$table_description_dict <- character(0)
+      values$selected_table <- NULL
     }
     
-    output$table_chooser <- renderUI(
-      selectInput("table_description", 
+    output$table_chooser <- renderUI({
+      selectInput("table_description",
                   label = "Choose a table for editing",
                   choices = values$table_descriptions,
-                  selected = values$table_descriptions[1])
+                  # the next expression can be isolated: the selectInput will
+                  # be recreated when values$table_descriptions changes.
+                  selected = isolate(values$table_description_dict[values$selected_table]))
+    }
     )
     
     observeEvent(input$table_description, {
@@ -126,6 +131,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       new_table_id <- values$new_table_id_dict[input$new_table_description]
       new_table_id <- as.character(new_table_id)
       
+      values$selected_table <- new_table_id
+      
       values$tables[[new_table_id]] <- create_new_table(new_table_id)
       values$tables <- values$tables[sort(names(values$tables))]
       
@@ -140,6 +147,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       
       values$table_description_dict <- values$table_descriptions
       names(values$table_description_dict) <- names(values$tables)
+      
+      
   
       removeModal()
     })
