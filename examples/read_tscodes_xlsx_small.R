@@ -4,7 +4,7 @@ library(cbsots)
 library(readxl)
 
 overzicht_xlsx <- "overzicht_opendata_fred.xlsx"
-output_rds <- "tscode/tscode_fred.rds"
+output_rds <- "tscode/tscode_small.rds"
 tijdreekscode_dir <- "tscode_xlsx_fred"
 
 overzicht <- read_excel(overzicht_xlsx, col_types = "text")
@@ -17,6 +17,8 @@ names(xlsx_files) <- table_ids
 
 #xlsx_files <- xlsx_files[1:2]
 
-tables <- read_ts_code_xlsx(xlsx_files) 
+tables <- read_ts_code_xlsx(xlsx_files[1:2]) 
+
+print(tables)
 
 saveRDS(tables, output_rds)

@@ -25,7 +25,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
   
   tables <- table_code_collection$table_code
  
-  debug <- FALSE
+  debug <- TRUE
  
   ui <- pageWithSidebar(
     
@@ -167,39 +167,49 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     #
     
     observeEvent(values$table_id, {
+      
+      if (debug) {
+        cat(sprintf("Table id changed, new value = %s\n", values$table_id))
+      }
   
       # save old results
-      if (!is.null(values$old_table_id) && values$old_table_id != input$table_id) {
+      if (!is.null(values$old_table_id) && 
+          values$old_table_id != values$table_id) {
+        
+        # TODO: check duplicate in keys
+        #showModal(modalDialog(
+        #   title = "Important message",
+        #   "This is an important message!",
+        #   easyClose = TRUE
+        #))
+        #return()
+     
         if (debug) {
-          cat(paste("new table", input$table_id, "\n"))
-          cat("Topic:\n")
-          print(head(values$Topic[ , 1:2]))
+          cat(sprintf("Saving current tables in old table %s\n",
+                      values$old_table_id))
         }
         values$tables[[values$old_table_id]]$last_modified <- values$last_modified
-        values$tables[[values$old_table_id]]$codes$Topic[, 1:4] <- values$Topic
-        dimensions <- names(values$tables[[values$old_table_id]]$codes)
-        for (dimension in dimensions) {
-          values$tables[[values$old_table_id]]$codes[[dimension]][ ,1:4] <- 
-                                                         values[[dimension]]
+        for (name in values$names) {
+          values$tables[[values$old_table_id]]$codes[[name]][ ,1:4] <- 
+                                                         values[[name]]
           if (debug) {
-            cat(paste("Dimension ", dimension, ":\n"))
-            print(head(values[[dimension]][ , 1:2]))
+            cat(paste("Name ", name, ":\n"))
+            print(head(values[[name]][ , 1:2]))
           }
+        }
+        
+        # remove previous dimensions (not Topic)
+        dimensions <- values$names[-1]
+        for (dimension in dimensions) {
+          values[[dimension]] <- NULL
         }
       }
       
-      # remove previous elements
-      dimensions <- values$names[-1]
-      for (dimension in dimensions) {
-         values[[dimension]] <- NULL
-      }
-      
-      # add new elements
+      # copy tables
       values$names <- names(values$tables[[values$table_id]]$codes)
-      values$Topic <- values$tables[[values$table_id]]$codes$Topic[, 1:4]
       dimensions <- values$names[-1]
-      for (dimension in dimensions) {
-        values[[dimension]] <- values$tables[[values$table_id]]$codes[[dimension]][, 1:4]
+      for (name in values$names) {
+        values[[name]] <- values$tables[[values$table_id]]$codes[[name]][, 1:4]
       }
       values$last_modified <-  values$tables[[values$table_id]]$last_modifed
       
@@ -287,10 +297,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         
       }
         
-        
       lapply(values$names, make_observer)
         
-      values$old_table_id <- input$table_id
+      values$old_table_id <- values$table_id
       
     })   # observeEvent
       
@@ -314,7 +323,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
                        table_code = values$tables),
                   class = "table_code_collection")
     
-      #print(table_code_collection)
+      if (debug) {
+        cat("saving table_codes\n")
+        print(table_code_collection)
+      }
       saveRDS(table_code_collection, file = ts_code_file)
     })
   }
