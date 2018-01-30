@@ -25,7 +25,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
   
   tables <- table_code_collection$table_code
  
-  debug <- TRUE
+  debug <- FALSE
  
   ui <- pageWithSidebar(
     
@@ -70,26 +70,39 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       values$table_descriptions <- paste(names(tables), "-", short_titles)
       values$table_ids_dict <- table_ids_dict
       values$table_description_dict <- table_description_dict
-      values$selected_table <- names(tables)[1]
     } else {
       values$table_descriptions <- character(0)
       values$table_ids_dict <- character(0)
       values$table_description_dict <- character(0)
-      values$selected_table <- NULL
     }
     
-    output$table_chooser <- renderUI({
+    output$table_chooser <- renderUI(
       selectInput("table_description",
                   label = "Choose a table for editing",
                   choices = values$table_descriptions,
                   # the next expression can be isolated: the selectInput will
                   # be recreated when values$table_descriptions changes.
-                  selected = isolate(values$table_description_dict[values$selected_table]))
-    }
+                  selected = values$table_description_dict[isolate(values$selected_table)])
     )
     
     observeEvent(input$table_description, {
-      values$table_id <- values$table_ids_dict[input$table_description]
+      
+      # check for duplicates, otherwise don't change
+      dupl <- check_duplicates(values)
+      
+      if (!is.null(dupl)) {
+        showModal(modalDialog(
+          title = "Duplicates in code",
+          paste0("Duplicates in in the code for selected keys\n",
+                 "Please correct before proceding\n", "Duplicated:\n",
+                 paste(dupl, collapse = ", ")),
+          easyClose = TRUE
+        ))
+        updateSelectInput(session, "table_description", 
+                          selected = values$table_description_dict[values$table_id])
+      } else {
+        values$table_id <- values$table_ids_dict[input$table_description]
+      }
     })
     
     dataModal <- function(failed = FALSE) {
@@ -131,10 +144,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       new_table_id <- values$new_table_id_dict[input$new_table_description]
       new_table_id <- as.character(new_table_id)
       
-      values$selected_table <- new_table_id
-      
       values$tables[[new_table_id]] <- create_new_table(new_table_id)
       values$tables <- values$tables[sort(names(values$tables))]
+      
+      
+      values$selected_table <- new_table_id
+      
       
       short_titles <- sapply(values$tables, FUN = function(x) return(x$short_title))
       values$table_descriptions <- paste(names(values$tables), "-", short_titles)
@@ -147,9 +162,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       
       values$table_description_dict <- values$table_descriptions
       names(values$table_description_dict) <- names(values$tables)
-      
-      
-  
+     
       removeModal()
     })
     
@@ -175,15 +188,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       # save old results
       if (!is.null(values$old_table_id) && 
           values$old_table_id != values$table_id) {
-        
-        # TODO: check duplicate in keys
-        #showModal(modalDialog(
-        #   title = "Important message",
-        #   "This is an important message!",
-        #   easyClose = TRUE
-        #))
-        #return()
-     
+      
         if (debug) {
           cat(sprintf("Saving current tables in old table %s\n",
                       values$old_table_id))
@@ -305,6 +310,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       
     
     observeEvent(input$save, {
+      
+      dupl <- check_duplicates(values)
+      if (!is.null(dupl)) {
+        showModal(modalDialog(
+          title = "Duplicates in code",
+          paste0("Duplicates in in the code for selected keys\n",
+                 "Please correct before proceding", paste(dupl, collapse = ", ")),
+          easyClose = TRUE
+        ))
+        values$selected_table <- values$table_id
+        return()
+      }
+      
       values$tables[[values$table_id]]$last_modifed <- values$last_modified
       if (!is.null(input$Topic)) {
         values$tables[[values$table_id]]$codes$Topic[, 1:4] <- 
@@ -316,7 +334,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
                            hot_to_r(input[[dimension]])
         }
       }
-      
       
       table_code_collection <-
         structure(list(package_version = packageVersion("cbsots"),
