@@ -3,9 +3,9 @@ rm(list = ls())
 library(cbsots)
 library(readxl)
 
-overzicht_xlsx <- "overzicht_opendata.xlsx"
-output_rds <- "tscodes/tscodes_example1.rds"
-tijdreekscode_dir <- "tscodes_xlsx_rob"
+overzicht_xlsx <- "overzicht_opendata_henk.xlsx"
+output_rds <- "tscodes/tscodes_xlsx_fred.rds"
+tijdreekscode_dir <- "tscodes_xlsx_fred"
 
 overzicht <- read_excel(overzicht_xlsx, col_types = "text")
 
