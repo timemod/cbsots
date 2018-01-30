@@ -1,4 +1,4 @@
-# Functie controleer_tijdreeksen controleert of de bekende tijdreeksen
+# Functie check_ts_table controleert of de bekende tijdreeksen
 # overeenstemmen met de oorspronkelijke CBS-data. De functie geeft een 
 # waarschuwing als er verschillen zijn geconstateerd.
 #
@@ -22,20 +22,21 @@
 #               compare      een data.table met daarin de cbs-data, 
 #                            de ts-reeksen en het verschil.
 
-controleer_tijdreeksen <- function(id, naam_kort, 
-                                   ruwe_cbs_dir = "ruwe_cbs_data",
-                                   output_dir = "output") {
+
+library(data.table)
+
+check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data", 
+                           output_dir = "output") {
   
-  cbs_data_file <- file.path(ruwe_cbs_dir, id, "data.csv")
-  ts_result_file <- file.path(output_dir, paste0(naam_kort, ".rds"))
+  cbs_data_file <- file.path(raw_cbs_dir, id, "data.csv")
+
   
-  ts_data <- readRDS(ts_result_file)
   na_strings <- c("       .", ".")    
-  cbs_data <- fread(cbs_data_file, drop = "ID", na.strings = na_strings)
+  cbs_data <- data.table::fread(cbs_data_file, drop = "ID", na.strings = na_strings)
   
-  ts_namen <- ts_data$ts_namen$naam
+  ts_namen <- x$ts_namen$naam
   
-  if (any(!sapply(ts_data[-1], FUN = ncol) == length(ts_namen))) {
+  if (any(!sapply(x[-1], FUN = ncol) == length(ts_namen))) {
     stop("Aantal tijdreeksen klopt niet!")
   }
   
@@ -49,6 +50,9 @@ controleer_tijdreeksen <- function(id, naam_kort,
     }
     return(ret)
   }
+  
+  ts_data <- x
+  
   return(sapply(ts_namen, FUN = f, ts_data = ts_data, cbs_data = cbs_data, 
                 simplify = FALSE))
 }
