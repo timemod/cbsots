@@ -27,14 +27,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
  
   debug <- FALSE
  
-  if (packageVersion("rhandsontable") == "0.3.5") {
-    # version rhandsontable 0.3.5 does not work correctly in  RStudio viewer and
-    # the internet explorer. This problem has been fixed in the current development
-    # version.
-    stop("rhandsontable 0.3.5 does not work correclty. Please install the newest",
-         "version with command\n devtools::install_github(\"jrowen/rhandsontable\")")
-  }
-  
   ui <- pageWithSidebar(
     
     headerPanel('Timeseries coding'),

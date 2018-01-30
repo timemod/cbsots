@@ -13,6 +13,7 @@ code_file <- "tscodes/tscodes_fred.rds"
 cpblib::use_cpblib()
 library(cbsots)
 library(regts)
+library(readxl)
 
 suppressPackageStartupMessages(library("data.table"))
 
