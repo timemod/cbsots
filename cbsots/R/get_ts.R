@@ -40,9 +40,16 @@ get_ts <- function(id, table_code_collection, download,
     stop("Argument table_code_collection is not a table_code_collection object")
   }
   
-  if (!id %in% names(table_code_collection$table_code)) {
+  table_ids <- names(table_code_collection$table_code)
+  table_ids_lower <- tolower(table_ids)
+  id_lower <- tolower(id)
+  
+  if (!id_lower %in% table_ids_lower) {
     stop(paste("Table", id, "not in table_code_collection"))
   }
+  
+  idx <- match(id_lower, table_ids_lower)
+  id <- table_ids[idx]
   
   table_code <- table_code_collection$table_code[[id]]
   cbs_code <- get_cbs_code(id, cache = TRUE)
@@ -144,7 +151,7 @@ get_ts <- function(id, table_code_collection, download,
   if (length(ongebruikte_topics) > 0) {
     data[, (ongebruikte_topics) := NULL]
   }
-
+  
   # Vervang de topic-namen met de overeenkomende tijdreekscodes
   setnames(data, old = code$Topic$Key, new = code$Topic$Code)
   

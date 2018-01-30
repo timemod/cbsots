@@ -28,8 +28,10 @@ read_ts_code_xlsx <- function(xlsx_files) {
   table_ids <- table_ids_cbs[idx]
 
   make_table <- function(i) {
-    return(read_ts_table_xlsx(table_id = table_ids[i], 
-                              xlsx_file = xlsx_files[i]))
+    table_id <- table_ids[i]
+    xlsx_file <- xlsx_files[i]
+    cat(paste("Reading table", table_id, "from", xlsx_file, "...\n"))
+    return(read_ts_table_xlsx(table_id = table_id, xlsx_file = xlsx_file))
   }
   table_code <- lapply(seq_along(table_ids), FUN = make_table) 
   names(table_code) <- table_ids
@@ -148,9 +150,9 @@ lees_tijdreekscodes <- function(tijdreekscodefile, dimensies) {
     sheetnaam <- substr(groep, 1, 31)
     code <- as.data.table(read_excel(tijdreekscodefile, sheet = sheetnaam, 
                                      col_types = "text"))
+
     code <- code[, .(Key, Code)]
-    
-    
+
     if (groep == "Topic") {
       # voor het onderwerp (Topic) mag de tijdreekscode weggelaten worden:
       # in dat geval wordt de code automatisch gegenereerd op basis van het
