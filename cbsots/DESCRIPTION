@@ -17,6 +17,7 @@ Imports:
     cbsodataR,
     data.table,
     readxl,
+    xlsx,
     shiny,
     rhandsontable,
     shinyjqui

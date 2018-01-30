@@ -12,7 +12,7 @@
 #                   en opgeslagen zijn in de map "ruwe_cbs_data".               
 #   tijdreekscode_dir Naam van de map waarin de tijdreekscodebestanden staan
 #                   (standaard is dit "tijdreekscodes").
-#   ruwe_cbs_dir    Naam van de map waarin de gedownloade CBS-tabellen worden
+#   raw_cbs_dir    Naam van de map waarin de gedownloade CBS-tabellen worden
 #                   geschreven (standaard is dit "ruwe_cbs_data").
 #
 # RETURN:  een lijst met de volgende elementen:
@@ -27,14 +27,14 @@
 #' @param id table id
 #' @param table_code_collection  a \code{table_code_collection} object
 #' @param download If \code{TRUE}, data are downloaded, otherwise the data
-#' is read from the previously downloaded data in directory \code{ruwe_cbs_dir}
-#' @param ruwe_cbs_dir directory where the downloaded data are stored
+#' is read from the previously downloaded data in directory \code{raw_cbs_dir}
+#' @param raw_cbs_dir directory where the raw downloaded data are stored
 #' @importFrom regts as.regts
 #' @importFrom regts update_ts_labels
 #' @importFrom stats as.formula
 #' @export
 get_ts <- function(id, table_code_collection, download,  
-                   ruwe_cbs_dir = "ruwe_cbs_data") {
+                   raw_cbs_dir = "raw_cbs_data") {
 
   if (!inherits(table_code_collection, "table_code_collection")) {
     stop("Argument table_code_collection is not a table_code_collection object")
@@ -75,6 +75,8 @@ get_ts <- function(id, table_code_collection, download,
   na_strings <- c("       .", ".")   
   # dit zijn de teksten die het CBS gebruikt voor NA-waarden
   
+  dimensies <- setdiff(names(table_code$codes), "Topic")
+  
   if (download) {
     
     cat(paste("Downloading table", id, "...\n"))
@@ -93,7 +95,7 @@ get_ts <- function(id, table_code_collection, download,
       }
       return(filter)
     }
-    dimensies <- setdiff(names(table_code$codes), "Topic")
+   
     filters <- sapply(dimensies, FUN = maak_filter, simplify = FALSE)
     
     if (length(filters) > 0) {
@@ -103,7 +105,7 @@ get_ts <- function(id, table_code_collection, download,
     }
     
     argumenten <- c(list(id = id, recode = FALSE, 
-                         dir = file.path(ruwe_cbs_dir, id)), filters)
+                         dir = file.path(raw_cbs_dir, id)), filters)
     data <- do.call(get_data, argumenten)
 
     # vervang na_string door een lege string, en zet resultaat om naar een
@@ -117,7 +119,7 @@ get_ts <- function(id, table_code_collection, download,
     
   } else {
     # inlezen van eerder gedownloade file
-    data_file <- file.path(ruwe_cbs_dir, id, "data.csv")
+    data_file <- file.path(raw_cbs_dir, id, "data.csv")
     if (!file.exists(data_file)) {
       stop(paste("Download eerst tabel", id))
     }
@@ -169,7 +171,8 @@ get_ts <- function(id, table_code_collection, download,
 
   ts_ts <- maak_tijdreeksen(data, ts_namen_en_labels$labels)
   
-  return(c(list(ts_namen = ts_namen_en_labels$ts_namen), ts_ts))
+  return(structure(c(list(ts_namen = ts_namen_en_labels$ts_namen), ts_ts),
+         class = "table_ts"))
 }
 
 maak_ts_namen_en_labels <- function(code) {

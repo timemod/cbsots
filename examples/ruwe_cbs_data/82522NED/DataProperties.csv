@@ -1,8 +1,0 @@
-"odata.type","ID","Position","ParentID","Type","Key","Title","Description","MapYear","ReleasePolicy","Datatype","Unit","Decimals","Default","PresentationType"
-"Cbs.OData.Dimension",0,0,,"Dimension","TypeGefailleerde","Type gefailleerde","",,,,,,,
-"Cbs.OData.GeoDimension",1,1,,"GeoDimension","RegioS","Regio's","",2014,,,,,,
-"Cbs.OData.TimeDimension",2,2,,"TimeDimension","Perioden","Perioden","",,TRUE,,,,,
-"Cbs.OData.Topic",3,3,,"Topic","UitgesprokenFaillissementen_1","Uitgesproken faillissementen","Het aantal natuurlijke personen met eenmanszaak en bedrijven en instellingen dat door uitspraak van de rechter in staat van faillissement is verklaard.
-
-Faillissement
-Staat waarin de rechter een juridische eenheid die heeft opgehouden te betalen kan verklaren. Het vermogen en de inkomsten van die juridische eenheid (de schuldenaar) worden dan ingenomen om de schulden af te lossen. Het faillissement kan worden uitgesproken op verzoek van een schuldeiser, de schuldenaar zelf of het Openbaar Ministerie. Nadat de inkomsten en het vermogen aan schuldeisers zijn uitgekeerd wordt het faillissement beëindigd maar is de schuldenaar vaak niet schuldenvrij. Restschulden blijven namelijk opeisbaar. Het failliet verklaren van een juridische eenheid op verzoek van een schuldeiser kan overigens alleen geschieden indien er ook sprake is van een schuld aan een andere schuldeiser.",,,"Double","Aantal",0,"Missing","Absolute"

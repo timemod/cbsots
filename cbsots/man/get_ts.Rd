@@ -4,7 +4,7 @@
 \alias{get_ts}
 \title{Return time indices}
 \usage{
-get_ts(id, table_code_collection, download, ruwe_cbs_dir = "ruwe_cbs_data")
+get_ts(id, table_code_collection, download, raw_cbs_dir = "raw_cbs_data")
 }
 \arguments{
 \item{id}{table id}
@@ -12,9 +12,9 @@ get_ts(id, table_code_collection, download, ruwe_cbs_dir = "ruwe_cbs_data")
 \item{table_code_collection}{a \code{table_code_collection} object}
 
 \item{download}{If \code{TRUE}, data are downloaded, otherwise the data
-is read from the previously downloaded data in directory \code{ruwe_cbs_dir}}
+is read from the previously downloaded data in directory \code{raw_cbs_dir}}
 
-\item{ruwe_cbs_dir}{directory where the downloaded data are stored}
+\item{raw_cbs_dir}{directory where the raw downloaded data are stored}
 }
 \description{
 Return time indices
