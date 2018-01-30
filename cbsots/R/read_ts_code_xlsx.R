@@ -33,6 +33,10 @@ read_ts_code_xlsx <- function(xlsx_files) {
   }
   table_code <- lapply(seq_along(table_ids), FUN = make_table) 
   names(table_code) <- table_ids
+  
+  # order tables alphabetically
+  table_code <- table_code[order(names(table_code))]
+  
   return(structure(list(package_version = packageVersion("cbsots"),
                         table_code = table_code),
          class = "table_code_collection"))

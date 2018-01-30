@@ -1,6 +1,8 @@
 #' Edit timeseries codes
 #' 
-#' @param ts_code_file a filename with timeseries codes
+#' @param ts_code_file a filename with timeseries codes. This file does not have
+#' to exist yet. If the file does exists, then it should be an rds file 
+#' containing a \code{table_code_collection} object.
 #' @param use_browser if \code{TRUE}, then display the graphical user interface
 #'  in the browser. Otherwise the RStudio viewer is used.
 #' @import shiny
@@ -11,10 +13,18 @@
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
   
-  # TODO: special read function, check the package version
-  table_code_collection <- readRDS(ts_code_file)
-  tables <- table_code_collection$table_code
+  if (file.exists(ts_code_file)) {
+    # TODO: special read function, check the package version
+    table_code_collection <- readRDS(ts_code_file)
+  } else {
+    table_code_collection <-  
+      structure(list(package_version = packageVersion("cbsots"),
+                     table_code = list()),
+                class = "table_code_collection")
+  }
   
+  tables <- table_code_collection$table_code
+ 
   debug <- FALSE
  
   if (packageVersion("rhandsontable") == "0.3.5") {
@@ -25,9 +35,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
          "version with command\n devtools::install_github(\"jrowen/rhandsontable\")")
   }
   
-  # order tables alphabetically
-  tables <- tables[order(names(tables))]
-  
   ui <- pageWithSidebar(
     
     headerPanel('Timeseries coding'),
@@ -36,7 +43,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       h2("Open a new table"),
       actionButton("new_table", "New table"),
       p(),
-      h2(paste("Save all code to file", ts_code_file)),
+      h2(paste("Save code to file", ts_code_file)),
       actionButton("save", "Save codes")
     ),
     mainPanel(
@@ -53,24 +60,29 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
                              orderInput_count = 0, 
                              last_modified = Sys.time())
     
-    short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
+    if (length(tables) > 0) {
     
-    table_descriptions <- paste(names(tables), "-", short_titles)
-    
-    
-    #
-    # conversion tables between table_descriptions <> table_ids
-    #
-    table_ids_dict <- names(tables)
-    names(table_ids_dict) <- table_descriptions
-    
-    table_description_dict <- table_descriptions
-    names(table_description_dict) <- names(tables)
-    
-    values$table_descriptions <- paste(names(tables), "-", short_titles)
-    values$table_ids_dict <- table_ids_dict
-    values$table_description_dict <- table_description_dict
-    
+      short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
+      
+      table_descriptions <- paste(names(tables), "-", short_titles)
+      
+      #
+      # conversion tables between table_descriptions <> table_ids
+      #
+      table_ids_dict <- names(tables)
+      names(table_ids_dict) <- table_descriptions
+      
+      table_description_dict <- table_descriptions
+      names(table_description_dict) <- names(tables)
+      
+      values$table_descriptions <- paste(names(tables), "-", short_titles)
+      values$table_ids_dict <- table_ids_dict
+      values$table_description_dict <- table_description_dict
+    } else {
+      values$table_descriptions <- character(0)
+      values$table_ids_dict <- character(0)
+      values$table_description_dict <- character(0)
+    }
     
     output$table_chooser <- renderUI(
       selectInput("table_description", 
