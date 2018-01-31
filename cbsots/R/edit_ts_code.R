@@ -276,11 +276,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
           
           orderInputId <- paste0("order", isolate(values[["orderInput_count"]]))
           ret <- list(h2(paste("Tabel", values$table_description_dict[table_id])), br(),
-                      list(p()), orderInput(inputId = orderInputId, 
+                      list(p()), 
+                      fluidRow(column(3, orderInput(inputId = orderInputId, 
                                             label = "Order for name generation", 
-                                            items = values$tables[[table_id]]$order),
+                                            items = values$tables[[table_id]]$order)),
+                               column(3, textInput(inputId = "search_table", 
+                                                    label = "Search in tabel"))),
                       p(), h3("Codes"),
-                      do.call(tabsetPanel, myTabs))
+                      do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
           
           observeEvent(input[[paste0(orderInputId, "_order")]], {
             if (debug) {
@@ -329,6 +332,36 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         print(table_code_collection)
       }
       saveRDS(table_code_collection, file = ts_code_file)
+    })
+    
+    
+    observeEvent(input$search_table, {
+      cat(sprintf("search table event %s\n", input$search_table))
+      cat(sprintf("selected tab = %s", input$selected_tab))
+      
+      search <- input$search_table
+      name <- input$selected_tab
+      
+      if (trimws(search) == "") {
+        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
+        values[[name]] <- order_code_rows(values[[name]], orig_key_order)
+        return(invisible(NULL))
+      }
+      
+      keys <- values[[name]]$Key
+      codes <- values[[name]]$Code
+      titles <- values[[name]]$Title
+    
+      key_index <- grep(search, keys, ignore.case = TRUE)
+      code_index <- grep(search, codes, ignore.case = TRUE)
+      title_index <- grep(search, titles, ignore.case = TRUE)
+      all <- union(key_index, title_index)
+      all <- union(all, code_index)
+      if (length(all) == 0) return(invisible(NULL))
+  
+      rest <- setdiff(seq_along(keys), all)
+      order <- c(all, rest)
+      values[[name]] <- isolate(values[[name]][order, ])
     })
   }
   
