@@ -52,6 +52,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
                              orderInput_count = 0, 
                              last_modified = Sys.time())
     
+    
+
+    
+    
     if (length(tables) > 0) {
     
       short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
@@ -88,21 +92,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     observeEvent(input$table_description, {
       
       # check for duplicates, otherwise don't change
-      dupl <- check_duplicates(values)
-      
-      if (!is.null(dupl)) {
-        showModal(modalDialog(
-          title = "Duplicates in code",
-          paste0("Duplicates in in the code for selected keys\n",
-                 "Please correct before proceding\n", "Duplicated:\n",
-                 paste(dupl, collapse = ", ")),
-          easyClose = TRUE
-        ))
-        updateSelectInput(session, "table_description", 
-                          selected = values$table_description_dict[values$table_id])
-      } else {
-        values$table_id <- values$table_ids_dict[input$table_description]
+      if (!is.null(values$old_table_id)) {
+        if (check_duplicates(session, values)) return()
       }
+      
+      values$table_id <- values$table_ids_dict[input$table_description]
     })
     
     dataModal <- function(failed = FALSE) {
@@ -311,17 +305,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     
     observeEvent(input$save, {
       
-      dupl <- check_duplicates(values)
-      if (!is.null(dupl)) {
-        showModal(modalDialog(
-          title = "Duplicates in code",
-          paste0("Duplicates in in the code for selected keys\n",
-                 "Please correct before proceding", paste(dupl, collapse = ", ")),
-          easyClose = TRUE
-        ))
-        values$selected_table <- values$table_id
-        return()
-      }
+      if (check_duplicates(session, values)) return()
       
       values$tables[[values$table_id]]$last_modifed <- values$last_modified
       if (!is.null(input$Topic)) {
@@ -358,3 +342,29 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     
   return(invisible(NULL))
 }
+
+
+#
+# help functions
+#
+
+check_duplicates <- function(session, values) {
+  for (name in values$names) {
+    codes <- values[[name]]$Code[values[[name]]$Select]
+    if (anyDuplicated(codes)) {
+      dupl <- codes[duplicated(codes)]
+      showModal(modalDialog(
+        title = "Duplicates in code",
+        HTML(paste0("Duplicate code for the selected keys of ", name,
+                    "<br>Duplicatecodes:\n", paste(dupl, collapse = ", "),
+                    "<br>Please correct before proceding.")),
+        easyClose = TRUE
+      ))
+      updateSelectInput(session, "table_description",
+                        selected = values$table_description_dict[values$table_id])
+      return(TRUE)
+    }
+  }
+ return(FALSE)
+}
+
