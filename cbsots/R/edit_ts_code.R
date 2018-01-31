@@ -336,8 +336,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     
     
     observeEvent(input$search_table, {
-      cat(sprintf("search table event %s\n", input$search_table))
-      cat(sprintf("selected tab = %s", input$selected_tab))
       
       search <- input$search_table
       name <- input$selected_tab
