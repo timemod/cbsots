@@ -219,7 +219,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         output[[name]] <- renderRHandsontable({
           if (!is.null(values[[name]])) {
             rhandsontable(values[[name]], readOnly = TRUE, height = 500, 
-                          overflow = "hidden") %>%
+                          overflow = "hidden", search = TRUE, 
+                          renderAllRows = FALSE) %>%
               hot_cols(fixedColumnsLeft = 3) %>%
               hot_col(col = c("Select", "Code"), readOnly = FALSE) %>%
               hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
@@ -277,11 +278,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
           orderInputId <- paste0("order", isolate(values[["orderInput_count"]]))
           ret <- list(h2(paste("Tabel", values$table_description_dict[table_id])), br(),
                       list(p()), 
-                      fluidRow(column(3, orderInput(inputId = orderInputId, 
+                      orderInput(inputId = orderInputId, 
                                             label = "Order for name generation", 
-                                            items = values$tables[[table_id]]$order)),
-                               column(3, textInput(inputId = "search_table", 
-                                                    label = "Search in tabel"))),
+                                            items = values$tables[[table_id]]$order),
+                      list(p()),
+                      textInput(inputId = "searchField",  
+                                label = "Search in tabel (enter a text followed by ENTER)"),
                       p(), h3("Codes"),
                       do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
           
@@ -335,9 +337,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     })
     
     
-    observeEvent(input$search_table, {
+    observeEvent(input$searchField, {
       
-      search <- input$search_table
+      search <- input$searchField
       name <- input$selected_tab
       
       if (trimws(search) == "") {
