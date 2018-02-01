@@ -10,7 +10,6 @@ overzicht_xlsx <- "overzicht_opendata_fred.xlsx"
 output_dir <- "output/fred"
 code_file <- "tscode/tscode_fred.rds"
 
-cpblib::use_cpblib()
 library(cbsots)
 library(regts)
 library(readxl)
