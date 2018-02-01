@@ -90,7 +90,7 @@ get_ts <- function(id, table_code_collection, download,
   code <- sapply(table_code$order, FUN = convert_code, simplify = FALSE)
 
   # downloaden of inlezen van de echte data
-  na_strings <- c("       .", ".")   
+  na_strings <- c("       .", ".", "       -")   
   # dit zijn de teksten die het CBS gebruikt voor NA-waarden
   
   dimensies <- setdiff(names(table_code$codes), "Topic")
@@ -105,10 +105,6 @@ get_ts <- function(id, table_code_collection, download,
       if (nrow(cbs_code[[dimensie]]) > nrow(code[[dimensie]])) {
         filter <- code[[dimensie]]$Key
       } else {
-        filter <- NULL
-      }
-      if (length(filter) >= 20) {
-        warning("ERROR: lengte filter groter dan 20, geen filter gebruikt.")
         filter <- NULL
       }
       return(filter)

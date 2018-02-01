@@ -8,7 +8,8 @@ overzicht_xlsx <- "overzicht_opendata_fred.xlsx"
 overzicht <- read_excel(overzicht_xlsx, col_types = "text")
 
 id <- "70076ned"
-ts_code_file <- "tscodes/tscodes_fred.rds"
+id <- "81974NED"
+ts_code_file <- "tscode/tscode_fred.rds"
 
 table_code_collection <- readRDS(ts_code_file)
 
