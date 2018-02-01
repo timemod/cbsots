@@ -49,12 +49,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     
     values <- reactiveValues(tables = tables,
                              table_id = names(tables)[1],
-                             orderInput_count = 0, 
                              last_modified = Sys.time())
-    
-    
-
-    
     
     if (length(tables) > 0) {
     
@@ -273,12 +268,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
           table_items <- names(values$tables[[table_id]]$code)
           myTabs <- lapply(table_items, make_panel)
           
-          values[["orderInput_count"]] <- isolate(values[["orderInput_count"]]) + 1
-          
-          orderInputId <- paste0("order", isolate(values[["orderInput_count"]]))
           ret <- list(h2(paste("Tabel", values$table_description_dict[table_id])), br(),
                       list(p()), 
-                      orderInput(inputId = orderInputId, 
+                      orderInput(inputId = "order_input", 
                                             label = "Order for name generation", 
                                             items = values$tables[[table_id]]$order),
                       list(p()),
@@ -287,12 +279,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
                       p(), h3("Codes"),
                       do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
           
-          observeEvent(input[[paste0(orderInputId, "_order")]], {
+          observeEvent(input$order_input, {
             if (debug) {
               cat("order has changed\n")
-              print(input[[paste0(orderInputId, "_order")]])
+              print(input$order_input)
             }
-            values$tables[[table_id]]$order <- input[[paste0(orderInputId, "_order")]]
+            values$tables[[table_id]]$order <- input$order_input
             values$last_modified <- Sys.time()
           })
           
