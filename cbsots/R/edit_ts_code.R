@@ -220,14 +220,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
             df_input  <- hot_to_r(input[[name]])
             df_values <- values[[name]]
             if (!is.null(df_values) && !is.null(df_input) &&
-                # the next conditions are necessary because sometimes 
-                # input[[name]] is not synchronous with values.
-                identical(sort(df_input$Key), sort(df_values$Key)) &&
-                identical(sort(df_input$Title), sort(df_values$Title))) {
+                # only respond to changes in Select or Code
+                identical(df_input$Key, df_values$Key) &&
+                identical(df_input$Title, df_values$Title)) {
               
               if (debug) {
                 cat("current values\n")
-                print(head(df_input[, 1:2]))
+                print(head(df_input[, 1:3]))
               }
               if (!identical(df_input$Select, df_values$Select)) {
                 # selection has changed
@@ -239,7 +238,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
               }
               if (debug) {
                 cat("new values\n")
-                print(head(values[[name]][, 1:2]))
+                print(head(values[[name]][, 1:3]))
               }
             }
           }
