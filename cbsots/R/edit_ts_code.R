@@ -293,32 +293,33 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     })
     
     
-    observeEvent(input$searchField, {
-      
-      search <- input$searchField
-      name <- input$selected_tab
-      
-      if (trimws(search) == "") {
-        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
-        values[[name]] <- order_code_rows(values[[name]], orig_key_order)
-        return(invisible(NULL))
-      }
-      
-      keys <- values[[name]]$Key
-      codes <- values[[name]]$Code
-      titles <- values[[name]]$Title
-    
-      key_index <- grep(search, keys, ignore.case = TRUE)
-      code_index <- grep(search, codes, ignore.case = TRUE)
-      title_index <- grep(search, titles, ignore.case = TRUE)
-      all <- union(key_index, title_index)
-      all <- union(all, code_index)
-      if (length(all) == 0) return(invisible(NULL))
-  
-      rest <- setdiff(seq_along(keys), all)
-      order <- c(all, rest)
-      values[[name]] <- isolate(values[[name]][order, ])
-    })
+    # For the moment ignored.
+    # observeEvent(input$searchField, {
+    #   
+    #   search <- input$searchField
+    #   name <- input$selected_tab
+    #   
+    #   if (trimws(search) == "") {
+    #     orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
+    #     values[[name]] <- order_code_rows(values[[name]], orig_key_order)
+    #     return(invisible(NULL))
+    #   }
+    #   
+    #   keys <- values[[name]]$Key
+    #   codes <- values[[name]]$Code
+    #   titles <- values[[name]]$Title
+    # 
+    #   key_index <- grep(search, keys, ignore.case = TRUE)
+    #   code_index <- grep(search, codes, ignore.case = TRUE)
+    #   title_index <- grep(search, titles, ignore.case = TRUE)
+    #   all <- union(key_index, title_index)
+    #   all <- union(all, code_index)
+    #   if (length(all) == 0) return(invisible(NULL))
+    # 
+    #   rest <- setdiff(seq_along(keys), all)
+    #   order <- c(all, rest)
+    #   values[[name]] <- isolate(values[[name]][order, ])
+    # })
   }
   
   app_list <- list(ui = ui, server = server)
