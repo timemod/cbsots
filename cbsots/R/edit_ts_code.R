@@ -25,7 +25,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
   
   tables <- table_code_collection$table_code
  
-  debug <- TRUE
+  debug <- FALSE
  
   ui <- pageWithSidebar(
     
@@ -47,9 +47,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
     
     session$onSessionEnded(shiny::stopApp)
     
-    values <- reactiveValues(tables = tables,
-                             table_id = names(tables)[1],
-                             last_modified = Sys.time())
+    values <- reactiveValues(tables = tables, table_id = names(tables)[1])
     
     if (length(tables) > 0) {
     
@@ -192,7 +190,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       for (name in values$names) {
         values[[name]] <- values$tables[[values$table_id]]$codes[[name]][, 1:4]
       }
-      values$last_modified <-  values$tables[[values$table_id]]$last_modifed
       
       make_table <- function(name) {
         # NOTES:
@@ -240,7 +237,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
               } else {
                 values[[name]] <- df_input
               }
-              values$last_modified <- Sys.time()
               if (debug) {
                 cat("new values\n")
                 print(head(values[[name]][, 1:2]))
@@ -265,14 +261,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
                                 label = "Search in tabel (enter a text followed by ENTER)"),
                       p(), h3("Codes"),
                       do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
-          
-          observeEvent(input$order_input_order, {
-            if (debug) {
-              cat("order has changed\n")
-              print(input$order_input_order)
-            }
-            values$last_modified <- Sys.time()
-          })
           
           return(ret)
         })
@@ -373,6 +361,8 @@ check_duplicates <- function(session, values) {
 
 update_tables <- function(table_id, values, input, debug) {
   
+  old <- values$tables[[table_id]]
+
   # ordering
   values$tables[[table_id]]$order <- input$order_input_order
 
@@ -381,7 +371,9 @@ update_tables <- function(table_id, values, input, debug) {
     values$tables[[table_id]]$codes[[name]][ ,1:4] <- values[[name]]
   }
   
-  # TODO: check date last modified, compare objects
+  if (!isTRUE(all.equal(old, values$tables[[table_id]]))) {
+    values$tables[[table_id]]$last_modified <- Sys.time()
+  }
   
   if (debug) {
     cat(sprintf("\n\nSaving current values for table %s\n", table_id))
