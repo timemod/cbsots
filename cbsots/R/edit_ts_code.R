@@ -197,6 +197,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         for (dimension in dimensions) {
           values[[dimension]] <- NULL
         }
+        
+        # ordering
+        values$tables[[values$old_table_id]]$order <- input$order_input_order
       }
       
       # copy tables
@@ -271,20 +274,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
           ret <- list(h2(paste("Tabel", values$table_description_dict[table_id])), br(),
                       list(p()), 
                       orderInput(inputId = "order_input", 
-                                            label = "Order for name generation", 
-                                            items = values$tables[[table_id]]$order),
+                                 label = "Order for name generation", 
+                                 items = values$tables[[table_id]]$order),
                       list(p()),
                       textInput(inputId = "searchField",  
                                 label = "Search in tabel (enter a text followed by ENTER)"),
                       p(), h3("Codes"),
                       do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
           
-          observeEvent(input$order_input, {
+          observeEvent(input$order_input_order, {
             if (debug) {
               cat("order has changed\n")
-              print(input$order_input)
+              print(input$order_input_order)
             }
-            values$tables[[table_id]]$order <- input$order_input
             values$last_modified <- Sys.time()
           })
           
@@ -320,6 +322,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         structure(list(package_version = packageVersion("cbsots"),
                        table_code = values$tables),
                   class = "table_code_collection")
+      
+      # ordering
+      values$tables[[values$table_id]]$order <- input$order_input_order
     
       if (debug) {
         cat("saving table_codes\n")
