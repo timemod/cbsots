@@ -368,7 +368,9 @@ update_tables <- function(table_id, values, input, debug) {
 
   # tables
   for (name in values$names) {
-    values$tables[[table_id]]$codes[[name]][ ,1:4] <- values[[name]]
+    orig_key_order <- values$tables[[table_id]]$codes[[name]]$OrigKeyOrde
+    values$tables[[table_id]]$codes[[name]][ ,1:4] <- 
+                            order_code_rows(values[[name]], orig_key_order)
   }
   
   if (!isTRUE(all.equal(old, values$tables[[table_id]]))) {

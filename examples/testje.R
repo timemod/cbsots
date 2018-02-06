@@ -1,10 +1,12 @@
 library(cbsots)
 
-ts_code_file_rob <- "tscode/tscode_rob.rds"
-ts_code_file_fred <- "tscode/tscode_fred.rds"
+ts_code_file_basis <- "tscode/tscode_fred.rds"
+ts_code_file <- "tscode/tscode_testje.rds"
 
-ts_code_file <- "tscode/tscode_small.rds"
+tscodes <- readRDS(ts_code_file_basis)
 
-file.copy(ts_code_file_fred, ts_code_file)
+tscodes <- tscodes[1:3]
+
+saveRDS(tscodes, ts_code_file)
 
 edit_ts_code(ts_code_file = ts_code_file)
