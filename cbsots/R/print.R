@@ -2,8 +2,8 @@
 #' @export
 print.table_code <- function(x, ...) {
   cat("table_code object\n")
-  cat(sprintf("last modified : %s\n", as.character(x$last_modified)))
-  cat(sprintf("order : %s\n", paste(x$order, collapse = ", ")))
+  cat(sprintf("Last modified : %s\n", as.character(x$last_modified)))
+  cat(sprintf("Order : %s\n", paste(x$order, collapse = ", ")))
   cat("The first 6 rows and 3 columns are shown.\n")
   for (dim in names(x$codes)) {
     cat(sprintf("Dimension %s : \n", dim))

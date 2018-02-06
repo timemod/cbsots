@@ -25,7 +25,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
   
   tables <- table_code_collection$table_code
  
-  debug <- FALSE
+  debug <- TRUE
  
   ui <- pageWithSidebar(
     
@@ -178,28 +178,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       if (!is.null(values$old_table_id) && 
           values$old_table_id != values$table_id) {
       
-        if (debug) {
-          cat(sprintf("Saving current tables in old table %s\n",
-                      values$old_table_id))
-        }
-        values$tables[[values$old_table_id]]$last_modified <- values$last_modified
-        for (name in values$names) {
-          values$tables[[values$old_table_id]]$codes[[name]][ ,1:4] <- 
-                                                         values[[name]]
-          if (debug) {
-            cat(paste("Name ", name, ":\n"))
-            print(head(values[[name]][ , 1:2]))
-          }
-        }
+        update_tables(values$old_table_id, values, input, debug)
         
         # remove previous dimensions (not Topic)
-        dimensions <- values$names[-1]
-        for (dimension in dimensions) {
+        for (dimension in values$names[-1]) {
           values[[dimension]] <- NULL
         }
-        
-        # ordering
-        values$tables[[values$old_table_id]]$order <- input$order_input_order
       }
       
       # copy tables
@@ -306,30 +290,18 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       
       if (check_duplicates(session, values)) return()
       
-      values$tables[[values$table_id]]$last_modifed <- values$last_modified
-      if (!is.null(input$Topic)) {
-        values$tables[[values$table_id]]$codes$Topic[, 1:4] <- 
-               hot_to_r(input[["Topic"]])
-      }
-      for (dimension in values$names[-1]) {
-        if (!is.null(input[[dimension]])) {
-           values$tables[[values$table_id]]$codes[[dimension]][, 1:4] <- 
-                           hot_to_r(input[[dimension]])
-        }
-      }
+      update_tables(values$table_id, values, input, debug)
       
       table_code_collection <-
         structure(list(package_version = packageVersion("cbsots"),
                        table_code = values$tables),
                   class = "table_code_collection")
       
-      # ordering
-      values$tables[[values$table_id]]$order <- input$order_input_order
-    
       if (debug) {
         cat("saving table_codes\n")
         print(table_code_collection)
       }
+      
       saveRDS(table_code_collection, file = ts_code_file)
     })
     
@@ -396,5 +368,26 @@ check_duplicates <- function(session, values) {
     }
   }
  return(FALSE)
+}
+
+
+update_tables <- function(table_id, values, input, debug) {
+  
+  # ordering
+  values$tables[[table_id]]$order <- input$order_input_order
+
+  # tables
+  for (name in values$names) {
+    values$tables[[table_id]]$codes[[name]][ ,1:4] <- values[[name]]
+  }
+  
+  # TODO: check date last modified, compare objects
+  
+  if (debug) {
+    cat(sprintf("\n\nSaving current values for table %s\n", table_id))
+    print(values$tables[[table_id]])
+  }
+  
+  return(invisible(NULL))
 }
 
