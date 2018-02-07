@@ -39,6 +39,18 @@ get_dimensies_en_topics <- function(data_properties) {
   dimensies <- data_properties[endsWith(Type, "Dimension") & 
                                  Type != "TimeDimension"]$Key
   
+  if ("Perioden" %in% dimensies) {
+    if ("TimeDimension" %in% data_properties$Type) {
+      stop(paste("PROBLEEM: dimensie met naam \"Perioden\" gevonden naast een",
+                 "\"TimeDimension\""))
+    } else {
+      # Geen Timedimension maar wel een dimensie met naam "Perioden" gevonden,
+      # in dat geval gaan we ervan uit dat dit toch een  TimeDimension is.
+      dimensies <- setdiff(dimensies, "Perioden")
+    }
+  }
+  
+  
   if (any(data_properties$Type == "TopicGroup")) {
     
     # Combineer de Title van de TopicGroup met de Title van de Topics,
