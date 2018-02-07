@@ -1,7 +1,9 @@
 #' Edit timeseries codes
 #' 
-#' @param ts_code_file a filename with timeseries codes. This file does not have
-#' to exist yet. If the file does exists, then it should be an rds file 
+#' @param output_file the name of a file where the timeseries coding is stored.
+#' The filename usually has extension \code{.rds}.
+#' @param input_file a filename with timeseries codes. This file does not have
+#' to exist yet. If specified, it should be an rds file 
 #' containing a \code{table_code_collection} object.
 #' @param use_browser if \code{TRUE}, then display the graphical user interface
 #'  in the browser. Otherwise the RStudio viewer is used.
@@ -11,11 +13,21 @@
 #' @import cbsodataR
 #' @importFrom utils packageVersion
 #' @export
-edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
+edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
   
-  if (file.exists(ts_code_file)) {
+  if (!missing(input_file)) {
+    if (!file.exists(input_file)) {
+      stop(paste("File", input_file, "does not exist"))
+    }
+    
     # TODO: special read function, check the package version
-    table_code_collection <- readRDS(ts_code_file)
+    table_code_collection <- readRDS(input_file)
+    
+    if (!inherits(table_code_collection, "table_code_collection")) {
+      stop(paste("File", input_file, "does not contain a",
+                "table_code_collection object."))
+    }
+    
   } else {
     table_code_collection <-  
       structure(list(package_version = packageVersion("cbsots"),
@@ -35,7 +47,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
       h2("Open a new table"),
       actionButton("new_table", "New table"),
       p(),
-      h2(paste("Save code to file", ts_code_file)),
+      h2(paste("Save code to file", output_file)),
       actionButton("save", "Save codes")
     ),
     mainPanel(
@@ -289,7 +301,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE) {
         print(table_code_collection)
       }
       
-      saveRDS(table_code_collection, file = ts_code_file)
+      saveRDS(table_code_collection, file = output_file)
     })
     
     
