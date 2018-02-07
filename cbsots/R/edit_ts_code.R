@@ -47,6 +47,9 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       h2("Open a new table"),
       actionButton("new_table", "New table"),
       p(),
+      h2("Delete a new table"),
+      actionButton("delete_table", "Delete table"),
+      p(),
       h2(paste("Save code to file", output_file)),
       actionButton("save", "Save codes")
     ),
@@ -104,7 +107,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       values$table_id <- values$table_ids_dict[input$table_description]
     })
     
-    dataModal <- function(failed = FALSE) {
+    newTableModal <- function(failed = FALSE) {
       table_info <- get_table_list(select = c("Identifier", "ShortTitle"))
       new_tables <- setdiff(table_info$Identifier, names(isolate(values$tables)))
       table_info <- table_info[table_info$Identifier %in% new_tables, ]
@@ -132,14 +135,14 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
     
     # Show modal when button is clicked.
     observeEvent(input$new_table, {
-      showModal(dataModal())
+      showModal(newTableModal())
     })
     
     # When OK button is pressed, attempt to load the data set. If successful,
     # remove the modal. If not show another modal, but this time with a failure
     # message.
     observeEvent(input$new_table_ok, {
-      # Check that data object exists and is data frame.
+
       new_table_id <- values$new_table_id_dict[input$new_table_description]
       new_table_id <- as.character(new_table_id)
       
@@ -162,6 +165,66 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       values$table_description_dict <- values$table_descriptions
       names(values$table_description_dict) <- names(values$tables)
      
+      removeModal()
+    })
+    
+    
+    deleteTableModal <- function(failed = FALSE) {
+     
+      modalDialog(
+        selectInput("delete_table_description", 
+                    label = "Choose a table",
+                    choices =  isolate(values$table_descriptions),
+                    selected = isolate(values$table_descriptions[1]),
+                    width = "200%"),
+        footer = tagList(
+          modalButton("Cancel"),
+          actionButton("delete_table_ok", "OK")
+        )
+      )
+    }
+    
+    # Show modal when button is clicked.
+    observeEvent(input$delete_table, {
+      showModal(deleteTableModal())
+    })
+    
+    # When OK button is pressed, attempt to load the data set. If successful,
+    # remove the modal. If not show another modal, but this time with a failure
+    # message.
+    observeEvent(input$delete_table_ok, {
+      
+      delete_table_desc <- input$delete_table_description
+      delete_table_id <- values$table_ids_dict[delete_table_desc]
+      delete_table_id <- as.character(delete_table_id)
+      
+      
+      # TODO: get index
+      cat("delete_table_id = \n")
+      print(delete_table_id)
+
+      values$tables[[delete_table_id]] <- NULL
+
+      values$table_descriptions <- setdiff(values$table_descriptions, 
+                                           delete_table_desc)
+   
+      cat("table_descriptions = \n")
+      print(values$table_derscriptions)
+      
+      #
+      # conversion tables between table_descriptions <> table_ids
+      #
+      values$table_ids_dict <- names(values$tables)
+      names(values$table_ids_dict) <- values$table_descriptions
+      
+      values$table_description_dict <- values$table_descriptions
+      names(values$table_description_dict) <- names(values$tables)
+  
+      if (delete_table_id == values$table_id) {
+        # select the first table
+        values$selected_table <- names(values$tables[1])
+      }
+      
       removeModal()
     })
     
@@ -374,6 +437,11 @@ check_duplicates <- function(session, values) {
 update_tables <- function(table_id, values, input, debug) {
   
   old <- values$tables[[table_id]]
+
+  if (is.null(old)) {
+    # this situation occurs when a table has been deleted
+    return(invisible(NULL))
+  }
 
   # ordering
   values$tables[[table_id]]$order <- input$order_input_order
