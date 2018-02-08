@@ -7,13 +7,16 @@
 #' containing a \code{table_code_collection} object.
 #' @param use_browser if \code{TRUE}, then display the graphical user interface
 #'  in the browser. Otherwise the RStudio viewer is used.
+#' @param a logical. If \code{TRUE}, then use the debugging mode
+#'  (only for developpers)
 #' @import shiny
 #' @import rhandsontable
 #' @import shinyjqui
 #' @import cbsodataR
 #' @importFrom utils packageVersion
 #' @export
-edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
+edit_ts_code <- function(output_file, input_file, use_browser = TRUE, 
+                         debug = FALSE) {
   
   if (!missing(input_file)) {
     if (!file.exists(input_file)) {
@@ -36,8 +39,6 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
   }
   
   tables <- table_code_collection$table_code
- 
-  debug <- FALSE
  
   ui <- pageWithSidebar(
     
@@ -62,8 +63,10 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
     
     session$onSessionEnded(shiny::stopApp)
     
-    values <- reactiveValues(tables = tables, old_table_id = NA_character_,
-                             old_table_desc = NA_character_)
+    values <- reactiveValues(tables = tables, table_id = NA_character_,
+                             table_desc = NA_character_, 
+                             prev_table_id = NA_character_,
+                             prev_table_desc = NA_character_)
     
     if (length(tables) > 0) {
     
@@ -78,14 +81,9 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       
       values$table_descriptions <- table_descriptions
       values$table_ids <- table_ids
-      values$table_id <- table_ids[1]
-      values$table_description <- table_descriptions[1]
     } else {
       values$table_descriptions <- character(0)
       values$table_ids <- character(0)
-      values$table_id <- NA_character_
-      values$table_description <- NA_character_
-      
     }
     
     output$table_chooser <- renderUI({
@@ -101,8 +99,19 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
     
     observeEvent(input$table_description, {
       
-      # check for duplicates, otherwise don't change
-      if (!is.null(values$old_table_id)) {
+      if (debug) cat("table_description changed\n")
+      
+      cat("table_description changed\n")
+      cat(sprintf("input$table_description = %s\n", input$table_description))
+      cat(sprintf("aantal tabellen = %d\n", length(values$tables)))
+      
+      if (length(values$tables) == 0) {
+        output$tabel <- renderUI({return(NULL)})
+        return(invisible(NULL))
+      }
+      
+      # check for duplicates in current table, otherwise don't change
+      if (!is.null(values$table_id)) {
         if (check_duplicates(session, values)) {
           # first rest the selection, then return
           updateSelectInput(session, "table_description", 
@@ -110,10 +119,11 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
           return()
         }
       }
+  
+      open_table(input$table_description, values, input, output, debug)
       
-      values$table_description <- input$table_description
-      values$table_id <- values$table_ids[input$table_description]
-    })
+    })  # table_description_event
+    
     
     newTableModal <- function(failed = FALSE) {
       table_info <- get_table_list(select = c("Identifier", "ShortTitle"))
@@ -187,7 +197,15 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
     
     # Show modal when button is clicked.
     observeEvent(input$delete_table, {
-      showModal(deleteTableModal())
+      if (length(values$tables) == 0) {
+        showModal(modalDialog(
+          title = "No tables to delete",
+          HTML(paste0("There are no tables to delete")),
+          easyClose = TRUE
+        )) 
+      } else {
+        showModal(deleteTableModal())
+      }
     })
     
     observeEvent(input$delete_table_ok, {
@@ -197,6 +215,12 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       delete_table_id <- as.character(delete_table_id)
       
       values$tables[[delete_table_id]] <- NULL
+      
+      if (!is.na(values$prev_table_id) && 
+          values$prev_table_id == delete_table_id) {
+        values$prev_table_id   <- NA_character_
+        values$prev_table_desc <- NA_character_
+      }
       
       values$table_descriptions <- setdiff(values$table_descriptions, 
                                            delete_table_desc)
@@ -208,154 +232,25 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       names(values$table_ids) <- values$table_descriptions
       
       if (delete_table_id == values$table_id) {
+          
+        cat("deleting current table\n")
+        cat("table_id = %d\n", values$table_id)
+        cat("prev_table_id = %d\n", values$prev_table_id)
         
-       
-        if (!is.na(values$old_table_desc)) {
-          new_table_desc <- values$old_table_desc
+        if (!is.na(values$prev_table_desc)) {
+          new_table_desc <- values$prev_table_desc
         } else {
           new_table_desc <- values$table_descriptions[1]
         }
-        
-        # The code below does'nt workl, because old_table_desc == table_desc
-        # (and old_table_id == table_id). Why?
-        new_table_desc <- values$table_descriptions[1]
-        
-        values$select_table_desc <- values$table_descriptions[1]
+ 
+        values$select_table_desc <- new_table_desc
       }
       
       removeModal()
     })
     
-    # 
-    # prepare tabbed pane
-    #
-    
-    
-    make_panel <- function(name) {
-      return(tabPanel(name, rHandsontableOutput(name)))
-    }
   
-    #
-    # create tables
-    #
-    
-    observeEvent(values$table_id, {
-      
-      if (debug) {
-        cat(sprintf("Table id changed, new value = %s\n", values$table_id))
-      }
-      
-      if (is.na(values$table_id)) {
-        return(invisible(NULL))
-      }
-      
-      # save old results
-      if (!is.na(values$old_table_id) && 
-          values$old_table_id != values$table_id) {
-      
-        update_tables(values$old_table_id, values, input, debug)
-        
-        # remove previous dimensions (not Topic)
-        for (dimension in values$names[-1]) {
-          values[[dimension]] <- NULL
-        }
-      }
-      
-      # copy tables
-      values$names <- names(values$tables[[values$table_id]]$codes)
-      dimensions <- values$names[-1]
-      for (name in values$names) {
-        values[[name]] <- values$tables[[values$table_id]]$codes[[name]][, 1:4]
-      }
-      
-      make_table <- function(name) {
-        # NOTES:
-        # 1. It is neccesarry to set the height of the table, otherwise
-        #    the vertical scroll bar does not appear
-        output[[name]] <- renderRHandsontable({
-          if (!is.null(values[[name]])) {
-            rhandsontable(values[[name]], readOnly = TRUE, height = 500, 
-                          overflow = "hidden", search = TRUE, 
-                          renderAllRows = FALSE) %>%
-              hot_cols(fixedColumnsLeft = 3) %>%
-              hot_col(col = c("Select", "Code"), readOnly = FALSE) %>%
-              hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
-          } else {
-            rhandsontable(as.data.frame("dummy"))
-          }
-        })
-      }
-      lapply(values$names, FUN = make_table)
-        
-      # 
-      # observers for the tables
-      #
-      make_observer <- function(name) {
-        observeEvent(input[[name]], {
-          if (debug) cat(paste("table", name , "changed\n"))
-          if (!is.null(input[[name]])) {
-            df_input  <- hot_to_r(input[[name]])
-            df_values <- values[[name]]
-            if (!is.null(df_values) && !is.null(df_input) &&
-                # only respond to changes in Select or Code
-                identical(df_input$Key, df_values$Key) &&
-                identical(df_input$Title, df_values$Title)) {
-              
-              if (debug) {
-                cat("current values\n")
-                print(head(df_input[, 1:3]))
-              }
-              if (!identical(df_input$Select, df_values$Select)) {
-                # selection has changed
-                if (debug) cat("Selection has changed\n")
-                orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
-                values[[name]] <- order_code_rows(df_input, orig_key_order)
-              } else {
-                values[[name]] <- df_input
-              }
-              if (debug) {
-                cat("new values\n")
-                print(head(values[[name]][, 1:3]))
-              }
-            }
-          }
-        })
-        
-        output$tabel <- renderUI({
-          
-          table_id <- values$table_id
-         
-          if (is.na(table_id)) {
-            return(NULL)
-          }
-          
-          table_items <- names(values$tables[[table_id]]$code)
-          myTabs <- lapply(table_items, make_panel)
-          
-          ret <- list(h2(paste("Tabel", values$table_description)), br(),
-                      list(p()), 
-                      orderInput(inputId = "order_input", 
-                                 label = "Order for name generation", 
-                                 items = values$tables[[table_id]]$order),
-                      list(p()),
-                      textInput(inputId = "searchField",  
-                                label = "Search in tabel (enter a text followed by ENTER)"),
-                      p(), h3("Codes"),
-                      do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
-          
-          return(ret)
-        })
-        
-      }
-        
-      lapply(values$names, make_observer)
-        
-      values$old_table_id <- values$table_id
-      values$old_table_desc <- values$table_description
-      
-    })   # observeEvent
-      
-    
+
     observeEvent(input$save, {
       
       if (check_duplicates(session, values)) return()
@@ -421,24 +316,6 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
 # help functions
 #
 
-check_duplicates <- function(session, values) {
-  for (name in values$names) {
-    codes <- values[[name]]$Code[values[[name]]$Select]
-    if (anyDuplicated(codes)) {
-      dupl <- codes[duplicated(codes)]
-      showModal(modalDialog(
-        title = "Duplicates in code",
-        HTML(paste0("Duplicate code for the selected keys of ", name,
-                    "<br>Duplicatecodes:\n", paste(dupl, collapse = ", "),
-                    "<br>Please correct before proceding.")),
-        easyClose = TRUE
-      ))
- 
-      return(TRUE)
-    }
-  }
- return(FALSE)
-}
 
 
 update_tables <- function(table_id, values, input, debug) {
@@ -472,3 +349,22 @@ update_tables <- function(table_id, values, input, debug) {
   return(invisible(NULL))
 }
 
+
+check_duplicates <- function(session, values) {
+  for (name in values$names) {
+    codes <- values[[name]]$Code[values[[name]]$Select]
+    if (anyDuplicated(codes)) {
+      dupl <- codes[duplicated(codes)]
+      showModal(modalDialog(
+        title = "Duplicates in code",
+        HTML(paste0("Duplicate code for the selected keys of ", name,
+                    "<br>Duplicatecodes:\n", paste(dupl, collapse = ", "),
+                    "<br>Please correct before proceding.")),
+        easyClose = TRUE
+      ))
+      
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
