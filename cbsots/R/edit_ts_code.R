@@ -138,9 +138,6 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       showModal(newTableModal())
     })
     
-    # When OK button is pressed, attempt to load the data set. If successful,
-    # remove the modal. If not show another modal, but this time with a failure
-    # message.
     observeEvent(input$new_table_ok, {
 
       new_table_id <- values$new_table_id_dict[input$new_table_description]
@@ -173,7 +170,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
      
       modalDialog(
         selectInput("delete_table_description", 
-                    label = "Choose a table",
+                    label = "Delete a table",
                     choices =  isolate(values$table_descriptions),
                     selected = isolate(values$table_descriptions[1]),
                     width = "200%"),
@@ -189,28 +186,17 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       showModal(deleteTableModal())
     })
     
-    # When OK button is pressed, attempt to load the data set. If successful,
-    # remove the modal. If not show another modal, but this time with a failure
-    # message.
     observeEvent(input$delete_table_ok, {
       
       delete_table_desc <- input$delete_table_description
       delete_table_id <- values$table_ids_dict[delete_table_desc]
       delete_table_id <- as.character(delete_table_id)
       
-      
-      # TODO: get index
-      cat("delete_table_id = \n")
-      print(delete_table_id)
-
       values$tables[[delete_table_id]] <- NULL
-
+      
       values$table_descriptions <- setdiff(values$table_descriptions, 
                                            delete_table_desc)
    
-      cat("table_descriptions = \n")
-      print(values$table_derscriptions)
-      
       #
       # conversion tables between table_descriptions <> table_ids
       #
@@ -246,7 +232,11 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       if (debug) {
         cat(sprintf("Table id changed, new value = %s\n", values$table_id))
       }
-  
+      
+      if (is.na(values$table_id)) {
+        return(invisible(NULL))
+      }
+      
       # save old results
       if (!is.null(values$old_table_id) && 
           values$old_table_id != values$table_id) {
@@ -322,6 +312,11 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
         output$tabel <- renderUI({
           
           table_id <- values$table_id
+         
+          if (is.null(table_id) || is.na(table_id)) {
+            return(NULL)
+          }
+          
           table_items <- names(values$tables[[table_id]]$code)
           myTabs <- lapply(table_items, make_panel)
           
