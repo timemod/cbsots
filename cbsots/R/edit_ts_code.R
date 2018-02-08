@@ -77,8 +77,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
                              table_descriptions = table_descriptions,
                              table_id = NA_character_,
                              table_desc = NA_character_, 
-                             prev_table_id = NA_character_,
-                             prev_table_desc = NA_character_)
+                             prev_table_stack = character(0))
     
     # conversion table table_descriptions -> table_ids
     if (length(tables) > 0) {
@@ -92,10 +91,6 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
     observeEvent(input$table_description, {
       
       if (debug) cat("table_description changed\n")
-      
-      cat("table_description changed\n")
-      cat(sprintf("input$table_description = %s\n", input$table_description))
-      cat(sprintf("aantal tabellen = %d\n", length(values$tables)))
       
       if (length(values$tables) == 0) {
         output$tabel <- renderUI({return(NULL)})
@@ -111,7 +106,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
           return()
         }
       }
-  
+
       open_table(input$table_description, values, input, output, debug)
       
     })  # table_description_event
@@ -218,20 +213,20 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
     
     observeEvent(input$delete_table_ok, {
       
-      delete_table_id <- get_table_id(input$delete_table_description,
-                                      values$table_ids)
+      delete_table_desc <- input$delete_table_description
+      delete_table_id <- get_table_id(delete_table_desc, values$table_ids)
       if (is.na(delete_table_id)) {
         return(invisible(NULL))
       }
       
       values$tables[[delete_table_id]] <- NULL
       
-      if (!is.na(values$prev_table_id) && 
-          values$prev_table_id == delete_table_id) {
-        values$prev_table_id   <- NA_character_
-        values$prev_table_desc <- NA_character_
+      # remove delete tables from the stack of previous tables
+      if (length(values$prev_table_stack) > 0) {
+        sel <-  values$prev_table_stack %in% values$table_descriptions
+        values$prev_table_stack <- values$prev_table_stack[sel]
       }
-  
+
       # update table_descriptions
       idx <- pmatch(delete_table_id, values$table_ids)
       values$table_descriptions <- values$table_descriptions[-idx]
@@ -239,16 +234,17 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
       
       if (delete_table_id == values$table_id) {
         # if the table that is now shown is deleted, we have to select
-        # a new table
-        if (!is.na(values$prev_table_desc)) {
-          new_table_desc <- values$prev_table_desc
+        # a new table from the previous table stack
+        nstack <- length(values$prev_table_stack)
+        if (nstack > 0) {
+          new_table_desc <- values$prev_table_stack[nstack]
         } else {
           new_table_desc <- values$table_descriptions[1]
         }
       } else {
         new_table_desc <- values$table_desc
       }
-      
+    
       updateSelectInput(session, inputId = "table_description",
                         choices = names(values$table_ids),
                         selected = new_table_desc)

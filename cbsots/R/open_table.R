@@ -13,10 +13,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
     cat(sprintf("Opening table with id = %s\n", new_table_id))
   }
   
-  cat(sprintf("Opening table with id = %s\n", new_table_id))
-  cat(sprintf("Table description = %s\n", new_table_description))
-  cat(sprintf("table_id = %s\n", values$table_id))
-  
   # save current table if present
   if (!is.na(values$table_id)) {
   
@@ -125,8 +121,9 @@ open_table <- function(new_table_description, values, input, output, debug) {
   lapply(values$names, make_observer)
   
   # table administration
-  values$prev_table_id <- values$table_id
-  values$prev_table_desc <- values$table_desc
+  if (!is.na(values$table_desc)) {
+    values$prev_table_stack <- c(values$prev_table_stack, values$table_desc)
+  }
   values$table_id <- new_table_id
   values$table_desc <- new_table_description
   
