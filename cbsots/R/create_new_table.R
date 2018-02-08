@@ -41,7 +41,7 @@ get_dimensies_en_topics <- function(data_properties) {
   
   if ("Perioden" %in% dimensies) {
     if ("TimeDimension" %in% data_properties$Type) {
-      stop(paste("PROBLEEM: dimensie met naam \"Perioden\" gevonden naast een",
+      warning(paste("PROBLEEM: dimensie met naam \"Perioden\" gevonden naast een",
                  "\"TimeDimension\""))
     } else {
       # Geen Timedimension maar wel een dimensie met naam "Perioden" gevonden,

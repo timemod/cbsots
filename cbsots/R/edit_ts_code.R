@@ -62,30 +62,30 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
     
     session$onSessionEnded(shiny::stopApp)
     
-    values <- reactiveValues(tables = tables, table_id = names(tables)[1])
+    values <- reactiveValues(tables = tables, old_table_id = NA_character_,
+                             old_table_desc = NA_character_)
     
     if (length(tables) > 0) {
     
       short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
-      
       table_descriptions <- paste(names(tables), "-", short_titles)
       
       #
-      # conversion tables between table_descriptions <> table_ids
+      # conversion table table_descriptions -> table_ids
       #
-      table_ids_dict <- names(tables)
-      names(table_ids_dict) <- table_descriptions
+      table_ids <- names(tables)
+      names(table_ids) <- table_descriptions
       
-      table_description_dict <- table_descriptions
-      names(table_description_dict) <- names(tables)
-      
-      values$table_descriptions <- paste(names(tables), "-", short_titles)
-      values$table_ids_dict <- table_ids_dict
-      values$table_description_dict <- table_description_dict
+      values$table_descriptions <- table_descriptions
+      values$table_ids <- table_ids
+      values$table_id <- table_ids[1]
+      values$table_description <- table_descriptions[1]
     } else {
       values$table_descriptions <- character(0)
-      values$table_ids_dict <- character(0)
-      values$table_description_dict <- character(0)
+      values$table_ids <- character(0)
+      values$table_id <- NA_character_
+      values$table_description <- NA_character_
+      
     }
     
     output$table_chooser <- renderUI(
@@ -94,17 +94,23 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
                   choices = values$table_descriptions,
                   # the next expression can be isolated: the selectInput will
                   # be recreated when values$table_descriptions changes.
-                  selected = values$table_description_dict[isolate(values$selected_table)])
+                  selected = values$select_table_desc)
     )
     
     observeEvent(input$table_description, {
       
       # check for duplicates, otherwise don't change
       if (!is.null(values$old_table_id)) {
-        if (check_duplicates(session, values)) return()
+        if (check_duplicates(session, values)) {
+          # first rest the selection, then return
+          updateSelectInput(session, "table_description", 
+                            selected = values$table_description)
+          return()
+        }
       }
       
-      values$table_id <- values$table_ids_dict[input$table_description]
+      values$table_description <- input$table_description
+      values$table_id <- values$table_ids[input$table_description]
     })
     
     newTableModal <- function(failed = FALSE) {
@@ -146,22 +152,18 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       values$tables[[new_table_id]] <- create_new_table(new_table_id)
       values$tables <- values$tables[sort(names(values$tables))]
       
-      
-      values$selected_table <- new_table_id
-      
+      # this statement will trigger the Open Table chooser
+      values$select_table_desc <- input$new_table_description
       
       short_titles <- sapply(values$tables, FUN = function(x) return(x$short_title))
       values$table_descriptions <- paste(names(values$tables), "-", short_titles)
       
       #
-      # conversion tables between table_descriptions <> table_ids
+      # conversion tables between table_descriptions -> table_ids
       #
-      values$table_ids_dict <- names(values$tables)
-      names(values$table_ids_dict) <- values$table_descriptions
+      values$table_ids <- names(values$tables)
+      names(values$table_ids) <- values$table_descriptions
       
-      values$table_description_dict <- values$table_descriptions
-      names(values$table_description_dict) <- names(values$tables)
-     
       removeModal()
     })
     
@@ -189,7 +191,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
     observeEvent(input$delete_table_ok, {
       
       delete_table_desc <- input$delete_table_description
-      delete_table_id <- values$table_ids_dict[delete_table_desc]
+      delete_table_id <- values$table_ids[delete_table_desc]
       delete_table_id <- as.character(delete_table_id)
       
       values$tables[[delete_table_id]] <- NULL
@@ -198,17 +200,26 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
                                            delete_table_desc)
    
       #
-      # conversion tables between table_descriptions <> table_ids
+      # conversion tables between table_descriptions -> table_ids
       #
-      values$table_ids_dict <- names(values$tables)
-      names(values$table_ids_dict) <- values$table_descriptions
+      values$table_ids <- names(values$tables)
+      names(values$table_ids) <- values$table_descriptions
       
-      values$table_description_dict <- values$table_descriptions
-      names(values$table_description_dict) <- names(values$tables)
-  
       if (delete_table_id == values$table_id) {
-        # select the first table
-        values$selected_table <- names(values$tables[1])
+        # Select the previously opened table.
+        # Question: could we also use updateInput, or does this not trigger
+        # a new event?
+        #cat("Deleting the currently chosen table\n")
+        
+        values$select_table_desc <- values$table_descriptions[1]
+        
+        # The code below does'nt workl, because old_table_desc == table_desc
+        # (and old_table_id == table_id). Why?
+        #if (!is.na(values$old_table_desc)) {
+        #  values$select_table_desc <- values$old_table_desc
+        #} else {
+        #  values$select_table_desc <- values$table_descriptions[1]
+        #}  
       }
       
       removeModal()
@@ -238,7 +249,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       }
       
       # save old results
-      if (!is.null(values$old_table_id) && 
+      if (!is.na(values$old_table_id) && 
           values$old_table_id != values$table_id) {
       
         update_tables(values$old_table_id, values, input, debug)
@@ -313,14 +324,14 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
           
           table_id <- values$table_id
          
-          if (is.null(table_id) || is.na(table_id)) {
+          if (is.na(table_id)) {
             return(NULL)
           }
           
           table_items <- names(values$tables[[table_id]]$code)
           myTabs <- lapply(table_items, make_panel)
           
-          ret <- list(h2(paste("Tabel", values$table_description_dict[table_id])), br(),
+          ret <- list(h2(paste("Tabel", values$table_description)), br(),
                       list(p()), 
                       orderInput(inputId = "order_input", 
                                  label = "Order for name generation", 
@@ -339,6 +350,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       lapply(values$names, make_observer)
         
       values$old_table_id <- values$table_id
+      values$old_table_desc <- values$table_description
       
     })   # observeEvent
       
@@ -420,8 +432,7 @@ check_duplicates <- function(session, values) {
                     "<br>Please correct before proceding.")),
         easyClose = TRUE
       ))
-      updateSelectInput(session, "table_description",
-                        selected = values$table_description_dict[values$table_id])
+ 
       return(TRUE)
     }
   }
