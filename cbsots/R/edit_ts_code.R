@@ -88,14 +88,16 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       
     }
     
-    output$table_chooser <- renderUI(
+    output$table_chooser <- renderUI({
       selectInput("table_description",
                   label = "Choose a table for editing",
-                  choices = values$table_descriptions,
-                  # the next expression can be isolated: the selectInput will
-                  # be recreated when values$table_descriptions changes.
+                  # isolate values$table_descriptions: if 
+                  # value$table_descriptions changes also 
+                  # values$selec_table_desc
+                  # changes, and we do not want double events.
+                  choices = isolate(values$table_descriptions),
                   selected = values$select_table_desc)
-    )
+    })
     
     observeEvent(input$table_description, {
       
@@ -152,9 +154,6 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       values$tables[[new_table_id]] <- create_new_table(new_table_id)
       values$tables <- values$tables[sort(names(values$tables))]
       
-      # this statement will trigger the Open Table chooser
-      values$select_table_desc <- input$new_table_description
-      
       short_titles <- sapply(values$tables, FUN = function(x) return(x$short_title))
       values$table_descriptions <- paste(names(values$tables), "-", short_titles)
       
@@ -163,6 +162,9 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       #
       values$table_ids <- names(values$tables)
       names(values$table_ids) <- values$table_descriptions
+      
+      # this statement will trigger the Open Table chooser
+      values$select_table_desc <- input$new_table_description
       
       removeModal()
     })
@@ -206,20 +208,19 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE) {
       names(values$table_ids) <- values$table_descriptions
       
       if (delete_table_id == values$table_id) {
-        # Select the previously opened table.
-        # Question: could we also use updateInput, or does this not trigger
-        # a new event?
-        #cat("Deleting the currently chosen table\n")
         
-        values$select_table_desc <- values$table_descriptions[1]
+       
+        if (!is.na(values$old_table_desc)) {
+          new_table_desc <- values$old_table_desc
+        } else {
+          new_table_desc <- values$table_descriptions[1]
+        }
         
         # The code below does'nt workl, because old_table_desc == table_desc
         # (and old_table_id == table_id). Why?
-        #if (!is.na(values$old_table_desc)) {
-        #  values$select_table_desc <- values$old_table_desc
-        #} else {
-        #  values$select_table_desc <- values$table_descriptions[1]
-        #}  
+        new_table_desc <- values$table_descriptions[1]
+        
+        values$select_table_desc <- values$table_descriptions[1]
       }
       
       removeModal()
