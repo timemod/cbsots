@@ -4,20 +4,11 @@ open_table <- function(new_table_description, values, input, output, debug) {
   # open a new table
   #
   
-  new_table_id <- values$table_ids[new_table_description]
- 
+  new_table_id <- get_table_id(new_table_description, values$table_ids)
   if (is.na(new_table_id)) {
-    showModal(modalDialog(
-      title = "Internal error",
-      paste0("Table \"", new_table_description, "\" not found in list of tables"),
-      easyClose = TRUE
-    )) 
-    cat("Table \"", new_table_description, "\" not found in list of tables")
-    cat("Current list of tables\n")
-    print(values$table_ids)
     return(invisible(NULL))
   }
-  
+ 
   if (debug) {
     cat(sprintf("Opening table with id = %s\n", new_table_id))
   }
