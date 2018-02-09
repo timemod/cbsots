@@ -1,8 +1,8 @@
 #' Edit timeseries codes
 #' 
-#' @param output_file the name of a file where the timeseries coding is stored.
+#' @param ts_code_file the name of a file where the timeseries coding is stored.
 #' The filename usually has extension \code{.rds}.
-#' @param input_file a filename with timeseries codes. This file does not have
+#' @param ts_code_file a filename with timeseries codes. This file does not have
 #' to exist yet. If specified, it should be an rds file 
 #' containing a \code{table_code_collection} object.
 #' @param use_browser if \code{TRUE}, then display the graphical user interface
@@ -15,53 +15,53 @@
 #' @import cbsodataR
 #' @importFrom utils packageVersion
 #' @export
-edit_ts_code <- function(output_file, input_file, use_browser = TRUE, 
+edit_ts_code <- function(ts_code_file, use_browser = TRUE, 
                          debug = FALSE) {
   
-  if (!missing(input_file)) {
-    if (!file.exists(input_file)) {
-      stop(paste("File", input_file, "does not exist"))
-    }
-    
+  if (file.exists(ts_code_file)) {
+
     # TODO: special read function, check the package version
-    table_code_collection <- readRDS(input_file)
+    table_code_collection <- readRDS(ts_code_file)
     
     if (!inherits(table_code_collection, "table_code_collection")) {
-      stop(paste("File", input_file, "does not contain a",
-                "table_code_collection object."))
+      stop(paste("File", ts_code_file, "does not contain a",
+                  "table_code_collection object."))
     }
     
   } else {
-    table_code_collection <-  
-      structure(list(package_version = packageVersion("cbsots"),
-                     table_code = list()),
-                class = "table_code_collection")
+  
+      table_code_collection <-  
+        structure(list(package_version = packageVersion("cbsots"),
+                       table_code = list()),
+                  class = "table_code_collection")
   }
   
   tables <- table_code_collection$table_code
   
+  # create a named character vector with table ids. The names are 
+  # the table descriptions.
   if (length(tables) > 0) {
     short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
-    table_descriptions <- paste(names(tables), "-", short_titles)
+    table_ids <- names(tables)
+    names(table_ids) <- get_table_description(table_ids, short_titles)
   } else {
-    table_descriptions <- character(0)
+    table_ids <- character(0)
   }
- 
+
   ui <- pageWithSidebar(
     
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(
-      selectInput("table_description",
-                  label = "Open a table for editing",
-                  choices = table_descriptions,
-                  selected = table_descriptions[1]),
-      h2("Open a new table"),
+      selectInput("table_desc", label = "Open a table for editing",
+                 choices = names(table_ids)),
+      p(),
+      h3("Create a new table"),
       actionButton("new_table", "New table"),
       p(),
-      h2("Delete a new table"),
+      h3("Delete a table"),
       actionButton("delete_table", "Delete table"),
       p(),
-      h2(paste("Save code to file", output_file)),
+      h3(paste("Save code to file", ts_code_file)),
       actionButton("save", "Save codes")
     ),
     mainPanel(
@@ -73,24 +73,13 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
     
     session$onSessionEnded(shiny::stopApp)
     
-    values <- reactiveValues(tables = tables, 
-                             table_descriptions = table_descriptions,
-                             table_id = NA_character_,
-                             table_desc = NA_character_, 
-                             prev_table_stack = character(0))
-    
-    # conversion table table_descriptions -> table_ids
-    if (length(tables) > 0) {
-      table_ids <- names(tables)
-      names(table_ids) <- table_descriptions
-    } else {
-      table_ids <- character(0)
-    }
-    values$table_ids <- table_ids
-    
-    observeEvent(input$table_description, {
-      
-      if (debug) cat("table_description changed\n")
+    # register reactive values
+    values <- reactiveValues(tables = tables, table_id = NA_character_,
+                             table_desc = NA_character_,
+                             table_ids = table_ids,
+                             table_desc_stack = character(0))
+
+    observeEvent(input$table_desc, {
       
       if (length(values$tables) == 0) {
         output$tabel <- renderUI({return(NULL)})
@@ -100,14 +89,12 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
       # check for duplicates in current table, otherwise don't change
       if (!is.null(values$table_id)) {
         if (check_duplicates(session, values)) {
-          # first reset the selection, then return
-          updateSelectInput(session, "table_description", 
-                            selected = values$table_description)
+          updateSelectInput(session, "table_desc", selected = values$table_desc)
           return()
         }
       }
 
-      open_table(input$table_description, values, input, output, debug)
+      open_table(input$table_desc, values, input, output, debug)
       
     })  # table_description_event
     
@@ -117,23 +104,21 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
       new_tables <- setdiff(table_info$Identifier, names(isolate(values$tables)))
       table_info <- table_info[table_info$Identifier %in% new_tables, ]
       table_info <- table_info[order(table_info$Identifier), ]
-      new_table_descriptions <- paste(table_info$Identifier, "-", 
-                                      table_info$ShortTitle)
+      new_table_descriptions <- get_table_description(table_info$Identifier, 
+                                                      table_info$ShortTitle)
       
       new_table_ids <- table_info$Identifier
       names(new_table_ids) <- new_table_descriptions
       values$new_table_ids <- new_table_ids
    
       modalDialog(
-        selectInput("new_table_description", 
-                  label = "Choose a table",
-                  choices = new_table_descriptions,
-                  selected = new_table_descriptions[1],
-                  width = "200%"),
+        selectInput("new_table_desc", label = "Choose a table",
+                  choices = new_table_descriptions, width = "200%"),
         footer = tagList(
           modalButton("Cancel"),
           actionButton("new_table_ok", "OK")
-        )
+        ),
+        easyClose = TRUE
       )
     }
     
@@ -143,40 +128,38 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
     })
     
     observeEvent(input$new_table_ok, {
-
-      new_table_desc <- input$new_table_description
+    
+      new_table_desc <- input$new_table_desc
       new_table_id <- get_table_id(new_table_desc, values$new_table_ids)
       if (is.na(new_table_id)) {
         return(invisible(NULL))
       }
       
-      # extra test
+      # additional test
       if (new_table_id %in% values$table_ids) {
-        showModal(modalDialog(
-          title = "Internal error",
-          paste0("Table \"", new_table_desc, "\" already present in current tables\n"),
-          easyClose = TRUE
-        )) 
+        cat("\n*** Internal error in get_table_id ***\n")
         cat("Table \"", new_table_desc, "\" already present")
         cat("Current list of tables\n")
-        print(table_ids)
+        if (length(table_ids) == 0) {
+          print(table_ids)
+        } else {
+          print(as.data.frame(table_ids))
+        }
+        cat("\n\n")
         return(invisible(NULL))
       }
     
       # add new tables
       values$tables[[new_table_id]] <- create_new_table(new_table_id)
-      
-      values$table_descriptions <- c(values$table_descriptions, new_table_desc)
       values$table_ids[new_table_desc] <- new_table_id
       
-      # reorder the tables
+      # reorder the tables alphabetically
       ord <- order(values$table_ids)
       values$tables <- values$tables[ord]
-      values$table_descriptions <- values$table_descriptions[ord]
       values$table_ids <- values$table_ids[ord]
     
-      updateSelectInput(session, inputId = "table_description",
-                        choices = values$table_descriptions,
+      updateSelectInput(session, inputId = "table_desc",
+                        choices = names(values$table_ids), 
                         selected = new_table_desc)
       
       removeModal()
@@ -186,15 +169,13 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
     deleteTableModal <- function(failed = FALSE) {
      
       modalDialog(
-        selectInput("delete_table_description", 
-                    label = "Delete a table",
-                    choices =  isolate(values$table_descriptions),
-                    selected = isolate(values$table_descriptions[1]),
-                    width = "200%"),
+        selectInput("delete_table_desc", label = "Delete a table",
+                    choices = names(values$table_ids), width = "200%"),
         footer = tagList(
           modalButton("Cancel"),
           actionButton("delete_table_ok", "OK")
-        )
+        ),
+        easyClose = TRUE
       )
     }
     
@@ -213,7 +194,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
     
     observeEvent(input$delete_table_ok, {
       
-      delete_table_desc <- input$delete_table_description
+      delete_table_desc <- input$delete_table_desc
       delete_table_id <- get_table_id(delete_table_desc, values$table_ids)
       if (is.na(delete_table_id)) {
         return(invisible(NULL))
@@ -221,39 +202,23 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
       
       values$tables[[delete_table_id]] <- NULL
       
-      # remove delete tables from the stack of previous tables
-      if (length(values$prev_table_stack) > 0) {
-        sel <-  values$prev_table_stack %in% values$table_descriptions
-        values$prev_table_stack <- values$prev_table_stack[sel]
-      }
-
-      # update table_descriptions
+      # update table_ids
       idx <- pmatch(delete_table_id, values$table_ids)
-      values$table_descriptions <- values$table_descriptions[-idx]
       values$table_ids <- values$table_ids[-idx]
       
       if (delete_table_id == values$table_id) {
-        # if the table that is now shown is deleted, we have to select
-        # a new table from the previous table stack
-        nstack <- length(values$prev_table_stack)
-        if (nstack > 0) {
-          new_table_desc <- values$prev_table_stack[nstack]
-        } else {
-          new_table_desc <- values$table_descriptions[1]
-        }
+        new_table_desc <- names(values$table_ids)[1]
       } else {
         new_table_desc <- values$table_desc
       }
-    
-      updateSelectInput(session, inputId = "table_description",
-                        choices = names(values$table_ids),
+      
+      updateSelectInput(session, inputId = "table_desc",
+                        choices = names(values$table_ids), 
                         selected = new_table_desc)
       
       removeModal()
     })
-    
-  
-
+      
     observeEvent(input$save, {
       
       if (check_duplicates(session, values)) return()
@@ -270,7 +235,7 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
         print(table_code_collection)
       }
       
-      saveRDS(table_code_collection, file = output_file)
+      saveRDS(table_code_collection, file = ts_code_file)
     })
   }
   
@@ -283,62 +248,4 @@ edit_ts_code <- function(output_file, input_file, use_browser = TRUE,
   }
     
   return(invisible(NULL))
-}
-
-
-#
-# help functions
-#
-
-
-
-update_tables <- function(table_id, values, input, debug) {
-  
-  old <- values$tables[[table_id]]
-
-  if (is.null(old)) {
-    # this situation occurs when a table has been deleted
-    return(invisible(NULL))
-  }
-
-  # ordering
-  values$tables[[table_id]]$order <- input$order_input_order
-
-  # tables
-  for (name in values$names) {
-    orig_key_order <- values$tables[[table_id]]$codes[[name]]$OrigKeyOrde
-    values$tables[[table_id]]$codes[[name]][ ,1:4] <- 
-                            order_code_rows(values[[name]], orig_key_order)
-  }
-  
-  if (!isTRUE(all.equal(old, values$tables[[table_id]]))) {
-    values$tables[[table_id]]$last_modified <- Sys.time()
-  }
-  
-  if (debug) {
-    cat(sprintf("\n\nSaving current values for table %s\n", table_id))
-    print(values$tables[[table_id]])
-  }
-  
-  return(invisible(NULL))
-}
-
-
-check_duplicates <- function(session, values) {
-  for (name in values$names) {
-    codes <- values[[name]]$Code[values[[name]]$Select]
-    if (anyDuplicated(codes)) {
-      dupl <- codes[duplicated(codes)]
-      showModal(modalDialog(
-        title = "Duplicates in code",
-        HTML(paste0("Duplicate code for the selected keys of ", name,
-                    "<br>Duplicatecodes:\n", paste(dupl, collapse = ", "),
-                    "<br>Please correct before proceding.")),
-        easyClose = TRUE
-      ))
-      
-      return(TRUE)
-    }
-  }
-  return(FALSE)
 }

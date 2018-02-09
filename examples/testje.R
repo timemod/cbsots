@@ -9,5 +9,4 @@ tscodes$table_code <- tscodes$table_code[1:3]
 
 saveRDS(tscodes, ts_code_file)
 
-edit_ts_code(input_file = ts_code_file, output_file = ts_code_file, 
-             debug = FALSE)
+edit_ts_code(ts_code_file = ts_code_file, debug = FALSE)

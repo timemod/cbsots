@@ -120,10 +120,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
   
   lapply(values$names, make_observer)
   
-  # table administration
-  if (!is.na(values$table_desc)) {
-    values$prev_table_stack <- c(values$prev_table_stack, values$table_desc)
-  }
   values$table_id <- new_table_id
   values$table_desc <- new_table_description
   
