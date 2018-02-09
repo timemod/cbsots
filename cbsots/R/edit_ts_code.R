@@ -163,14 +163,30 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (is.na(delete_table_id)) {
         return(invisible(NULL))
       }
+      values$delete_table_id <- delete_table_id
       
-      values$tables[[delete_table_id]] <- NULL
+      showModal(modalDialog(
+          title = "Confirm",
+           HTML(paste0("Table \"", delete_table_desc, 
+                       "\" will be permanently deleted",
+                      "<br>Are you sure?")),
+          footer = tagList(
+            modalButton("NO!"),
+            actionButton("delete_table_confirmed", "Yes")
+          ),
+          easyClose = TRUE
+        ))
+    })
+    
+    observeEvent(input$delete_table_confirmed, {
+      
+      values$tables[[values$delete_table_id]] <- NULL
       
       # update table_ids
-      idx <- pmatch(delete_table_id, values$table_ids)
+      idx <- pmatch(values$delete_table_id, values$table_ids)
       values$table_ids <- values$table_ids[-idx]
       
-      if (delete_table_id == values$table_id) {
+      if (values$delete_table_id == values$table_id) {
         new_table_desc <- names(values$table_ids)[1]
       } else {
         new_table_desc <- values$table_desc
