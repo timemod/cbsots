@@ -5,7 +5,7 @@ ts_code_file <- "tscode/tscode_testje.rds"
 
 tscodes <- readRDS(ts_code_file_basis)
 
-tscodes$table_code <- tscodes$table_code[1:3]
+tscodes$table_code <- tscodes$table_code[1:1]
 
 saveRDS(tscodes, ts_code_file)
 

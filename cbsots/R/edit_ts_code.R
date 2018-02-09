@@ -1,18 +1,15 @@
 #' Edit timeseries codes
 #' 
-#' @param ts_code_file the name of a file where the timeseries coding is stored.
-#' The filename usually has extension \code{.rds}.
 #' @param ts_code_file a filename with timeseries codes. This file does not have
 #' to exist yet. If specified, it should be an rds file 
 #' containing a \code{table_code_collection} object.
 #' @param use_browser if \code{TRUE}, then display the graphical user interface
 #'  in the browser. Otherwise the RStudio viewer is used.
-#' @param a logical. If \code{TRUE}, then use the debugging mode
+#' @param debug a logical. If \code{TRUE}, then use the debugging mode
 #'  (only for developpers)
 #' @import shiny
 #' @import rhandsontable
 #' @import shinyjqui
-#' @import cbsodataR
 #' @importFrom utils packageVersion
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, 
@@ -99,36 +96,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })  # table_description_event
     
     
-    newTableModal <- function(failed = FALSE) {
-      table_info <- get_table_list(select = c("Identifier", "ShortTitle"))
-      new_tables <- setdiff(table_info$Identifier, names(isolate(values$tables)))
-      table_info <- table_info[table_info$Identifier %in% new_tables, ]
-      table_info <- table_info[order(table_info$Identifier), ]
-      new_table_descriptions <- get_table_description(table_info$Identifier, 
-                                                      table_info$ShortTitle)
-      
-      new_table_ids <- table_info$Identifier
-      names(new_table_ids) <- new_table_descriptions
-      values$new_table_ids <- new_table_ids
-   
-      modalDialog(
-        selectInput("new_table_desc", label = "Choose a table",
-                  choices = new_table_descriptions, width = "200%"),
-        footer = tagList(
-          modalButton("Cancel"),
-          actionButton("new_table_ok", "OK")
-        ),
-        easyClose = TRUE
-      )
-    }
-    
-    # Show modal when button is clicked.
     observeEvent(input$new_table, {
-      showModal(newTableModal())
+      
+      values$new_table_ids <- get_new_table_ids(values$table_ids)
+
+      showModal(select_table_dialog("new_table", "New Table", 
+                                    names(values$new_table_ids)))
+     
     })
     
     observeEvent(input$new_table_ok, {
-    
+      
       new_table_desc <- input$new_table_desc
       new_table_id <- get_table_id(new_table_desc, values$new_table_ids)
       if (is.na(new_table_id)) {
@@ -148,7 +126,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         cat("\n\n")
         return(invisible(NULL))
       }
-    
+      
       # add new tables
       values$tables[[new_table_id]] <- create_new_table(new_table_id)
       values$table_ids[new_table_desc] <- new_table_id
@@ -157,7 +135,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       ord <- order(values$table_ids)
       values$tables <- values$tables[ord]
       values$table_ids <- values$table_ids[ord]
-    
+      
       updateSelectInput(session, inputId = "table_desc",
                         choices = names(values$table_ids), 
                         selected = new_table_desc)
@@ -165,30 +143,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       removeModal()
     })
     
-    
-    deleteTableModal <- function(failed = FALSE) {
-     
-      modalDialog(
-        selectInput("delete_table_desc", label = "Delete a table",
-                    choices = names(values$table_ids), width = "200%"),
-        footer = tagList(
-          modalButton("Cancel"),
-          actionButton("delete_table_ok", "OK")
-        ),
-        easyClose = TRUE
-      )
-    }
-    
-    # Show modal when button is clicked.
+  
     observeEvent(input$delete_table, {
+      
       if (length(values$tables) == 0) {
         showModal(modalDialog(
-          title = "No tables to delete",
-          HTML(paste0("There are no tables to delete")),
-          easyClose = TRUE
-        )) 
+          title = "No tables to delete", "There are no tables to delete",
+          easyClose = TRUE)) 
       } else {
-        showModal(deleteTableModal())
+        showModal(select_table_dialog("delete_table", "Delete Table", 
+                                      names(values$table_ids)))
       }
     })
     
@@ -218,6 +182,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       removeModal()
     })
+    
       
     observeEvent(input$save, {
       

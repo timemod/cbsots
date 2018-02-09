@@ -32,6 +32,7 @@
 #' @importFrom regts as.regts
 #' @importFrom regts update_ts_labels
 #' @importFrom stats as.formula
+#' @importFrom cbsodataR get_data
 #' @export
 get_ts <- function(id, table_code_collection, download,  
                    raw_cbs_dir = "raw_cbs_data") {

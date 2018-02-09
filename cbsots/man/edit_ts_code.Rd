@@ -4,20 +4,17 @@
 \alias{edit_ts_code}
 \title{Edit timeseries codes}
 \usage{
-edit_ts_code(output_file, input_file, use_browser = TRUE, debug = FALSE)
+edit_ts_code(ts_code_file, use_browser = TRUE, debug = FALSE)
 }
 \arguments{
-\item{output_file}{the name of a file where the timeseries coding is stored.
-The filename usually has extension \code{.rds}.}
-
-\item{input_file}{a filename with timeseries codes. This file does not have
+\item{ts_code_file}{a filename with timeseries codes. This file does not have
 to exist yet. If specified, it should be an rds file 
 containing a \code{table_code_collection} object.}
 
 \item{use_browser}{if \code{TRUE}, then display the graphical user interface
 in the browser. Otherwise the RStudio viewer is used.}
 
-\item{a}{logical. If \code{TRUE}, then use the debugging mode
+\item{debug}{a logical. If \code{TRUE}, then use the debugging mode
 (only for developpers)}
 }
 \description{
