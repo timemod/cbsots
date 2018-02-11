@@ -12,8 +12,9 @@ Description: Tools from downloading timeseries using the cbsodataR package.
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 6.0.1
+Depends:
+    regts
 Imports:
-    regts,
     cbsodataR (>= 0.2.5),
     data.table,
     readxl,
