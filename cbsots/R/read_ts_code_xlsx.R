@@ -41,7 +41,7 @@ read_ts_code_xlsx <- function(xlsx_files) {
   
   return(structure(list(package_version = packageVersion("cbsots"),
                         table_code = table_code),
-         class = "table_code_collection"))
+         class = "ts_code"))
 }
 
 # internal function

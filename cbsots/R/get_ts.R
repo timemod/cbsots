@@ -23,9 +23,12 @@
 #     Y           Jaarreeksen (indien aanwezig)
 #
 
-#' Return time indices
+#' Return CBS timeseries
+#' 
 #' @param id table id
-#' @param table_code_collection  a \code{table_code_collection} object
+#' @param ts_code a \code{ts_code} object. This object can be created 
+#' with a Shiny app that you start with function
+#' \code{\link{edit_ts_code}}
 #' @param download If \code{TRUE}, data are downloaded, otherwise the data
 #' is read from the previously downloaded data in directory \code{raw_cbs_dir}
 #' @param raw_cbs_dir directory where the raw downloaded data are stored
@@ -34,25 +37,27 @@
 #' @importFrom stats as.formula
 #' @importFrom cbsodataR get_data
 #' @export
-get_ts <- function(id, table_code_collection, download,  
-                   raw_cbs_dir = "raw_cbs_data") {
+get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data") {
 
-  if (!inherits(table_code_collection, "table_code_collection")) {
-    stop("Argument table_code_collection is not a table_code_collection object")
+  ts_code <- convert_ts_code(ts_code)
+  
+  if (!inherits(ts_code, "ts_code")) {
+    stop("Argument ts_code is not a ts_code object")
   }
   
-  table_ids <- names(table_code_collection$table_code)
+
+  table_ids <- names(ts_code$table_code)
   table_ids_lower <- tolower(table_ids)
   id_lower <- tolower(id)
   
   if (!id_lower %in% table_ids_lower) {
-    stop(paste("Table", id, "not in table_code_collection"))
+    stop(paste("Table", id, "not in ts_code"))
   }
   
   idx <- match(id_lower, table_ids_lower)
   id <- table_ids[idx]
   
-  table_code <- table_code_collection$table_code[[id]]
+  table_code <- ts_code$table_code[[id]]
   cbs_code <- get_cbs_code(id, cache = TRUE)
   
   convert_code <- function(groep) {

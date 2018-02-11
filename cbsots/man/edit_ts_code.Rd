@@ -7,9 +7,9 @@
 edit_ts_code(ts_code_file, use_browser = TRUE, debug = FALSE)
 }
 \arguments{
-\item{ts_code_file}{a filename with timeseries codes. This file does not have
-to exist yet. If specified, it should be an rds file 
-containing a \code{table_code_collection} object.}
+\item{ts_code_file}{the name of a file where the timeseries coding is
+stored.  This file does not have to exist yet. If it does exist, then it 
+should be an \code{rds} file containing a \code{ts_code} object.}
 
 \item{use_browser}{if \code{TRUE}, then display the graphical user interface
 in the browser. Otherwise the RStudio viewer is used.}

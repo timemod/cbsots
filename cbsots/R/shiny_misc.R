@@ -2,6 +2,21 @@
 # Miscellaneous help functions for the shiny app
 #
 
+read_ts_code <- function(filename) {
+  
+  ts_code <- readRDS(ts_code_file)
+
+  if (ts_code$package_version == "0.1") {
+    stop("old package") 
+  }
+    
+  if (!inherits(ts_code, "ts_code")) {
+    stop(paste("File", filename, "does not contain a ts_code object"))
+  }
+  
+  return(ts_code)
+}
+
 # Returns a character vector with table descriptions, based on the table ids
 # and short titles.
 get_table_description <- function(ids, short_titles) {

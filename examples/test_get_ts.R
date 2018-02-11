@@ -4,12 +4,12 @@ source("functions/check_ts_table.R")
 
 id <- "83693NED"
 id <- "82522NED"
-id <- "00376"
-ts_code_file <- "tscode/tscode_example1.rds"
+id <- "00372"
+ts_code_file <- "tscode/tscode_testje.rds"
 
-table_code_collection <- readRDS(ts_code_file)
+ts_code <- readRDS(ts_code_file)
 
-x <- get_ts(id, table_code_collection = table_code_collection, download = TRUE)
+x <- get_ts(id, ts_code = ts_code, download = FALSE)
 print(x)
 
 write_table_ts_xlsx(x, file.path("output", paste0("ts_", id, ".xlsx")))

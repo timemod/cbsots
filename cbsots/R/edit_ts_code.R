@@ -1,8 +1,8 @@
 #' Edit timeseries codes
 #' 
-#' @param ts_code_file a filename with timeseries codes. This file does not have
-#' to exist yet. If specified, it should be an rds file 
-#' containing a \code{table_code_collection} object.
+#' @param ts_code_file the name of a file where the timeseries coding is
+#' stored.  This file does not have to exist yet. If it does exist, then it 
+#' should be an \code{rds} file containing a \code{ts_code} object.
 #' @param use_browser if \code{TRUE}, then display the graphical user interface
 #'  in the browser. Otherwise the RStudio viewer is used.
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
@@ -16,24 +16,22 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
                          debug = FALSE) {
   
   if (file.exists(ts_code_file)) {
-
-    # TODO: special read function, check the package version
-    table_code_collection <- readRDS(ts_code_file)
     
-    if (!inherits(table_code_collection, "table_code_collection")) {
-      stop(paste("File", ts_code_file, "does not contain a",
-                  "table_code_collection object."))
+    ts_code <- readRDS(ts_code_file)
+    ts_code <- convert_ts_code(ts_code)
+    
+    if (!inherits(ts_code, "ts_code")) {
+      stop(paste("File", ts_code_file, "does not contain a ts_code object"))
     }
+    
     
   } else {
   
-      table_code_collection <-  
-        structure(list(package_version = packageVersion("cbsots"),
-                       table_code = list()),
-                  class = "table_code_collection")
+      ts_code <-  structure(list(package_version = packageVersion("cbsots"),
+                            table_code = list()), class = "ts_code")
   }
   
-  tables <- table_code_collection$table_code
+  tables <- ts_code$table_code
   
   # create a named character vector with table ids. The names are 
   # the table descriptions.
@@ -206,17 +204,15 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       update_tables(values$table_id, values, input, debug)
       
-      table_code_collection <-
-        structure(list(package_version = packageVersion("cbsots"),
-                       table_code = values$tables),
-                  class = "table_code_collection")
-      
+      ts_code <-  structure(list(package_version = packageVersion("cbsots"),
+                            table_code = values$tables),
+                            class = "ts_code")
       if (debug) {
         cat("saving table_codes\n")
-        print(table_code_collection)
+        print(ts_code)
       }
       
-      saveRDS(table_code_collection, file = ts_code_file)
+      saveRDS(ts_code, file = ts_code_file)
     })
   }
   

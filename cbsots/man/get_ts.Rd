@@ -2,14 +2,16 @@
 % Please edit documentation in R/get_ts.R
 \name{get_ts}
 \alias{get_ts}
-\title{Return time indices}
+\title{Return CBS timeseries}
 \usage{
-get_ts(id, table_code_collection, download, raw_cbs_dir = "raw_cbs_data")
+get_ts(id, ts_code, download, raw_cbs_dir = "raw_cbs_data")
 }
 \arguments{
 \item{id}{table id}
 
-\item{table_code_collection}{a \code{table_code_collection} object}
+\item{ts_code}{a \code{ts_code} object. This object can be created 
+with a Shiny app that you start with function
+\code{\link{edit_ts_code}}}
 
 \item{download}{If \code{TRUE}, data are downloaded, otherwise the data
 is read from the previously downloaded data in directory \code{raw_cbs_dir}}
@@ -17,5 +19,5 @@ is read from the previously downloaded data in directory \code{raw_cbs_dir}}
 \item{raw_cbs_dir}{directory where the raw downloaded data are stored}
 }
 \description{
-Return time indices
+Return CBS timeseries
 }
