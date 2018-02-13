@@ -169,7 +169,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
                        "\" will be permanently deleted",
                       "<br>Are you sure?")),
           footer = tagList(
-            modalButton("NO!"),
+            modalButton("No"),
             actionButton("delete_table_confirmed", "Yes")
           ),
           easyClose = TRUE

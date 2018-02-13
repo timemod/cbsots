@@ -36,23 +36,20 @@ open_table <- function(new_table_description, values, input, output, debug) {
     values[[name]] <- values$tables[[new_table_id]]$codes[[name]][, 1:4]
   }
   
+  #
+  # create the tabels
+  #
+  
   make_table <- function(name) {
-    # NOTES:
-    # 1. It is neccesarry to set the height of the table, otherwise
-    #    the vertical scroll bar does not appear
-    output[[name]] <- renderRHandsontable({
-      if (!is.null(values[[name]])) {
-        rhandsontable(values[[name]], readOnly = TRUE, height = 500, 
-                      overflow = "hidden", search = TRUE, 
-                      renderAllRows = FALSE) %>%
-          hot_cols(fixedColumnsLeft = 3) %>%
-          hot_col(col = c("Select", "Code"), readOnly = FALSE) %>%
-          hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+    output[[name]] <- 
+      if (!is.null(isolate(values[[name]]))) {
+        render_table(isolate(values[[name]]))
       } else {
         rhandsontable(as.data.frame("dummy"))
       }
-    })
+    return(invisible(NULL))
   }
+  
   lapply(values$names, FUN = make_table)
   
   # 
@@ -78,6 +75,9 @@ open_table <- function(new_table_description, values, input, output, debug) {
             if (debug) cat("Selection has changed\n")
             orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
             values[[name]] <- order_code_rows(df_input, orig_key_order)
+            # render the table again. Note that this action will erase the
+            # history of changes, so Undo/Redo does not work any more
+            output[[name]] <- render_table(isolate(values[[name]]))
           } else {
             values[[name]] <- df_input
           }
@@ -88,37 +88,37 @@ open_table <- function(new_table_description, values, input, output, debug) {
         }
       }
     })
-    
-    # 
-    # prepare tabbed pane
-    #
-    
-    make_panel <- function(name) {
-      return(tabPanel(name, rHandsontableOutput(name)))
-    }
-    
-    output$tabel <- renderUI({
-      isolate({
-        table_items <- values$names
-        myTabs <- lapply(table_items, make_panel)
-        
-        ret <- list(h2(paste("Tabel", new_table_description)), br(),
-                    list(p()), 
-                    orderInput(inputId = "order_input", 
-                               label = "Order for name generation", 
-                               items = values$tables[[new_table_id]]$order),
-                    list(p()),
-                    textInput(inputId = "searchField",  
-                              label = "Search in tabel (enter a text followed by ENTER)"),
-                    p(), h3("Codes"),
-                    do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
-        
-        return(ret)
-      })
-    })
   }
   
   lapply(values$names, make_observer)
+  
+  # 
+  # prepare tabbed pane
+  #
+  
+  make_panel <- function(name) {
+    return(tabPanel(name, rHandsontableOutput(name)))
+  }
+  
+  output$tabel <- renderUI({
+    isolate({
+      table_items <- values$names
+      myTabs <- lapply(table_items, make_panel)
+      
+      ret <- list(h2(paste("Tabel", new_table_description)), br(),
+                  list(p()), 
+                  orderInput(inputId = "order_input", 
+                             label = "Order for name generation", 
+                             items = values$tables[[new_table_id]]$order),
+                  list(p()),
+                  textInput(inputId = "searchField",  
+                            label = "Search in tabel (enter a text followed by ENTER)"),
+                  p(), h3("Codes"),
+                  do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
+      
+      return(ret)
+    })
+  })
   
   values$table_id <- new_table_id
   values$table_desc <- new_table_description
