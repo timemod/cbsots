@@ -19,7 +19,7 @@ get_last_modified <- function(id, ts_code) {
   }
   
   if (length(id) == 1) {
-    return(ts_code$table_code[[id]])
+    return(ts_code$table_code[[id]]$last_modified)
   } else {
     return(lapply(id, FUN = function(x) {ts_code$table_code[[x]]$last_modified}))
   }
