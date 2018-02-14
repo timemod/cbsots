@@ -31,13 +31,17 @@
 #' \code{\link{edit_ts_code}}
 #' @param download If \code{TRUE}, data are downloaded, otherwise the data
 #' is read from the previously downloaded data in directory \code{raw_cbs_dir}
+#' @param include_meta include meta data
 #' @param raw_cbs_dir directory where the raw downloaded data are stored
 #' @importFrom regts as.regts
 #' @importFrom regts update_ts_labels
 #' @importFrom stats as.formula
 #' @importFrom cbsodataR get_data
+#' @importFrom cbsodataR get_meta
+#' @importFrom utils modifyList
 #' @export
-get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data") {
+get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
+                   include_meta = FALSE) {
 
   ts_code <- convert_ts_code(ts_code)
   
@@ -58,7 +62,9 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data") {
   id <- table_ids[idx]
   
   table_code <- ts_code$table_code[[id]]
-  cbs_code <- get_cbs_code(id, cache = TRUE)
+  
+  meta_data  <- get_meta(id, cache = TRUE)
+  cbs_code <- get_cbs_code(meta_data)
   
   convert_code <- function(groep) {
   
@@ -193,9 +199,21 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data") {
   ts_namen_en_labels <- maak_ts_namen_en_labels(code)
 
   ts_ts <- maak_tijdreeksen(data, ts_namen_en_labels$labels)
+
+  ret <- c(ts_ts, list(ts_namen = ts_namen_en_labels$ts_namen))
   
-  return(structure(c(list(ts_namen = ts_namen_en_labels$ts_namen), ts_ts),
-         class = "table_ts"))
+  if (include_meta) {
+    convert_meta <- function(name) {
+      sel <- match(code[[name]]$Key, meta_data[[name]]$Key)
+      return(meta_data[[name]][sel,  , drop = FALSE])
+    }
+    dimension_meta <- sapply(dimensies, FUN = convert_meta, simplify = FALSE)
+    meta_data <- modifyList(meta_data, dimension_meta)
+    # TODO: also clean up data properties
+    ret$meta <- meta_data
+  }
+           
+  return(structure(ret, class = "table_ts"))
 }
 
 maak_ts_namen_en_labels <- function(code) {
