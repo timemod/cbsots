@@ -209,7 +209,16 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
     }
     dimension_meta <- sapply(dimensies, FUN = convert_meta, simplify = FALSE)
     meta_data <- modifyList(meta_data, dimension_meta)
-    # TODO: also clean up data properties
+
+    dp <- as.data.table(meta_data$DataProperties)
+    
+    remove_keys <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
+    dp <- dp[!dp$Key %in% remove_keys, ]
+    
+    # TODO: also remove all TopicGroups that are not used any more: all childless 
+    # suber groups.
+    
+    meta_data$DataProperties <- dp
     ret$meta <- meta_data
   }
            

@@ -58,6 +58,19 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
   autoSizeColumn(sheet, seq_len(ncol(x$ts_names)))
   createFreezePane(sheet, 2, 1)
   
+  # write meta data
+  meta <- x$meta
+  if (!is.null(meta)) {
+    for (name in names(meta)) {
+      data <- meta[[name]]
+      if (length(data) == 0) next
+      sheet <- createSheet(wb, paste("meta_data_", name))
+      addDataFrame(data, sheet, row.names = FALSE)
+      autoSizeColumn(sheet, seq_len(ncol(data)))
+      createFreezePane(sheet, 1, 0)
+    }
+  }
+  
   saveWorkbook(wb, file)
   
   return(invisible(NULL))
