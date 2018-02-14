@@ -45,16 +45,17 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
   
   sheet_names <- c(Y = "annual", Q = "quarterly", M = "monthly")
   
+  frequencies <- setdiff(names(x), c("ts_names", "meta"))
   wb <- createWorkbook()
-  for (freq in names(x)[-1]) {
+  for (freq in frequencies) {
     sheet_name <- sheet_names[freq]
     sheet <- createSheet(wb, sheet_name)
     label_option <- if (rowwise) "after"else "no"
     write_ts_sheet(x[[freq]], sheet, ...)
   }
-  sheet <- createSheet(wb, "ts_namen")
-  addDataFrame(x$ts_namen, sheet, row.names = FALSE)
-  autoSizeColumn(sheet, seq_len(ncol(x$ts_namen)))
+  sheet <- createSheet(wb, "ts_names")
+  addDataFrame(x$ts_names, sheet, row.names = FALSE)
+  autoSizeColumn(sheet, seq_len(ncol(x$ts_names)))
   createFreezePane(sheet, 2, 1)
   
   saveWorkbook(wb, file)

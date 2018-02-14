@@ -35,34 +35,23 @@ get_dimensies_en_topics <- function(data_properties) {
 
   if (any(data_properties$Type == "TopicGroup")) {
   
-    # Combineer de Title van de TopicGroup met de Title van de Topics,
-    # zodat we voor elke Topic een volledige omschrijving (Title) hebben,
-    # deze gebruiken we om labels voor de tijdreeksen te maken.
-
-    topic <- ""
-    prev_is_topic_group <- FALSE
-    prev <- ""
+    # Combine the Title of the TopicGroup(s) with the Title of the Topic,
+    # so that we have a complete description for each Topic.
+    
     for (i in seq_len(nrow(data_properties))) {
-      type <- data_properties$Type[i]
       title <- data_properties$Title[i]
-      if (type == "TopicGroup") {
-        if (prev_is_topic_group && title != prev) {
-          topic <- paste(topic, title , sep = " - ")
-        } else {
-          topic <- title
+      parent_id <- data_properties$ParentID[i]
+      if (!is.na(parent_id)) {
+        rownr <- match(parent_id, data_properties$ID)
+        prev_title <- data_properties$Title[rownr]
+        if (prev_title != title) {
+          data_properties$Title[i] <- paste(data_properties$Title[rownr], "-", 
+                                            title)
         }
-        prev_is_topic_group <- TRUE
-      } else {
-        if (type == "Topic" &&  topic != "" && title != prev) {
-          data_properties$Title[i] <- paste(topic, title, sep = " - ")
-        }
-        prev_is_topic_group <- FALSE
-        topic <- ""
       }
-      prev <- title
-    }  
+    }
   }
-  
+    
   topics <- data_properties[Type == "Topic", .(Key, Title)]
   
   return(list(dimensies = dimensies, topics = topics))

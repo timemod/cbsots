@@ -4,15 +4,15 @@
 #
 # INPUT
 #   id              CBS open data table (inclusief extensie NED).
-#   naam_kort       Korte omschrijving van de tabel, deze bepaalt de 
-#                   naam van de outputfile.
-#   ruwe_cbs_dir    Naam van de map waarin de gedownloade CBS-tabellen worden
+#   name_kort       Korte omschrijving van de tabel, deze bepaalt de 
+#                   name van de outputfile.
+#   ruwe_cbs_dir    name van de map waarin de gedownloade CBS-tabellen worden
 #                   geschreven (standaard is dit "ruwe_cbs_data")
-#   output_dir      Naam van de map waarin de gedownloade CBS-tabellen worden
+#   output_dir      name van de map waarin de gedownloade CBS-tabellen worden
 #                   geschreven (standaard is dit "ruwe_cbs_data").
 #
-# RETURN:  een lijst met een element voor elke tijdreeksnaam.
-#          Het element voor tijdreeksnaam bestaat ook weer uit een lijst,
+# RETURN:  een lijst met een element voor elke tijdreeksname.
+#          Het element voor tijdreeksname bestaat ook weer uit een lijst,
 #          met elementen voor elke frequentie (M, Q of Y).
 #          Het element voor elke frequentie is ook een lijst, met de volgende
 #          elementen:
@@ -34,38 +34,38 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
   cbs_data <- data.table::fread(cbs_data_file, drop = "ID", 
                                 na.strings = na_strings)
   
-  ts_namen <- x$ts_namen$naam
+  ts_names <- x$ts_names$name
+
+  frequencies <- setdiff(names(x), c("ts_names", "meta"))
   
-  if (any(!sapply(x[-1], FUN = ncol) == length(ts_namen))) {
-    stop("Aantal tijdreeksen klopt niet!")
+  if (any(!sapply(x[frequencies], FUN = ncol) == length(ts_names))) {
+    stop("The number of timeseries is not correct.")
   }
   
-  f <- function(ts_naam, ...) {
-    ret <- controleer_tijdreeks(ts_naam, ...)
+  f <- function(ts_name, ...) {
+    ret <- controleer_tijdreeks(ts_name, ...)
     ranges_equal <- sapply(ret, FUN = function(x) {x$ranges_equal})
     data_equal <- sapply(ret, FUN = function(x) {x$data_equal})
     if (any(!ranges_equal) || any(!data_equal)) {
-      warning(paste("Verschillen gevonden voor", ts_naam, "!\n",
-                       "Controleer het resultaat"), immediate. = TRUE)
+      warning(paste("Differences found for series", ts_name, "!\n",
+                       "Check the result"), immediate. = TRUE)
     }
     return(ret)
   }
   
-  ts_data <- x
-  
-  return(sapply(ts_namen, FUN = f, ts_data = ts_data, cbs_data = cbs_data, 
+  return(sapply(ts_names, FUN = f, ts_data = x, cbs_data = cbs_data, 
                 simplify = FALSE))
 }
 
-controleer_tijdreeks <- function(ts_naam, ts_data, cbs_data) {
+controleer_tijdreeks <- function(ts_name, ts_data, cbs_data) {
   
-  ts_namen <- ts_data$ts_namen
-  dimensies <- setdiff(colnames(ts_namen)[2:(ncol(ts_namen) - 1)], "Topic")
-  frequenties <- names(ts_data)[-1]
+  ts_names <- ts_data$ts_names
+  dimensies <- setdiff(colnames(ts_names)[2:(ncol(ts_names) - 1)], "Topic")
+  frequenties <-  setdiff(names(x), c("ts_names", "meta"))
   
-  ts_info <- ts_namen[naam == ts_naam]
+  ts_info <- ts_names[name == ts_name]
 
-  # selecteer kolommen die op ts_namen betrekking hebben
+  # selecteer kolommen die op ts_names betrekking hebben
   cbs_data <- cbs_data[, c(dimensies, "Perioden", ts_info$Topic), with = FALSE]
 
   if (length(dimensies) > 0) {
@@ -88,7 +88,7 @@ controleer_tijdreeks <- function(ts_naam, ts_data, cbs_data) {
     per_cbs <- sub(pattern, replacement, cbs_data$Perioden)
     data_cbs <- as.numeric(cbs_data[[2]]) 
    
-    ts_ts <- ts_data[[freq]][, ts_naam]
+    ts_ts <- ts_data[[freq]][, ts_name]
     ts_df <- as.data.frame(ts_ts)
     per_ts <- rownames(ts_df)
     data_ts <- as.numeric(ts_df[[1]])

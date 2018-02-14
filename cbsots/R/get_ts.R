@@ -16,7 +16,7 @@
 #                   geschreven (standaard is dit "ruwe_cbs_data").
 #
 # RETURN:  een lijst met de volgende elementen:
-#     ts_namen   Een data.table met ts namen en de bijbehorende 
+#     ts_names   Een data.table met ts namen en de bijbehorende 
 #                 CBS-onderwerpen en dimensies (handig voor controle).
 #     M           Maandreeksen (indien aanwezig)
 #     Q           Kwartaalreeksen (indien aanwezig)
@@ -196,11 +196,11 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
     data <- dcast(melted, formula = formula, sep = "") 
   }
 
-  ts_namen_en_labels <- maak_ts_namen_en_labels(code)
+  ts_names_en_labels <- maak_ts_names_en_labels(code)
 
-  ts_ts <- maak_tijdreeksen(data, ts_namen_en_labels$labels)
+  ts_ts <- maak_tijdreeksen(data, ts_names_en_labels$labels)
 
-  ret <- c(ts_ts, list(ts_namen = ts_namen_en_labels$ts_namen))
+  ret <- c(ts_ts, list(ts_names = ts_names_en_labels$ts_names))
   
   if (include_meta) {
     convert_meta <- function(name) {
@@ -216,7 +216,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   return(structure(ret, class = "table_ts"))
 }
 
-maak_ts_namen_en_labels <- function(code) {
+maak_ts_names_en_labels <- function(code) {
   # Bereken de ts-namen en de bijbehorende labels door het uitproduct
   # van alle keys (topic-keys en dimensie-keys) te berekenen.
   # Hiervoor wordt functie CJ van het data.table pakket gebruikt.
@@ -236,12 +236,12 @@ maak_ts_namen_en_labels <- function(code) {
   labels <- do.call(paste, labels)
   names(labels) <- namen
 
-  ts_namen <- cbind(naam = namen, keys, labels = labels)
+  ts_names <- cbind(name = namen, keys, labels = labels)
  
   # sorteer ts namen
-  ts_namen <- ts_namen[order(namen), ]
+  ts_names <- ts_names[order(namen), ]
 
-  return(list(ts_namen = ts_namen, labels = labels))
+  return(list(ts_names = ts_names, labels = labels))
 }
 
 maak_tijdreeksen <- function(data, labels) {
