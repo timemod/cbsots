@@ -203,23 +203,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   ret <- c(ts_ts, list(ts_names = ts_names_en_labels$ts_names))
   
   if (include_meta) {
-    convert_meta <- function(name) {
-      sel <- match(code[[name]]$Key, meta_data[[name]]$Key)
-      return(meta_data[[name]][sel,  , drop = FALSE])
-    }
-    dimension_meta <- sapply(dimensies, FUN = convert_meta, simplify = FALSE)
-    meta_data <- modifyList(meta_data, dimension_meta)
-
-    dp <- as.data.table(meta_data$DataProperties)
-    
-    remove_keys <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
-    dp <- dp[!dp$Key %in% remove_keys, ]
-    
-    # TODO: also remove all TopicGroups that are not used any more: all childless 
-    # suber groups.
-    
-    meta_data$DataProperties <- dp
-    ret$meta <- meta_data
+    ret$meta <- clean_meta_data(meta_data, code, cbs_code, dimensies)
   }
            
   return(structure(ret, class = "table_ts"))
@@ -292,4 +276,41 @@ maak_tijdreeksen <- function(data, labels) {
   names(reeksen) <- frequenties
   
   return(reeksen)
+}
+
+# Remove entries in the meta data that are not used to create the tables.
+clean_meta_data <- function(meta_data, code, cbs_code, dimensions) {
+  
+  convert_meta <- function(name) {
+    sel <- match(code[[name]]$Key, meta_data[[name]]$Key)
+    return(meta_data[[name]][sel,  , drop = FALSE])
+  }
+  dimension_meta <- sapply(dimensions, FUN = convert_meta, simplify = FALSE)
+  meta_data <- modifyList(meta_data, dimension_meta)
+  
+  # now convert DataProperies. First remove all Topics that are not used.
+  dp <- as.data.table(meta_data$DataProperties)
+  
+  remove_keys <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
+  dp <- dp[!dp$Key %in% remove_keys, ]
+  
+  # Next, remove all TopicGroups that have no children Topics any more.
+  # First assume that all TopicGroups are not used, then move backwards trough
+  # the data properties and register all used TopicGroups.
+  used <- dp$Type != "TopicGroup"
+  for (i in nrow(dp):1) {
+    parent_id <- dp$ParentID[i]
+    if (is.na(parent_id)) {
+      next
+    }
+    type <- dp$Type[i]
+    if (type == "Topic") {
+      used[pmatch(parent_id, dp$ID)] <- TRUE 
+    } else if (used[i] && type == "TopicGroup") {
+      used[pmatch(parent_id, dp$ID)] <- TRUE 
+    }
+  }
+  
+  meta_data$DataProperties <- dp[used, drop = FALSE]
+  return(meta_data)
 }
