@@ -1,0 +1,78 @@
+<!doctype html>
+
+<script src="/home/rob/R/site-library/rhandsontable/htmlwidgets/lib/handsontable/handsontable.full.min.js"></script>
+
+<link rel="stylesheet" media="screen"
+                       href="/home/rob/R/site-library/rhandsontable/htmlwidgets/lib/handsontable/handsontable.full.min.css">
+
+<p>
+
+Enter a search term
+
+<br>
+
+<input type="text" id="search_field">
+
+<p>
+
+<div id="example"></div>
+
+<script>
+var data = [
+     {id: 1, name: 'Ted', isActive: true, color: 'orange', date: '2015-01-01'},
+     {id: 2, name: 'John', isActive: false, color: 'black', date: null},
+     {id: 3, name: 'Al', isActive: true, color: 'red', date: null},
+     {id: 4, name: 'Ben', isActive: false, color: 'blue', date: null},
+     {id: 5, name: 'Rene', isActive: true, color: 'blue', date: null},
+     {id: 6, name: 'Jan', isActive: true, color: 'blue', date: null},
+     {id: 7, name: 'Alex', isActive: false, color: 'blue', date: null},
+     {id: 8, name: 'Anita', isActive: false, color: 'blue', date: null},
+     {id: 9, name: 'Klaas', isActive: false, color: 'blue', date: null},
+     {id: 10, name: 'Arie', isActive: false, color: 'blue', date: null},
+     {id: 11, name: 'Kees', isActive: false, color: 'blue', date: null},
+     {id: 12, name: 'Marie', isActive: false, color: 'purple', date: null},
+     {id: 13, name: 'Paul', isActive: false, color: 'blue', date: null},
+     {id: 14, name: 'Henk', isActive: true, color: 'blue', date: null},
+     {id: 15, name: 'Leo', isActive: false, color: 'blue', date: null},
+     {id: 17, name: 'Geert', isActive: false, color: 'blue', date: null},
+     {id: 18, name: 'Mark', isActive: false, color: 'green', date: null},
+     {id: 19, name: 'Frans', isActive: true, color: 'blue', date: null},
+     {id: 20, name: 'Anita', isActive: false, color: 'blue', date: null},
+     {id: 21, name: 'Koen', isActive: true, color: 'blue', date: null},
+     {id: 22, name: 'Lisa', isActive: false, color: 'blue', date: null},
+     {id: 23, name: 'Erwin', isActive: false, color: 'blue', date: null},
+     {id: 24, name: 'Fred', isActive: true, color: 'blue', date: null},
+     {id: 25, name: 'Peter', isActive: false, color: 'blue', date: null},
+     {id: 26, name: 'Vera', isActive: false, color: 'blue', date: null}
+];
+
+var container = document.getElementById('example');
+
+var hot = new Handsontable(container, {
+  data: data,
+  rowHeaders: true,
+  columns: [
+      {data: "id", type: 'text'},
+      {data: "name", type: 'text'},
+      {data: "isActive", type: 'checkbox'},
+      {data: "date", type: 'date', dateFormat: 'YYYY-MM-DD'},
+      {data: "color", type : 'text'}
+    ],
+  filters: true,
+  dropdownMenu: true,
+  height: 400,
+  search: true,
+  undo: true,
+  contextMenu: true
+});
+
+var search_field = document.getElementById("search_field");
+console.log(search_field);
+Handsontable.dom.addEvent(search_field, 'keyup', 
+        function (event) {
+            var queryResult = hot.search.query(this.value);
+            console.log(queryResult);
+            hot.render();
+        });
+
+</script>
