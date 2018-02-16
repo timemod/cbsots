@@ -12,6 +12,8 @@ Enter a search term
 <br>
 
 <input type="text" id="search_field">
+<button id="next_button">Next</button>
+<button id="prev_button">Previous</button>
 
 <p>
 
@@ -19,7 +21,7 @@ Enter a search term
 
 <script>
 var data = [
-     {id: 1, name: 'Ted', isActive: true, color: 'orange', date: '2015-01-01'},
+     {id: 1, name: 'TedX', isActive: true, color: 'orange', date: '2015-01-01'},
      {id: 2, name: 'John', isActive: false, color: 'black', date: null},
      {id: 3, name: 'Al', isActive: true, color: 'red', date: null},
      {id: 4, name: 'Ben', isActive: false, color: 'blue', date: null},
@@ -42,7 +44,7 @@ var data = [
      {id: 22, name: 'Lisa', isActive: false, color: 'blue', date: null},
      {id: 23, name: 'Erwin', isActive: false, color: 'blue', date: null},
      {id: 24, name: 'Fred', isActive: true, color: 'blue', date: null},
-     {id: 25, name: 'Peter', isActive: false, color: 'blue', date: null},
+     {id: 25, name: 'PeterX', isActive: false, color: 'blue', date: null},
      {id: 26, name: 'Vera', isActive: false, color: 'blue', date: null}
 ];
 
@@ -66,13 +68,48 @@ var hot = new Handsontable(container, {
   contextMenu: true
 });
 
+var search_result = [];
+var search_index = 0;
+
 var search_field = document.getElementById("search_field");
 console.log(search_field);
+
 Handsontable.dom.addEvent(search_field, 'keyup', 
         function (event) {
-            var queryResult = hot.search.query(this.value);
-            console.log(queryResult);
+            if (event.code == "Enter") {
+                search_result = hot.search.query(this.value);
+                search_index = 0
+                if (search_result.length > 0) {
+                    hot.selectCell(search_result[search_index].row,
+                        search_result[search_index].col);
+                }
+            } else {
+                search_result = hot.search.query(this.value);
+                search_index = 0
+                if (search_result.length > 0) {
+                   var first_result = search_result[0];
+                   hot.scrollViewportTo(first_result.row, first_result.col);
+                }
+            }
             hot.render();
         });
+
+var next_button = document.getElementById("next_button");
+var prev_button = document.getElementById("prev_button");
+
+next_button.addEventListener("mousedown", function(event) {
+    console.log("next button pressed");
+    if (search_result.length > 0) {
+        var index = search_index++ % search_result.length;
+        console.log("cell is being selected");
+        hot.selectCell(search_result[index].row, search_result[index].col);
+        hot.scrollViewportTo(search_result[index].row, search_result[index].col);
+        container.focus();
+    }
+    hot.render();
+});
+
+prev_button.addEventListener("mousedown", function(event) {
+    console.log("Prev button pressed")});
 
 </script>
