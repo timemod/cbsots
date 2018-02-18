@@ -72,16 +72,9 @@ var hot = new Handsontable(container, {
       callback: search_call_back
   },
   undo: true,
-  contextMenu: true
+  contextMenu: true,
+  multiSelect: false
 });
-
-/* search_result contains the result of the latest search query.
-   search_index is the index in the search_result array that is used to
-   implement the Search Next and Search Previous behaviour.
-*/
-var search_result = [];
-var search_index = 0;
-var new_search_result = false;
 
 function search_call_back(instance, row, col, value, result) {
    <!-- do not show search results in the column with logical values -->
@@ -90,36 +83,55 @@ function search_call_back(instance, row, col, value, result) {
    }
 };
 
+/* search_result contains the result of the latest search query.
+   search_index is the index in the search_result array that is used to
+   implement the Search Next and Search Previous behaviour.
+*/
+var search_results = [];
+var search_index = 0;
+var new_search_result = false;
+
+var get_search_result = function(nxt) {
+    var index = nxt ? ++search_index %search_results.length : search_index;
+    // skip the column with logicals
+    while (search_results[index].col == BOOLEAN_COL) {
+        index = ++index % search_results.length;
+    }
+    search_index = index;
+    return search_results[index];
+}
+
+var get_prev_search_result = function() {
+    var n = search_results.length;
+    var index = (n + search_index -1) % n;
+    // skip the column with logicals
+    while (search_results[index].col == BOOLEAN_COL) {
+        var index = (n + index -1) % n;
+    }
+    search_index = index;
+    return search_results[index];
+}
+
 Handsontable.dom.addEvent(search_field, 'keyup', 
         function (event) {
-            if (event.code == "Enter" && search_result.length > 0) {
-               
+            if (event.code == "Enter" && search_results.length > 0) {
+                var cell;
                 if (!new_search_result) {
-                    var index = ++search_index %search_result.length;
-                    // skip the column with logicals
-                    while (search_result[index].col == BOOLEAN_COL) {
-                        index = ++index % search_result.length;
-                    }
-                    search_index = index;
+                    cell = get_search_result(true);
+                } else {
+                    cell = search_results[search_index];
                 }
-                var cell = search_result[search_index];
                 hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, 
                                false);
                 search_field.focus();
-
                 new_search_result = false;
 
             } else {
-                search_result = hot.search.query(this.value);
-                if (search_result.length > 0) {
+                search_results = hot.search.query(this.value);
+                if (search_results.length > 0) {
                     new_search_result = true;
-                    var index = 0;
-                    <!-- skip the column with logicals -->
-                    while (search_result[index].col == BOOLEAN_COL) {
-                        index = ++index % search_result.length;
-                    }
-                    search_index = index;
-                    var cell = search_result[search_index];
+                    search_index = 0;
+                    var cell = get_search_result(false);
                     hot.scrollViewportTo(cell.row, cell.col);
                 } 
                 hot.render();
@@ -130,35 +142,16 @@ var next_button = document.getElementById("next_button");
 var prev_button = document.getElementById("prev_button");
 
 next_button.addEventListener("click", function(event) {
-    if (search_result.length > 0) {
-        if (search_index == -1) {
-            search_index = 0;
-        }
-        var index = ++search_index % search_result.length;
-        // skip the column with logicals
-        while (search_result[index].col == BOOLEAN_COL) {
-            index = ++index % search_result.length;
-        }
-        cell = search_result[index];
-        search_index = index;
+    if (search_results.length > 0) {
+        cell = get_search_result(true);
         hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, false);
         new_search_result = false;
     }
 });
 
 prev_button.addEventListener("click", function(event) {
-    if (search_result.length > 0) {
-        if (search_index == -1) {
-            search_index = 0;
-        }
-        var n = search_result.length;
-        var index = (n + search_index -1) % n;
-        // skip the column with logicals
-        while (search_result[index].col == BOOLEAN_COL) {
-            var index = (n + index -1) % n;
-        }
-        cell = search_result[index];
-        search_index = index;
+    if (search_results.length > 0) {
+        cell = get_prev_search_result();
         hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, false);
         new_search_result = false;
     }
