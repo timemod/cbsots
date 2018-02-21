@@ -70,9 +70,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       actionButton("delete_table", "Delete table"),
       p(),
       h3("Order the tabel"),
-      "Select an order type below to order the tabel",
-      selectInput("order_table", label = "",
-                  choices = c(CBS_ORDER, SELECTED_FIRST_ORDER)),
+      "Select an order type below",
+      "Press reorder to reorder after chaning the table",
+      fluidRow(
+        column(9, selectInput("order_table", label = NULL,
+                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER))),
+        column(1, actionButton("reorder", "Reorder"), offset = 1)
+      ),
       p(),
       h3("Save code"), 
       paste("Save the code to file", ts_code_file),
@@ -285,6 +289,32 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       }
      
     })
+    
+    observeEvent(input$reorder, {
+      
+      # TODO: combine code with observeEvent order_table
+      name <- input$selected_tab
+      if (is.null(name)) {
+        # this happens when the app starts
+        return()
+      }
+      
+      if (input$order_table == CBS_ORDER) {
+        type <- "cbs"
+      } else {
+        type <- "selected_first" 
+      }
+      
+      current_type <- get_order_type(table_id, name)
+      if (current_type != type) {
+        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
+        values[[name]] <- order_code_rows(values[[name]], orig_key_order,
+                                          type = type)
+        output[[name]] <- render_table(values[[name]])
+      }
+      
+    })
+    
     
  
       
