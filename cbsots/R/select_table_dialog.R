@@ -12,9 +12,11 @@
 #  label: label
 # table_descriptions: a character vector with table descriptions.
 select_table_dialog <- function(id, label, table_descriptions) {
+  nopts <- length(table_descriptions)
   modalDialog(
-    selectInput(paste0(id, "_desc"), label = label, 
-                choices = table_descriptions, width = "200%"),
+    selectizeInput(paste0(id, "_desc"), label = label, 
+                choices = table_descriptions, width = "200%",
+                options = list(maxOptions = nopts)),
     footer = tagList(
       modalButton("Cancel"),
       actionButton(paste0(id, "_ok"), "OK")
