@@ -70,17 +70,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
-          if (!identical(df_input$Select, df_values$Select)) {
-            # selection has changed
-            if (debug) cat("Selection has changed\n")
-            orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
-            values[[name]] <- order_code_rows(df_input, orig_key_order)
-            # render the table again. Note that this action will erase the
-            # history of changes, so Undo/Redo does not work any more
-            output[[name]] <- render_table(isolate(values[[name]]))
-          } else {
-            values[[name]] <- df_input
-          }
+          values[[name]] <- df_input
           if (debug) {
             cat("new values\n")
             print(head(values[[name]][, 1:3]))

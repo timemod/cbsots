@@ -33,6 +33,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   
   tables <- ts_code$table_code
   
+  CBS_ORDER <- "Original CBS order"
+  SELECTED_FIRST_ORDER <- "Selected first"
+  
   # create a named character vector with table ids. The names are 
   # the table descriptions.
   if (length(tables) > 0) {
@@ -56,6 +59,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       h3("Delete a table"),
       actionButton("delete_table", "Delete table"),
       p(),
+      selectInput("order_table", label = paste("Select an option to",
+                   "reorder the table"), 
+                  choices = c(CBS_ORDER, SELECTED_FIRST_ORDER)),
+      p(),
       h3(paste("Save code to file", ts_code_file)),
       actionButton("save", "Save codes")
     ),
@@ -66,6 +73,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   
   server <- function(input, output, session) {
     
+    
+    
     session$onSessionEnded(shiny::stopApp)
     
     # register reactive values
@@ -73,7 +82,21 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
                              table_desc = NA_character_,
                              table_ids = table_ids,
                              table_desc_stack = character(0))
-
+    #
+    # local functions
+    #
+    get_order_type <- function(table_id, name) {
+      isolate({
+        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
+        if (identical(values[[name]]$Key, orig_key_order)) {
+          type <- CBS_ORDER
+        } else {
+          type <- SELECTED_FIRST_ORDER
+        }
+      })
+      return(type)
+    }
+    
     observeEvent(input$table_desc, {
       
       if (length(values$tables) == 0) {
@@ -90,6 +113,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       }
 
       open_table(input$table_desc, values, input, output, debug)
+      
+      current_order <- get_order_type(table_id, "Topic")
+      updateSelectInput(session, "order_table", selected = current_order)
+      
       
     })  # table_description_event
     
@@ -197,6 +224,43 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       removeModal()
     })
     
+    observeEvent(input$selected_tab, {
+      # if a new tab has been seleced, check if we need to adapt the
+      # order_table input
+      name <- input$selected_tab
+      current_type <- get_order_type(values$table_id, name)
+      selected <- input$order_table
+      if (selected != current_type) {
+        updateSelectInput(session, "order_table", selected = current_type)
+      }
+    })
+    
+    
+    observeEvent(input$order_table, {
+      
+      name <- input$selected_tab
+      if (is.null(name)) {
+        # this happens when the app starts
+        return()
+      }
+      
+      if (input$order_table == CBS_ORDER) {
+        type <- "cbs"
+      } else {
+        type <- "selected_first" 
+      }
+      
+      current_type <- get_order_type(table_id, name)
+      if (current_type != type) {
+        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
+        values[[name]] <- order_code_rows(values[[name]], orig_key_order,
+                                        type = type)
+        output[[name]] <- render_table(values[[name]])
+      }
+     
+    })
+    
+ 
       
     observeEvent(input$save, {
       
