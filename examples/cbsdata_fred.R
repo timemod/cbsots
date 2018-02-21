@@ -25,14 +25,14 @@ table_codes <- readRDS(code_file)
 for (i in seq_len(nrow(overzicht))) {
   with(overzicht[i, ], {
     if (actie) {
-      unlink(file.path(output_dir, paste0(naam_kort, "*")))
+      output_xlsx <- file.path(output_dir, paste0(naam_kort, ".xlsx"))
+      output_rds <- file.path(output_dir, paste0(naam_kort, ".rds"))
+      unlink(c(output_xlsx, output_rds))
       cat(paste0("\nInlezen van de ", naam_lang, "reeksen (CBS-tabel ",
                 id, ") ...\n"))
       reeksen <- get_ts(id, table_codes, download = as.logical(download))
-      output_xlsx <- file.path(output_dir, paste0(naam_kort, ".xlsx"))
       write_table_ts_xlsx(reeksen, file = output_xlsx, 
                           rowwise = as.logical(output_rowwise))
-      output_rds <- file.path(output_dir, paste0(naam_kort, ".rds"))
       saveRDS(reeksen, output_rds)
     }
   })
