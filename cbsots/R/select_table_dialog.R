@@ -13,9 +13,14 @@
 # table_descriptions: a character vector with table descriptions.
 select_table_dialog <- function(id, label, table_descriptions) {
   nopts <- length(table_descriptions)
+  choices = create_table_choices(table_descriptions)
   modalDialog(
-    selectizeInput(paste0(id, "_desc"), label = label, 
-                choices = table_descriptions, width = "200%",
+    h3(label),
+    "You can enter a search query in the text field below.",
+    "When necessary, use Backspace to erase the text field.",
+    p(),
+    selectizeInput(paste0(id, "_desc"), label = "",
+                choices = choices, width = "200%",
                 options = list(maxOptions = nopts)),
     footer = tagList(
       modalButton("Cancel"),

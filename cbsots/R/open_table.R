@@ -102,7 +102,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
                              items = values$tables[[new_table_id]]$order),
                   list(p()),
                   textInput(inputId = "searchField",  
-                            label = "Search in tabel (enter a text followed by ENTER)"),
+                            label = "Enter a search key"),
                   p(), h3("Codes"),
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
       

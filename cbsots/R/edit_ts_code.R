@@ -50,8 +50,18 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(
-      selectInput("table_desc", label = "Open a table for editing",
-                 choices = names(table_ids)),
+      # the following tag is a workaround for a problem with the actionButton:
+      # the button is still highlighted when clicked
+      tags$script(HTML("
+        $(document).ready(function() {
+          $('.btn').on('click', function(){$(this).blur()});
+        })
+        ")),
+      h3("Create a new table"),
+      "You can enter a search query in the text field below.",
+      "When necessary, use Backspace to erase the text field.",
+      selectInput("table_desc", label = "", 
+                 choices = create_table_choices(names(table_ids))),
       p(),
       h3("Create a new table"),
       actionButton("new_table", "New table"),
@@ -59,11 +69,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       h3("Delete a table"),
       actionButton("delete_table", "Delete table"),
       p(),
-      selectInput("order_table", label = paste("Select an option to",
-                   "reorder the table"), 
+      h3("Order the tabel"),
+      "Select an order type below to order the tabel",
+      selectInput("order_table", label = "",
                   choices = c(CBS_ORDER, SELECTED_FIRST_ORDER)),
       p(),
-      h3(paste("Save code to file", ts_code_file)),
+      h3("Save code"), 
+      paste("Save the code to file", ts_code_file),
+      br(),
       actionButton("save", "Save codes")
     ),
     mainPanel(
@@ -72,7 +85,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   )
   
   server <- function(input, output, session) {
-    
     
     
     session$onSessionEnded(shiny::stopApp)
@@ -98,6 +110,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     }
     
     observeEvent(input$table_desc, {
+      
+      if (input$table_desc == "") {
+        return()
+      }
       
       if (length(values$tables) == 0) {
         output$tabel <- renderUI({return(NULL)})
@@ -133,6 +149,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     observeEvent(input$new_table_ok, {
       
       new_table_desc <- input$new_table_desc
+      if (new_table_desc == "") {
+        return()
+      }
       new_table_id <- get_table_id(new_table_desc, values$new_table_ids)
       if (is.na(new_table_id)) {
         return(invisible(NULL))
@@ -162,7 +181,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       values$table_ids <- values$table_ids[ord]
       
       updateSelectInput(session, inputId = "table_desc",
-                        choices = names(values$table_ids), 
+                        choices = create_table_choices(names(values$table_ids)), 
                         selected = new_table_desc)
       
       removeModal()
@@ -184,6 +203,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     observeEvent(input$delete_table_ok, {
       
       delete_table_desc <- input$delete_table_desc
+      if (delete_table_desc == "") {
+        return()
+      }
       delete_table_id <- get_table_id(delete_table_desc, values$table_ids)
       if (is.na(delete_table_id)) {
         return(invisible(NULL))
@@ -210,16 +232,20 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # update table_ids
       idx <- pmatch(values$delete_table_id, values$table_ids)
       values$table_ids <- values$table_ids[-idx]
+
       
-      if (values$delete_table_id == values$table_id) {
-        new_table_desc <- names(values$table_ids)[1]
+      choices <- create_table_choices(names(values$table_ids))                 
+      
+      if (is.na(values$table_id) || values$delete_table_id == values$table_id) {
+        updateSelectInput(session, inputId = "table_desc", choices = choices)
+        output$tabel <- renderUI({return(NULL)})
+        values$table_id <- NA_character_
+        values$table_desc <- NA_character_
       } else {
-        new_table_desc <- values$table_desc
+        updateSelectInput(session, inputId = "table_desc", choices = choices,
+                            selected = values$table_desc)
       }
-      
-      updateSelectInput(session, inputId = "table_desc",
-                        choices = names(values$table_ids), 
-                        selected = new_table_desc)
+
       
       removeModal()
     })

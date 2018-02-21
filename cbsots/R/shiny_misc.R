@@ -136,5 +136,6 @@ render_table <- function(data) {
   })
 }
 
-
-
+create_table_choices <- function(names) {
+  return(c("Select a table ..." = "", names))
+}
