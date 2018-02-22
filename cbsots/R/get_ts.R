@@ -64,6 +64,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   table_code <- ts_code$table_code[[id]]
   
   meta_data  <- get_meta(id, cache = TRUE)
+
   cbs_code <- get_cbs_code(meta_data)
   
   convert_code <- function(groep) {
@@ -286,8 +287,10 @@ clean_meta_data <- function(meta_data, code, cbs_code, dimensions) {
     return(meta_data[[name]][sel,  , drop = FALSE])
   }
   dimension_meta <- sapply(dimensions, FUN = convert_meta, simplify = FALSE)
-  meta_data <- modifyList(meta_data, dimension_meta)
-  
+  for (name in names(dimension_meta)) {
+    meta_data[[name]] <- dimension_meta[[name]]
+  }
+
   # now convert DataProperies. First remove all Topics that are not used.
   dp <- as.data.table(meta_data$DataProperties)
   
