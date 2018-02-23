@@ -64,8 +64,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
       if (!is.null(input[[name]])) {
         df_values <- values[[name]]
         df_input <- convert_codetable(input[[name]], colnames(df_values))
-        df_input[] <- matrix(input[[name]], ncol = 4, byrow = TRUE)
-
         if (!is.null(df_values) && !is.null(df_input) &&
             # only respond to changes in Select or Code
             identical(df_input$Key, df_values$Key) &&
@@ -75,7 +73,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
-          #values[[name]] <- df_input
+          values[[name]] <- df_input
           if (debug) {
             cat("new values\n")
             print(head(values[[name]][, 1:3]))

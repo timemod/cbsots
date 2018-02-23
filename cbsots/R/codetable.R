@@ -2,11 +2,16 @@
 #' @export
 codetable <- function(data, width = NULL, height = NULL) {
   
-  # forward options using x
-  x <- list(
-    data = jsonlite::toJSON(data, na = "null", rownames = FALSE,
+  cat("codetable aangeroepen\n")
+  
+  # fix NA values in data$code, sometimes a value became NA, for unknown reasons
+  data$Code[is.na(data$Code)] <- ""
+  
+   x <- list(
+    data = jsonlite::toJSON(data, na = "string", rownames = FALSE,
                             digits = digits)
   )
+  
 
   # create widget
   htmlwidgets::createWidget(
