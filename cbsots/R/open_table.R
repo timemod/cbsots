@@ -45,22 +45,27 @@ open_table <- function(new_table_description, values, input, output, debug) {
       if (!is.null(isolate(values[[name]]))) {
         render_table(isolate(values[[name]]))
       } else {
-        rhandsontable(as.data.frame("dummy"))
+        codetable(as.data.frame("dummy"))
       }
     return(invisible(NULL))
   }
   
   lapply(values$names, FUN = make_table)
   
+  
+
   # 
   # observers for the tables
   #
   make_observer <- function(name) {
+    
     observeEvent(input[[name]], {
       if (debug) cat(paste("table", name , "changed\n"))
       if (!is.null(input[[name]])) {
-        df_input  <- hot_to_r(input[[name]])
         df_values <- values[[name]]
+        df_input <- convert_codetable(input[[name]], colnames(df_values))
+        df_input[] <- matrix(input[[name]], ncol = 4, byrow = TRUE)
+
         if (!is.null(df_values) && !is.null(df_input) &&
             # only respond to changes in Select or Code
             identical(df_input$Key, df_values$Key) &&
@@ -70,7 +75,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
-          values[[name]] <- df_input
+          #values[[name]] <- df_input
           if (debug) {
             cat("new values\n")
             print(head(values[[name]][, 1:3]))
@@ -87,7 +92,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
   #
   
   make_panel <- function(name) {
-    return(tabPanel(name, rHandsontableOutput(name)))
+    return(tabPanel(name, codetableOutput(name)))
   }
   
   output$tabel <- renderUI({
@@ -101,8 +106,10 @@ open_table <- function(new_table_description, values, input, output, debug) {
                              label = "Order for name generation", 
                              items = values$tables[[new_table_id]]$order),
                   list(p()),
-                  textInput(inputId = "searchField",  
+                  textInput(inputId = "search_field",  
                             label = "Enter a search key"),
+                  actionButton("next_button", "Next"),
+                  actionButton("prev_button", "Previous"),
                   p(), h3("Codes"),
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
       

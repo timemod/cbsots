@@ -8,7 +8,6 @@
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
 #'  (only for developpers)
 #' @import shiny
-#' @import rhandsontable
 #' @import shinyjqui
 #' @importFrom utils packageVersion
 #' @export

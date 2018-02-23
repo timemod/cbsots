@@ -123,19 +123,20 @@ get_new_table_ids <- function(old_table_ids) {
 }
 
 render_table <- function(data) {
-  # NOTES:
-  # 1. It is neccesarry to set the height of the table, otherwise
-  #    the vertical scroll bar does not appear.
-  renderRHandsontable({
-    rhandsontable(data, readOnly = TRUE, height = 500, 
-                  overflow = "hidden", search = TRUE, 
-                 renderAllRows = FALSE) %>%
-      hot_cols(fixedColumnsLeft = 3) %>%
-      hot_col(col = c("Select", "Code"), readOnly = FALSE) %>%
-      hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+  renderCodetable({
+    codetable(data)
   })
 }
 
 create_table_choices <- function(names) {
   return(c("Select a table ..." = "", names))
 }
+
+convert_codetable <- function(table, colnames) {
+  data <- matrix(table, ncol = 4, byrow = TRUE)
+  colnames(data) <- colnames
+  data <- as.data.frame(data)
+  data$Select <- as.logical(data$Select)
+  return(data)
+}
+

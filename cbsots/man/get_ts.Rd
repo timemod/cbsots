@@ -4,7 +4,8 @@
 \alias{get_ts}
 \title{Return CBS timeseries}
 \usage{
-get_ts(id, ts_code, download, raw_cbs_dir = "raw_cbs_data")
+get_ts(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
+  include_meta = FALSE)
 }
 \arguments{
 \item{id}{table id}
@@ -17,6 +18,8 @@ with a Shiny app that you start with function
 is read from the previously downloaded data in directory \code{raw_cbs_dir}}
 
 \item{raw_cbs_dir}{directory where the raw downloaded data are stored}
+
+\item{include_meta}{include meta data}
 }
 \description{
 Return CBS timeseries
