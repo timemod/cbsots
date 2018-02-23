@@ -78,8 +78,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       "Press reorder to reorder after chaning the table",
       p(),
       fluidRow(
-        column(9, selectInput("order_table", label = NULL,
-                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER))),
+        column(5, selectInput("order_table", label = NULL,
+                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "70%")),
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),

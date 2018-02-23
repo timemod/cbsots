@@ -114,7 +114,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
                                 id = "prev_button"),
                     tags$button(HTML("&#8250;"), class = "next round", 
                                 id = "next_button")
-                   
                   ),
                   p(),
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
