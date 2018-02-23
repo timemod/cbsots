@@ -100,17 +100,23 @@ open_table <- function(new_table_description, values, input, output, debug) {
       table_items <- values$names
       myTabs <- lapply(table_items, make_panel)
       
-      ret <- list(h2(paste("Tabel", new_table_description)), br(),
-                  list(p()), 
-                  orderInput(inputId = "order_input", 
-                             label = "Order for name generation", 
+      ret <- list(h3(paste("Tabel", new_table_description)), br(),
+                  p(), 
+                  h5("Order used to create names"),
+                  orderInput(inputId = "order_input", label = NULL, 
                              items = values$tables[[new_table_id]]$order),
-                  list(p()),
-                  textInput(inputId = "search_field",  
-                            label = "Enter a search key"),
-                  actionButton("next_button", "Next"),
-                  actionButton("prev_button", "Previous"),
-                  p(), h3("Codes"),
+                  p(),p(),
+                  tags$div(
+                    HTML("&#128270;"),
+                    tags$input(type = "text", id = "search_field",
+                               placeholder = "Search ..."),
+                    tags$button(HTML("&#8249;"), class = "previous round", 
+                                id = "prev_button"),
+                    tags$button(HTML("&#8250;"), class = "next round", 
+                                id = "next_button")
+                   
+                  ),
+                  p(),
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
       
       return(ret)

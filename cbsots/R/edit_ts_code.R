@@ -45,7 +45,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     table_ids <- character(0)
   }
 
-  ui <- pageWithSidebar(
+  ui <- fluidPage(
+    
+    
+    includeCSS(system.file("css", "cbsots.css", package = packageName())),
     
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(

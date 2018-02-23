@@ -10,9 +10,6 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
     
-        console.log("in codetable")
-        console.log(x.data)
-
         var BOOLEAN_COL = 1;
  
 	    var hot = new Handsontable(el, {
@@ -109,17 +106,10 @@ HTMLWidgets.widget({
                         search_result[index].col != BOOLEAN_COL;
              }
          
-             console.log("get_search_result");
-             console.log(found_cell_indices);
-             console.log(start_index);
-         
              index = found_cell_indices.findIndex(fun);
-             console.log("index=")
-             console.log(index);
              if (index == -1) {
                  index = 0;
              } 
-             console.log(index);
              return search_result[index];
          }
          
