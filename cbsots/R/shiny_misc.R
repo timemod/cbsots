@@ -129,7 +129,7 @@ create_table_choices <- function(names) {
 convert_codetable <- function(table, colnames) {
   data <- matrix(table, ncol = 4, byrow = TRUE)
   colnames(data) <- colnames
-  data <- as.data.frame(data)
+  data <- as.data.table(data)
   data$Select <- as.logical(data$Select)
   return(data)
 }

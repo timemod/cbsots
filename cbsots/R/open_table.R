@@ -69,10 +69,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
             print(head(df_input[, 1:3]))
           }
           values[[name]] <- df_input
-          if (debug) {
-            cat("new values\n")
-            print(head(values[[name]][, 1:3]))
-          }
         }
       }
     })
