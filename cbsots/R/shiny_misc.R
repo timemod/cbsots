@@ -122,12 +122,6 @@ get_new_table_ids <- function(old_table_ids) {
   return(new_table_ids)
 }
 
-render_table <- function(data) {
-  renderCodetable({
-    codetable(data)
-  })
-}
-
 create_table_choices <- function(names) {
   return(c("Select a table ..." = "", names))
 }

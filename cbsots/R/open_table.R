@@ -41,18 +41,13 @@ open_table <- function(new_table_description, values, input, output, debug) {
   #
   
   make_table <- function(name) {
-    output[[name]] <- 
-      if (!is.null(isolate(values[[name]]))) {
-        render_table(isolate(values[[name]]))
-      } else {
-        codetable(as.data.frame("dummy"))
-      }
-    return(invisible(NULL))
+    output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
+    return()
   }
   
   lapply(values$names, FUN = make_table)
   
-  
+
 
   # 
   # observers for the tables

@@ -79,7 +79,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       p(),
       fluidRow(
         column(5, selectInput("order_table", label = NULL,
-                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "70%")),
+                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "100%")),
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),
@@ -290,9 +290,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
                                         type = type)
-        output[[name]] <- render_table(values[[name]])
+        output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
       }
-     
     })
     
     observeEvent(input$reorder, {
@@ -315,7 +314,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
                                           type = type)
-        output[[name]] <- render_table(values[[name]])
+        output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
       }
       
     })

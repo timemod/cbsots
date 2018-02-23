@@ -1,13 +1,16 @@
 #' @import htmlwidgets
-#' @export
 codetable <- function(data, width = NULL, height = NULL) {
+
+  if (is.null(data))  {
+    data <- as.data.frame("Internal error: no data available")
+  } else {
+    # remove NA values in data$Code, sometimes there is an NA value in this 
+    # column. It is not clear what caused that problem, but is may result
+    # is serious problems
+    data$Code[is.na(data$Code)] <- ""
+  }
   
-  cat("codetable aangeroepen\n")
-  
-  # fix NA values in data$code, sometimes a value became NA, for unknown reasons
-  data$Code[is.na(data$Code)] <- ""
-  
-   x <- list(
+  x <- list(
     data = jsonlite::toJSON(data, na = "string", rownames = FALSE,
                             digits = digits)
   )
@@ -33,13 +36,11 @@ codetable <- function(data, width = NULL, height = NULL) {
 # @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #   is useful if you want to save an expression in a variable.
 #
-#' @export
 codetableOutput <- function(outputId, width = '100%', height = '400px'){
   htmlwidgets::shinyWidgetOutput(outputId, 'codetable', width, height, 
                                  package = 'cbsots')
 }
 
-#' @export
 renderCodetable <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
   htmlwidgets::shinyRenderWidget(expr, codetableOutput, env, quoted = TRUE)
