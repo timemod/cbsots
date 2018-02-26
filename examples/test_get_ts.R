@@ -4,8 +4,8 @@ source("functions/check_ts_table.R")
 
 id <- "83693NED"
 id <- "82522NED"
-id <- "00372"
-id <- "00374hvv"
+#d <- "00372"
+#id <- "00372"
 
 ts_code_file <- "tscode/tscode_testje.rds"
 ts_code <- readRDS(ts_code_file)

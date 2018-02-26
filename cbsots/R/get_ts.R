@@ -63,7 +63,13 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   
   table_code <- ts_code$table_code[[id]]
   
-  meta_data  <- get_meta(id, cache = TRUE)
+  data_dir <- file.path(raw_cbs_dir, id)
+  
+  if (download) {
+    meta_data <- get_meta(id, cache = TRUE)
+  } else {
+    meta_data <- read_meta_data(data_dir)
+  }
 
   cbs_code <- get_cbs_code(meta_data)
   
@@ -146,7 +152,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
     
   } else {
     # inlezen van eerder gedownloade file
-    data_file <- file.path(raw_cbs_dir, id, "data.csv")
+    data_file <- file.path(data_dir, "data.csv")
     if (!file.exists(data_file)) {
       stop(paste("Download eerst tabel", id))
     }
