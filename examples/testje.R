@@ -3,9 +3,9 @@ library(cbsots)
 ts_code_file_basis <- "tscode/tscode_fred.rds"
 ts_code_file <- "tscode/tscode_testje.rds"
 
+
 tscodes <- readRDS(ts_code_file_basis)
 
-tscodes$table_code <- tscodes$table_code
 
 saveRDS(tscodes, ts_code_file)
 

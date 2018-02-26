@@ -8,7 +8,6 @@
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
 #'  (only for developpers)
 #' @import shiny
-#' @import rhandsontable
 #' @import shinyjqui
 #' @importFrom utils packageVersion
 #' @export
@@ -46,7 +45,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     table_ids <- character(0)
   }
 
-  ui <- pageWithSidebar(
+  ui <- fluidPage(
+    
+    
+    includeCSS(system.file("css", "cbsots.css", package = packageName())),
     
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(
@@ -76,8 +78,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       "Press reorder to reorder after chaning the table",
       p(),
       fluidRow(
-        column(9, selectInput("order_table", label = NULL,
-                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER))),
+        column(5, selectInput("order_table", label = NULL,
+                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "100%")),
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),
@@ -288,9 +290,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
                                         type = type)
-        output[[name]] <- render_table(values[[name]])
+        output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
       }
-     
     })
     
     observeEvent(input$reorder, {
@@ -313,7 +314,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
                                           type = type)
-        output[[name]] <- render_table(values[[name]])
+        output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
       }
       
     })

@@ -41,26 +41,24 @@ open_table <- function(new_table_description, values, input, output, debug) {
   #
   
   make_table <- function(name) {
-    output[[name]] <- 
-      if (!is.null(isolate(values[[name]]))) {
-        render_table(isolate(values[[name]]))
-      } else {
-        rhandsontable(as.data.frame("dummy"))
-      }
-    return(invisible(NULL))
+    output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
+    return()
   }
   
   lapply(values$names, FUN = make_table)
   
+
+
   # 
   # observers for the tables
   #
   make_observer <- function(name) {
+    
     observeEvent(input[[name]], {
       if (debug) cat(paste("table", name , "changed\n"))
       if (!is.null(input[[name]])) {
-        df_input  <- hot_to_r(input[[name]])
         df_values <- values[[name]]
+        df_input <- convert_codetable(input[[name]], colnames(df_values))
         if (!is.null(df_values) && !is.null(df_input) &&
             # only respond to changes in Select or Code
             identical(df_input$Key, df_values$Key) &&
@@ -71,10 +69,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
             print(head(df_input[, 1:3]))
           }
           values[[name]] <- df_input
-          if (debug) {
-            cat("new values\n")
-            print(head(values[[name]][, 1:3]))
-          }
         }
       }
     })
@@ -87,7 +81,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
   #
   
   make_panel <- function(name) {
-    return(tabPanel(name, rHandsontableOutput(name)))
+    return(tabPanel(name, codetableOutput(name)))
   }
   
   output$tabel <- renderUI({
@@ -95,15 +89,22 @@ open_table <- function(new_table_description, values, input, output, debug) {
       table_items <- values$names
       myTabs <- lapply(table_items, make_panel)
       
-      ret <- list(h2(paste("Tabel", new_table_description)), br(),
-                  list(p()), 
-                  orderInput(inputId = "order_input", 
-                             label = "Order for name generation", 
+      ret <- list(h3(paste("Tabel", new_table_description)), br(),
+                  p(), 
+                  h5("Order used to create names"),
+                  orderInput(inputId = "order_input", label = NULL, 
                              items = values$tables[[new_table_id]]$order),
-                  list(p()),
-                  textInput(inputId = "searchField",  
-                            label = "Enter a search key"),
-                  p(), h3("Codes"),
+                  p(),p(),
+                  tags$div(
+                    HTML("&#128270;"),
+                    tags$input(type = "text", id = "search_field",
+                               placeholder = "Search ..."),
+                    tags$button(HTML("&#8249;"), class = "previous round", 
+                                id = "prev_button"),
+                    tags$button(HTML("&#8250;"), class = "next round", 
+                                id = "next_button")
+                  ),
+                  p(),
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
       
       return(ret)

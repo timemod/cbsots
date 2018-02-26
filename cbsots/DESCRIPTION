@@ -20,7 +20,6 @@ Imports:
     readxl,
     xlsx,
     shiny,
-    rhandsontable (>= 0.3.6),
     shinyjqui (>= 0.2.9001)
 Suggests:
     testthat,
