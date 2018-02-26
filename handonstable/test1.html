@@ -1,9 +1,9 @@
 <!doctype html>
 
-<script src="/home/rob/R/site-library/rhandsontable/htmlwidgets/lib/handsontable/handsontable.full.min.js"></script>
+<script src="handsontable.full.min.js"></script>
 
 <link rel="stylesheet" media="screen"
-                       href="/home/rob/R/site-library/rhandsontable/htmlwidgets/lib/handsontable/handsontable.full.min.css">
+                       href="handsontable.full.min.css">
 
 <p>
 
@@ -27,7 +27,6 @@ var data = [
      {name: 'Jan', isActive: true, info: 'red'},
      {name: 'Alex', isActive: false, info: 'blue'},
      {name: 'Rene vdT', isActive: true, info: 'blue'},
-     {name: 'Erwin', isActive: true, info: 'blue Z'},
      {name: 'Klaas', isActive: false, info: 'blue'},
      {name: 'Piet', isActive: false, info: 'blue'},
      {name: 'Berend', isActive: false, info: 'blue'},
@@ -109,7 +108,7 @@ var get_selected_index = function() {
     if (typeof sel == "undefined") {
         return -1;
     } else {
-        return get_cell_index(sel[0], sel[1]);
+        return get_cell_index(sel[0][0], sel[0][1]);
     }
 }
 
