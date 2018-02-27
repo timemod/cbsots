@@ -22,7 +22,8 @@ Imports:
     shiny,
     shinyjqui (>= 0.2.9001),
     htmlwidgets,
-    jsonlite
+    jsonlite,
+    shinyalert
 Suggests:
     testthat,
     knitr,

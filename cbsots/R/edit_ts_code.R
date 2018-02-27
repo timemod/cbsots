@@ -11,6 +11,8 @@
 #' @import shinyjqui
 #' @importFrom utils packageVersion
 #' @importFrom utils packageName
+#' @importFrom shinyalert shinyalert
+#' @importFrom shinyalert useShinyalert
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, 
                          debug = FALSE) {
@@ -48,8 +50,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
 
   ui <- fluidPage(
     
-    
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
+    
+    useShinyalert(),  # Set up shinyalert
     
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(
@@ -96,7 +99,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   
   server <- function(input, output, session) {
     
-    
+  
     session$onSessionEnded(shiny::stopApp)
     
     # register reactive values
@@ -150,10 +153,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     observeEvent(input$new_table, {
       
       values$new_table_ids <- get_new_table_ids(values$table_ids)
-
-      showModal(select_table_dialog("new_table", "New Table", 
+      
+      if (is.null(values$new_table_ids)) {
+        shinyalert("Error", "Error downloading list of tables" , type = "error")
+      } else {
+        showModal(select_table_dialog("new_table", "New Table", 
                                     names(values$new_table_ids)))
-     
+      } 
     })
     
     observeEvent(input$new_table_ok, {
@@ -181,20 +187,27 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         return(invisible(NULL))
       }
       
-      # add new tables
-      values$tables[[new_table_id]] <- create_new_table(new_table_id)
-      values$table_ids[new_table_desc] <- new_table_id
+      # add new table
+      tryCatch({
+        
+        values$tables[[new_table_id]] <- create_new_table(new_table_id)
+        values$table_ids[new_table_desc] <- new_table_id
       
-      # reorder the tables alphabetically
-      ord <- order(values$table_ids)
-      values$tables <- values$tables[ord]
-      values$table_ids <- values$table_ids[ord]
+        # reorder the tables alphabetically
+        ord <- order(values$table_ids)
+        values$tables <- values$tables[ord]
+        values$table_ids <- values$table_ids[ord]
       
-      updateSelectInput(session, inputId = "table_desc",
-                        choices = create_table_choices(names(values$table_ids)), 
-                        selected = new_table_desc)
+        updateSelectInput(session, inputId = "table_desc",
+                          choices = create_table_choices(names(values$table_ids)), 
+                          selected = new_table_desc)
       
-      removeModal()
+        removeModal()
+      }, error = function(e) {
+        shinyalert("Error", paste("Error while downloading table", 
+                   new_table_id) , 
+                   type = "error")
+      })
     })
     
   

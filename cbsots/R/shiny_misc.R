@@ -109,18 +109,27 @@ check_duplicates <- function(session, values) {
 #' @importFrom cbsodataR get_table_list
 get_new_table_ids <- function(old_table_ids) {
 
-  table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
-                               Language = "nl")
+  tryCatch({
+    
+      table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
+                                   Language = "nl")
+      new_tables <- setdiff(table_info$Identifier, old_table_ids)
+      table_info <- table_info[table_info$Identifier %in% new_tables, ]
+      table_info <- table_info[order(table_info$Identifier), ]
+      new_table_descriptions <- get_table_description(table_info$Identifier, 
+                                                    table_info$ShortTitle)
+    
+      new_table_ids <- table_info$Identifier
+      names(new_table_ids) <- new_table_descriptions
+      return(new_table_ids)
+    },
+    error = function(e) {
+      warning("Error when downloading table list")
+    }
+  )
 
-  new_tables <- setdiff(table_info$Identifier, old_table_ids)
-  table_info <- table_info[table_info$Identifier %in% new_tables, ]
-  table_info <- table_info[order(table_info$Identifier), ]
-  new_table_descriptions <- get_table_description(table_info$Identifier, 
-                                                  table_info$ShortTitle)
-  
-  new_table_ids <- table_info$Identifier
-  names(new_table_ids) <- new_table_descriptions
-  return(new_table_ids)
+  # error
+  return(NULL)
 }
 
 create_table_choices <- function(names) {
