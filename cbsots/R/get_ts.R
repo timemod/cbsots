@@ -13,6 +13,8 @@
 #' @param download This argument is deprecated and has been replaced by argument
 #' \code{refresh}.
 #' @param include_meta include meta data
+#' @param min_year  the minimum year of the returned timeseries. Data 
+#' for years before \code{min_year} are disregarded.
 #' @return a list with class \code{table_ts}, with the following components
 #'  \item{Y}{Yearly timeseries (if present)}
 #'  \item{Q}{Quarterly timeseries (if present)}
@@ -29,7 +31,7 @@
 #' @importFrom utils modifyList
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE, download) {
+                   include_meta = FALSE, min_year, download) {
 
   if (!missing(download)) {
     warning(paste("Argument download is deprecated and has been replaced by",
@@ -47,7 +49,6 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     stop("Argument ts_code is not a ts_code object")
   }
   
-
   table_ids <- names(ts_code$table_code)
   table_ids_lower <- tolower(table_ids)
   id_lower <- tolower(id)
@@ -78,7 +79,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
-  `.` <- NULL; Select <- NULL; Code <- NULL; ID <- NULL
+  `.` <- NULL; Select <- NULL; Code <- NULL; ID <- NULL; Perioden <- NULL
   
   convert_code <- function(groep) {
   
@@ -141,6 +142,13 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
    
     filters <- sapply(dimensions, FUN = maak_filter, simplify = FALSE)
     
+    if (!missing(min_year)) {
+      period_keys <- meta_data$Perioden$Key
+      years <- period_key2year(period_keys)
+      period_filter <- period_keys[years >= min_year]
+      filters <- c(list(Perioden = period_filter), filters)
+    }
+    
     if (length(filters) > 0) {
       filters <- filters[sapply(filters, FUN = function(x) {!is.null(x)})]   
       cat("Filters gebruikt bij het downloaden:\n")
@@ -161,14 +169,17 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     cat("Done\n")
     
   } else {
+    
     # inlezen van eerder gedownloade file
     data_file <- file.path(data_dir, "data.csv")
-    if (!file.exists(data_file)) {
-      stop(paste("Download eerst tabel", id))
-    }
+   
     cat(paste("Reading table", id, "from", data_file, "...\n"))
     data <- fread(data_file, drop = "ID", na.strings = na_strings)
     cat("Done\n")
+    
+    if (!missing(min_year)) {
+      data <- data[period_key2year(Perioden) >= min_year]
+    }
   }
 
   # verwijder de topics die niet voorkomen in de tijdreekscodering

@@ -5,7 +5,7 @@
 \title{Return CBS timeseries}
 \usage{
 get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE, download)
+  include_meta = FALSE, min_year, download)
 }
 \arguments{
 \item{id}{table id}
@@ -23,6 +23,9 @@ The default is \code{FALSE}}
 \item{raw_cbs_dir}{directory where the raw downloaded data are stored.}
 
 \item{include_meta}{include meta data}
+
+\item{min_year}{the minimum year of the returned timeseries. Data 
+for years before \code{min_year} are disregarded.}
 
 \item{download}{This argument is deprecated and has been replaced by argument
 \code{refresh}.}

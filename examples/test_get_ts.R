@@ -12,7 +12,8 @@ ts_code <- readRDS(ts_code_file)
 
 print(get_last_modified(id, ts_code))
       
-x <- get_ts(id, ts_code = ts_code, refresh = FALSE, include_meta = TRUE)
+x <- get_ts(id, ts_code = ts_code, refresh = FALSE, include_meta = TRUE,
+            start_year = 2015)
 
 write_table_ts_xlsx(x, file.path("output", paste0("ts_", id, ".xlsx")))
 
