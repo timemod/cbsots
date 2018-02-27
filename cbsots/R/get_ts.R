@@ -74,6 +74,10 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   if (refresh || read_error) {
     meta_data <- get_meta(id, cache = TRUE)
   }
+  
+  if (meta_data$TableInfos$Language != "nl") {
+    stop("Function get_ts can currently only handle dutch tables")
+  }
 
   cbs_code <- get_cbs_code(meta_data)
   

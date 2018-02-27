@@ -109,7 +109,8 @@ check_duplicates <- function(session, values) {
 #' @importFrom cbsodataR get_table_list
 get_new_table_ids <- function(old_table_ids) {
 
-  table_info <- get_table_list(select = c("Identifier", "ShortTitle"))
+  table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
+                               Language = "nl")
 
   new_tables <- setdiff(table_info$Identifier, old_table_ids)
   table_info <- table_info[table_info$Identifier %in% new_tables, ]
