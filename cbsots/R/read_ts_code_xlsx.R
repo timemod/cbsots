@@ -150,6 +150,10 @@ lees_tijdreekscodes <- function(tijdreekscodefile, dimensies) {
     sheetnaam <- substr(groep, 1, 31)
     code <- as.data.table(read_excel(tijdreekscodefile, sheet = sheetnaam, 
                                      col_types = "text"))
+    
+    # prevent notes from R CMD check about no visible binding for global
+    # or no visible global function
+    `.` <- NULL; Key <- NULL; Code <- NULL
 
     code <- code[, .(Key, Code)]
 

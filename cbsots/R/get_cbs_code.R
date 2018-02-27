@@ -4,6 +4,10 @@ get_cbs_code <- function(meta_data) {
   data_properties <- as.data.table(meta_data$DataProperties)
   dimensies_en_topics <- get_dimensies_en_topics(data_properties)
  
+  # prevent notes from R CMD check about no visible binding for global
+  # or no visible global function
+  `.` <- NULL; Key <- NULL; Title <- NULL
+  
   get_code <- function(x) {
     df <- as.data.table(meta_data[[x]])
     df <- df[, .(Key, Title)]
@@ -51,6 +55,10 @@ get_dimensies_en_topics <- function(data_properties) {
     }
   }
     
+  # prevent notes from R CMD check about no visible binding for global
+  # or no visible global function
+  `.` <- NULL; Type <- NULL; Key <- NULL; Title <- NULL
+  
   topics <- data_properties[Type == "Topic", .(Key, Title)]
   
   return(list(dimensies = dimensies, topics = topics))

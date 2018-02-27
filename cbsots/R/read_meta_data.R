@@ -17,8 +17,12 @@ read_meta_data <- function(dir) {
                   FUN = read_meta_csv, simplify = FALSE)
     
       dp <- as.data.table(ret$DataProperties)
+      
+      # prevent notes from R CMD check about no visible binding for global
+      Type <- NULL
+      
       dimensions <- dp[endsWith(Type, "Dimension")]$Key
-    
+      
       dimension_data <- sapply(dimensions, FUN = read_meta_csv, 
                                simplify = FALSE)
     

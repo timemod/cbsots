@@ -76,9 +76,14 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
 
   cbs_code <- get_cbs_code(meta_data)
   
+  # prevent notes from R CMD check about no visible binding for global
+  # or no visible global function
+  `.` <- NULL; Select <- NULL; Code <- NULL; ID <- NULL
+  
   convert_code <- function(groep) {
   
     code <- table_code$codes[[groep]]
+    
     code <- code[Select == TRUE,]
     
     # check for duplicates in Code
@@ -265,6 +270,9 @@ maak_tijdreeksen <- function(data, labels) {
   maak_tijdreeksen_freq <- function(i) {
     # maak tijdreeksen aan voor de frequentie met index i
   
+    # prevent notes from R CMD check about no visible binding for global
+    Perioden <- NULL
+    
     # verzamel data
     freq <- frequenties[i]
     cbs_freq <- cbs_frequenties[i]
