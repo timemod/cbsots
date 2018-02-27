@@ -10,6 +10,7 @@
 #' @import shiny
 #' @import shinyjqui
 #' @importFrom utils packageVersion
+#' @importFrom utils packageName
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, 
                          debug = FALSE) {
@@ -108,7 +109,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     #
     get_order_type <- function(table_id, name) {
       isolate({
-        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
+        orig_key_order <- values$tables[[table_id]]$codes[[name]]$OrigKeyOrder
         if (identical(values[[name]]$Key, orig_key_order)) {
           type <- CBS_ORDER
         } else {
@@ -139,7 +140,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
 
       open_table(input$table_desc, values, input, output, debug)
       
-      current_order <- get_order_type(table_id, "Topic")
+      current_order <- get_order_type(values$table_id, "Topic")
       updateSelectInput(session, "order_table", selected = current_order)
       
       
@@ -171,10 +172,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         cat("\n*** Internal error in get_table_id ***\n")
         cat("Table \"", new_table_desc, "\" already present")
         cat("Current list of tables\n")
-        if (length(table_ids) == 0) {
-          print(table_ids)
+        if (length(values$table_ids) == 0) {
+          print(values$table_ids)
         } else {
-          print(as.data.frame(table_ids))
+          print(as.data.frame(values$table_ids))
         }
         cat("\n\n")
         return(invisible(NULL))
@@ -285,7 +286,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         type <- "selected_first" 
       }
       
-      current_type <- get_order_type(table_id, name)
+      current_type <- get_order_type(values$table_id, name)
       if (current_type != type) {
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
@@ -309,7 +310,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         type <- "selected_first" 
       }
       
-      current_type <- get_order_type(table_id, name)
+      current_type <- get_order_type(values$table_id, name)
       if (current_type != type) {
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,

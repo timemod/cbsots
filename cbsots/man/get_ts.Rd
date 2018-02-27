@@ -4,22 +4,37 @@
 \alias{get_ts}
 \title{Return CBS timeseries}
 \usage{
-get_ts(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE)
+get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
+  include_meta = FALSE, download)
 }
 \arguments{
 \item{id}{table id}
 
-\item{ts_code}{a \code{ts_code} object. This object can be created 
-with a Shiny app that you start with function
-\code{\link{edit_ts_code}}}
+\item{ts_code}{a \code{ts_code} object. This object can be created
+and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
+app.}
 
-\item{download}{If \code{TRUE}, data are downloaded, otherwise the data
-is read from the previously downloaded data in directory \code{raw_cbs_dir}}
+\item{refresh}{should the data in directory \code{raw_cbs_dir} be refreshed?
+If \code{TRUE}, the data are always downloaded from the 
+CBS website. Otherwise  the data will only be downloaded if the 
+correspondings files in directory \code{raw_cbs_dir} are missing.
+The default is \code{FALSE}}
 
-\item{raw_cbs_dir}{directory where the raw downloaded data are stored}
+\item{raw_cbs_dir}{directory where the raw downloaded data are stored.}
 
 \item{include_meta}{include meta data}
+
+\item{download}{This argument is deprecated and has been replaced by argument
+\code{refresh}.}
+}
+\value{
+a list with class \code{table_ts}, with the following components
+ \item{Y}{Yearly timeseries (if present)}
+ \item{Q}{Quarterly timeseries (if present)}
+ \item{M}{Monthly timeseries (if present)}
+ \item{ts_names}{A \code{\link[data.table]{data.table}} with an overview 
+ of the timeseries names}
+ \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
 }
 \description{
 Return CBS timeseries

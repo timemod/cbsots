@@ -20,7 +20,9 @@ Imports:
     readxl,
     xlsx,
     shiny,
-    shinyjqui (>= 0.2.9001)
+    shinyjqui (>= 0.2.9001),
+    htmlwidgets,
+    jsonlite
 Suggests:
     testthat,
     knitr,

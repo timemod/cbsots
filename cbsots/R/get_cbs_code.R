@@ -3,15 +3,14 @@ get_cbs_code <- function(meta_data) {
   
   data_properties <- as.data.table(meta_data$DataProperties)
   dimensies_en_topics <- get_dimensies_en_topics(data_properties)
-  list2env(dimensies_en_topics, env = environment())
-  
+ 
   get_code <- function(x) {
     df <- as.data.table(meta_data[[x]])
     df <- df[, .(Key, Title)]
     return(df)
   }
-  code <- sapply(dimensies, FUN = get_code, simplify = FALSE)
-  code$Topic <- topics
+  code <- sapply(dimensies_en_topics$dimensies, FUN = get_code, simplify = FALSE)
+  code$Topic <- dimensies_en_topics$topics
   return(code)
 }
 

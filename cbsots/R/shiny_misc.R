@@ -4,7 +4,7 @@
 
 read_ts_code <- function(filename) {
   
-  ts_code <- readRDS(ts_code_file)
+  ts_code <- readRDS(filename)
 
   if (ts_code$package_version == "0.1") {
     stop("old package") 

@@ -11,8 +11,7 @@ codetable <- function(data, width = NULL, height = NULL) {
   }
   
   x <- list(
-    data = jsonlite::toJSON(data, na = "string", rownames = FALSE,
-                            digits = digits)
+    data = jsonlite::toJSON(data, na = "string", rownames = FALSE)
   )
   
 

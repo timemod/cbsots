@@ -1,38 +1,26 @@
-# Functie cbs_table2ts downloadt CBS-tabellen, leest deze in en 
-# converteert deze naar tijdreeksen volgens een bepaalde codering.
-#
-#
-# INPUT
-#   id              CBS open data table (inclusief extensie zoals NED).
-#   naam_kort       Korte omschrijving van de tabel, deze bepaalt de 
-#                   naam van de tijdreekscodefile en de outputfiles.
-#   download        Een logical die aangeeft of de CBS-data opnieuw gedownload
-#                   moet worden. Als deze FALSE is, dan worden
-#                   de gegevens ingelezen die eerder gedownload zijn 
-#                   en opgeslagen zijn in de map "ruwe_cbs_data".               
-#   tijdreekscode_dir Naam van de map waarin de tijdreekscodebestanden staan
-#                   (standaard is dit "tijdreekscodes").
-#   raw_cbs_dir    Naam van de map waarin de gedownloade CBS-tabellen worden
-#                   geschreven (standaard is dit "ruwe_cbs_data").
-#
-# RETURN:  een lijst met de volgende elementen:
-#     ts_names   Een data.table met ts namen en de bijbehorende 
-#                 CBS-onderwerpen en dimensies (handig voor controle).
-#     M           Maandreeksen (indien aanwezig)
-#     Q           Kwartaalreeksen (indien aanwezig)
-#     Y           Jaarreeksen (indien aanwezig)
-#
-
 #' Return CBS timeseries
 #' 
 #' @param id table id
-#' @param ts_code a \code{ts_code} object. This object can be created 
-#' with a Shiny app that you start with function
-#' \code{\link{edit_ts_code}}
-#' @param download If \code{TRUE}, data are downloaded, otherwise the data
-#' is read from the previously downloaded data in directory \code{raw_cbs_dir}
+#' @param ts_code a \code{ts_code} object. This object can be created
+#' and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
+#' app.
+#' @param raw_cbs_dir directory where the raw downloaded data are stored.
+#' @param refresh should the data in directory \code{raw_cbs_dir} be refreshed?
+#' If \code{TRUE}, the data are always downloaded from the 
+#' CBS website. Otherwise  the data will only be downloaded if the 
+#' correspondings files in directory \code{raw_cbs_dir} are missing.
+#' The default is \code{FALSE}
+#' @param download This argument is deprecated and has been replaced by argument
+#' \code{refresh}.
 #' @param include_meta include meta data
-#' @param raw_cbs_dir directory where the raw downloaded data are stored
+#' @return a list with class \code{table_ts}, with the following components
+#'  \item{Y}{Yearly timeseries (if present)}
+#'  \item{Q}{Quarterly timeseries (if present)}
+#'  \item{M}{Monthly timeseries (if present)}
+#'  \item{ts_names}{A \code{\link[data.table]{data.table}} with an overview 
+#'  of the timeseries names}
+#'  \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
+#'
 #' @importFrom regts as.regts
 #' @importFrom regts update_ts_labels
 #' @importFrom stats as.formula
@@ -40,9 +28,19 @@
 #' @importFrom cbsodataR get_meta
 #' @importFrom utils modifyList
 #' @export
-get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE) {
+get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
+                   include_meta = FALSE, download) {
 
+  if (!missing(download)) {
+    warning(paste("Argument download is deprecated and has been replaced by",
+                  "argument refresh"))
+    if (missing(refresh)) {
+      refresh <- download
+    } else {
+      warning("Deprecated argument download is overruled by argument refresh")
+    }
+  }
+  
   ts_code <- convert_ts_code(ts_code)
   
   if (!inherits(ts_code, "ts_code")) {
@@ -65,10 +63,15 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   
   data_dir <- file.path(raw_cbs_dir, id)
   
-  if (download) {
-    meta_data <- get_meta(id, cache = TRUE)
-  } else {
+  if (!refresh) {
     meta_data <- read_meta_data(data_dir)
+    read_error <- is.null(meta_data)
+  } else {
+    read_error <- FALSE
+  }
+  
+  if (refresh || read_error) {
+    meta_data <- get_meta(id, cache = TRUE)
   }
 
   cbs_code <- get_cbs_code(meta_data)
@@ -112,9 +115,11 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   na_strings <- c("       .", ".", "       -")   
   # dit zijn de teksten die het CBS gebruikt voor NA-waarden
   
-  dimensies <- setdiff(names(table_code$codes), "Topic")
+  dimensions <- setdiff(names(table_code$codes), "Topic")
   
-  if (download) {
+  data_file <- file.path(data_dir, "data.csv")
+  
+  if (refresh || read_error || !file.exists(data_file)) {
     
     cat(paste("Downloading table", id, "...\n"))
 
@@ -129,7 +134,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
       return(filter)
     }
    
-    filters <- sapply(dimensies, FUN = maak_filter, simplify = FALSE)
+    filters <- sapply(dimensions, FUN = maak_filter, simplify = FALSE)
     
     if (length(filters) > 0) {
       filters <- filters[sapply(filters, FUN = function(x) {!is.null(x)})]   
@@ -171,7 +176,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   setnames(data, old = code$Topic$Key, new = code$Topic$Code)
   
   # vervang de dimensienamen
-  for (dimensie in dimensies) {
+  for (dimensie in dimensions) {
     
     keys <- code[[dimensie]]$Key
     ts <- code[[dimensie]]$Code
@@ -189,13 +194,13 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   }
 
   # In data frame data zijn de tijdreeksen voor hetzelfde onderwerp maar
-  # met verschillende dimensies gestapeld in een enkel kolom.
+  # met verschillende dimensions gestapeld in een enkel kolom.
   # Daarom gebruiken we functie dcast (to "cast" betekent "gieten")
   # om het data frame in de juiste vorm te gieten, namelijk voor elke
   # tijdreeks een aparte kolom
-  if (length(dimensies) > 0) {
+  if (length(dimensions) > 0) {
     
-    melted <- melt(data, id.vars = c("Perioden", dimensies),
+    melted <- melt(data, id.vars = c("Perioden", dimensions),
                    measure.vars = code$Topic$Code, variable.name = "Topic")
     
     formula <- as.formula(paste("Perioden ~", 
@@ -210,7 +215,7 @@ get_ts <- function(id, ts_code, download, raw_cbs_dir = "raw_cbs_data",
   ret <- c(ts_ts, list(ts_names = ts_names_en_labels$ts_names))
   
   if (include_meta) {
-    ret$meta <- clean_meta_data(meta_data, code, cbs_code, dimensies)
+    ret$meta <- clean_meta_data(meta_data, code, cbs_code, dimensions)
   }
            
   return(structure(ret, class = "table_ts"))

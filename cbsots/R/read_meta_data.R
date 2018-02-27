@@ -3,18 +3,29 @@
 #' @importFrom data.table as.data.table
 read_meta_data <- function(dir) {
   
+  if (!dir.exists(dir)) {
+    return(NULL)
+  }
+  
   read_meta_csv <- function(name) {
     filename <- file.path(dir, paste0(name, ".csv"))
     return(fread(filename, data.table = FALSE))
   }
   
-  ret <- sapply(c("TableInfos", "DataProperties", "CategoryGroups"),
-                FUN = read_meta_csv, simplify = FALSE)
-  
-  dp <- as.data.table(ret$DataProperties)
-  dimensions <- dp[endsWith(Type, "Dimension")]$Key
-  
-  dimension_data <- sapply(dimensions, FUN = read_meta_csv, simplify = FALSE)
-  
-  return(structure(c(ret, dimension_data), class = "cbs_table"))
+  tryCatch({
+      ret <- sapply(c("TableInfos", "DataProperties", "CategoryGroups"),
+                  FUN = read_meta_csv, simplify = FALSE)
+    
+      dp <- as.data.table(ret$DataProperties)
+      dimensions <- dp[endsWith(Type, "Dimension")]$Key
+    
+      dimension_data <- sapply(dimensions, FUN = read_meta_csv, 
+                               simplify = FALSE)
+    
+      return(structure(c(ret, dimension_data), class = "cbs_table"))
+    },
+    error = function(e) {
+      warning(paste("Error reading files data from directory", dir, "."))
+      return(NULL)
+  })  
 }
