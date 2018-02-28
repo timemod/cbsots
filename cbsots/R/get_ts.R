@@ -64,154 +64,84 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   
   data_dir <- file.path(raw_cbs_dir, id)
   
-  if (!refresh) {
-    meta_data <- read_meta_data(data_dir)
-    read_error <- is.null(meta_data)
-  } else {
-    read_error <- FALSE
-  }
-  
-  if (refresh || read_error) {
-    meta_data <- get_meta(id, cache = TRUE)
-  }
-  
-  if (meta_data$TableInfos$Language != "nl") {
-    stop("Function get_ts can currently only handle dutch tables")
-  }
-
-  cbs_code <- get_cbs_code(meta_data)
-  
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
-  `.` <- NULL; Select <- NULL; Code <- NULL; ID <- NULL; Perioden <- NULL
+  `.` <- NULL; Select <- NULL; Code <- NULL; Perioden <- NULL
   
-  convert_code <- function(groep) {
+  convert_code <- function(name) {
   
-    code <- table_code$codes[[groep]]
+    code <- table_code$codes[[name]]
     
     code <- code[Select == TRUE,]
     
-    # check for duplicates in Code
-    if (anyDuplicated(code$Code)) {
-      duplicates <- unique(code$Code[duplicated(code$Code)])
-      stop(paste0("Duplicate codes found for ",  groep, ":\n", 
-                  paste(duplicates, collapse = "\n")), "\n.")
-    }
-    
-    unknown_keys <- setdiff(code$Key, cbs_code[[groep]]$Key)
-    if (length(unknown_keys) > 0) {
-      stop(paste0("Unknown keys in ts code for ", groep, ":\n", 
-                  paste(unknown_keys, collapse = "\n")), "\n.")
-    }
-    
-    
-    # Als de ts-code niet opgegeven is, dan wordt er voor deze dimensie
-    # geen suffix worden toegevoegd aan de tijdreeksnaam en de label.
+    # If the code is empty, then also make the title empty.
     code[(is.na(Code) | trimws(Code) == ""), c("Title", "Code") := ""]
     
-    #cat("code = \n")
-    #print(code)
     return(code)
   }
   
-  # Convert de codes van het CBS en de tijdreeksen. Let op: gebruik
-  # de volgorde van de codering zoals in ts_code, die is gebaseerd
-  # op de volgorde van de sheets in de tijdreekscodefile.
-  # De volgorde van de sheets bepaalt de naamgeving:
-  # naam = (ts-code sheet 1) + (ts-code sheet 2) ...
+  # Convert codes and create a list with the order given by table_code$order.
+  # This order determines how the timeseries names are created.
   code <- sapply(table_code$order, FUN = convert_code, simplify = FALSE)
 
-  # downloaden of inlezen van de echte data
+  # strings used by the CBS to represent NA values
   na_strings <- c("       .", ".", "       -")   
-  # dit zijn de teksten die het CBS gebruikt voor NA-waarden
   
   dimensions <- setdiff(names(table_code$codes), "Topic")
   
-  data_file <- file.path(data_dir, "data.csv")
-  
-  if (refresh || read_error || !file.exists(data_file)) {
-    
-    cat(paste("Downloading table", id, "...\n"))
-
-    # maak nu voor elke dimensie een lijst met keys waarop gefilterd moet worden,
-    # of NULL als er niet gefilterd hoeft te worden worden
-    maak_filter <-function(dimensie) {
-      if (nrow(cbs_code[[dimensie]]) > nrow(code[[dimensie]])) {
-        filter <- code[[dimensie]]$Key
-      } else {
-        filter <- NULL
+  if (!refresh) {
+    read_ok <- FALSE
+    meta <- read_meta_data(data_dir)
+    check_language(meta)
+    cbs_code <- get_cbs_code(meta)
+    code <- check_code(code, cbs_code)
+    if (!is.null(meta)) {
+      data <- read_data(data_dir, na_strings = na_strings)
+      if (!is.null(data)) {
+        read_ok <- check_read_data(data, code, period_keys ="dummy")
       }
-      return(filter)
     }
-   
-    filters <- sapply(dimensions, FUN = maak_filter, simplify = FALSE)
-    
-    if (!missing(min_year)) {
-      period_keys <- meta_data$Perioden$Key
-      years <- period_key2year(period_keys)
-      period_filter <- period_keys[years >= min_year]
-      filters <- c(list(Perioden = period_filter), filters)
+    if (read_ok && !missing(min_year)) {
+      period_keys <- get_period_keys(meta, min_year)
+      data <- data[Perioden %in% period_keys]
     }
-    
-    if (length(filters) > 0) {
-      filters <- filters[sapply(filters, FUN = function(x) {!is.null(x)})]   
-      cat("Filters gebruikt bij het downloaden:\n")
-      print(filters)
-    }
-    
-    argumenten <- c(list(id = id, recode = FALSE, 
-                         dir = file.path(raw_cbs_dir, id)), filters)
-    data <- do.call(get_data, argumenten)
-
-    # vervang na_string door een lege string, en zet resultaat om naar een
-    # data.table
-    data <- as.data.table(lapply(data, 
-                FUN = function(x) {ifelse(x %in% na_strings, "", x)}))
-    
-    data[, ID := NULL]
-    
-    cat("Done\n")
-    
-  } else {
-    
-    # inlezen van eerder gedownloade file
-    data_file <- file.path(data_dir, "data.csv")
-   
-    cat(paste("Reading table", id, "from", data_file, "...\n"))
-    data <- fread(data_file, drop = "ID", na.strings = na_strings)
-    cat("Done\n")
-    
-    if (!missing(min_year)) {
-      data <- data[period_key2year(Perioden) >= min_year]
-    }
-  }
-
-  # verwijder de topics die niet voorkomen in de tijdreekscodering
-  ongebruikte_topics <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
-  if (length(ongebruikte_topics) > 0) {
-    data[, (ongebruikte_topics) := NULL]
   }
   
-  # Vervang de topic-namen met de overeenkomende tijdreekscodes
+  if (refresh || !read_ok) {
+    ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
+                          min_year = min_year, na_strings = na_strings)
+    meta <- ret$meta
+    data <- ret$data
+    cbs_code <- ret$cbs_code
+  }
+  
+  # remove  topics that are not present in code
+  unused_topics <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
+  if (length(unused_topics) > 0) {
+    data[, (unused_topics) := NULL]
+  }
+
+  # Rename the topic names
   setnames(data, old = code$Topic$Key, new = code$Topic$Code)
-  
-  # vervang de dimensienamen
-  for (dimensie in dimensions) {
-    
-    keys <- code[[dimensie]]$Key
-    ts <- code[[dimensie]]$Code
 
-    # selecteer de rijen waarvoor de dimensie voorkomt in de ts-codering,
-    data <- data[eval(as.name(dimensie)) %in% keys]
+  # rename the dimension keys with the code
+  for (dimension in dimensions) {
     
-    # Hernoem de dimensie-kolommen door de overeenkomende tijdreekscodes
-    dim_index <- match(data[[dimensie]], keys)
-    data[[dimensie]] <- ts[dim_index]
+    keys  <- code[[dimension]]$Key
+    codes <- code[[dimension]]$Code
+
+    # select rows
+    data <- data[get(dimension) %in% keys]
+    
+    # rename dimensions
+    dim_index <- match(data[[dimension]], keys)
+    data[[dimension]] <- codes[dim_index]
   }
   
   if (!"Perioden" %in% colnames(data)) {
     stop(paste("Table", id, "does not contain timeseries"))
   }
+  
 
   # In data frame data zijn de tijdreeksen voor hetzelfde onderwerp maar
   # met verschillende dimensions gestapeld in een enkel kolom.
@@ -225,6 +155,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     
     formula <- as.formula(paste("Perioden ~", 
                           paste(names(code), collapse = " + ")))
+    
     data <- dcast(melted, formula = formula, sep = "") 
   }
 
@@ -235,7 +166,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   ret <- c(ts_ts, list(ts_names = ts_names_en_labels$ts_names))
   
   if (include_meta) {
-    ret$meta <- clean_meta_data(meta_data, code, cbs_code, dimensions)
+    ret$meta <- clean_meta_data(meta, code, cbs_code, dimensions)
   }
            
   return(structure(ret, class = "table_ts"))

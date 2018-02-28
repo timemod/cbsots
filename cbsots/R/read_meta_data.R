@@ -13,9 +13,10 @@ read_meta_data <- function(dir) {
   }
   
   tryCatch({
-      ret <- sapply(c("TableInfos", "DataProperties", "CategoryGroups"),
-                  FUN = read_meta_csv, simplify = FALSE)
     
+      ret <- sapply(c("TableInfos", "DataProperties", "CategoryGroups"),
+                    FUN = read_meta_csv, simplify = FALSE)
+      
       dp <- as.data.table(ret$DataProperties)
       
       # prevent notes from R CMD check about no visible binding for global
@@ -30,6 +31,8 @@ read_meta_data <- function(dir) {
     },
     error = function(e) {
       warning(paste("Error reading files data from directory", dir, "."))
-      return(NULL)
-  })  
+  })
+  
+  # error
+  return(NULL)
 }

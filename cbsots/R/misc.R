@@ -1,4 +1,6 @@
-# convert a cbs period_key to the year
-period_key2year <- function(period_keys) {
-  return(as.integer(sub("(\\d+)(.+?)\\d+", "\\1", period_keys)))
+# returns period keys for all periods with year >= min_year
+get_period_keys <- function(meta, min_year) {
+  period_keys <- meta$Perioden$Key
+  years <- as.integer(sub("(\\d+)(.+?)\\d+", "\\1", period_keys))
+  return(period_keys[years >= min_year])
 }
