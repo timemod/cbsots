@@ -1,0 +1,10 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","SITC","SITC",,,,,,
+"Cbs.OData.Dimension",1,1,,"Dimension","LandenGroepen","Landen(groepen)",,,,,,
+"Cbs.OData.TimeDimension",2,2,,"TimeDimension","Perioden","Perioden",,TRUE,,,,
+"Cbs.OData.Topic",3,3,,"Topic","Invoerwaarde_1","Invoerwaarde","De waarde van door het buitenland aan ingezetenen geleverde goederen volgens de statistieken van de Internationale handel. Bij invoer uit EU-landen is dit de waarde van de goederen inclusief vracht- en verzekeringskosten tot aan de Nederlandse grens. Bij invoer uit niet-EU-landen is dit de waarde inclusief vracht- en verzekeringskosten tot aan de buitengrens van de Europese Unie.",,"Long","1 000 euro",0,"Missing"
+"Cbs.OData.Topic",4,4,,"Topic","Uitvoerwaarde_2","Uitvoerwaarde","De waarde van de door ingezetenen aan het buitenland geleverde goederen volgens de statistieken van de Internationale handel. Dit is de waarde, inclusief vracht- en verzekeringskosten tot aan de Nederlandse grens.",,"Long","1 000 euro",0,"Missing"
+"Cbs.OData.Topic",5,5,,"Topic","Handelsbalans_3","Handelsbalans","Het saldo van de uitvoerwaarde minus de invoerwaarde.",,"Long","1 000 euro",0,"Missing"
+"Cbs.OData.Topic",6,6,,"Topic","Dekkingspercentage_4","Dekkingspercentage","De waarde van de uitvoer uitgedrukt als percentage van de waarde van de invoer. Het dekkingspercentage wordt alleen voor totaal goederen gegeven.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",7,7,,"Topic","JaarmutatieInvoer_5","Jaarmutatie invoer","Procentuele verandering ten opzichte van dezelfde periode een jaar eerder. De wijziging is alleen beschikbaar voor totaal goederen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",8,8,,"Topic","JaarmutatieUitvoer_6","Jaarmutatie uitvoer","Procentuele verandering ten opzichte van dezelfde periode een jaar eerder. De wijziging is alleen beschikbaar voor totaal goederen.",,"Double","%",1,"Missing"

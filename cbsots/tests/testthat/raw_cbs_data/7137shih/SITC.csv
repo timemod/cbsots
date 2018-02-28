@@ -1,0 +1,865 @@
+"Key","Title","Description","CategoryGroupID"
+"T  ","Totaal goederen",,1
+"tt0","0  Voeding en levende dieren","0   Voeding en levende dieren
+Omvat de volgende SITC-divisies:
+00  Levende dieren, m.u.v. dieren bedoeld bij afd. 03
+01  Vlees en vleesproducten
+02  Zuivelproducten en eieren
+03  Vis, schaal- en weekdieren en bereidingen daarvan
+04  Granen en graanproducten
+05  Groenten en fruit
+06  Suiker en suikerwerken, honing
+07  Koffie, thee, cacao, specerijen en fabrikaten daarvan
+08  Veevoeder, m.u.v. niet gemalen granen
+09  Bereide voedingsmiddelen, n.a.g.",1
+"t00","00  Levende dieren, m.u.v. dieren bed...","00   Levende dieren, m.u.v. dieren bedoeld bij afd. 03
+Omvat de volgende SITC-groep:
+001     Levende dieren m.u.v. vis, schaal- en weekdieren en bereidingen
+           daarvan.",3
+"001","001 Levende dieren, m.u.v. dieren bed...","Levende dieren, m.u.v. dieren bedoeld bij afdeling 03.",5
+"t01","01 Vlees en vleesproducten","01   Vlees en vleesproducten.
+Omvat de volgende SITC-groepen:
+011     Vlees van runderen, vers, gekoeld of bevroren
+012     Ander vlees en eetbare slachtafvallen, vers, gekoeld of bevroren
+016     Vlees en eetbare slachtafvallen, gezouten, gedroogd of
+           gerookt; meel en poeder van vlees of van slachtafvallen,
+           geschikt voor menselijke consumptie
+017     Bereidingen en conserven van vlees n.a.g.",3
+"011","011 Vlees van runderen, vers, gekoeld...","Vlees van runderen, vers, gekoeld of bevroren.",5
+"012","012 Ander vlees en eetbare slachtafva...","Ander vlees en eetbare slachtafvallen, vers, gekoeld of bevroren.",5
+"016","016 Vlees en eetbare slachtafvallen, ...","Vlees en eetbare slachtafvallen, gezouten, gedroogd of gerookt; meel en
+poeder van vlees of van slachtafvallen, geschikt voor menselijke
+consumptie.",5
+"017","017 Bereidingen en conserven van vlee...","Bereidingen en conserven van vlees n.a.g.",5
+"t02","02 Zuivelproducten en eieren","02   Zuivelproducten en eieren
+Omvat de volgende SITC-groepen:
+022     Melk, room en melkproducten m.u.v. boter en kaas
+023     Boter en ander melkvet
+024     Kaas en wrongel
+025     Vogeleieren; ovoalbumine.",3
+"022","022 Melk, room en melkprodukten, m.u....","Melk, room en melkproducten, m.u.v. boter en kaas.",5
+"023","023 Boter en ander melkvet","Boter en ander melkvet.",5
+"024","024 Kaas en wrongel","Kaas en wrongel.",5
+"025","025 Vogeleieren; ovoalbumine","Vogeleieren; ovoalbumine.",5
+"t03","03  Vis, schaal- en weekdieren en ber...","03   Vis, schaal- en weekdieren en bereidingen daarvan
+Omvat de volgende SITC-groepen:
+034     Vis; vers, gekoeld of bevroren
+035     Vis; gedroogd, gerookt of gezouten
+036     Schaal- en weekdieren, vers, gekoeld of verduurzaamd
+037     Bereidingen van vis, schaal- en weekdieren n.a.g.",3
+"034","034 Vis; vers, gekoeld of bevroren","Vis; vers, gekoeld of bevroren.",5
+"035","035 Vis; gedroogd, gerookt of gezouten","Vis; gedroogd, gerookt of gezouten.",5
+"036","036 Schaal- en weekdieren; vers, geko...","Schaal- en weekdieren; vers, gekoeld of verduurzaamd.",5
+"037","037 Bereidingen van vis, schaal- en w...","Bereidingen van vis, schaal- en weekdieren, n.a.g.",5
+"t04","04 Granen en graanproducten","04   Granen en graanproducten
+Omvat de volgende SITC-groepen:
+041     Tarwe en mengkoren; niet gemalen
+042     Rijst
+043     Gerst; niet gemalen
+044     Maïs (m.u.v. suikermaïs), niet gemalen
+045     Andere granen; niet gemalen
+046     Meel en bloem van tarwe of van mengkoren
+047     Meel en bloem van andere granen
+048     Graanpreparaten m.i.v. vruchtenmeel- en groentemeelpreparaten.",3
+"041","041 Tarwe en mengkoren; niet gemalen","Tarwe en mengkoren; niet gemalen.",5
+"042","042 Rijst","Rijst.",5
+"043","043 Gerst; niet gemalen","Gerst; niet gemalen.",5
+"044","044 Maïs (m.u.v. suikermaïs), niet ge...","Maïs (m.u.v. suikermaïs), niet gemalen.",5
+"045","045 Andere granen; niet gemalen.","Andere granen; niet gemalen.",5
+"046","046 Meel en bloem van tarwe of van me...","Meel en bloem van tarwe of van mengkoren.",5
+"047","047 Meel en bloem van andere granen","Meel en bloem van andere granen.",5
+"048","048 Graanpreparaten, m.i.v. vruchteme...","Graanpreparaten, m.i.v. vruchtenmeel- en groentemeelpreparaten.",5
+"t05","05 Groenten en fruit","05   Groenten en fruit
+Omvat de volgende SITC-groepen:
+054     Groenten en wortels, vers, gekoeld of bevroren
+056     Groenten en wortels; bereid of verduurzaamd
+057     Fruit; vers of gedroogd
+058     Bereidingen en conserven van fruit (m.u.v. vruchtensappen)
+059     Ongegiste groente- en vruchtensappen.",3
+"054","054 Groenten en wortels, vers, gekoel...","Groenten en wortels, vers, gekoeld of bevroren.",5
+"056","056 Groenten en wortels; bereid of ve...","Groenten en wortels; bereid of verduurzaamd.",5
+"057","057 Fruit; vers of gedroogd","Fruit; vers of gedroogd.",5
+"058","058 Bereidingen en conserven van frui...","Bereidingen en conserven van fruit (m.u.v. vruchtensappen).",5
+"059","059 Ongegiste groente- en vruchtesapp...","Ongegiste groente- en vruchtensappen.",5
+"t06","06 Suiker en suikerwerken, honing","06   Suiker en suikerwerken, honing
+Omvat de volgende SITC-groepen:
+061     Suiker, melasse en honing
+062     Suikerwerk.",3
+"061","061 Suiker, melasse en honing","Suiker, melasse en honing.",5
+"062","062 Suikerwerk","Suikerwerk.",5
+"t07","07  Koffie, thee, cacao, specerijen e...","07   Koffie, thee, cacao, specerijen en fabrikaten daarvan
+Omvat de volgende SITC-groepen:
+071     Koffie
+072     Cacao
+073     Chocolade en bereidingen met cacao
+074     Thee en maté
+075     Specerijen.",3
+"071","071 Koffie","Koffie.",5
+"072","072 Cacao","Cacao.",5
+"073","073 Chocolade en bereidingen met cacao","Chocolade en bereidingen met cacao.",5
+"074","074 Thee en maté","Thee en maté.",5
+"075","075 Specerijen","Specerijen.",5
+"t08","08  Veevoeder, m.u.v. niet gemalen gr...","08   Veevoeder, m.u.v. niet gemalen granen
+Omvat de volgende SITC-groep:
+081     Veevoeder (m.u.v. niet gemalen granen).",3
+"081","081 Veevoeder (m.u.v. niet gemalen gr...","Veevoeder (m.u.v. niet gemalen granen).",5
+"t09","09 Bereide voedingsmiddelen n.a.g.","09   Bereide voedingsmiddelen, n.a.g.
+Omvat de volgende SITC-groepen:
+091     Margarine en spijsvetten
+098     Bereide voedingsmiddelen n.a.g.",3
+"091","091 Margarine en spijsvetten","Margarine en spijsvetten.",5
+"098","098 Bereide voedingsmiddelen n.a.g.","Bereide voedingsmiddelen n.a.g.",5
+"tt1","1  Dranken en tabak","1   Dranken en tabak
+Omvat de volgende SITC-divisies:
+11  Dranken
+12  Tabak en tabaksfabrikaten.",1
+"t11","11 Dranken","11   Dranken
+Omvat de volgende SITC-groepen:
+111     Alcoholvrije dranken n.a.g.
+112     Alcoholhoudende dranken.",3
+"111","111  Alcoholvrije dranken n.a.g.","Alcoholvrije dranken n.a.g.",5
+"112","112 Alcoholhoudende dranken","Alcoholhoudende dranken.",5
+"t12","12 Tabak en tabaksfabrikaten","12   Tabak en tabaksfabrikaten
+Omvat de volgende SITC-groepen:
+121     Onbewerkte tabak; tabaksafvallen
+122     Tabaksfabrikaten (ook indien tabakssurrogaten bevattend).",3
+"121","121 Onbewerkte tabak; tabaksafvallen","Onbewerkte tabak; tabaksafvallen.",5
+"122","122 Tabaksfabrikaten (ook indien taba...","Tabaksfabrikaten (ook indien tabakssurrogaten bevattend).",5
+"tt2","2  Grondstoffen, niet eetbaar, behalv...","2   Grondstoffen, niet eetbaar, behalve brandstoffen
+Omvat de volgende SITC-divisies:
+21  Ongelooide huiden en vellen
+22  Oliehoudende zaden en vruchten
+23  Ruwe, synthetische en geregenereerde rubber
+24  Kurk en hout
+25  Papierstof en papierafval
+26  Textielvezels, textielafval en lompen
+27  Natuurlijke meststoffen en ruwe minerale producten
+28  Metaalertsen en metaalafvallen
+29  Andere ruwe dierlijke en plantaardige producten.",1
+"t21","21 Ongelooide huiden en vellen","21   Ongelooide huiden en vellen
+Omvat de volgende SITC-groepen:
+211     Ongelooide huiden en vellen
+212     Ruwe pelterijen.",3
+"211","211 Ongelooide huiden en vellen","Ongelooide huiden en vellen.",5
+"212","212 Ruwe pelterijen","Ruwe pelterijen.",5
+"t22","22 Oliehoudende zaden en vruchten","22   Oliehoudende zaden en vruchten
+Omvat de volgende SITC-groepen:
+222     Oliehoudende zaden voor fijne oliën
+223     Oliehoudende zaden voor andere oliën.",3
+"222","222 Oliehoudende zaden voor fijne oliën","Oliehoudende zaden voor fijne oliën.",5
+"223","223 Oliehoudende zaden voor andere oliën","Oliehoudende zaden voor andere oliën.",5
+"t23","23  Ruwe, synthetische en geregenereb...","23   Ruwe, synthetische en geregenereerde rubber
+Omvat de volgende SITC-groepen:
+231     Natuurlijke rubber, balata, gutta-percha, guayule, chicle e.d.
+           natuurlijke gommen, in primaire vormen of in platen, vellen of
+           strippen
+232     Synthetische rubber en afval.",3
+"231","231 Natuurlijke rubber, balata, gutta...","Natuurlijke rubber, balata, gutta-percha, guayule, chicle e.d.
+natuurlijke gommen, in primaire vormen of in platen, vellen of strippen.",5
+"232","232 Synthetische rubber en afval","Synthetische rubber en afval.",5
+"t24","24 Kurk en hout","24   Kurk en hout
+Omvat de volgende SITC-groepen:
+244     Ruwe natuurkurk en afval (m.i.v. natuurkurk in blokken of bladen)
+245     Brandhout (m.u.v. houtafval) en houtskool
+246     Hout in plakjes, spanen e.d. en afval van hout
+247     Ruw hout
+248     Hout, enkel bewerkt.",3
+"244","244 Ruwe natuurkurk en afval (m.i.v. ...","Ruwe natuurkurk en afval (m.i.v. natuurkurk in blokken of bladen).",5
+"245","245 Brandhout (m.u.v. houtafval) en h...","Brandhout (m.u.v. houtafval) en houtskool.",5
+"246","246 Hout in plakjes, spanen e.d. en a...","Hout in plakjes, spanen e.d. en afval van hout.",5
+"247","247 Ruw hout","Ruw hout.",5
+"248","248 Hout, enkel bewerkt","Hout, enkel bewerkt.",5
+"t25","25 Papierstof en papierafval","25   Papierstof en papierafval.
+Omvat de volgende SITC-groepen:
+251     Papierstof en papierafval.",3
+"251","251 Papierstof en papierafval","Papierstof en papierafval.",5
+"t26","26  Textielvezels, textielafval en lo...","26   Textielvezels, textielafval en lompen
+Omvat de volgende SITC-groepen:
+261     Zijde
+263     Katoen
+264     Jute en andere bastvezels, n.e.g., ruw of bewerkt doch niet
+           gesponnen; werk en afval (m.i.v. afval van garen en rafelingen)
+265     Andere plantaardige textielvezels, ruw of bewerkt, niet gesponnen
+266     Synthetische textielvezels
+267     Kunstmatige textielvezels en afval van synthetische en kunstmatige
+           textielvezels
+268     Wol en fijn en grof haar (m.i.v. opgerold lont van wol)
+269     Oude kleren e.d.; lompen en vodden.",3
+"261","261 Zijde","Zijde.",5
+"263","263 Katoen","Katoen.",5
+"264","264 Jute en andere bastvezels, n.e.g....","Jute en andere bastvezels, n.e.g., ruw of bewerkt doch niet gesponnen;
+werk en afval (m.i.v. afval van garen en rafelingen).",5
+"265","265 Andere plantaardige textielvezels...","Andere plantaardige textielvezels, ruw of bewerkt, niet gesponnen.",5
+"266","266 Synthetische textielvezels","Synthetische textielvezels.",5
+"267","267 Kunstmatige textielvezels en afva...","Kunstmatige textielvezels en afval van synthetische kunstmatige
+textielvezels.",5
+"268","268 Wol en fijn en grof haar (m.i.v. ...","Wol en fijn en grof haar (m.i.v. opgerold lont van wol).",5
+"269","269 Oude kleren e.d.; lompen en vodden","Oude kleren e.d.; lompen en vodden.",5
+"t27","27  Natuurlijke meststoffen en ruwe m...","27   Natuurlijke meststoffen en ruwe minerale producten
+Omvat de volgende SITC-groepen:
+272     Natuurlijke meststoffen
+273     Steen, zand en grind
+274     Zwavel en ijzerpyriet, niet gebrand
+277     Natuurlijke slijpmiddelen n.a.g.
+278     Andere ruwe mineralen.",3
+"272","272 Natuurlijke meststoffen","Natuurlijke meststoffen.",5
+"273","273 Steen, zand en grind","Steen, zand en grind.",5
+"274","274 Zwavel en ijzerpyriet, niet gebrand","Zwavel en ijzerpyriet, niet gebrand.",5
+"277","277 Natuurlijke slijpmiddelen, n.a.g.","Natuurlijke slijpmiddelen, n.a.g.",5
+"278","278 Andere ruwe mineralen","Andere ruwe mineralen.",5
+"t28","28 Metaalertsen en metaalafvallen","28   Metaalertsen en metaalafvallen
+Omvat de volgende SITC-groepen:
+281     IJzererts
+282     Schroot, m.i.v. afvalingots, van ijzer of van staal
+283     Kopererts en concentraten daarvan; kopersteen of ruwsteen,
+           cementkoper
+284     Nikkelerts, nikkelmatte, nikkeloxydesinters e.d.
+285     Aluminiumerts en aluminiumoxyde
+286     Ertsen van uranium en thorium
+287     Andere ertsen van non-ferrometalen
+288     Resten van non-ferrometalen
+289     Ertsen van edele metalen.",3
+"281","281 IJzererts","IJzererts.",5
+"282","282 Schroot, m.i.v. afvalingots, van ...","Schroot, m.i.v. afvalingots, van ijzer of van staal.",5
+"283","283 Kopererts en concentraten daarvan...","Kopererts en concentraten daarvan; kopersteen of ruwsteen, cementkoper.",5
+"284","284 Nikkelerts, nikkelmatte, nikkelox...","Nikkelerts, nikkelmatte, nikkeloxydesinters e.d.",5
+"285","285 Aluminiumerts en aluminiumoxyde","Aluminiumerts en aluminiumoxyde.",5
+"286","286 Uraniumerts en thoriumerts en con...","Uraniumerts en thoriumerts en concentraten daarvan.",5
+"287","287 Andere ertsen van non-ferrometalen","Andere ertsen van non-ferrometalen.",5
+"288","288 Resten van non-ferrometalen","Resten van non-ferrometalen.",5
+"289","289 Ertsen van edele metalen","Ertsen van edele metalen.",5
+"t29","29  Andere ruwe dierlijke en plantaar...","29   Andere ruwe dierlijke en plantaardige producten
+Omvat de volgende SITC-groepen:
+291     Ruwe dierlijke producten n.a.g.
+292     Ruwe plantaardige producten n.a.g.",3
+"291","291 Ruwe dierlijke producten n.a.g.","Ruwe dierlijke producten n.a.g.",5
+"292","292 Ruwe plantaardige producten n.a.g.","Ruwe plantaardige producten n.a.g.",5
+"tt3","3  Minerale brandstoffen, smeermiddel...","3   Minerale brandstoffen, smeermiddelen e.d. producten.
+Omvat de volgende SITC-divisies:
+32  Steenkool, cokes en briketten
+33  Ruwe aardolie en aardolieproducten
+34  Aardgas en industriegas
+35  Elektrische energie.",1
+"t32","32 Steenkool, cokes en briketten","32   Steenkool, cokes en briketten.
+Omvat de volgende SITC-groepen:
+321     Steenkool (m.u.v. geagglomereerde steenkool)
+322     Geagglomereerde steenkool; bruinkool en turf
+325     Cokes en halfcokes, retortenkool.",3
+"321","321 Steenkool (m.u.v. geagglomereerde...","Steenkool (m.u.v. geagglomereerde steenkool).",5
+"322","322 Geagglomereerde steenkool, bruink...","Geagglomereerde steenkool, bruinkool en turf.",5
+"325","325 Cokes en halfcokes, retortenkool","Cokes en halfcokes, retortenkool.",5
+"t33","33 Ruwe aardolie en aardolieproducten","33   Ruwe aardolie en aardolieproducten.
+Omvat de volgende SITC-groepen:
+333     Ruwe aardolie
+334     Geraffineerde producten van aardolie
+335     Residuen van aardoliën.",3
+"333","333 Ruwe olie en ruwe olie uit bitumi...","333  Ruwe olie en ruwe olie uit bitumineuze mineralen.",5
+"334","334 Geraffineerde producten van aardolie","Geraffineerde producten van aardolie.",5
+"335","335 Residuen van aardoliën","Residuen van aardoliën.",5
+"t34","34 Aardgas en industriegas","34   Aardgas en industriegas.
+Omvat de volgende SITC-groepen:
+342     Propaan en butaan, in vloeibare vorm
+343     Aardgas
+344     Gasvormige koolwaterstoffen n.a.g.
+345     Steenkoolgas, watergas, generatorgas e.d. gassen.",3
+"342","342 Propaan en butaan, in vloeibare vorm","Propaan en butaan, in vloeibare vorm.",5
+"343","343 Aardgas","Aardgas.",5
+"344","344 Gasvormige koolwaterstoffen n.a.g.","Gasvormige koolwaterstoffen n.a.g.",5
+"345","345 Steenkoolgas, watergas, generator...","Steenkoolgas, watergas, generatorgas e.d. gassen.",5
+"t35","35 Elektrische energie","35   Elektrische energie.
+Omvat de volgende SITC-groep:
+351     Elektrische energie.",3
+"351","351 Elektrische energie","Elektrische energie.",5
+"tt4","4  Dierlijke en plantaardige oliën en...","4   dierlijke en plantaardige oliën en vetten.
+Omvat de volgende SITC-divisies:
+41  Dierlijke oliën en vetten
+42  Plantaardige vette oliën
+43  Was; mengsels en bereidingen van oliën en vetten,
+      niet geschikt voor menselijke consumptie n.a.g.",1
+"t41","41 Dierlijke oliën en vetten","41   Dierlijke oliën en vetten.
+Omvat de volgende SITC-groep:
+411     Dierlijke oliën en vetten.",3
+"411","411 Dierlijke oliën en vetten","Dierlijke oliën en vetten.",5
+"t42","42 Plantaardige oliën en vetten","42   Plantaardige oliën en vetten.
+Omvat de volgende SITC-groepen:
+421     Plantaardige fijne oliën en vetten
+422     Andere plantaardige oliën en vetten.",3
+"421","421 Plantaardige fijne oliën en vetten","Plantaardige fijne oliën en vetten.",5
+"422","422 Andere plantaardige oliën en vetten","Andere plantaardige oliën en vetten.",5
+"t43","43  Was; mengsels en bereidingen van ...","43   Was; mengsels en bereidingen van oliën en vetten,
+Omvat de volgende SITC-groep:
+431     Bereide oliën en vetten; was; mengsels en bereidingen van
+           oliën en vetten, niet geschikt voor menselijke consumptie.",3
+"431","431 Bereide oliën en vetten; was; men...","Bereide oliën en vetten; was; mengsels en  bereidingen van oliën en
+vetten, niet geschikt voor menselijke consumptie, n.a.g.",5
+"tt5","5  Chemische producten","5   Chemische producten.
+Omvat de volgende SITC-divisies:
+51  Organische chemische producten
+52  Anorganische chemische producten
+53  Kleur-, looi- en verfstoffen
+54  Medicinale en farmaceutische producten
+55  Etherische oliën, parfumerieën, zeep- en
+    reinigingsmiddelen
+56  Kunstmatige meststoffen
+57  Kunststof in primaire vormen
+58  Werken van kunststof n.a.g.
+59  Andere chemische producten, n.a.g.",1
+"t51","51 Organische chemische producten","51   Organische chemische producten.
+Omvat de volgende SITC-groepen:
+511     Koolwaterstoffen n.a.g.
+512     Alcoholen, fenolen en derivaten
+513     Carbonzuren
+514     Verbindingen met stikstofhoudende groepen
+515     Organische verbindingen van niet-metalen en van metalen,
+           heterocyclische verbindingen; nucleïnezuren
+516     Andere organische chemische producten.",3
+"511","511 Koolwaterstoffen n.a.g.","Koolwaterstoffen n.a.g.",5
+"512","512 Alcoholen, fenolen en derivaten","Alcoholen, fenolen en derivaten.",5
+"513","513 Carbonzuren","Carbonzuren.",5
+"514","514 Verbindingen met stikstofhoudende...","Verbindingen met stikstofhoudende groepen.",5
+"515","515 Organische verbindingen van niet-...","Organische verbindingen van niet-metalen en van metalen, heterocyclische
+verbindingen; nucleïnezuren.",5
+"516","516 Andere organische chemische produ...","Andere organische chemische producten.",5
+"t52","52 Anorganische chemische producten","52   Anorganische chemische producten.
+Omvat de volgende SITC-groepen:
+522     Anorganische chemische elementen, oxyden en halogeenzouten
+523     Metaalzouten en peroxozouten van anorganische zuren
+524     Andere anorganische chemische producten; verbindingen
+           van edele metalen
+525     Radioactief en aanverwant materiaal.",3
+"522","522 Anorganische chemische elementen...","Anorganische chemische elementen, oxyden en halogeenzouten.",5
+"523","523 Metaalzouten en peroxozouten van ...","Metaalzouten en peroxozouten van anorganische zuren.",5
+"524","524 Andere anorganische chemische pro...","Andere anorganische chemische producten; verbindingen van edele metalen.",5
+"525","525 Radio-actief en aanverwant materiaal","Radio-actief en aanverwant materiaal.",5
+"t53","53 Kleur-, looi- en verfstoffen","53   Kleur-, looi- en verfstoffen.
+Omvat de volgende SITC-groepen:
+531     Synthetische organische kleurstoffen en verflakken alsmede
+           preparaten op basis daarvan
+532     Extracten voor het verven en het looien en synthetische
+           looistoffen
+533     Pigmenten, verven, vernissen en dergelijke producten.",3
+"531","531 Synthetische organische kleurstof...","Synthetische organische kleurstoffen en verflakken alsmede preparaten op
+basis daarvan.",5
+"532","532 Extracten voor het verven en het ...","Extracten voor het verven en het looien en synthetische looistoffen.",5
+"533","533 Pigmenten, verven, vernissen en d...","Pigmenten, verven, vernissen en dergelijke producten.",5
+"t54","54  Medicinale en farmaceutische prod...","54   Medicinale en farmaceutische producten.
+Omvat de volgende SITC-groepen:
+541     Medicinale en farmaceutische producten m.u.v. geneesmiddelen
+           bedoeld bij groep 542
+542     Geneesmiddelen (m.i.v. veterinaire geneesmiddelen).",3
+"541","541 Medicinale en farmaceutische prod...","Medicinale en farmaceutische producten, m.u.v. geneesmiddelen bedoeld bij
+groep 542.",5
+"542","542 Geneesmiddelen (m.i.v. veterinair...","Geneesmiddelen (m.i.v. veterinaire geneesmiddelen).",5
+"t55","55 Etherische oliën, parfumerieën, ze...","55   Etherische oliën, parfumerieën, zeep- en reinigingsmiddelen
+Omvat de volgende SITC-groepen:
+551     Etherische oliën en reukstoffen
+553     Parfumerieën en cosmetische artikelen (m.u.v. zeep)
+554     Zeep, onderhouds- en reinigingsmiddelen.",3
+"551","551 Etherische oliën en reukstoffen","Etherische oliën en reukstoffen.",5
+"553","553 Parfumerieën en kosmetische artik...","Parfumerieën en cosmetische artikelen (m.u.v. zeep).",5
+"554","554 Zeep, onderhouds- en reinigingsmi...","Zeep, onderhouds- en reinigingsmiddelen.",5
+"t56","56 Kunstmatige meststoffen","56   Kunstmatige meststoffen
+Omvat de volgende SITC-groep:
+562     Kunstmatige meststoffen.",3
+"562","562 Kunstmatige meststoffen","Kunstmatige meststoffen.",5
+"t57","57 Kunststof in primaire vormen","57   Kunststof in primaire vormen
+Omvat de volgende SITC-groepen:
+571     Polymeren van ethyleen, in primaire vormen
+572     Polymeren van styreen, in primaire vormen
+573     Polymeren van vinylchloride of van andere halogeenolefinen, in
+           primaire vormen
+574     Polyacetaten, andere polyethers en epoxyharsen alsmede
+           polycarbonaten, alkydharsen en andere polyesters, in primaire
+           vormen
+575     Andere kunststof, in primaire vormen
+579     Resten en afval van kunststof.",3
+"571","571 Polymeren van ethyleen, in primai...","Polymeren van ethyleen, in primaire vormen.",5
+"572","572 Polymeren van styreen, in primair...","Polymeren van styreen, in primaire vormen.",5
+"573","573 Polymeren van vinylchloride of va...","Polymeren van vinylchloride of van andere halogeenolefinen, in primaire
+vormen.",5
+"574","574 Polyacetalen, andere polyethers e...","Polyacetalen, andere polyethers en epoxyharsen alsmede polycarbonaten,
+alkydharsen en andere polyesters, in primaire vormen.",5
+"575","575 Andere kunststof, in primaire vor...","Andere kunststof, in primaire vormen.",5
+"579","579 Resten en afval van kunststof","Resten en afval van kunststof.",5
+"t58","58 Werken van kunststof n.a.g.","58   Werken van kunststof n.a.g.
+Omvat de volgende SITC-groepen:
+581     Buizen, slangen en hulpstukken van kunststof
+582     Platen, vellen, foliën, stroken enz. van kunststof
+583     Monofilament alsmede staven en profielen van kunststof ook
+           indien aan het oppervlak bewerkt.",3
+"581","581 Buizen, slangen en hulpstukken va...","Buizen, slangen en hulpstukken van kunststof.",5
+"582","582 Platen, vellen, foliën, stroken e...","Platen, vellen, foliën, stroken enz. van kunststof.",5
+"583","583 Monofilament alsmede staven en pr...","Monofilament alsmede staven en profielen van kunststof ook indien aan het
+oppervlak bewerkt.",5
+"t59","59 Andere chemische producten","59   Andere chemische producten, n.a.g.
+Omvat de volgende SITC-groepen:
+591     Ontsmettingsmiddelen; insektendodende- en schimmelwerende
+           middelen e.d.
+592     Zetmeel, inuline en tarwegluten; eiwitstoffen en lijm
+593     Springstoffen en pyrotechnische artikelen
+597     Smeermiddelen, dopes, antivriespreparaten en vloeibare
+           ontdooiingspreparaten alsmede vloeibare preparaten voor
+           hydraulische krachtoverbrenging
+598     Andere chemische producten n.a.g.",3
+"591","591 Ontsmettingsmiddelen; insektendod...","Ontsmettingsmiddelen; insektendodende- en schimmelwerende middelen e.d.",5
+"592","592 Zetmeel, inuline en tarwegluten; ...","Zetmeel, inuline en tarwegluten; eiwitstoffen en lijm.",5
+"593","593 Springstoffen en pyrotechnische a...","Springstoffen en pyrotechnische artikelen.",5
+"597","597 Smeermiddelen, dopes, antivriespr...","Smeermiddelen, dopes, antivriespreparaten en vloeibare
+ontdooiingspreparaten alsmede vloeibare preparaten voor hydraulische
+krachtoverbrenging.",5
+"598","598 Andere chemische produkten n.a.g.","Andere chemische producten n.a.g.",5
+"599","599 Afvallen van de chemische of aanv...","Afvallen van de chemische of aanverwante industrieën.",5
+"tt6","6  Fabrikaten, hoofdzakelijk gerangsc...","6   Fabrikaten, hoofdzakelijk gerangschikt volgens de grondstoffen
+Omvat de volgende SITC-divisies:
+61  Leder en -waren, bereide pelterijen
+62  Rubberwaren, n.a.g.
+63  Kurk- en houtwaren, behalve meubelen
+64  Papier, karton en artikelen
+65  Garens, weefsels e.d.
+66  Fabrikaten van niet-metaalhoudende mineralen, n.a.g.
+67  IJzer en staal
+68  Non-ferrometalen
+69  Metaalwaren, n.a.g.",1
+"t61","61 Leder en -waren, bereide pelterijen","61   Leder en -waren, bereide pelterijen
+Omvat de volgende SITC-groepen:
+611     Leder
+612     Lederwaren n.a.g.; zadel- en tuigmakerswerk
+613     Bereide pelterijen, (m.u.v. bontwerk, namaakbont en artikelen
+           daarvan).",3
+"611","611 Leder","Leder.",5
+"612","612 Lederwaren n.a.g.; zadel- en tuig...","Lederwaren n.a.g.; zadel- en tuigmakerswerk.",5
+"613","613 Bereide pelterijen, (m.u.v. bontw...","Bereide pelterijen, (m.u.v. bontwerk, namaakbont en artikelen daarvan).",5
+"t62","62 Rubberwaren n.a.g.","Rubberwaren, n.a.g.
+Omvat de volgende SITC-groepen:
+621     Rubber in deegvorm, in platen, staven, draad, buizen, enz.
+625     Buitenbanden en binnenbanden van rubber, voor wielen van alle
+           soorten; verwisselbare loopvlakken en velglinten
+629     Werken van rubber n.a.g.",3
+"621","621 Rubber in deegvorm, in platen, st...","Rubber in deegvorm, in platen, staven, draad, buizen enz.",5
+"625","625 Buitenbanden en binnenbanden van ...","Buitenbanden en binnenbanden van rubber, voor wielen van alle soorten;
+verwisselbare loopvlakken en velglinten.",5
+"629","629 Werken van rubber n.a.g.","Werken van rubber n.a.g.",5
+"t63","63 Kurk- en houtwaren, behalve meubelen","Kurk- en houtwaren, behalve meubelen
+Omvat de volgende SITC-groepen:
+633     Kurkwaren
+634     Fineer-, duplex-, triplex- en multiplexhout, verdicht hout,
+           spaanplaat en ander bewerkt hout n.a.g.
+635     Houtwaren, behalve meubelen.",3
+"633","633 Kurkwaren","Kurkwaren.",5
+"634","634 Fineer-, duplex-, triplex- en mul...","Fineer-, duplex-, triplex- en multiplexhout, verdicht hout, spaanplaat en
+ander bewerkt hout n.a.g.",5
+"635","635 Houtwaren, behalve meubelen","Houtwaren, behalve meubelen.",5
+"t64","64 Papier, karton en artikelen daarvan","64   Papier, karton en artikelen
+Omvat de volgende SITC-groepen:
+641     Papier en karton
+642     Artikelen van papier of karton.",3
+"641","641 Papier en karton","Papier en karton.",5
+"642","642 Artikelen van papier of karton","Artikelen van papier of karton.",5
+"t65","65 Garens, weefsels e.d.","65   Garens, weefsels e.d.
+Omvat de volgende SITC-groepen:
+651     Garens
+652     Weefsels van katoen
+653     Weefsels vervaardigd van synthetische of van kunstmatige
+           textielproducten
+654     Andere weefsels
+655     Brei- en haakwerk, n.a.g.
+656     Tule, kant, borduurwerk, lint, passementwerk e.d.
+657     Speciale garens en speciale weefsels e.d. producten
+658     Geconfectioneerde artikelen, geheel of in hoofdzaak
+           textielstoffen n.a.g.
+659     Vloerbedekking (w.o. linoleum e.d.), wand- en tafelkleden, enz.",3
+"651","651 Garens","Garens.",5
+"652","652 Weefsels van katoen","Weefsels van katoen.",5
+"653","653 Weefsels vervaardigd van syntheti...","Weefsels vervaardigd van synthetische of van kunstmatige textielproducten.",5
+"654","654 Andere weefsels","Andere weefsels.",5
+"655","655 Brei- en haakwerk, n.a.g.","Brei- en haakwerk, n.a.g.",5
+"656","656 Tule, kant, borduurwerk, lint, pa...","Tule, kant, borduurwerk, lint, passementwerk e.d.",5
+"657","657 Speciale garens en speciale weefs...","Speciale garens en speciale weefsels e.d. producten.",5
+"658","658 Geconfectioneerde artikelen, gehe...","Geconfectioneerde artikelen, geheel of in hoofdzaak textielstoffen, n.a.g.",5
+"659","659 Vloerbedekking (w.o. linoleum e.d...","Vloerbedekking (w.o. linoleum e.d.), wand- en tafelkleden, enz.",5
+"t66","66  Fabrikaten van niet-metaalhoudend...","66   Fabrikaten van niet-metaalhoudende mineralen, n.a.g.
+Omvat de volgende SITC-groepen:
+661     Kalk (w.o. voor bemesting), cement en gefabriceerde
+           bouwmaterialen, behalve van glas of van klei
+662     Bouwmaterialen van klei of van vuurvaste grondstoffen
+663     Werken van minerale stoffen n.a.g. behalve van klei en van glas
+664     Glas
+665     Glaswerk
+666     Huishoudelijk aardewerk
+667     Edelstenen, halfedelstenen en parels, onbewerkt en bewerkt.",3
+"661","661 Kalk (w.o. voor bemesting), cemen...","Kalk (w.o. voor bemesting), cement en gefabriceerde bouwmaterialen,
+behalve van glas of van klei.",5
+"662","662 Bouwmaterialen van klei of van vu...","Bouwmaterialen van klei of van vuurvaste grondstoffen.",5
+"663","663 Werken van minerale stoffen, n.a....","Werken van minerale stoffen, n.a.g. behalve van klei van glas.",5
+"664","664 Glas","Glas.",5
+"665","665 Glaswerk","Glaswerk.",5
+"666","666 Huishoudelijk aardewerk","Huishoudelijk aardewerk.",5
+"667","667 Edelstenen, halfedelstenen en par...","Edelstenen, halfedelstenen en parels, onbewerkt en bewerkt.",5
+"t67","67 IJzer en staal","67  IJzer en staal
+Omvat de volgende SITC-groepen:
+671     Ruw gietijzer, spiegelijzer, sponsijzer en -staal, poeder van
+           ijzer of van staal, ferrolegeringen
+672     Ingots en dergelijke primaire vormen van ijzer of van staal;
+           halffabrikaten
+673     Gewalste platte producten van ijzer of van niet-gelegeerd staal,
+           niet geplateerd noch bekleed
+674     Gewalste platte producten van ijzer of van niet-gelegeerd staal,
+           geplateerd of bekleed
+675     Gewalste platte producten van gelegeerd staal
+676     Walsdraad, staven en profielen (m.i.v. damwandprofielen) van ijzer
+           of van staal
+677     Spoorstaven en andere bestanddelen (van ijzer of van staal) van
+           spoorbanen
+678     IJzer- en staaldraad
+679     Buizen, pijpen en holle profielen alsmede hulpstukken voor
+           buisleidingen van ijzer of van staal.",3
+"671","671 Ruw gietijzer, spiegelijzer, spon...","Ruw gietijzer, spiegelijzer, sponsijzer en -staal, poeder van ijzer of
+van staal, ferrolegeringen.",5
+"672","672 Ingots en dergelijke primaire vor...","Ingots en dergelijke primaire vormen van ijzer of staal; halffabrikaten.",5
+"673","673 Gewalste platte producten van ijz...","Gewalste platte producten van ijzer of van niet-gelegeerd staal, niet
+geplateerd noch bekleed.",5
+"674","674 Gewalste platte producten van ijz...","Gewalste platte producten van ijzer of van niet-gelegeerd staal,
+geplateerd of bekleed.",5
+"675","675 Gewalste platte producten van gel...","Gewalste platte producten van gelegeerd staal.",5
+"676","676 Walsdraad, staven en profielen (m...","Walsdraad, staven en profielen (m.i.v. damwandprofielen) van ijzer of van
+staal.",5
+"677","677 Spoorstaven en andere bestanddele...","Spoorstaven en andere bestanddelen (van ijzer of van staal) van spoorbanen
+.",5
+"678","678 IJzer- en staaldraad","IJzer- en staaldraad.",5
+"679","679 Buizen, pijpen en holle profielen...","Buizen, pijpen en holle profielen alsmede hulpstukken voor buisleidingen
+van ijzer of van staal.",5
+"t68","68 Non-ferrometalen","68   Non-ferrometalen
+Omvat de volgende SITC-groepen:
+681     Zilver en metalen van de platinagroep, onbewerkt of halfbewerkt
+682     Koper en koperlegeringen (ruw, staven, platen, draad, buizen,
+           enz.)
+683     Nikkel en nikkellegeringen (ruw, staven, platen, draad, buizen,
+           enz.)
+684     Aluminium en aluminiumlegeringen (ruw, staven, draad, buizen,
+           enz.)
+685     Lood en loodlegeringen (ruw, staven, platen, draad, buizen, enz.)
+686     Zink en zinklegeringen (ruw, staven, platen, draad, buizen, enz.)
+687     Tin en tinlegeringen (ruw, staven, platen, draad, buizen, enz.)
+689     Overige onedele non-ferrometalen en legeringen, onbewerkt of
+           bewerkt.",3
+"681","681 Zilver en metalen van de platinag...","Zilver en metalen van de platinagroep, onbewerkt of halfbewerkt.",5
+"682","682 Koper en koperlegeringen (ruw, st...","Koper en koperlegeringen (ruw, staven, platen, buizen, enz.).",5
+"683","683 Nikkel en nikkellegeringen (ruw, ...","Nikkel en nikkellegeringen (ruw, staven, platen, buizen, enz.).",5
+"684","684 Aluminium en aluminiumlegeringen ...","Aluminium en aluminiumlegeringen (ruw, staven, draad, buizen, enz.).",5
+"685","685 Lood en loodlegeringen (ruw, stav...","Lood en loodlegeringen (ruw, staven, platen, draad, buizen, enz.).",5
+"686","686 Zink en zinklegeringen (ruw, stav...","Zink en zinklegeringen (ruw, staven, platen, draad, buizen, enz.).",5
+"687","687 Tin en tinlegeringen (ruw, staven...","Tin en tinlegeringen (ruw, staven, platen, draad, buizen, enz.).",5
+"689","689 Overige onedele non-ferrometalen ...","Overige onedele non-ferrometalen en legeringen, onbewerkt of bewerkt.",5
+"t69","69 Metaalwaren n.a.g.","69   Metaalwaren, n.a.g.
+Omvat de volgende SITC-groepen:
+691     Constructiewerken en afgewerkte delen
+692     Bergingsmiddelen van metaal voor opslag en transport
+693     Kabel en draad van metaal (behalve geïsoleerde leidingen voor
+           elektriciteit) en metaalgaas e.d.
+694     Spijkers, schroeven, moeren, bouten, klinknagels en dergelijke
+           artikelen
+695     Gereedschap voor handgebruik en voor machines
+696     Messenmakerswerk, lepels, vorken e.d. artikelen
+697     Keukengerei en huishoudelijke artikelen van metaal n.a.g.
+699     Metaalwaren n.a.g.",3
+"691","691 Constructiewerken en afgewerkte d...","Constructiewerken en afgewerkte delen.",5
+"692","692 Bergingsmiddelen van metaal voor ...","Bergingsmiddelen van metaal voor opslag en transport.",5
+"693","693 Kabel en draad van metaal (behalv...","Kabel en draad van metaal (behalve geïsoleerde leidingen voor
+elektriciteit) en metaalgaas e.d.",5
+"694","694 Spijkers, schroeven, moeren, bout...","Spijkers, schroeven, moeren, bouten, klinknagels en dergelijke artikelen.",5
+"695","695 Gereedschap voor handgebruik en v...","Gereedschap voor handgebruik en voor machines.",5
+"696","696 Messenmakerswerk, lepels, vorken ...","Messenmakerswerk, lepels, vorken e.d. artikelen.",5
+"697","697 Keukengerei en huishoudelijke art...","Keukengerei en huishoudelijke artikelen van metaal, n.a.g.",5
+"699","699 Metaalwaren, n.a.g.","Metaalwaren, n.a.g.",5
+"tt7","7  Machines en vervoermaterieel","7   Machines en vervoermaterieel
+Omvat de volgende SITC-divisies:
+71  Generatoren en motoren
+72  Gespecialiseerde machines
+73  Machines voor metaalbewerking
+74  Diverse machines, n.a.g.
+75  Kantoor- en automatische gegevensverwerkende machines
+76  Toestellen voor telecommunicatie en voor opnemen en
+    weergeven van geluid
+77  Elektrische apparaten, n.a.g.
+78  Voertuigen voor wegvervoer
+79  Ander vervoermaterieel.",1
+"t71","71 Generatoren en motoren","71  Generatoren en motoren
+Omvat de volgende SITC-groepen:
+711     Stoomgeneratoren (stoomketels) en andere dampgeneratoren; ketels
+           voor oververhit water
+712     Stoomturbines en andere dampturbines
+713     Zuigermotoren met vonkontsteking of met zelfontsteking
+714     (Turbine)straalmotoren; schroefturbines en andere gasturbines
+716     Elektrische roterende machines
+718     Andere krachtwerktuigen.",3
+"711","711 Stoomgeneratoren (stoomketels) en...","Stoomgeneratoren (stoomketels) en andere dampgeneratoren; ketels voor
+oververhit water.",5
+"712","712 Stoomturbines en andere dampturbines","Stoomturbines en andere dampturbines.",5
+"713","713 Zuigermotoren met vonkontsteking ...","Zuigermotoren met vonkontsteking of met zelfontsteking.",5
+"714","714 (turbine)straalmotoren; schroeftu...","(turbine)straalmotoren; schroefturbines en andere gasturbines.",5
+"716","716 Elektrische roterende machines","Elektrische roterende machines.",5
+"718","718 Andere krachtwerktuigen","Andere krachtwerktuigen.",5
+"t72","72 Gespecialiseerde machines","72   Gespecialiseerde machines
+Omvat de volgende SITC-groepen:
+721     Landbouwmachines (behalve tractors)
+722     Tractors
+723     Delf- en graafmachines; machines voor grondwerken; heimachines en
+           sneeuwploegen
+724     Machines voor de textiel- en de lederindustrie
+725     Machines voor de papierindustrie
+726     Machines voor de drukkerij en de boekbinderij
+727     Machines voor de voedingsindustrie
+728     Machines en toestellen n.a.g.",3
+"721","721 Landbouwmachines (behalve tractors)","Landbouwmachines (behalve tractors).",5
+"722","722 Tractors","Tractors.",5
+"723","723 Delf- en graafmachines; machines ...","Delf- en graafmachines; machines voor grondwerken; heimachines en
+sneeuwploegen.",5
+"724","724 Machines voor de textiel- en de l...","Machines voor de textiel- en de lederindustrie.",5
+"725","725 Machines voor de papierindustrie","Machines voor de papierindustrie.",5
+"726","726 Machines voor de drukkerij en de ...","Machines voor de drukkerij en de boekbinderij.",5
+"727","727 Machines voor de voedingsindustrie","Machines voor de voedingsindustrie.",5
+"728","728 Machines en toestellen n.a.g.","Machines en toestellen n.a.g.",5
+"t73","73 Machines voor metaalbewerking","73   Machines voor metaalbewerking
+Omvat de volgende SITC-groepen:
+731     Gereedschapwerktuigen voor het verspanend bewerken van metaal of
+           andere stoffen
+733     Gereedschapwerktuigen voor het niet-verspanend bewerken van
+           metaal, gesinterde metaalcarbiden of cermets
+735     Delen en toebehoren voor de machines bedoeld bij de
+           groepen 731 en 733; gereedschapshouders voor handgereedschap
+           van alle soorten
+737     Andere machines voor metaalbewerking.",3
+"731","731 Gereedschapswerktuigen voor het v...","Gereedschapswerktuigen voor het verspanend bewerken metaal of andere
+stoffen.",5
+"733","733 Gereedschapswerktuigen voor het n...","Gereedschapswerktuigen voor het niet-verspanend bewerken van metaal,
+gesinterde metaalcarbiden of cermets.",5
+"735","735 Delen en toebehoren voor de machi...","Delen en toebehoren voor de machines bedoeld bij de groepen 731 en 733;
+gereedschapshouders voor handgereedschap van alle soorten.",5
+"737","737 Andere machines voor metaalbewerk...","Andere machines voor metaalbewerking.",5
+"t74","74 Diverse machines n.a.g.","74  Diverse machines, n.a.g.
+Omvat de volgende SITC-groepen:
+741     Verwarmings- en koelmachines
+742     Pompen en elevatoren voor vloeistoffen
+743     Andere pompen; compressoren, ventilatoren, centrifuges en
+           toestellen voor het filtreren of zuiveren van vloeistoffen
+           of van gassen
+744     Mechanisch transportmaterieel.
+745     Andere niet elektrische machines.
+746     Kogellagers, rollagers, naaldlagers e.d. lagers.
+747     Kranen e.d. artikelen voor leidingen, voor ketels, voor
+        reservoirs enz.
+748     Drijfwerkassen, krukken, kussenblokken en lagerschalen,
+        tandwielen e.a. overbrengingsmechanismen voor het regelen van de
+        snelheid.
+749     Niet elektrische delen en onderdelen n.a.g.",3
+"741","741 Verwarmings- en koelmachines","Verwarmings- en koelmachines.",5
+"742","742 Pompen en elevatoren voor vloeist...","Pompen en elevatoren voor vloeistoffen.",5
+"743","743 Andere pompen; compressoren, vent...","Andere pompen; compressoren, ventilatoren, centrifuges en toestellen voor
+het filtreren of zuiveren van vloeistoffen of van gassen.",5
+"744","744 Mechanisch transportmaterieel","Mechanisch transportmaterieel.",5
+"745","745 Andere niet elektrische machines","Andere niet elektrische machines.",5
+"746","746 Kogel-, rol-, naaldlagers e.d.","Kogellagers, rollagers, naaldlagers e.d. lagers.",5
+"747","747 Kranen e.d. artikelen voor leidin...","Kranen e.d. artikelen voor leidingen, voor ketels, reservoirs enz.",5
+"748","748 Drijfwerkassen, krukken, kussenbl...","Drijfwerkassen, krukken, kussenblokken en tandwielen e.a.
+overbrengingsmechanismen voor het regelen van de snelheid.",5
+"749","749 Niet elektrische delen en onderde...","Niet elektrische delen en onderdelen n.a.g.",5
+"t75","75  Kantoor- en automatische gegevens...","75   Kantoor- en automatische gegevensverwerkende machines
+Omvat de volgende SITC-groepen:
+751     Kantoormachines
+752     Automatische gegevens verwerkende machines
+759     Onderdelen en toebehoren voor machines van de groepen
+           751 en 752.",3
+"751","751 Kantoormachines","Kantoormachines.",5
+"752","752 Automatische gegevens verwerkende...","Automatische gegevens verwerkende machines.",5
+"759","759 Onderdelen en toebehoren voor mac...","Onderdelen en toebehoren voor machines van de 751 en 752.",5
+"t76","76  Toestellen voor telecommunicatie ...","76   Toestellen voor telecommunicatie en voor opnemen en weergeven van
+        beeld en geluid
+Omvat de volgende SITC-groepen:
+761     Ontvangtoestellen voor televisie
+762     Ontvangtoestellen voor radio-omroep
+763     Toestellen voor het weergeven en/of opnemen van geluid;
+           video-opname en -weergaveapparaten
+764     Toestellen voor telecommunicatie; delen en onderdelen.",3
+"761","761 Ontvangtoestellen voor televisie","Ontvangtoestellen voor televisie.",5
+"762","762 Ontvangtoestellen voor radio-omroep","Ontvangtoestellen voor radio-omroep.",5
+"763","763 Toestellen voor het weergeven en/...","Toestellen voor het weergeven en/of opnemen van geluid; video-opname en
+-weergaveapparaten.",5
+"764","764 Toestellen voor telecommunicatie;...","Toestellen voor telecommunicatie; delen en onderdelen.",5
+"t77","77 Elektrische apparaten n.a.g.","77   Elektrische apparaten, n.a.g.
+Omvat de volgende SITC-groepen:
+771     Elektrische krachtwerktuigen n.a.g., behalve elektrische
+           roterende machines
+772     Materiaal voor het geleiden en isoleren van elektrische stroom
+773     Artikelen voor stroomverdeling
+774     Elektromedische- en radiologische apparaten
+775     Apparaten voor huishoudelijk gebruik
+776     Elektronenbuizen, transistors en dergelijke halfgeleiderelementen
+778     Elektrische machines, apparaten en toestellen n.a.g.",3
+"771","771 Elektrische krachtwerktuigen, n.a...","Elektrische krachtwerktuigen, n.a.g., behalve elektrische roterende
+machines.",5
+"772","772 Materiaal voor het geleiden en is...","Materiaal voor het geleiden en isoleren van elektrische stroom.",5
+"773","773 Artikelen voor stroomverdeling","Artikelen voor stroomverdeling.",5
+"774","774 Elektromedische- en radiologische...","Elektromedische- en radiologische apparaten.",5
+"775","775 Apparaten voor huishoudelijk gebruik","Apparaten voor huishoudelijk gebruik.",5
+"776","776 Elektronenbuizen, transistors en ...","Elektronenbuizen, transistors en dergelijke halfgeleiderelementen.",5
+"778","778 Elektrische machines, apparaten e...","Elektrische machines, apparaten en toestellen n.a.g.",5
+"t78","78 Voertuigen voor wegvervoer","78   Voertuigen voor wegvervoer
+Omvat de volgende SITC-groepen:
+781     Automobielen voor personenvervoer (behalve voor gemeenschappelijk
+           vervoer)
+782     Automobielen voor goederenvervoer en voor bijzondere doeleinden
+783     Overige automobielen
+784     Delen en onderdelen voor automobielen en tractors
+785     Motorrijwielen, rijwielen met of zonder hulpmotor, scooters en
+           invalidenwagens
+786     Aanhangwagens, containers en andere, niet gemotoriseerde,
+           voertuigen.",3
+"781","781 Automobielen voor personenvervoer","Automobielen voor personenvervoer (behalve voor gemeenschappelijk vervoer)
+.",5
+"782","782 Automobielen voor goederenvervoer...","Automobielen voor goederenvervoer en voor bijzondere doeleinden.",5
+"783","783 Overige automobielen","Overige automobielen.",5
+"784","784 Delen en onderdelen voor automobi...","Delen en onderdelen voor automobielen en tractors.",5
+"785","785 Motorrijwielen, rijwielen met of ...","Motorrijwielen, rijwielen met of zonder hulpmotor, scooters en
+invalidenwagens.",5
+"786","786 Aanhangwagens, containers en ande...","Aanhangwagens, containers en andere, niet gemotoriseerde, voertuigen.",5
+"t79","79 Ander vervoermaterieel","Ander vervoermaterieel
+Omvat de volgende SITC-groepen:
+791     Spoorwegmaterieel
+792     Luchtvaartuigen; ruimtevaartuigen en draagraketten hiervoor;
+           onderdelen
+793     Schepen en boten.",3
+"791","791 Spoorwegmaterieel","Spoorwegmaterieel.",5
+"792","792 Luchtvaartuigen; ruimtevaartuigen...","Luchtvaartuigen; ruimtevaartuigen en draagraketten hiervoor; delen daarvan
+.",5
+"793","793 Schepen en boten","Schepen en boten.",5
+"tt8","8  Diverse gefabriceerde goederen","8   Diverse gefabriceerde goederen
+Omvat de volgende SITC-divisies:
+81  Geprefabriceerde bouwwerken, sanitaire artikelen,
+       installaties voor centrale verwarming en verlichtings-
+       toestellen n.a.g.
+82  Meubelen en toebehoren, artikelen voor bedden n.a.g.
+83  Reisartikelen, handtassen e.d.
+84  Kleding en toebehoren
+85  Schoeisel
+87  Instrumenten en apparaten voor beroepsuitoefening,
+      wetenschap, n.a.g.
+88  Apparaten en benodigdheden voor fotografie, optiek e.d.;
+      uurwerken
+89  Diverse fabrikaten, n.a.g.",1
+"t81","81  Geprefabriceerde bouwwerken, sani...","81   Geprefabriceerde bouwwerken, sanitaire artikelen, installaties voor
+       centrale verwarming en verlichtingstoestellen n.a.g.
+Omvat de volgende SITC-groepen:
+811     Geprefabriceerde bouwwerken
+812     Sanitaire artikelen, installaties voor centrale verwarmingen
+           n.a.g.
+813     Verlichtingstoestellen n.a.g.",3
+"811","811 Geprefabriceerde bouwwerken","Geprefabriceerde bouwwerken.",5
+"812","812 Sanitaire artikelen, installaties...","Sanitaire artikelen, installaties voor centrale verwarmingen n.a.g.",5
+"813","813 Verlichtingstoestellen n.a.g.","Verlichtingstoestellen n.a.g.",5
+"t82","82  Meubelen en toebehoren, artikelen...","82   Meubelen en toebehoren, artikelen voor bedden n.a.g.
+Omvat de volgende SITC-groepen:
+821     Meubelen en toebehoren; artikelen voor bedden e.d. artikelen.",3
+"821","821 Meubelen en toebehoren e.d. art.","Meubelen en toebehoren; artikelen voor bedden e.d. artikelen.",5
+"t83","83 Reisartikelen, handtassen e.d.","83   Reisartikelen, handtassen e.d.
+Omvat de volgende SITC-groepen:
+831     Reisartikelen, handtassen en dergelijke artikelen.",3
+"831","831 Reisartikelen, handtassen en derg...","Reisartikelen, handtassen en dergelijke artikelen.",5
+"t84","84 Kleding en toebehoren","84   Kleding en toebehoren
+Omvat de volgende SITC-groepen:
+841     Heren- en jongenskleding van textiel; geen brei- of haakwerk
+842     Dames- en meisjeskleding van textiel; geen brei- of haakwerk
+843     Heren- en jongenskleding van brei- of haakwerk
+844     Dames- en meisjeskleding van brei- of haakwerk
+845     Kleding en kledingtoebehoren van textiel voor baby's; kleding
+           van textiel n.a.g.
+846     Kledingtoebehoren van textielstoffen
+848     Kleding en kledingtoebehoren van andere dan textielstoffen;
+           hoofddeksels.",3
+"841","841 Heren- en jongenskleding van text...","Heren- en jongenskleding van textiel; geen brei- of haakwerk.",5
+"842","842 Dames- en meisjeskleding van text...","Dames- en meisjeskleding van textiel; geen brei- of haakwerk.",5
+"843","843 Heren- en jongenskleding van brei...","Heren- en jongenskleding van brei- of haakwerk.",5
+"844","844 Dames- en meisjeskleding van brei...","Dames- en meisjeskleding van brei- of haakwerk.",5
+"845","845 Kleding en kledingtoebehoren van ...","Kleding en kledingtoebehoren van textiel voor baby's; kleding van textiel
+n.a.g.",5
+"846","846 Kledingtoebehoren van textielstoffen","Kledingtoebehoren van textielstoffen.",5
+"848","848 Kleding en kledingtoebehoren van ...","Kleding en kledingtoebehoren van andere dan textielstoffen; hoofddeksels.",5
+"t85","85 Schoeisel","85   Schoeisel
+Omvat de volgende SITC-groepen:
+851     Schoeisel.",3
+"851","851 Schoeisel","Schoeisel.",5
+"t87","87  Instrumenten en apparaten voor be...","87   Instrumenten en apparaten voor beroepsuitoefening,
+Omvat de volgende SITC-groepen:
+871     Optische instrumenten en apparaten
+872     Medische instrumenten en apparaten
+873     Verbruiksmeters en telinstrumenten
+874     Meet-, controle- en analyseinstrumenten en toestellen.",3
+"871","871 Optische instrumenten en apparaten","Optische instrumenten en apparaten.",5
+"872","872 Medische instrumenten en apparaten","Medische instrumenten en apparaten.",5
+"873","873 Verbruiksmeters en telinstrumenten","Verbruiksmeters en telinstrumenten.",5
+"874","874 Meet-, controle- en analyseinstru...","Meet-, controle- en analyseinstrumenten en toestellen.",5
+"t88","88  Apparaten en benodigdheden voor f...","88   Apparaten en benodigdheden voor fotografie, optiek e.d.;
+Omvat de volgende SITC-groepen:
+881     Toestellen voor de fotografie en de cinematografie
+882     Producten voor fotografie en cinematografie
+883     Cinematografische films; belicht en ontwikkeld
+884     Optische elementen en brillen
+885     Uurwerken.",3
+"881","881 Toestellen voor de fotografie en ...","Toestellen voor de fotografie en de cinematografie.",5
+"882","882 Produkten voor fotografie en cine...","Produkten voor fotografie en cinematografie.",5
+"883","883 Cinematografische films; belicht ...","Cinematografische films; belicht en ontwikkeld.",5
+"884","884 Optische elementen en brillen","Optische elementen en brillen.",5
+"885","885 Uurwerken","Uurwerken.",5
+"t89","89 Diverse fabrikaten, n.a.g.","89   Diverse fabrikaten, n.a.g.
+Omvat de volgende SITC-groepen:
+891     Wapens en munitie
+892     Drukwerk
+893     Werken van kunstmatige plastische stoffen n.a.g.
+894     Kinderwagens, speelgoed, spellen en sportartikelen
+895     Kantoor- en schrijfbenodigdheden n.a.g.
+896     Kunstvoorwerpen, voorwerpen voor verzamelingen en antiquiteiten
+897     Juwelen, goud- en zilversmidswerken
+898     Muziekinstrumenten; delen en toebehoren en grammofoonplaten
+899     Gefabriceerde artikelen n.a.g.",3
+"891","891 Wapens en munitie","Wapens en munitie.",5
+"892","892 Drukwerk","Drukwerk.",5
+"893","893 Werken van kunstmatige plastische...","Werken van kunstmatige plastische stoffen, n.a.g.",5
+"894","894 Kinderwagens, speelgoed, spellen ...","Kinderwagens, speelgoed, spellen en sportartikelen.",5
+"895","895 Kantoor- en schrijfbenodigdheden...","Kantoor- en schrijfbenodigdheden, n.a.g.",5
+"896","896 Kunstvoorwerpen, voorwerpen voor ...","Kunstvoorwerpen, voorwerpen voor verzamelingen en antiquiteiten.",5
+"897","897 Juwelen, goud- en zilversmidswerken","Juwelen, goud- en zilversmidswerken.",5
+"898","898 Muziekinstrumenten; delen en toeb...","Muziekinstrumenten; delen en toebehoren en grammofoonplaten.",5
+"899","899 Gefabriceerde artikelen, n.a.g.","Gefabriceerde artikelen, n.a.g.",5
+"tt9","9  Niet afzonderlijk genoemde goederen","9   Niet afzonderlijk genoemde goederen
+Omvat de volgende SITC-divisies:
+93  Boordprovisie en benodigdheden voor schepen en
+    vliegtuigen en goederen n.a.g.
+94  Complete fabrieksinstallaties.
+96  Niet in circulatie zijnde munten, behalve gouden munten
+97  Niet-monetair goud.",1
+"t91","91 Goederen vervoerd per post n.a.g.","91  Goederen vervoerd per post n.a.g.
+Omvat de volgende SITC-groep:
+911     Postpakketten, behalve diamant.",3
+"911","911 Postpaketten, behalve diamant","Postpaketten, behalve diamant.",5
+"t93","93  Boordprovisie en benodigdheden vo...","93   Boordprovisie en benodigdheden voor schepen en
+       vliegtuigen en goederen n.a.g.
+Omvat de volgende SITC-groep:
+931     Boordprovisie en benodigdheden voor schepen en vliegtuigen en
+           goederen n.a.g.",3
+"931","931 Boordprovisie en benodigdheden vo...","Boordprovisie en benodigdheden voor schepen en vliegtuigen en goederen
+n.a.g.",5
+"t94","94 Complete fabrieksinstallaties","94   Complete fabrieksinstallaties
+Omvat de volgende SITC-groep:
+941     Complete fabrieksinstallaties.",3
+"941","941 Complete fabrieksinstallaties","Complete fabrieksinstallaties.",5
+"t96","96  Niet in circulatie zijnde munten...","96   Niet in circulatie zijnde munten, behalve gouden munten
+Omvat de volgende SITC-groep:
+961     Niet in circulatie zijnde munten, behalve gouden munten.",3
+"961","961 Niet in circulatie zijnde munten...","Niet in circulatie zijnde munten, behalve gouden munten.",5
+"t97","97 (Niet)-monetair goud","97 (Niet)-monetair goud
+Omvat de volgende SITC-groep:
+971  Niet-monetair goud.
+972  Monetair goud; Gouden munten; Munten als geldige wettige
+betaalmiddelen.",3
+"971","971 Niet-monetair goud","Niet-monetair goud.",5
+"972","972 Monetair goud; Gouden munten; Mun...","Monetair goud; Gouden munten; Munten als geldige wettige betaalmiddelen.",5
+"940","Niet elders genoemde goederen.",,3

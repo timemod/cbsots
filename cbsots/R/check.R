@@ -12,6 +12,10 @@ check_language <- function(meta) {
 # It also updates the Titles with the CBS titles, because
 # the titles may be out of date.
 check_code <- function(code, cbs_code) {
+
+  if (!identical(sort(names(code)), sort(names(cbs_code)))) {
+    stop("Corrupt timeseriescode: dimension names does not agree with CBS names")
+  }
   
   convert <- function(name) {
     
@@ -30,7 +34,6 @@ check_code <- function(code, cbs_code) {
                 paste(unknown_keys, collapse = "\n")), "\n.")
     }
     
-    #
     # TODO: update Titles in code based on cbs_code, then check_code
     # should return a code with updated Titles
   
@@ -43,7 +46,11 @@ check_code <- function(code, cbs_code) {
 # this function returns TRUE if data contains all keys in code and period_keys
 check_read_data <- function(data, code, period_keys) {
   
-  # TODO: implement check
-  
-  return(TRUE)
+  # check dimension keys
+  for (dimension in setdiff(names(code), "Topic")) {
+    if (any(!code[[dimension]]$Key %in% data[[dimension]])) {
+      return(FALSE)
+    }
+  }
+  return(all(period_keys %in% data$Perioden))
 }

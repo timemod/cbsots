@@ -19,7 +19,8 @@ download_table <- function(id, raw_cbs_dir, code, min_year, na_strings) {
     }
     return(filter)
   }
-  
+
+  dimensions <- setdiff(names(code), "Topic")
   filters <- sapply(names(code), FUN = get_dimension_filter, simplify = FALSE)
   
   if (!missing(min_year)) {

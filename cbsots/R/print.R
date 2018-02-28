@@ -27,9 +27,10 @@ print.table_code <- function(x, ...) {
 #' @export
 print.table_ts <- function(x, ...) {
   cat("table_ts object\n")
-  for (i in 2:length(x)) {
-    cat(sprintf("Frequency %s :\n", names(x)[i]))
+  freqs <- setdiff(names(x), c("ts_names", "meta"))
+  for (freq in freqs) {
+    cat(sprintf("Frequency %s :\n", freq))
     cat("Topleft part of the result (the first 6 rows and 10 columns):\n")
-    print(topleft(x[[i]], ncol = min(10, ncol(x[[i]]))))
+    print(topleft(x[[freq]], ncol = min(10, ncol(x[[freq]]))))
   }
 }

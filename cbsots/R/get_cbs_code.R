@@ -15,6 +15,8 @@ get_cbs_code <- function(meta_data) {
   }
   code <- sapply(dimensies_en_topics$dimensies, FUN = get_code, simplify = FALSE)
   code$Topic <- dimensies_en_topics$topics
+  
+  code <- code[c("Topic", dimensies_en_topics$dimensies)]
   return(code)
 }
 

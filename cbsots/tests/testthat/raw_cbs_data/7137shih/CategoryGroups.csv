@@ -1,0 +1,106 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"SITC","Secties",,
+1,"SITC","Totalen per sectie",,0
+2,"SITC","Divisies",,
+3,"SITC","Totalen per divisie",,2
+4,"SITC","Groepen",,
+5,"SITC","Totalen per groep",,4
+6,"SITC","Divisie naar sectie",,
+7,"SITC","Totaal goederen",,6
+8,"SITC","0 Voeding en levende dieren",,6
+9,"SITC","1 Dranken en tabak",,6
+10,"SITC","2 Grondstoffen, oneetbaar, beh. brandst.",,6
+11,"SITC","3 Minerale brandstoffen, smeermid. e.d.",,6
+12,"SITC","4 Dierlijke/plantaardige oliën/vetten",,6
+13,"SITC","5 Chemische produkten",,6
+14,"SITC","6 Fabrikaten, ingedeeld naar grondstof.",,6
+15,"SITC","7 Machines en vervoermaterieel",,6
+16,"SITC","8 Diverse gefabriceerde goederen",,6
+17,"SITC","9 Niet afzonderlijk genoemde goederen",,6
+18,"SITC","Niet elders genoemde goederen",,6
+19,"SITC","Groep naar divisie",,
+20,"SITC","Totaal goederen",,19
+21,"SITC","00 Levende dieren m.u.v. vis, schaald.",,19
+22,"SITC","01 VLees en vleesproducten",,19
+23,"SITC","02 Zuivelproducten en eieren",,19
+24,"SITC","03 Vis, schaal- en weekdieren en bereid.",,19
+25,"SITC","04 Granen en graanproducten",,19
+26,"SITC","05 Groenten en fruit",,19
+27,"SITC","06 Suiker en suikerwerken, honing",,19
+28,"SITC","07 Koffie, thee, cacao, specerijen",,19
+29,"SITC","08 Veevoeder m.u.v. niet gemalen granen",,19
+30,"SITC","09 Bereide voedingsmiddelen n.a.g.",,19
+31,"SITC","11 Dranken",,19
+32,"SITC","12 Tabak en tabaksfrabikaten",,19
+33,"SITC","21 Ongelooide huiden en vellen",,19
+34,"SITC","22 Oliehoudende zaden voor fijne oliën",,19
+35,"SITC","23 Ruw synthetisch/geregenereerd rubber",,19
+36,"SITC","24 Kurk en hout",,19
+37,"SITC","25 Papierstof en papierafval",,19
+38,"SITC","26 Textielvezels, textielafval en lompen",,19
+39,"SITC","27 Meststoffen, ruwe minerale producten",,19
+40,"SITC","28 Metaalertsen en metaalafvallen",,19
+41,"SITC","29 Ov. ruwe dierlijke/plantaardige prod.",,19
+42,"SITC","32 Steenkool, cokes en briketten",,19
+43,"SITC","33 Ruwe aardolie en aardolieproducten",,19
+44,"SITC","34 Aardgas en industriegas",,19
+45,"SITC","35 Elektrische energie",,19
+46,"SITC","41 Dierlijke oliën en vetten",,19
+47,"SITC","42 Plantaardige oliën en vetten",,19
+48,"SITC","43 Bereide oliën en vetten niet cons.",,19
+49,"SITC","51 Organische chemische producten",,19
+50,"SITC","52 Anorganische chemische producten",,19
+51,"SITC","53 Kleur-, looi- en verfstoffen",,19
+52,"SITC","54 Medicinale, farmaceutische producten",,19
+53,"SITC","55 Etherische oliën en reukstoffen",,19
+54,"SITC","56 Kunstmatige meststoffen",,19
+55,"SITC","57 Kunststof in primaire vormen",,19
+56,"SITC","58 Werken van kunststof n.a.g.",,19
+57,"SITC","59 Andere chemische producten",,19
+58,"SITC","61 Leder en -waren, bereide pelterijen",,19
+59,"SITC","62 Rubberwaren n.a.g.",,19
+60,"SITC","63 Kurk- en houtwaren, behalve meubelen",,19
+61,"SITC","64 Papier, karton en artikelen daarvan",,19
+62,"SITC","65 Garens, weefsels e.d.",,19
+63,"SITC","66 Fabrikaten v. niet-metaalh. mineralen",,19
+64,"SITC","67 IJzer en staal",,19
+65,"SITC","68 Non-ferrometalen",,19
+66,"SITC","69 Metaalwaren n.a.g.",,19
+67,"SITC","71 Generatoren en motoren",,19
+68,"SITC","72 Gespecialiseerde machines",,19
+69,"SITC","73 Machines voor metaalbewerking",,19
+70,"SITC","74 Diverse machines n.a.g.",,19
+71,"SITC","75 Kantoormachines/aut. gegevensverw.",,19
+72,"SITC","76 Toest. voor telecomm., audio e.d.",,19
+73,"SITC","77 Elektrische apparaten n.a.g.",,19
+74,"SITC","78 Voertuigen voor wegvervoer",,19
+75,"SITC","79 Ander vervoermaterieel",,19
+76,"SITC","81 Geprefabr. bouwwerken, sanitaire art.",,19
+77,"SITC","82 Meubelen en toebehoren, bedart. e.d.",,19
+78,"SITC","83 Reisartikelen, handtassen e.d.",,19
+79,"SITC","84 Kleding en toebehoren",,19
+80,"SITC","85 Schoeisel",,19
+81,"SITC","87 Instr., app. voor beroepsuitoefening",,19
+82,"SITC","88 App., benidigdh. voor fotogr., uurw.",,19
+83,"SITC","89 Diverse fabrikaten, n.a.g.",,19
+84,"SITC","91 Goederen vervoerd per post n.a.g.",,19
+85,"SITC","93 Provisie en benodigdh. voor schepen",,19
+86,"SITC","94 Complete fabrieksinstallaties",,19
+87,"SITC","96 Niet in circulatie zijnde munten",,19
+88,"SITC","97 Niet-monetair goud",,19
+89,"LandenGroepen","Alle Landen(groepen)",,
+90,"LandenGroepen","Totaal Landen(groepen)",,89
+91,"LandenGroepen","Alle Landen(groepen)",,89
+92,"LandenGroepen","Totalen per continent",,
+93,"LandenGroepen","Totalen",,92
+94,"LandenGroepen","Landen(groepen) per continent",,
+95,"LandenGroepen","Totaal landen(groepen)",,94
+96,"LandenGroepen","Europa",,94
+97,"LandenGroepen","Afrika",,94
+98,"LandenGroepen","Azië",,94
+99,"LandenGroepen","Amerika",,94
+100,"LandenGroepen","Oceanië",,94
+101,"LandenGroepen","Overige landen(groepen)",,94
+102,"LandenGroepen","EU en niet-EU",,
+103,"LandenGroepen","Europese Unie",,102
+104,"LandenGroepen","Niet Europese Unie",,102

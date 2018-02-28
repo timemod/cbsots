@@ -92,18 +92,18 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   if (!refresh) {
     read_ok <- FALSE
     meta <- read_meta_data(data_dir)
-    check_language(meta)
-    cbs_code <- get_cbs_code(meta)
-    code <- check_code(code, cbs_code)
     if (!is.null(meta)) {
+      check_language(meta)
+      cbs_code <- get_cbs_code(meta)
+      code <- check_code(code, cbs_code)
       data <- read_data(data_dir, na_strings = na_strings)
       if (!is.null(data)) {
-        read_ok <- check_read_data(data, code, period_keys ="dummy")
+        period_keys <- get_period_keys(meta, min_year)
+        read_ok <- check_read_data(data, code, period_keys = period_keys)
+        if (read_ok && !missing(min_year)) {
+          data <- data[Perioden %in% period_keys]
+        }
       }
-    }
-    if (read_ok && !missing(min_year)) {
-      period_keys <- get_period_keys(meta, min_year)
-      data <- data[Perioden %in% period_keys]
     }
   }
   
@@ -195,7 +195,7 @@ maak_ts_names_en_labels <- function(code) {
   ts_names <- cbind(name = namen, keys, labels = labels)
  
   # sorteer ts namen
-  ts_names <- ts_names[order(namen), ]
+  ts_names <- as.data.frame(ts_names[order(namen), ])
 
   return(list(ts_names = ts_names, labels = labels))
 }
