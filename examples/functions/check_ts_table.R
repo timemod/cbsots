@@ -25,8 +25,7 @@
 
 library(data.table)
 
-check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data", 
-                           output_dir = "output") {
+check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data") {
   
   cbs_data_file <- file.path(raw_cbs_dir, id, "data.csv")
 
@@ -42,24 +41,28 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
     stop("The number of timeseries is not correct.")
   }
   
+  equal <- TRUE
+  
   f <- function(ts_name, ...) {
-    ret <- controleer_tijdreeks(ts_name, ...)
+    ret <- controleer_tijdreeks(x, ts_name, ...)
     ranges_equal <- sapply(ret, FUN = function(x) {x$ranges_equal})
     data_equal <- sapply(ret, FUN = function(x) {x$data_equal})
     if (any(!ranges_equal) || any(!data_equal)) {
+      equal <- FALSE
       warning(paste("Differences found for series", ts_name, "!\n",
                        "Check the result"), immediate. = TRUE)
     }
     return(ret)
   }
   
-  return(sapply(ts_names, FUN = f, ts_data = x, cbs_data = cbs_data, 
-                simplify = FALSE))
+  return(c(list(equal = equal), 
+           sapply(ts_names, FUN = f, ts_data = x, cbs_data = cbs_data, 
+                  simplify = FALSE)))
 }
 
-controleer_tijdreeks <- function(ts_name, ts_data, cbs_data) {
+controleer_tijdreeks <- function(x, ts_name, ts_data, cbs_data) {
   
-  ts_names <- ts_data$ts_names
+  ts_names <- as.data.table(ts_data$ts_names)
   dimensies <- setdiff(colnames(ts_names)[2:(ncol(ts_names) - 1)], "Topic")
   frequenties <-  setdiff(names(x), c("ts_names", "meta"))
   

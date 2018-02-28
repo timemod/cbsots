@@ -35,8 +35,7 @@ a list with class \code{table_ts}, with the following components
  \item{Y}{Yearly timeseries (if present)}
  \item{Q}{Quarterly timeseries (if present)}
  \item{M}{Monthly timeseries (if present)}
- \item{ts_names}{A \code{\link[data.table]{data.table}} with an overview 
- of the timeseries names}
+ \item{ts_names}{A data frame with an overview of the timeseries names}
  \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
 }
 \description{
