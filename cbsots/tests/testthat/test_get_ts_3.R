@@ -3,11 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-# 
-# In this test we check the refresh and min_year arguments. Note that we cannot 
-# compare the results with expected results, because the table data is downloaded
-# from the CBS and the table may change over time.
-#
 context("get_ts: no refresh and no existing raw data file")
 
 ts_code <- readRDS("tscode/tscode.rds")

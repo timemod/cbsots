@@ -1,0 +1,14 @@
+"Key","Title","Description","CategoryGroupID"
+"P040","Totaal afzetprijzen","Afzetprijzen bestaan uit twee componenten: 
+1 Afzetprijzen binnenland;
+prijzen die de Nederlandse producenten in rekening brengen aan binnenlandse klanten.
+
+2 Afzetprijzen buitenland;
+prijzen die de Nederlandse producenten in rekening brengen bij export.",
+"P010","Afzetprijzen binnenland","Afzetprijzen binnenland zijn gelijk aan de prijzen die de Nederlandse producenten in rekening brengen aan binnenlandse klanten.",
+"P020","Afzetprijzen buitenland","Afzetprijzen buitenland zijn gelijk aan de prijzen die de Nederlandse producenten in rekening brengen bij export.",
+"P030","Invoerprijzen","Invoerprijzen zijn gelijk aan de prijzen die door de Nederlandse producenten en handel betaald zijn bij import van goederen.",
+"P050","Verbruiksprijzen","Verbruiksprijzen industrie bestaan uit twee componenten: 
+1: prijzen die de Nederlandse industriebedrijven rekenen aan binnenlandse klanten.
+2: importprijzen van industrieproducten betaald door de Nederlandse industrie en handel.
+",

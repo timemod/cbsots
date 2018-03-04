@@ -1,0 +1,14 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","AfzetInvoerEnVerbruik","Afzet, invoer en verbruik","",,,,,
+"Cbs.OData.Dimension",1,1,,"Dimension","ProductenPRODCOM","Producten (PRODCOM)","",,,,,
+"Cbs.OData.TimeDimension",2,2,,"TimeDimension","Perioden","Perioden","",TRUE,,,,
+"Cbs.OData.Topic",3,3,,"Topic","ProducentenprijsindexPPI_1","Producentenprijsindex (PPI)","De producentenprijsindex (PPI) is een indexcijfer dat de gemiddelde prijsontwikkeling weergeeft van Nederlandse industrieproducten. 
+---
+De prijsindexcijfers van de afzet zijn een gewogen gemiddelde van prijsgegevens voor de binnenlandse afzet en voor de uitvoer van de desbetreffende goederen.
+---
+De prijsindexcijfers van het verbruik van grondstoffen en halffabrikaten zijn een gewogen gemiddelde van prijsgegevens voor de aankoop van binnenlandse producten en voor de invoer van de desbetreffende goederen.
+---
+De prijsindexen zijn exclusief accijns.
+",,"Double","2010 = 100",1,"Impossible"
+"Cbs.OData.Topic",4,4,,"Topic","OntwikkelingTOVEenJaarEerder_2","Ontwikkeling t.o.v. een jaar eerder","Procentuele ontwikkeling ten opzichte van dezelfde maand een jaar eerder.",,"Double","%",1,"Impossible"
+"Cbs.OData.Topic",5,5,,"Topic","OntwikkelingTOVEenMaandEerder_3","Ontwikkeling t.o.v. een maand eerder","Procentuele ontwikkeling ten opzichte van de vorige maand.",,"Double","%",1,"Impossible"

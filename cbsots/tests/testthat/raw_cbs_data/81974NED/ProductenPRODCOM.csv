@@ -1,0 +1,540 @@
+"Key","Title","Description","CategoryGroupID"
+"B       ","B Winning van delfstoffen","",1
+"05000000","05 Steenkool en bruinkool","",3
+"05100000","051 Steenkool","",8
+"06000000","06 Ruwe aardolie en aardgas","",3
+"06100000","061 Ruwe aardolie en aardgascond...","Ruwe aardolie en aardgascondensaat.",9
+"06101000","06101  Ruwe aardolie en ruwe olie u...","Ruwe aardolie en ruwe olie uit bitumineuze mineralen.",40
+"06200000","062 Aardgas; vloeibaar gemaakt o...","Aardgas; vloeibaar gemaakt of gasvormig.",9
+"07000000","07 Metaalertsen","",3
+"07100000","071 IJzererts","",10
+"07200000","072 Non-ferrometaalertsen","",10
+"07290000","0729  Andere non-ferrometaalertsen..","Andere non-ferrometaalertsen en concentraten daarvan.",43
+"08000000","08 Andere delfstoffen","",3
+"08100000","081 Steen, zand en klei","",11
+"08110000","0811  Bouw- en siersteen, kalkstee...","Bouw- en siersteen, kalksteen, gips, krijt en leisteen.",44
+"08120000","0812  Grind, zand, klei en kaolien","",44
+"08121100","081211  Natuurlijk zand","",44
+"08121150","0812115 Kiezelzand (kwartszand of in...","Kiezelzand (kwartszand of industrieel zand).",44
+"08121190","0812119 Zand voor de bouw (excl. met...","Zand voor de bouw (excl. metaalhoudend zand van GN 26).",44
+"08121210","0812121 Grind, keistenen, vuurstenen...","Grind, keistenen, vuurstenen en rolstenen.",44
+"08121230","0812123 Steenslag voor de vervaardig...","Steenslag voor de vervaardiging van beton, voor de wegenbouw en
+voor ander gebruik in de bouw.",44
+"08900000","089 Overige delfstoffen","",11
+"08910000","0891  Mineralen voor de chemische ...","Mineralen voor de chemische en kunstmestindustrie.",45
+"08930000","0893  Zout en zuiver natriumchlori...","Zout en zuiver natriumchloride; zeewater.",45
+"08990000","0899  Andere delfstoffen, n.e.g.","",45
+"C       ","C Industriële producten","",1
+"10000000","10  Voedingsmiddelen","",4
+"10100000","101 Verduurzaamd vlees en vleesp...","Verduurzaamd vlees en vleesproducten.",12
+"10110000","1011  Vlees, verwerkt en verduurzaamd","Vlees, verwerkt en verduurzaamd.  ",46
+"10111100","101111  Vlees van runderen; vers of ...","Vlees van runderen; vers of gekoeld.",46
+"10111200","101112  Vlees van varkens; vers of g...","Vlees van varkens; vers of gekoeld.",46
+"10120000","1012  Vlees van gevogelte; verwerk...","Vlees van gevogelte; verwerkt en verduurzaamd.",46
+"10130000","1013  Producten van vlees of van v...","Producten van vlees of van vlees van gevogelte.",46
+"10200000","102 Vis, schaaldieren en weekdie...","Vis, schaaldieren en weekdieren, verwerkt en verduurzaamd.",12
+"10300000","103 Groenten en fruit; verwerkt ...","Groenten en fruit; verwerkt en verduurzaamd.",12
+"10310000","1031  Aardappelen; verwerkt en ver...","Aardappelen; verwerkt en verduurzaamd.",48
+"10320000","1032  Groente- en fruitsappen","",48
+"10390000","1039  Groenten en fruit, op andere...","Groenten en fruit, op andere wijze verwerkt en verduurzaamd.",48
+"10391000","10391  Groenten, andere dan aardapp...","Groenten, andere dan aardappelen; verwerkt en verduurzaamd.",48
+"10400000","104 Plantaardige en dierlijke ol...","Plantaardige en dierlijke oliën en vetten.",12
+"10410000","1041  Oliën en vetten","",49
+"10411000","10411  Dierlijke oliën en vetten, a...","Dierlijke oliën en vetten, alsmede fracties daarvan, ruw.",49
+"10412000","10412  Plantaardige oliën, ruw","",49
+"10414000","10414  Perskoeken en andere vaste a...","Perskoeken en andere vaste afvallen van plantaardige oliën en vetten;
+meel van oliehoudende zaden en vruchten.",49
+"10420000","1042  Margarine en andere spijsvetten","",49
+"10500000","105 Zuivelproducten","",12
+"10510000","1051  Kaas en andere zuivelproducten","Kaas en andere zuivelproducten.  ",50
+"10511000","10511  Verwerkte vloeibare melk en ...","Verwerkte vloeibare melk en room.",50
+"10512000","10512  Melk in vaste vorm","",50
+"10513000","10513  Boter en zuivelpasta's","",50
+"10514000","10514  Kaas en wrongel","",50
+"10515000","10515  Andere zuivelproducten","",50
+"10515100","105151  Melk en room, ingedikt of me...","Melk en room, ingedikt of met toegevoegde suikers of andere zoetstoffen,
+andere dan in vaste vorm.",50
+"10515200","105152  Yoghurt en andere gegiste of...","Yoghurt en andere gegiste of aangezuurde melk of room.",50
+"10520000","1052  Consumptie-ijs","",50
+"10600000","106 Maalderijproducten, zetmeel ...","Maalderijproducten, zetmeel en zetmeelproducten.",12
+"10610000","1061  Maalderijproducten","",51
+"10611000","10611  Halfwitte en volwitte rijst;...","Halfwitte en volwitte rijst; gedopte rijst; breukrijst.",51
+"10612000","10612  Meel van granen of van groen...","Meel van granen of van groenten, alsmede mengsels daarvan.",51
+"10620000","1062  Zetmeel en zetmeelproducten","",51
+"10621110","1062111 Zetmeel","",51
+"10621300","106213  Glucose en glucosestroop; fr...","Glucose en glucosestroop; fructose en fructosestroop; invertsuiker; suiker
+en suikerstropen, n.e.g.",51
+"10700000","107 Bakkerijproducten en deegwaren","Bakkerijproducten en deegwaren.  ",12
+"10710000","1071  Brood en vers banketbakkerswerk","Brood en vers banketbakkerswerk.  ",52
+"10720000","1072  Beschuit, biscuit en ander h...","Beschuit, biscuit en ander houdbaar banketbakkerswerk.",52
+"10730000","1073  Macaroni, noedels, koeskoes ...","Macaroni, noedels, koeskoes en dergelijke deegwaren.",52
+"10800000","108 Andere voedingsmiddelen","",12
+"10810000","1081  Suiker","",53
+"10820000","1082  Cacao, chocolade en suikerwerk","Cacao, chocolade en suikerwerk.  ",53
+"10821000","10821  Cacaopasta, ook indien ontve...","Cacaopasta, ook indien ontvet; cacaoboter, cacaovet en cacao-olie;
+cacaopoeder.",53
+"10821100","108211  Cacaopasta, ook indien ontvet","Cacaopasta, ook indien ontvet.  ",53
+"10821200","108212  Cacaoboter, cacaovet en caca...","Cacaoboter, cacaovet en cacao-olie.",53
+"10822000","10822  Chocolade en suikerwerk","",53
+"10822100","108221  Chocolade en andere bereidin...","Chocolade en andere bereidingen voor menselijke consumptie die cacao
+bevatten (andere dan gezoet cacaopoeder), in grote verpakkingen.",53
+"10822200","108222  Chocolade en andere bereidin...","Chocolade en andere bereidingen voor menselijke consumptie die cacao
+bevatten (andere dan gezoet cacaopoeder), andere dan die in grote
+verpakkingen.",53
+"10830000","1083  Thee en koffie","",53
+"10831000","10831  Thee en koffie","",53
+"10831100","108311  Cafeïnevrije koffie en gebra...","Cafeïnevrije koffie en gebrande koffie.",53
+"10831200","108312  Koffiesurrogaten; extracten,...","Koffiesurrogaten; extracten, essences en concentraten, van koffie of
+van koffiesurrogaten; bolsters en schillen, van koffie.",53
+"10840000","1084  Specerijen, sauzen en kruide...","Specerijen, sauzen en kruiderijen.",53
+"10850000","1085  Bereide maaltijden en schotels","",53
+"10860000","1086  Gehomogeniseerde voedingspre...","Gehomogeniseerde voedingspreparaten en dieetvoeding.",53
+"10890000","1089  Andere voedingsmiddelen, n.e.g.","Andere voedingsmiddelen, n.e.g.  ",53
+"10891000","10891  Bereide soep, eiproducten, ...","Bereide soep, eiproducten, gist en andere voedingsmiddelen; extracten
+en sappen van vlees, van vis of van ongewervelde waterdieren.",53
+"10891100","108911  Preparaten voor soep of voor...","Preparaten voor soep of voor bouillon; bereide soep en bouillon.",53
+"10891200","108912  Vogeleieren uit de schaal en...","Vogeleieren uit de schaal en eigeel, vers of verduurzaamd; vogeleieren in
+de schaal, verduurzaamd of gekookt; ovoalbumine.",53
+"10900000","109 Bereide diervoeders","",12
+"10910000","1091  Bereide veevoeders","",54
+"10920000","1092  Bereide voeders voor huisdieren","Bereide voeders voor huisdieren.",54
+"11000000","11 Dranken","",4
+"11010000","1101  Gedistilleerde alcoholhouden...","Gedistilleerde alcoholhoudende dranken.",55
+"11020000","1102  Wijn van druiven","",55
+"11050000","1105  Bier","",55
+"11060000","1106  Mout","",55
+"11070000","1107  Frisdranken, mineraalwater e...","Frisdranken, mineraalwater en ander gebotteld water.",55
+"12000000","12 Tabaksproducten","",4
+"12001000","12001  Tabaksproducten, met uitzond...","Tabaksproducten, met uitzondering van afvallen van tabak.",56
+"12001100","120011  Sigaren, cigarillo's en siga...","Sigaren, cigarillo's en sigaretten, van tabak of van tabakssurrogaten.",56
+"12001150","1200115 Sigaretten, tabak bevattend","",56
+"12001900","120019  Andere tabak en tabakssurrog...","Andere tabak en tabakssurrogaten, tot verbruik bereid; gehomogeniseerde
+en gereconstitueerde tabak; tabaksextracten en tabakssausen.",56
+"13000000","13 Textiel","",4
+"13100000","131 Textielgarens","",15
+"13200000","132 Textielweefsels","",15
+"13300000","133 Veredeld textiel","",15
+"13900000","139 Andere textielproducten","",15
+"13910000","1391  Brei- en haakwerk aan het stuk","Brei- en haakwerk aan het stuk. ",60
+"13920000","1392  Geconfectioneerde artikelen ...","Geconfectioneerde artikelen van textiel, met uitzondering van kleding.",60
+"13921000","13921  Geconfectioneerde artikelen ...","Geconfectioneerde artikelen van textiel voor huishoudelijk gebruik.",60
+"13922000","13922  Andere geconfectioneerde art...","Andere geconfectioneerde artikelen van textiel.",60
+"13930000","1393  Tapijten","",60
+"13940000","1394  Koord, bindgaren, touw en ne...","Koord, bindgaren, touw en netten.",60
+"13950000","1395  Gebonden textielvlies en art...","Gebonden textielvlies en artikelen van gebonden textielvlies,
+met uitzondering van kleding.",60
+"13960000","1396  Ander technisch en industrie...","Ander technisch en industrieel textiel.",60
+"13990000","1399  Andere textielproducten, n.e.g.","Andere textielproducten, n.e.g.  ",60
+"14000000","14 Kleding","",4
+"14100000","141 Kleding, met uitzondering va...","Kleding, met uitzondering van bontkleding.",16
+"14110000","1411  Kleding van leder","",61
+"14120000","1412  Werk- en bedrijfskleding","",61
+"14130000","1413  Andere bovenkleding","",61
+"14140000","1414  Onderkleding","",61
+"14190000","1419  Andere kleding en kledingtoe...","Andere kleding en kledingtoebehoren.",61
+"14300000","143 Gebreide en gehaakte kleding","",16
+"14310000","1431  Gebreide en gehaakte kousen ...","Gebreide en gehaakte kousen en sokken.",62
+"14390000","1439  Andere gebreide en gehaakte ...","Andere gebreide en gehaakte kleding.",62
+"15000000","15 Leder en producten van leder","Leder en producten van leder.  ",4
+"15100000","151 Leder, gelooid of anderszins...","Leder, gelooid of anderszins bereid; koffers, tassen, zadel- en
+tuigmakerswerk; bereid en geverfd bont.",17
+"15110000","1511  Leder, gelooid of anderszins...","Leder, gelooid of anderszins bereid; bereid en geverfd bont.",63
+"15120000","1512  Koffers, tassen en dergelijk...","Koffers, tassen en dergelijke, zadel- en tuigmakerswerk.",63
+"15200000","152 Schoeisel","",17
+"16000000","16 Hout, houtwaren en kurkwaren...","Hout, houtwaren en kurkwaren, met uitzondering van meubelen;
+vlechtwerk en mandenmakerswerk.",4
+"16100000","161 Hout, gezaagd en geschaafd","",18
+"16200000","162 Houtwaren en kurkwaren, vlec...","Houtwaren en kurkwaren, vlechtwerk en mandenmakerswerk.",18
+"16210000","1621  Fineerplaten en panelen op b...","Fineerplaten en panelen op basis van hout.",66
+"16230000","1623  Ander schrijn- en timmerwerk...","Ander schrijn- en timmerwerk voor bouwwerken.",66
+"16231100","162311  Vensters, vensterdeuren, als...","Vensters, vensterdeuren, alsmede kozijnen daarvoor; deuren en kozijnen
+daarvoor, alsmede drempels, van hout.",66
+"16231110","1623111 Vensters en vensterdeuren, a...","Vensters en vensterdeuren, alsmede kozijnen daarvoor, van hout.",66
+"16231150","1623115 Deuren (incl. kozijnen daarv...","Deuren (incl. kozijnen daarvoor, alsmede drempels), van hout.",66
+"16231900","162319  Schrijn- en timmerwerk voor ...","Schrijn- en timmerwerk voor bouwwerken, van hout, n.e.g.",66
+"16240000","1624  Houten verpakkingsmiddelen","",66
+"16290000","1629  Andere houtwaren; kurkwaren,...","Andere houtwaren; kurkwaren, vlechtwerk en mandenmakerswerk.",66
+"17000000","17 Papier en papierwaren","",4
+"17100000","171 Pulp, papier en karton","",19
+"17110000","1711  Pulp","",67
+"17120000","1712  Papier en karton","",67
+"17121100","171211  Krantenpapier, op rollen of...","Krantenpapier, op rollen of in bladen.",67
+"17200000","172 Papier- en kartonwaren","",19
+"17210000","1721  Gegolfd papier en golfkarton...","Gegolfd papier en golfkarton en verpakkingsmateriaal van papier of van
+karton.",68
+"17220000","1722  Huishoudelijke en sanitaire ...","Huishoudelijke en sanitaire papierwaren.",68
+"17230000","1723  Kantoorbenodigdheden van papier","Kantoorbenodigdheden van papier.  ",68
+"17240000","1724  Behangpapier","",68
+"17290000","1729  Andere papier- en kartonwaren","Andere papier- en kartonwaren.  ",68
+"18000000","18 Drukwerk, diensten i.v.m. dr...","Drukwerk, diensten i.v.m. drukwerk; reproductie van opgenomen media.",4
+"18100000","181 Drukwerk en diensten in verb...","Drukwerk en diensten in verband met drukwerk.",20
+"18110000","1811  Kranten","",69
+"18120000","1812  Andere drukwerk","",69
+"18130000","1813  Prepress- en premediadiensten","Prepress- en premediadiensten",69
+"18140000","1814  Bindwerk en aanverwante dien...","Bindwerk en aanverwante diensten.",69
+"18200000","182 Reproductie van opgenomen media","Reproductie van opgenomen media.  ",20
+"19000000","19 Cokes en geraffineerde aardo...","Cokes en geraffineerde aardolieproducten.",4
+"19100000","191 Cokesovenproducten","",21
+"19101000","19101  Cokes en halfcokes, van stee...","Cokes en halfcokes, van steenkool, van bruinkool of van turf;
+retortenkool.",71
+"19200000","192 Geraffineerde aardolieproducten","Geraffineerde aardolieproducten.  ",21
+"19202000","19202  Stookolie en benzine; smeerolie","Stookolie en benzine; smeerolie.",72
+"19202100","192021  Motorbenzine, vliegtuigbenzi...","Motorbenzine, vliegtuigbenzine daaronder begrepen.",72
+"19202200","192022  Lichte reactiemotorbrandstof","",72
+"19202300","192023  Lichte oliën en preparaten, ...","Lichte oliën en preparaten, van aardolie, n.e.g.",72
+"19202500","192025  Reactiemotorbrandstof van he...","Reactiemotorbrandstof van het kerosinetype.",72
+"19202600","192026  Gasoliën","",72
+"19202700","192027  Halfzware oliën en preparate...","Halfzware oliën en preparaten, van aardolie, n.e.g.",72
+"19202800","192028  Stookolie, n.e.g.","",72
+"19203000","19203  Gasvormige koolwaterstoffen,...","Gasvormige koolwaterstoffen, met uitzondering van aardgas.",72
+"19204000","19204  Andere aardolieproducten","",72
+"20000000","20  Chemische producten","",4
+"20100000","201 Chemische basisproducten, ku...","Chemische basisproducten, kunstmeststoffen en stikstofverbindingen,
+kunststoffen en synthetische rubber in primaire vormen.",22
+"20110000","2011  Industriële gassen","",73
+"20120000","2012  Kleurstoffen en pigmenten","",73
+"20130000","2013  Andere anorganische chemisch...","Andere anorganische chemische basisproducten.",73
+"20132000","20132  Chemische elementen, n.e.g.;...","Chemische elementen, n.e.g.; anorganische zuren en verbindingen
+daarvan.",73
+"20134000","20134  Sulfiden, sulfaten; nitraten...","Sulfiden, sulfaten; nitraten, fosfaten en carbonaten.",73
+"20136000","20136  Andere anorganische chemisch...","Andere anorganische chemische basisproducten.",73
+"20140000","2014  Andere organische chemische ...","Andere organische chemische basisproducten.",73
+"20141000","20141  Koolwaterstoffen en derivate...","Koolwaterstoffen en derivaten daarvan.",73
+"20141100","201411  Acyclische koolwaterstoffen","",73
+"20141130","2014113 Ethyleen","",73
+"20141140","2014114 Propyleen","",73
+"20141200","201412  Cyclische koolwaterstoffen","",73
+"20141223","20141223 Benzeen","",73
+"20141250","2014125 Styreen","",73
+"20142000","20142  Alcoholen, fenolen en fenola...","Alcoholen, fenolen en fenolalcoholen, alsmede halogeen-, sulfo-, nitro-,
+en nitrosoderivaten daarvan; industriële vetalcoholen.",73
+"20143000","20143  Industriële eenwaardige vetz...","Industriële eenwaardige vetzuren; carbonzuren en derivaten daarvan.",73
+"20144000","20144  Organische verbindingen met ...","Organische verbindingen met stikstofhoudende groepen.",73
+"20145000","20145  Organische zwavelverbindinge...","Organische zwavelverbindingen en andere organische verbindingen van
+niet-metalen of van metalen; heterocyclische verbindingen, n.e.g.",73
+"20146000","20146  Ethers, organische peroxiden...","Ethers, organische peroxiden, epoxiden, acetalen en hemiacetalen;
+andere organische verbindingen.",73
+"20146100","201461  Verbindingen met aldehydegro...","Verbindingen met aldehydegroepen.",73
+"20146200","201462  Ketonen en chinonen","",73
+"20146300","201463  Ethers, organische peroxiden...","Ethers, organische peroxiden, epoxiden, acetalen, hemiacetalen, alsmede
+derivaten daarvan.",73
+"20146400","201464  Enzymen en andere organische...","Enzymen en andere organische verbindingen, n.e.g.",73
+"20147000","20147  Organische chemische basispr...","Organische chemische basisproducten, n.e.g.",73
+"20150000","2015  Meststoffen en stikstofverbi...","Meststoffen en stikstofverbindingen.",73
+"20151000","20151  Salpeterzuur; nitreerzuren; ...","Salpeterzuur; nitreerzuren; ammoniak.",73
+"20160000","2016  Kunststoffen in primaire vormen","Kunststoffen in primaire vormen.  ",73
+"20161000","20161  Polymeren van ethyleen, in p...","Polymeren van ethyleen, in primaire vormen.",73
+"20162000","20162  Polymeren van styreen, in pr...","Polymeren van styreen, in primaire vormen.",73
+"20163000","20163  Polymeren van vinylchloride ...","Polymeren van vinylchloride of van andere halogeenolefinen, in primaire
+vormen.",73
+"20164000","20164  Polyacetalen, andere polyeth...","Polyacetalen, andere polyethers en epoxyharsen, in primaire vormen;
+polycarbonaten, alkydharsen, polyallylesters en andere polyesters, in
+primaire vormen.",73
+"20165000","20165  Andere kunststoffen in prima...","Andere kunststoffen in primaire vormen; ionenwisselaars.",73
+"20165100","201651  Polymeren van propyleen of v...","Polymeren van propyleen of van andere olefinen, in primaire vormen.",73
+"20165200","201652  Polymeren van vinylacetaat o...","Polymeren van vinylacetaat of van andere vinylesters, en andere
+vinylpolymeren, in primaire vormen.",73
+"20165300","201653  Acrylpolymeren in primaire v...","Acrylpolymeren in primaire vormen.",73
+"20165400","201654  Polyamiden in primaire vormen","",73
+"20165500","201655  Ureumharsen, thio-ureumharse...","Ureumharsen, thio-ureumharsen en melamineharsen, in primaire vormen.",73
+"20165600","201656  Andere aminoharsen, fenolhar...","Andere aminoharsen, fenolharsen en polyurethanen, in primaire vormen.",73
+"20165700","201657  Siliconen in primaire vormen","",73
+"20165900","201659  Andere kunststoffen in prima...","Andere kunststoffen in primaire vormen, n.e.g.",73
+"20170000","2017  Synthetische rubber in prima...","Synthetische rubber in primaire vormen.",73
+"20200000","202 Pesticiden en andere chemisc...","Pesticiden en andere chemische producten ten behoeve van de landbouw.",22
+"20201000","20201  Pesticiden en andere chem...","Pesticiden en andere chemische producten ten behoeve van de landbouw.",74
+"20201200","202012  Onkruidbestrijdingsmiddelen","",74
+"20201500","202015  Schimmelwerende middelen","",74
+"20300000","203 Verf, vernis en dergelijke, ...","Verf, vernis en dergelijke, drukinkt en mastiek.",22
+"20301000","20301  Verf en vernis op basis van ...","Verf en vernis op basis van polymeren.",75
+"20302000","20302  Andere verf en vernis en soo...","Andere verf en vernis en soortgelijke producten; verf voor kunstschilders
+en drukinkt.",75
+"20302400","203024  Drukinkt","",75
+"20400000","204 Zeep en wasmiddelen, poets- ...","Zeep en wasmiddelen, poets- en reinigingsmiddelen; parfums en
+toiletartikelen.",22
+"20410000","2041  Zeep en wasmiddelen, poets- ...","Zeep en wasmiddelen, poets- en reinigingsmiddelen.",76
+"20420000","2042  Parfums en toiletartikelen","",76
+"20500000","205 Andere chemische producten","",22
+"20510000","2051  Kruit en springstoffen","",77
+"20520000","2052  Lijm","",77
+"20530000","2053  Etherische oliën","",77
+"20590000","2059  Andere chemische producten, ...","Andere chemische producten, n.e.g.",77
+"20600000","206 Synthetische of kunstmatige ...","Synthetische of kunstmatige vezels.",22
+"21000000","21 Farmaceutische basisproducte...","Farmaceutische basisproducten en farmaceutische bereidingen.",4
+"21100000","211 Farmaceutische basisproducten","Farmaceutische basisproducten.",23
+"21200000","212 Farmaceutische bereidingen","",23
+"21201000","21201  Geneesmiddelen","",80
+"21202000","21202  Andere farmaceutische bereid...","Andere farmaceutische bereidingen.",80
+"21202100","212021  Sera en vaccins","",80
+"21202400","212024  Hechtpleisters, catgut en de...","Hechtpleisters, catgut en dergelijke; tassen, dozen, trommels en
+dergelijke voor eerste hulp bij ongevallen.",80
+"22000000","22 Werken van rubber of kunststof","Werken van rubber of kunststof.  ",4
+"22100000","221 Werken van rubber","",24
+"22110000","2211  Luchtbanden en binnenbanden,...","Luchtbanden en binnenbanden, van rubber; loopvlakvernieuwing.",81
+"22111100","221111  Nieuwe luchtbanden van rubber..","Nieuwe luchtbanden van rubber voor personenauto's.",81
+"22190000","2219  Andere werken van rubber","",81
+"22200000","222 Werken van kunststof","",24
+"22210000","2221  Platen, vellen, buizen en pr...","Platen, vellen, buizen en profielen, van kunststof.",82
+"22211000","22211  Monofilament waarvan de groo...","Monofilament waarvan de grootste afmeting van de dwarsdoorsnede
+meer bedraagt dan 1 mm, alsmede staven en profielen, van kunststof.",82
+"22212000","22212  Buizen, slangen en hulpstukk...","Buizen, slangen en hulpstukken daarvoor, van kunststof.",82
+"22212157","22212157 Stijve buizen en slangen van..","Stijve buizen en slangen van polymeren van vinylchloride.",82
+"22213000","22213  Platen, vellen, foliën, stro...","Platen, vellen, foliën, stroken en strippen, van kunststof, niet
+gecombineerd met andere stoffen, niet op een drager.",82
+"22214000","22214  Andere platen, vellen, folië...","Andere platen, vellen, foliën, stroken en strippen, van kunststof.",82
+"22220000","2222  Verpakkingsmateriaal van kun...","Verpakkingsmateriaal van kunststof.",82
+"22230000","2223  Uitrustingsstukken voor gebo...","Uitrustingsstukken voor gebouwen, van kunststof.",82
+"22231100","222311  Vloerbedekking en wand- en ..","Vloerbedekking en wand- en plafondbekleding, van kunststof, op rollen of
+in tegels.",82
+"22290000","2229  Andere werken van kunststof","",82
+"23000000","23 Andere niet-metaalhoudende m...","Andere niet-metaalhoudende minerale producten.",4
+"23100000","231 Glas en glaswerk","",25
+"23110000","2311  Vlakglas","",83
+"23120000","2312  Gevormd en bewerkt vlakglas","",83
+"23130000","2313  Holglas","",83
+"23140000","2314  Glasvezels","",83
+"23190000","2319  Ander bewerkt glas, technisc...","Ander bewerkt glas, technisch glaswerk daaronder begrepen.",83
+"23200000","232 Vuurvaste producten","",25
+"23300000","233 Producten voor de bouw, van ...","Producten voor de bouw, van klei.",25
+"23310000","2331  Keramische tegels en plavuizen","Keramische tegels en plavuizen.  ",85
+"23320000","2332  Bakstenen, tegels en product...","Bakstenen, tegels en producten voor de bouw, van gebakken klei.",85
+"23400000","234 Andere keramische producten","",25
+"23410000","2341  Huishoudelijk en sieraardewerk","Huishoudelijk en sieraardewerk.  ",86
+"23420000","2342  Artikelen voor sanitair gebr...","Artikelen voor sanitair gebruik, van keramische stoffen.",86
+"23500000","235 Cement, kalk en gips","",25
+"23510000","2351  Cement","",87
+"23520000","2352  Kalk en gips","",87
+"23600000","236 Werken van beton, cement en ...","Werken van beton, cement en gips.",25
+"23610000","2361  Werken van beton voor de bouw","Werken van beton voor de bouw.  ",88
+"23611150","2361115 Tegels en dergelijke artikel...","Tegels en dergelijke artikelen, van cement, beton of kunststeen.",88
+"23611200","236112  Geprefabriceerde bouwelement...","Geprefabriceerde bouwelementen van cement, beton of kunststeen.",88
+"23620000","2362  Werken van gips voor de bouw","Werken van beton voor de bouw.  ",88
+"23630000","2363  Stortklaar beton","",88
+"23640000","2364  Mortel","",88
+"23650000","2365  Vezelcement","",88
+"23690000","2369  Andere werken van beton, gip...","Andere werken van beton, gips en cement.",88
+"23691000","23691  Andere werken van beton, gips..","Andere werken van beton, gips en cement.",88
+"23691930","2369193 Buizen van cement, beton of...","Buizen van cement, beton of kunststeen.",88
+"23700000","237 Gehouwen, bewerkte en afgewe...","Gehouwen, bewerkte en afgewerkte natuursteen.",25
+"23900000","239 Andere niet-metaalhoudende m...","Andere niet-metaalhoudende minerale producten.",25
+"23910000","2391  Schuur-, slijp- en polijstmi...","Schuur-, slijp- en polijstmiddelen.",90
+"23990000","2399  Andere niet-metaalhoudende m...","Andere niet-metaalhoudende minerale producten, n.e.g.",90
+"23991300","239913  Bitumineuze mengsels van nat...","Bitumineuze mengsels van natuurlijke of kunstmatige steen, met bitumen,
+natuurlijk asfalt of dergelijke stoffen als bindmiddel.",90
+"24000000","24 Metalen in primaire vorm","",4
+"24100000","241 IJzer en staal en ferroleger...","IJzer en staal en ferrolegeringen, in primaire vormen.",26
+"24101000","24101  Primaire materialen van ijze...","Primaire materialen van ijzer en staal.",91
+"24102000","24102  Ruwstaal","",91
+"24103000","24103  Gewalste platte producten va...","Gewalste platte producten van staal, enkel warm gewalst.",91
+"24104000","24104  Gewalste platte producten va...","Gewalste platte producten van staal, enkel koudgewalst, met een breedte
+van=600 mm.",91
+"24105000","24105  Gewalste platte producten va...","Gewalste platte producten van staal, geplateerd of bekleed, en gewalste
+platte producten van sneldraaistaal of van siliciumstaal
+(transformatorstaal).",91
+"24106000","24106  Walsdraad en warm bewerkte s...","Walsdraad en warm bewerkte staven, van staal.",91
+"24106210","2410621 Warmgewalste staven voor het...","Warmgewalste staven voor het wapenen van beton.",91
+"24107000","24107  Door warm bewerken verkregen...","Door warm bewerken verkregen open profielen van staal,
+damwandprofielen van staal, en bestanddelen van spoorbanen, van staal.",91
+"24107100","241071  Open profielen, enkel warm g...","Open profielen, enkel warm gewalst, warm getrokken of warm geperst,
+van niet-gelegeerd staal.",91
+"24107110","2410711 U-profielen met een lijfhoog...","U-profielen met een lijfhoogte van =80 mm (van niet-gelegeerd staal).",91
+"24107120","2410712 I-profielen met een lijfhoog...","I-profielen met een lijfhoogte van =80 mm (van niet-gelegeerd staal).",91
+"24107130","2410713 H-profielen met een lijfhoog...","H-profielen met een lijfhoogte van =80 mm (van niet-gelegeerd staal).",91
+"24200000","242 Buizen, pijpen, holle profie...","Buizen, pijpen, holle profielen en fittings daarvoor, van staal.",26
+"24300000","243 Andere producten van de eers...","Andere producten van de eerste verwerking van staal.",26
+"24310000","2431  Koudgetrokken staven","",93
+"24320000","2432  Koudgewalst bandstaal","",93
+"24321000","24321  Koudgewalste platte producte...","Koudgewalste platte producten van staal, niet bekleed, met een breedte
+van < 600 mm.",93
+"24322000","24322  Koudgewalste platte producte...","Koudgewalste platte producten van staal, geplateerd of bekleed, met een
+breedte van < 600 mm.",93
+"24330000","2433  Producten verkregen door kou...","Producten verkregen door koudvervormen of koudfelsen.",93
+"24340000","2434  Koudgetrokken draad","",93
+"24400000","244 Edelmetalen en andere non-fe...","Edelmetalen en andere non-ferrometalen, in primaire vormen.",26
+"24410000","2441  Edelmetalen","",94
+"24420000","2442  Aluminium","",94
+"24421000","24421  Ruw aluminium; aluminiumoxide","Ruw aluminium; aluminiumoxide.  ",94
+"24422000","24422  Halffabrikaten van aluminium...","Halffabrikaten van aluminium of van aluminiumlegeringen.",94
+"24430000","2443  Lood, zink en tin","",94
+"24440000","2444  Koper","",94
+"24441000","24441  Ruw koper; kopersteen of ruw...","Ruw koper; kopersteen of ruwsteen; cementkoper.",94
+"24442000","24442  Halffabrikaten van koper of ...","Halffabrikaten van koper of van koperlegeringen.",94
+"24450000","2445  Andere non-ferrometalen","",94
+"24500000","245 Gietwerk van metalen","",26
+"24510000","2451  Gietwerk van ijzer","",95
+"24511200","245112  Gietwerk van nodulair gietijzer","",95
+"24520000","2452  Gietwerk van staal","",95
+"24530000","2453  Gietwerk van lichte metalen","",95
+"24540000","2454  Gietwerk van andere non-ferr...","Gietwerk van andere non-ferrometalen.",95
+"25000000","25 Werken van metaal, andere da...","Werken van metaal, andere dan machines, toestellen en werktuigen.",4
+"25100000","251 Metalen constructiewerken","",27
+"25110000","2511  Metalen constructiewerken en...","Metalen constructiewerken en delen daarvan.",96
+"25120000","2512  Deuren en ramen, van metaal","",96
+"25200000","252 Tanks, reservoirs en verpakk...","Tanks, reservoirs en verpakkingsmiddelen, van metaal.",27
+"25210000","2521  Radiatoren en ketels, voor c...","Radiatoren en ketels, voor centrale verwarming.",97
+"25290000","2529  Andere tanks, reservoirs en ...","Andere tanks, reservoirs en verpakkingsmiddelen, van metaal.",97
+"25300000","253 Stoomketels (stoomgeneratore...","Stoomketels (stoomgeneratoren), andere dan heetwaterketels voor
+centrale verwarming.",27
+"25400000","254 Wapens en munitie","",27
+"25500000","255 Smeden, persen, stampen en p...","Smeden, persen, stampen en profielwalsen van metaal; poedermetallurgie.",27
+"25600000","256 Oppervlaktebehandelde en ver...","Oppervlaktebehandelde en verspanend bewerkte metalen.",27
+"25610000","2561  Oppervlaktebehandelde metalen","Oppervlaktebehandelde metalen.",101
+"25620000","2562  Verspanend bewerkte metalen","",101
+"25700000","257 Messenmakerswerk, gereedscha...","Messenmakerswerk, gereedschap en ijzerwaren.",27
+"25710000","2571  Messenmakerswerk","",102
+"25720000","2572  Hang- en sluitwerk","",102
+"25730000","2573  Gereedschap","",102
+"25900000","259 Andere werken van metaal","",27
+"25910000","2591  Stalen vaten en dergelijke","",103
+"25920000","2592  Verpakkingsmiddelen van lich...","Verpakkingsmiddelen van licht metaal.",103
+"25930000","2593  Werken van draad; kettingen ...","Werken van draad; kettingen en veren.",103
+"25940000","2594  Bouten, schroeven, moeren en...","Bouten, schroeven, moeren en andere bevestigingsmiddelen.",103
+"25990000","2599  Andere werken van metaal, n....","Andere werken van metaal, n.e.g.",103
+"25991000","25991  Werken van metaal voor gebru...","Werken van metaal voor gebruik in badkamers of in keukens.",103
+"25992000","25992  Andere werken van onedel metaal","Andere werken van onedel metaal.  ",103
+"26000000","26 Informaticaproducten, elektr...","Informaticaproducten, elektronische en optische producten.",4
+"26100000","261 Elektronische onderdelen en ...","Elektronische onderdelen en printplaten.",28
+"26110000","2611  Elektronische onderdelen","",104
+"26113000","26113  Elektronische geïntegreerde ...","Elektronische geïntegreerde schakelingen.",104
+"26120000","2612  Elektronische printplaten","",104
+"26200000","262 Computers en randapparatuur","",28
+"26300000","263 Communicatieapparatuur","",28
+"26301000","26301  Zendtoestellen voor radio of...","Zendtoestellen voor radio of voor televisie; televisiecamera's.",106
+"26301300","263013  Televisiecamera's","",106
+"26302000","26302  Elektrische toestellen voor ...","Elektrische toestellen voor lijntelefonie of voor lijntelegrafie;
+videofoontoestellen.",106
+"26400000","264 Consumentenelektronica","",28
+"26402000","26402  Ontvangtoestellen voor telev...","Ontvangtoestellen voor televisie, ook indien met ingebouwd ontvangtoestel
+voor radio-omroep of toestel voor het opnemen of het weergeven van
+geluid of van beelden.",107
+"26500000","265 Meet-, controle- en navigati...","Meet-, controle- en navigatie-instrumenten en -apparatuur; uurwerken.",28
+"26510000","2651  Meet-, controle- en navigati...","Meet-, controle- en navigatie-instrumenten en -apparatuur.",108
+"26520000","2652  Klokken en horloges","",108
+"26600000","266 Bestralingsapparatuur en ele...","Bestralingsapparatuur en elektromedische en elektrotherapeutische
+apparatuur.",28
+"26700000","267 Optische instrumenten en fot...","Optische instrumenten en foto- en filmapparatuur.",28
+"26701000","26701  Foto- en filmapparatuur, als...","Foto- en filmapparatuur, alsmede delen daarvan.",110
+"26702000","26702  Andere optische instrumenten...","Andere optische instrumenten en delen daarvan.",110
+"26800000","268 Magnetische en optische dragers","Magnetische en optische dragers.  ",28
+"27000000","27 Elektrische apparatuur","",4
+"27100000","271 Elektromotoren, elektrische ...","Elektromotoren, elektrische generatoren, elektrische transformatoren en
+schakel- en verdeelinrichtingen voor elektrische stroom.",29
+"27110000","2711  Elektromotoren, elektrische ...","Elektromotoren, elektrische generatoren en elektrische transformatoren.",112
+"27120000","2712  Schakel- en verdeelinrichtin...","Schakel- en verdeelinrichtingen voor elektrische stroom.",112
+"27200000","272 Batterijen en accumulatoren","",29
+"27300000","273 Kabels en schakelaars, stekk...","Kabels en schakelaars, stekkers, stopcontacten en dergelijke.",29
+"27310000","2731  Optischevezelkabel","",114
+"27320000","2732  Ander draad en andere kabels...","Ander draad en andere kabels voor elektronisch en elektrisch gebruik.",114
+"27330000","2733  Schakelaars, stekkers, stopc...","Schakelaars, stekkers, stopcontacten en dergelijke.",114
+"27400000","274 Elektrische verlichtingsbeno...","Elektrische verlichtingsbenodigdheden.",29
+"27500000","275 Huishoudapparaten","",29
+"27510000","2751  Elektrische huishoudapparaten","",116
+"27511000","27511  Koelkasten en vrieskasten; w...","Koelkasten en vrieskasten; wasmachines; elektrisch verwarmde dekens;
+ventilatoren.",116
+"27512000","27512  Andere elektrische huishouda...","Andere elektrische huishoudapparaten, n.e.g.",116
+"27513000","27513  Delen van elektrische huisho...","Delen van elektrische huishoudapparaten.",116
+"27520000","2752  Niet-elektrische huishoudapp...","Niet-elektrische huishoudapparaten.",116
+"27521000","27521  Kook- en verwarmingstoestell...","Kook- en verwarmingstoestellen voor huishoudelijk gebruik,
+niet elektrisch.",116
+"27522000","27522  Delen van kachels, keukenfor...","Delen van kachels, keukenfornuizen, bordenwarmers en dergelijke
+niet-elektrische huishoudapparaten.",116
+"27900000","279 Andere elektrische apparatuur","",29
+"27903000","27903  Elektrische machines voor he...","Elektrische machines voor het solderen of voor het lassen; machines,
+apparaten en toestellen voor het oppervlakteharden of voor het warm
+verspuiten.",117
+"28000000","28 Machines, apparaten en werkt...","Machines, apparaten en werktuigen, n.e.g.",4
+"28100000","281 Machines en apparaten voor a...","Machines en apparaten voor algemeen gebruik.",30
+"28110000","2811  Motoren en turbines, met uit...","Motoren en turbines, met uitzondering van motoren voor luchtvaartuigen,
+motorvoertuigen en fietsen.",118
+"28120000","2812  Hydraulische en pneumatische...","Hydraulische en pneumatische apparatuur.",118
+"28130000","2813  Andere pompen en compressoren","",118
+"28140000","2814  Overige kranen en dergelijke...","Overige kranen en dergelijke artikelen.",118
+"28150000","2815  Lagers, getande overbrenging...","Lagers, getande overbrengingen en drijfwerkelementen.",118
+"28200000","282 Andere machines en apparaten...","Andere machines en apparaten voor algemeen gebruik.",30
+"28210000","2821  Ovens en branders","",119
+"28220000","2822  Hef- en hijsmachines en -toe...","Hef- en hijsmachines en -toestellen; machines en toestellen voor het
+hanteren van goederen.",119
+"28230000","2823  Kantoormachines en -toestell...","Kantoormachines en -toestellen (met uitzondering van computers en
+randapparatuur).",119
+"28240000","2824  Mechanisch aangedreven handg...","Mechanisch aangedreven handgereedschap.",119
+"28241000","28241  Elektromechanisch handgereed...","Elektromechanisch handgereedschap; ander draagbaar mechanisch
+aangedreven handgereedschap.",119
+"28250000","2825  Machines en apparaten voor d...","Machines en apparaten voor de koeltechniek en voor klimaatregeling,
+voor niet-huishoudelijk gebruik.",119
+"28253000","28253  Delen van machines, apparate...","Delen van machines, apparaten en toestellen voor de koel- en
+vriestechniek en van warmtepompen.",119
+"28290000","2829  Andere machines en apparaten...","Andere machines en apparaten voor algemeen gebruik, n.e.g.",119
+"28300000","283 Machines en werktuigen voor ...","Machines en werktuigen voor de landbouw en de bosbouw.",30
+"28303000","28303  Machines en werktuigen voor ...","Machines en werktuigen voor bodembewerking.",120
+"28305000","28305  Machines en toestellen voor ...","Machines en toestellen voor het oogsten.",120
+"28306000","28306  Mechanische toestellen voor ...","Mechanische toestellen voor het spuiten, verspreiden of verstuiven van
+vloeistoffen of van poeder, voor de land- of tuinbouw.",120
+"28307000","28307  Aanhangwagens en opleggers v...","Aanhangwagens en opleggers voor landbouwdoeleinden, zelfladend of
+zelflossend.",120
+"28400000","284 Machines voor het vormen van...","Machines voor het vormen van metaal en gereedschapswerktuigen.",30
+"28410000","2841  Machines voor het vormen van...","Machines voor het vormen van metaal.",121
+"28490000","2849  Andere gereedschapswerktuigen","Andere gereedschapswerktuigen.",121
+"28491000","28491  Gereedschapswerktuigen voor ...","Gereedschapswerktuigen voor het bewerken van steen, van hout en van
+dergelijke harde stoffen.",121
+"28492000","28492  Gereedschaphouders","",121
+"28900000","289 Andere machines, apparaten e...","Andere machines, apparaten en werktuigen voor specifiek gebruik.",30
+"28920000","2892  Machines en toestellen voor ...","Machines en toestellen voor de winning van delfstoffen en voor de
+bouwnijverheid.",122
+"28930000","2893  Machines en toestellen voor ...","Machines en toestellen voor de vervaardiging van voedings- en
+genotmiddelen.",122
+"28940000","2894  Machines en toestellen voor ...","Machines en toestellen voor de vervaardiging van textiel, kleding en
+leder.",122
+"28950000","2895  Machines en toestellen voor ...","Machines en toestellen voor de vervaardiging van papier of van karton.",122
+"28960000","2896  Machines en toestellen voor ...","Machines en toestellen voor de kunststof- en rubberindustrie.",122
+"28990000","2899  Andere machines, apparaten e...","Andere machines, apparaten en werktuigen voor specifiek gebruik, n.e.g.",122
+"29000000","29 Auto's, aanhangwagens en opl...","Auto's, aanhangwagens en opleggers.",4
+"29100000","291 Auto's","",31
+"29101000","29101  Zuigermotoren van de soort g...","Zuigermotoren van de soort gebruikt voor auto's en motorfietsen.",123
+"29104000","29104  Auto's voor goederenvervoer","",123
+"29200000","292 Carrosserieën voor auto's; a...","Carrosserieën voor auto's; aanhangwagens en opleggers.",31
+"29201000","29201  Carrosserieën voor auto's","",124
+"29202000","29202  Aanhangwagens en opleggers; ...","Aanhangwagens en opleggers; containers en dergelijke laadkisten.",124
+"29203000","29203  Delen van aanhangwagens, opl...","Delen van aanhangwagens, opleggers en andere voertuigen zonder
+eigen beweegkracht.",124
+"29300000","293 Delen en toebehoren van auto's","Delen en toebehoren van auto's.  ",31
+"29310000","2931  Elektrische en elektronische...","Elektrische en elektronische benodigdheden voor auto's.",125
+"29320000","2932  Andere delen en toebehoren v...","Andere delen en toebehoren van auto's.",125
+"30000000","30  Andere transportmiddelen","",4
+"30100000","301 Schepen","",32
+"30110000","3011  Schepen en drijvend materieel","Schepen en drijvend materieel.",126
+"30120000","3012  Plezier- en sportvaartuigen","",126
+"30200000","302 Rollend materieel voor spoor...","Rollend materieel voor spoorwegen.",32
+"30300000","303 Lucht- en ruimtevaartuigen e...","Lucht- en ruimtevaartuigen en toestellen in verband daarmee.",32
+"30900000","309 Transportmiddelen, n.e.g.","",32
+"30910000","3091  Motorfietsen","",129
+"30920000","3092  Fietsen en invalidenwagens","",129
+"30990000","3099  Andere transportmiddelen, n....","Andere transportmiddelen, n.e.g.",129
+"31000000","31 Meubelen","",4
+"31001400","310014  Delen van stoelen, banken en ..","Delen van stoelen, banken en andere zitmeubelen.",130
+"31010000","3101  Kantoor- en winkelmeubelen","",130
+"31020000","3102  Keukenmeubelen","",130
+"31030000","3103  Matrassen","",130
+"31090000","3109  Andere meubelen","",130
+"31091230","3109123 Meubelen van hout voor slaap...","Meubelen van hout voor slaapkamers.",130
+"32000000","32 Andere industrieproducten","",4
+"32100000","321 Edelstenen, sieraden en derg...","Edelstenen, sieraden en dergelijke artikelen.",34
+"32120000","3212  Sieraden en dergelijke artik...","Sieraden en dergelijke artikelen.",131
+"32200000","322 Muziekinstrumenten","",34
+"32300000","323 Sportartikelen","",34
+"32400000","324 Spellen en speelgoed","",34
+"32500000","325 Medische en tandheelkundige ...","Medische en tandheelkundige instrumenten en benodigdheden.",34
+"32900000","329 Industrieproducten, n.e.g.","",34
+"32910000","3291  Borstelwaren","",136
+"32990000","3299  Andere industrieproducten, n...","Andere industrieproducten, n.e.g.",136
+"32991000","32991  Veiligheidshoofddeksels; pen...","Veiligheidshoofddeksels; pennen en potloden; schrijf- en tekenborden,
+handstempels; inktlinten voor schrijfmachines, stempelkussens.",136
+"33000000","33 Reparatie en installatie van...","Reparatie en installatie van machines, apparaten en werktuigen.",4
+"D       ","D Elektriciteit, gas, stoom en warmte","",1
+"35000000","35 Elektriciteit, gas, stoom en...","Elektriciteit, gas, stoom en warmte.",5
+"35100000","351 Elektriciteit","",36
+"35300000","353 Stoom en warmte","",36
+"E       ","E Distributie van water, afval- en ...","Distributie van water, afval- en afvalwaterbeheer, sanering.",1
+"36000000","36 Water","",6
+"36001000","36001  Natuurlijk water","",140
+"36001100","360011  Drinkbaar water","",140
+"36001200","360012  Niet-drinkbaar water","",140

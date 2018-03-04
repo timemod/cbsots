@@ -1,0 +1,101 @@
+"ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
+0,"Producentenprijsindex (PPI); afzet-,  invoer-, verbruiksprijzen, 2010 = 100","PPI; naar product,   2010 = 100","81974NED","Prijsindexcijfers (exclusief accijns) en maand en jaarmutaties
+Afzetmarkt en producten volgens goederennomenclatuur ProdCom","2018-01-30T06:30:00","Actualisering","","nl","CBS","Permaand","2005-2017; januari 2005 - december 2017","
+Deze tabel bevat de gemiddelde prijsontwikkeling van de afzetprijzen, de invoerprijzen en het binnenlands verbruik van industrieproducten met als basisjaar 2010=100. De maandelijkse prijsontwikkelingen van de afzetprijzen worden weergegeven voor zowel de binnenlandse- als de buitenlandse afzet. De producten zijn ingedeeld op basis van de PRODCOM-lijst.  Maand- en jaarcijfers.
+
+Gegevens beschikbaar vanaf: januari 2005
+
+Status van de cijfers:
+De cijfers van de laatste 5 maanden zijn in deze tabel voorlopig.
+
+Wijzigingen per 30 januari 2018
+Cijfers over de maand december 2017 zijn toegevoegd. Ook zijn de jaarcijfers over het jaar 2017 toegevoegd.
+
+Wanneer komen er nieuwe cijfers?
+De nieuwste cijfers worden gepubliceerd op uiterlijk de 30e dag volgend op de verslagmaand.
+
+De indexcijferreeksen in deze tabel hebben 2010 als referentiejaar (2010=100). Om de uitkomsten van de indexreeksen beter aan te laten sluiten bij de actualiteit wordt eens in de vijf jaar een zogenaamde basisverlegging doorgevoerd. Bij de publicatie van de verslagperiode januari 2018 zal zo’n basisverlegging plaatsvinden en zal worden overgestapt naar het referentiejaar 2015 (2015=100). De indexreeksen met referentie 2015=100 zullen worden gepubliceerd in nieuwe StatLinetabellen. Deze tabel wordt vanaf dat moment stopgezet en niet meer geactualiseerd. Deze tabel blijft wel beschikbaar in het archief. De nieuwe tabellen 2015=100 zullen starten met verslagmaand januari 2012.
+
+"," 
+INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie
+
+1. TOELICHTING
+
+Deze tabel bevat de gemiddelde prijsontwikkeling van de afzetprijzen, de invoerprijzen en het binnenlands verbruik van industrieproducten met als basisjaar 2010=100. De maandelijkse prijsontwikkelingen van de afzetprijzen worden weergegeven voor zowel de binnenlandse- als de buitenlandse afzet. De producten zijn ingedeeld op basis van de PRODCOM-lijst.  Maand- en jaarcijfers.
+
+Gegevens beschikbaar vanaf: januari 2005
+
+Status van de cijfers:
+De cijfers van de laatste 5 maanden zijn in deze tabel voorlopig.
+
+Wijzigingen per 30 januari 2018
+Cijfers over de maand december 2017 zijn toegevoegd. Ook zijn de jaarcijfers over het jaar 2017 toegevoegd.
+
+Wanneer komen er nieuwe cijfers?
+De nieuwste cijfers worden gepubliceerd op uiterlijk de 30e dag volgend op de verslagmaand.
+
+De indexcijferreeksen in deze tabel hebben 2010 als referentiejaar (2010=100). Om de uitkomsten van de indexreeksen beter aan te laten sluiten bij de actualiteit wordt eens in de vijf jaar een zogenaamde basisverlegging doorgevoerd. Bij de publicatie van de verslagperiode januari 2018 zal zo’n basisverlegging plaatsvinden en zal worden overgestapt naar het referentiejaar 2015 (2015=100). De indexreeksen met referentie 2015=100 zullen worden gepubliceerd in nieuwe StatLinetabellen. Deze tabel wordt vanaf dat moment stopgezet en niet meer geactualiseerd. Deze tabel blijft wel beschikbaar in het archief. De nieuwe tabellen 2015=100 zullen starten met verslagmaand januari 2012.
+
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Definities:
+
+De afzetreeks omvat de goederen die zijn verkocht door Nederlandse producenten, onderscheiden naar binnenlandse afzet en buitenlandse afzet. 
+Bij invoer betreft het alle in Nederland ingevoerde goederen. Het binnenlands verbruik is samengesteld uit de binnenlandse afzet en de invoer. PRODCOM is een goederenclassificatie die door alle Europese landen wordt gebruikt. De naam is afgeleid van het Franse 'PRODuction COMmunautaire'. 
+
+Indexcijfer 
+Geeft de verhouding weer tussen de waarde van een bepaalde variabele (bijv. omzet) in een bepaalde periode en de waarde van diezelfde variabele in de basisperiode. Deze basisperiode heeft het indexcijfer 100.
+
+Ontwikkeling
+De procentuele ontwikkeling van een bepaalde periode (maand, kwartaal, jaar) ten opzichte van dezelfde periode in het daaraan voorafgaande jaar. Het CBS berekent de ontwikkeling aan de hand van niet-afgeronde indexcijfers. 
+
+Verklaring van symbolen:
+
+niets (blanco) : het cijfer kan op logische gronden niet voorkomen
+. : het cijfer is onbekend, onvoldoende betrouwbaar of geheim 
+* : voorlopige cijfers
+** : nader voorlopige cijfers
+
+3. KOPPELINGEN NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Relevante tabellen:
+
+Gegevens op basis 2005=100 zijn te vinden in tabel:
+
+<a href='http://statline.cbs.nl/StatWeb/publication/?VW=T&DM=SLNL&PA=71933NED'>Producentenprijzen (2005=100) naar Prodcom </a>Deze tabel is stopgezet.
+
+Gegevens op basis van Standaard Bedrijfsindeling (SBI) zijn te vinden in 
+tabel:
+
+<a href='http://statline.cbs.nl/StatWeb/publication/?VW=T&DM=SLNL&PA=81975NED'>Producentenprijsindex; afzetprijzen naar bedrijfstak; 2010=100 </a>
+
+Relevante artikelen:
+
+Naar aanleiding van de basisverlegging van de PPI naar 2010=100 is er een artikel gepubliceerd met betrekking tot de PPI. <a href='http://www.cbs.nl/nl-NL/menu/themas/prijzen/methoden/dataverzameling/korte-onderzoeksbeschrijvingen/2013-ppi-korteonderzoeksbeschrijving-2010100.htm'>Basisverlegging producentenprijsindex (PPI) naar 2010=100</a>.
+
+Meer informatie is te vinden op de themapagina <a href='http://www.cbs.nl/nl-NL/menu/themas/prijzen/cijfers/default.htm'>prijzen</a>
+
+4. BRONNEN EN METHODEN
+
+De onderzoeksmethode van deze tabel in te vinden in de onderzoeksbeschrijving:
+
+<a href='http://www.cbs.nl/nl-NL/menu/themas/prijzen/methoden/dataverzameling/korte-onderzoeksbeschrijvingen/2013-ppi-korteonderzoeksbeschrijving-2010100.htm'>Producentenprijsindex (PPI), 2010=100</a>
+
+5. MEER INFORMATIE
+
+
+<a href='http://www.cbs.nl/nl-NL/menu/informatie/publiek/inlichtingen/default.htm'>Infoservice</a>
+
+
+Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen
+
+Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.
+
+","ts=1516787250241&graphtype=Table&r=ProductenPRODCOM,Perioden&k=Topics,AfzetInvoerEnVerbruik","$filter=((AfzetInvoerEnVerbruik eq 'P040') or (AfzetInvoerEnVerbruik eq 'P010') or (AfzetInvoerEnVerbruik eq 'P020') or (AfzetInvoerEnVerbruik eq 'P030') or (AfzetInvoerEnVerbruik eq 'P050')) and ((ProductenPRODCOM eq '10000000') or (ProductenPRODCOM eq '20100000') or (ProductenPRODCOM eq 'C       ')) and ((Perioden eq '2016MM12') or (Perioden eq '2016JJ00') or (Perioden eq '2017MM01') or (Perioden eq '2017MM02') or (Perioden eq '2017MM03') or (Perioden eq '2017MM04') or (Perioden eq '2017MM05') or (Perioden eq '2017MM06') or (Perioden eq '2017MM07') or (Perioden eq '2017MM08') or (Perioden eq '2017MM09') or (Perioden eq '2017MM10') or (Perioden eq '2017MM11') or (Perioden eq '2017MM12') or (Perioden eq '2017JJ00'))&$select=AfzetInvoerEnVerbruik, ProductenPRODCOM, Perioden, ProducentenprijsindexPPI_1, OntwikkelingTOVEenJaarEerder_2, OntwikkelingTOVEenMaandEerder_3","Table,Bar,Line","Regulier","CBS.","2018-01-30T06:30:00","2"

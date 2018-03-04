@@ -13,7 +13,6 @@ ts_code <- readRDS(ts_code_file)
 x <- get_ts(id, ts_code = ts_code, refresh = FALSE, include_meta = TRUE)
 
 
-
 write_table_ts_xlsx(x, file.path("output", paste0("ts_", id, ".xlsx")))
 
 ret <- check_ts_table(x, id)

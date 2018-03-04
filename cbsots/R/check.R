@@ -34,6 +34,11 @@ check_code <- function(code, cbs_code) {
                 paste(unknown_keys, collapse = "\n")), "\n.")
     }
     
+    # at least one key should be selected
+    if (!any(tscode$Select)) {
+      stop(paste0("No single key selected for ", name, "."))
+    }
+    
     # TODO: update Titles in code based on cbs_code, then check_code
     # should return a code with updated Titles
   

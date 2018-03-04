@@ -1,0 +1,142 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"ProductenPRODCOM","Secties","",
+1,"ProductenPRODCOM","Secties","",0
+2,"ProductenPRODCOM","Afdelingen per sectie","",
+3,"ProductenPRODCOM","B Winning van delfstoffen","",2
+4,"ProductenPRODCOM","C Industriële producten","",2
+5,"ProductenPRODCOM","D Elektriciteit, gas, stoom en warmte","",2
+6,"ProductenPRODCOM","E Distributie van water, afval- en ...","",2
+7,"ProductenPRODCOM","Groepen per afdeling","",
+8,"ProductenPRODCOM","05 Steenkool en bruinkool","",7
+9,"ProductenPRODCOM","06 Ruwe aardolie en aardgas","",7
+10,"ProductenPRODCOM","07 Metaalertsen","",7
+11,"ProductenPRODCOM","08 Andere delfstoffen","",7
+12,"ProductenPRODCOM","10  Voedingsmiddelen","",7
+13,"ProductenPRODCOM","11 Dranken","",7
+14,"ProductenPRODCOM","12 Tabaksproducten","",7
+15,"ProductenPRODCOM","13 Textiel","",7
+16,"ProductenPRODCOM","14 Kleding","",7
+17,"ProductenPRODCOM","15 Leder en producten van leder","",7
+18,"ProductenPRODCOM","16 Hout, houtwaren en kurkwaren...","",7
+19,"ProductenPRODCOM","17 Papier en papierwaren","",7
+20,"ProductenPRODCOM","18 Drukwerk, diensten i.v.m. dr...","",7
+21,"ProductenPRODCOM","19 Cokes en geraffineerde aardo...","",7
+22,"ProductenPRODCOM","20  Chemische producten","",7
+23,"ProductenPRODCOM","21 Farmaceutische basisproducte...","",7
+24,"ProductenPRODCOM","22 Werken van rubber of kunststof","",7
+25,"ProductenPRODCOM","23 Andere niet-metaalhoudende m...","",7
+26,"ProductenPRODCOM","24 Metalen in primaire vorm","",7
+27,"ProductenPRODCOM","25 Werken van metaal, andere da...","",7
+28,"ProductenPRODCOM","26 Informaticaproducten, elektr...","",7
+29,"ProductenPRODCOM","27 Elektrische apparatuur","",7
+30,"ProductenPRODCOM","28 Machines, apparaten en werkt...","",7
+31,"ProductenPRODCOM","29 Auto's, aanhangwagens en opl...","",7
+32,"ProductenPRODCOM","30  Andere transportmiddelen","",7
+33,"ProductenPRODCOM","31 Meubelen","",7
+34,"ProductenPRODCOM","32 Andere industrieproducten","",7
+35,"ProductenPRODCOM","33 Reparatie en installatie van...","",7
+36,"ProductenPRODCOM","35 Elektriciteit, gas, stoom en...","",7
+37,"ProductenPRODCOM","36 Water","",7
+38,"ProductenPRODCOM","Categoriën per groep","",
+39,"ProductenPRODCOM","051 Steenkool","",38
+40,"ProductenPRODCOM","061 Ruwe aardolie en aardgascond...","",38
+41,"ProductenPRODCOM","062 Aardgas; vloeibaar gemaakt o...","",38
+42,"ProductenPRODCOM","071 IJzererts","",38
+43,"ProductenPRODCOM","072 Non-ferrometaalertsen","",38
+44,"ProductenPRODCOM","081 Steen, zand en klei","",38
+45,"ProductenPRODCOM","089 Overige delfstoffen","",38
+46,"ProductenPRODCOM","101 Verduurzaamd vlees en vleesp...","",38
+47,"ProductenPRODCOM","102 Vis, schaaldieren en weekdie...","",38
+48,"ProductenPRODCOM","103 Groenten en fruit; verwerkt ...","",38
+49,"ProductenPRODCOM","104 Plantaardige en dierlijke ol...","",38
+50,"ProductenPRODCOM","105 Zuivelproducten","",38
+51,"ProductenPRODCOM","106 Maalderijproducten, zetmeel ...","",38
+52,"ProductenPRODCOM","107 Bakkerijproducten en deegwaren","",38
+53,"ProductenPRODCOM","108 Andere voedingsmiddelen","",38
+54,"ProductenPRODCOM","109 Bereide diervoeders","",38
+55,"ProductenPRODCOM","110 Dranken","",38
+56,"ProductenPRODCOM","120 Tabaksproducten","",38
+57,"ProductenPRODCOM","131 Textielgarens","",38
+58,"ProductenPRODCOM","132 Textielweefsels","",38
+59,"ProductenPRODCOM","133 Veredeld textiel","",38
+60,"ProductenPRODCOM","139 Andere textielproducten","",38
+61,"ProductenPRODCOM","141 Kleding, met uitzondering va...","",38
+62,"ProductenPRODCOM","143 Gebreide en gehaakte kleding","",38
+63,"ProductenPRODCOM","151 Leder, gelooid of anderszins...","",38
+64,"ProductenPRODCOM","152 Schoeisel","",38
+65,"ProductenPRODCOM","161 Hout, gezaagd en geschaafd","",38
+66,"ProductenPRODCOM","162 Houtwaren en kurkwaren, vlec...","",38
+67,"ProductenPRODCOM","171 Pulp, papier en karton","",38
+68,"ProductenPRODCOM","172 Papier- en kartonwaren","",38
+69,"ProductenPRODCOM","181 Drukwerk en diensten in verb...","",38
+70,"ProductenPRODCOM","182 Reproductie van opgenomen media","",38
+71,"ProductenPRODCOM","191 Cokesovenproducten","",38
+72,"ProductenPRODCOM","192 Geraffineerde aardolieproducten","",38
+73,"ProductenPRODCOM","201 Chemische basisproducten, ku...","",38
+74,"ProductenPRODCOM","202 Pesticiden en andere chemisc...","",38
+75,"ProductenPRODCOM","203 Verf, vernis en dergelijke, ...","",38
+76,"ProductenPRODCOM","204 Zeep en wasmiddelen, poets- ...","",38
+77,"ProductenPRODCOM","205 Andere chemische producten","",38
+78,"ProductenPRODCOM","206 Synthetische of kunstmatige ...","",38
+79,"ProductenPRODCOM","211 Farmaceutische basisproducten","",38
+80,"ProductenPRODCOM","212 Farmaceutische bereidingen","",38
+81,"ProductenPRODCOM","221 Werken van rubber","",38
+82,"ProductenPRODCOM","222 Werken van kunststof","",38
+83,"ProductenPRODCOM","231 Glas en glaswerk","",38
+84,"ProductenPRODCOM","232 Vuurvaste producten","",38
+85,"ProductenPRODCOM","233 Producten voor de bouw, van ...","",38
+86,"ProductenPRODCOM","234 Andere keramische producten","",38
+87,"ProductenPRODCOM","235 Cement, kalk en gips","",38
+88,"ProductenPRODCOM","236 Werken van beton, cement en ...","",38
+89,"ProductenPRODCOM","237 Gehouwen, bewerkte en afgewe...","",38
+90,"ProductenPRODCOM","239 Andere niet-metaalhoudende m...","",38
+91,"ProductenPRODCOM","241 IJzer en staal en ferroleger...","",38
+92,"ProductenPRODCOM","242 Buizen, pijpen, holle profie...","",38
+93,"ProductenPRODCOM","243 Andere producten van de eers...","",38
+94,"ProductenPRODCOM","244 Edelmetalen en andere non-fe...","",38
+95,"ProductenPRODCOM","245 Gietwerk van metalen","",38
+96,"ProductenPRODCOM","251 Metalen constructiewerken","",38
+97,"ProductenPRODCOM","252 Tanks, reservoirs en verpakk...","",38
+98,"ProductenPRODCOM","253 Stoomketels (stoomgeneratore...","",38
+99,"ProductenPRODCOM","254 Wapens en munitie","",38
+100,"ProductenPRODCOM","255 Smeden, persen, stampen en p...","",38
+101,"ProductenPRODCOM","256 Oppervlaktebehandelde en ver...","",38
+102,"ProductenPRODCOM","257 Messenmakerswerk, gereedscha...","",38
+103,"ProductenPRODCOM","259 Andere werken van metaal","",38
+104,"ProductenPRODCOM","261 Elektronische onderdelen en ...","",38
+105,"ProductenPRODCOM","262 Computers en randapparatuur","",38
+106,"ProductenPRODCOM","263 Communicatieapparatuur","",38
+107,"ProductenPRODCOM","264 Consumentenelektronica","",38
+108,"ProductenPRODCOM","265 Meet-, controle- en navigati...","",38
+109,"ProductenPRODCOM","266 Bestralingsapparatuur en ele...","",38
+110,"ProductenPRODCOM","267 Optische instrumenten en fot...","",38
+111,"ProductenPRODCOM","268 Magnetische en optische dragers","",38
+112,"ProductenPRODCOM","271 Elektromotoren, elektrische ...","",38
+113,"ProductenPRODCOM","272 Batterijen en accumulatoren","",38
+114,"ProductenPRODCOM","273 Kabels en schakelaars, stekk...","",38
+115,"ProductenPRODCOM","274 Elektrische verlichtingsbeno...","",38
+116,"ProductenPRODCOM","275 Huishoudapparaten","",38
+117,"ProductenPRODCOM","279 Andere elektrische apparatuur","",38
+118,"ProductenPRODCOM","281 Machines en apparaten voor a...","",38
+119,"ProductenPRODCOM","282 Andere machines en apparaten...","",38
+120,"ProductenPRODCOM","283 Machines en werktuigen voor ...","",38
+121,"ProductenPRODCOM","284 Machines voor het vormen van...","",38
+122,"ProductenPRODCOM","289 Andere machines, apparaten e...","",38
+123,"ProductenPRODCOM","291 Auto's","",38
+124,"ProductenPRODCOM","292 Carrosserieën voor auto's; a...","",38
+125,"ProductenPRODCOM","293 Delen en toebehoren van auto's","",38
+126,"ProductenPRODCOM","301 Schepen","",38
+127,"ProductenPRODCOM","302 Rollend materieel voor spoor...","",38
+128,"ProductenPRODCOM","303 Lucht- en ruimtevaartuigen e...","",38
+129,"ProductenPRODCOM","309 Transportmiddelen, n.e.g.","",38
+130,"ProductenPRODCOM","310 Meubelen","",38
+131,"ProductenPRODCOM","321 Edelstenen, sieraden en derg...","",38
+132,"ProductenPRODCOM","322 Muziekinstrumenten","",38
+133,"ProductenPRODCOM","323 Sportartikelen","",38
+134,"ProductenPRODCOM","324 Spellen en speelgoed","",38
+135,"ProductenPRODCOM","325 Medische en tandheelkundige ...","",38
+136,"ProductenPRODCOM","329 Industrieproducten, n.e.g.","",38
+137,"ProductenPRODCOM","330 Reparatie en installatie van...","",38
+138,"ProductenPRODCOM","351 Elektriciteit","",38
+139,"ProductenPRODCOM","353 Stoom en warmte","",38
+140,"ProductenPRODCOM","360 Water","",38
