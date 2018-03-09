@@ -29,6 +29,7 @@ HTMLWidgets.widget({
             filters: true,
             dropdownMenu: true,
             height: 500,
+            wordWrap: false,
             search: {
                 callback: search_call_back
             },
