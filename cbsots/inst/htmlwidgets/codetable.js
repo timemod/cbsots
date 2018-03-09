@@ -30,6 +30,7 @@ HTMLWidgets.widget({
             dropdownMenu: true,
             height: 500,
             wordWrap: false,
+            manualColumnResize: true,
             search: {
                 callback: search_call_back
             },
