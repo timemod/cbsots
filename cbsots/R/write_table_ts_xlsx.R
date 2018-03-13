@@ -50,8 +50,9 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
   for (freq in frequencies) {
     sheet_name <- sheet_names[freq]
     sheet <- createSheet(wb, sheet_name)
-    label_option <- if (rowwise) "after"else "no"
-    write_ts_sheet(x[[freq]], sheet, ...)
+    label_option <- if (rowwise) "after" else "no"
+    write_ts_sheet(x[[freq]], sheet, rowwise = rowwise, 
+                   labels = label_option, ...)
   }
   sheet <- createSheet(wb, "ts_names")
   addDataFrame(x$ts_names, sheet, row.names = FALSE)
