@@ -23,7 +23,7 @@ fill_tables_from_table <- function(tscodes, ids,  basis_id) {
     }
     
     table <- fill_table_from_table(table, basis_table)
-    
+  
     tscodes$table_code[[id]]$codes <- table
   }
   
@@ -47,10 +47,11 @@ fill_table_from_table <- function(table, basis_table) {
     code[rows, "Select"] <- basis_code[basis_rows, "Select"]
     code[rows, "Code"] <- basis_code[basis_rows, "Code"]
     code[rows, "Title"] <- basis_code[basis_rows, "Title"]
-    table[[name]] <- code
-    return(invisible(NULL))
+    return(code)
   }
+  
   common_names <- intersect(names(table), names(basis_table))
-  dum <- lapply(common_names, FUN = fill_code_from_code)
+  new_codes <- sapply(common_names, FUN = fill_code_from_code, simplify = FALSE)
+  table <- modifyList(table, new_codes)
   return(table)
 }
