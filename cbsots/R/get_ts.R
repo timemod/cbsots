@@ -14,7 +14,8 @@
 #' \code{refresh}.
 #' @param include_meta include meta data
 #' @param min_year  the minimum year of the returned timeseries. Data 
-#' for years before \code{min_year} are disregarded. 
+#' for years before \code{min_year} are disregarded. Specify \code{NULL}
+#' or \code{NA} to not impose a minimum year.
 #' @return a list with class \code{table_ts}, with the following components
 #'  \item{Y}{Yearly timeseries (if present)}
 #'  \item{Q}{Quarterly timeseries (if present)}
@@ -32,6 +33,10 @@
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
                    include_meta = FALSE, min_year = NULL, download) {
 
+  if (!is.null(min_year) && is.na(min_year)) {
+    min_year <- NULL
+  }
+  
   if (!missing(download)) {
     warning(paste("Argument download is deprecated and has been replaced by",
                   "argument refresh"))

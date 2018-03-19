@@ -25,7 +25,8 @@ The default is \code{FALSE}}
 \item{include_meta}{include meta data}
 
 \item{min_year}{the minimum year of the returned timeseries. Data 
-for years before \code{min_year} are disregarded.}
+for years before \code{min_year} are disregarded. Specify \code{NULL}
+or \code{NA} to not impose a minimum year.}
 
 \item{download}{This argument is deprecated and has been replaced by argument
 \code{refresh}.}
