@@ -23,7 +23,7 @@ download_table <- function(id, raw_cbs_dir, code, min_year, na_strings) {
   dimensions <- setdiff(names(code), "Topic")
   filters <- sapply(names(code), FUN = get_dimension_filter, simplify = FALSE)
   
-  if (!missing(min_year)) {
+  if (!is.null(min_year)) {
     period_keys <- get_period_keys(meta, min_year)
     if (length(period_keys) < nrow(meta$Perioden)) {
       filters <- c(list(Perioden = period_keys), filters)

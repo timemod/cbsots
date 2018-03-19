@@ -14,7 +14,7 @@
 #' \code{refresh}.
 #' @param include_meta include meta data
 #' @param min_year  the minimum year of the returned timeseries. Data 
-#' for years before \code{min_year} are disregarded.
+#' for years before \code{min_year} are disregarded. 
 #' @return a list with class \code{table_ts}, with the following components
 #'  \item{Y}{Yearly timeseries (if present)}
 #'  \item{Q}{Quarterly timeseries (if present)}
@@ -30,7 +30,7 @@
 #' @importFrom utils modifyList
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE, min_year, download) {
+                   include_meta = FALSE, min_year = NULL, download) {
 
   if (!missing(download)) {
     warning(paste("Argument download is deprecated and has been replaced by",
@@ -99,7 +99,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       if (!is.null(data)) {
         period_keys <- get_period_keys(meta, min_year)
         read_ok <- check_read_data(data, code, period_keys = period_keys)
-        if (read_ok && !missing(min_year)) {
+        if (read_ok && !is.null(min_year)) {
           data <- data[Perioden %in% period_keys]
         }
       }
