@@ -25,11 +25,15 @@ test_that(id, {
   result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, min_year = 2015,
                                   include_meta = TRUE))
 
-  expected_value_file <- file.path("expected_output", paste0(id, "_result.rds"))
+  # there may be small differences between Linux and Windows because the result
+  # of sort is different
+  expected_value_file <- file.path("expected_output", paste0(id, "_result_", 
+                                   .Platform$OS.type, ".rds"))
   expect_known_value(result1, file = expected_value_file)
 
   expected_output_file <- file.path("expected_output",
-                                    paste0(id, "_print_result.txt"))
+                                    paste0(id, "_print_result_", 
+                                           .Platform$OS.type, ".txt"))
   expect_known_output(print(result1), expected_output_file)
 
   check <- check_ts_table(result1, id)
