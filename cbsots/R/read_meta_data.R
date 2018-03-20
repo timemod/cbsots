@@ -17,7 +17,8 @@ read_meta_data <- function(dir) {
       # empty file
       return(NULL)
     } else {
-      return(read.csv(filename, stringsAsFactors = FALSE))
+      return(read.csv(filename, stringsAsFactors = FALSE, 
+                      colClasses = "character"))
     }
   }
   
@@ -25,6 +26,11 @@ read_meta_data <- function(dir) {
     
       ret <- sapply(c("TableInfos", "DataProperties", "CategoryGroups"),
                     FUN = read_meta_csv, simplify = FALSE)
+      
+      ret$TableInfos$ID <- as.numeric(ret$TableInfos$ID)
+      ret$DataProperties$ID <- as.numeric(ret$DataProperties$ID)
+      ret$DataProperties$Position <- as.numeric(ret$DataProperties$Position)
+      ret$DataProperties$ParentID <- as.numeric(ret$DataProperties$ParentID)
       
       dp <- as.data.table(ret$DataProperties)
       

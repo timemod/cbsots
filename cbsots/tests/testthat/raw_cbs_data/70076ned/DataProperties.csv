@@ -1,0 +1,17 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","GoederenEnDiensten","Goederen en diensten",,,,,,
+"Cbs.OData.TimeDimension",1,1,,"TimeDimension","Perioden","Perioden",,TRUE,,,,
+"Cbs.OData.TopicGroup",2,,,"TopicGroup","","Volume","Volume is de voor prijs gecorrigeerde waarde",,,,,
+"Cbs.OData.Topic",3,2,2,"Topic","Volumemutaties_1","Volumemutaties","De volumemutaties geven de voor prijsverandering gecorrigeerde
+ontwikkeling weer ten opzicht van dezelfde periode een jaar eerder.",,"Double","%",1,"Impossible"
+"Cbs.OData.Topic",4,3,2,"Topic","VolumemutatiesKoopdaggecorrigeerd_2","Volumemutaties koopdaggecorrigeerd","Volumemutaties ten opzichte van dezelfde periode een jaar eerder,
+na correctie voor verschillen in koopdagen tussen beide perioden.",,"Double","%",1,"Impossible"
+"Cbs.OData.Topic",5,4,2,"Topic","Indexcijfers2000100_3","Indexcijfers (2000 = 100)","Volume-indexcijfers op basis van 2000 = 100",,"Double","2000=100",1,"Impossible"
+"Cbs.OData.TopicGroup",6,,,"TopicGroup","","Waarde","De bestedingen inclusief BTW.",,,,,
+"Cbs.OData.Topic",7,5,6,"Topic","Waardemutaties_4","Waardemutaties","Waardemutaties  ten opzichte van dezelfde periode een jaar eerder.",,"Double","%",1,"Impossible"
+"Cbs.OData.Topic",8,6,6,"Topic","Indexcijfers2000100_5","Indexcijfers (2000 = 100)","Waarde-indexcijfers op basis van 2000 = 100",,"Double","2000=100",1,"Impossible"
+"Cbs.OData.Topic",9,7,6,"Topic","AandelenInDeBinnenlandseConsumptie_6","Aandelen in de binnenlandse consumptie","Procentueel aandeel op jaarbasis.
+Aansluitend bij de uitkomsten van de Nationale rekeningen 2006.",,"Double","%",1,"Impossible"
+"Cbs.OData.Topic",10,8,6,"Topic","AbsoluteWaardeInEuroS_7","Absolute waarde in euro's","Absolute waarden in euro, niet gecorrigeerd voor prijsveranderingen.
+Aansluitend bij de uitkomsten van de Nationale rekeningen 2006.
+De bedragen zijn inclusief BTW.",,"Double","mln euro",0,"Impossible"

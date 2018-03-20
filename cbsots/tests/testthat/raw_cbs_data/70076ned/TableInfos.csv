@@ -1,0 +1,91 @@
+"ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
+0,"Bestedingen; consumptie huishoudens","Bestedingen; consumptie huishoudens","70076ned","Mutaties, indexcijfers, aandelen en waarden van consumptie door
+huishoudens naar goederen en diensten.","2018-02-21T06:30:00","Actualisering","","nl","CBS","Permaand","1995-2017; 1995 kw1 - 2017 kw4; 1995 januari - 2017 december","
+Deze tabel bevat cijfers over de bestedingen van huishoudens in waarde en volume. De cijfers zijn uitgesplitst naar binnenlandse en nationale consumptie door huishoudens.
+Op maandbasis zijn cijferreeksen beschikbaar over de ontwikkeling van de consumptieve bestedingen door huishoudens. Uitgangspunt vormen de bestedingen van consumenten (dit is inclusief BTW).
+
+Gegevens beschikbaar vanaf: 1995
+
+Status van de cijfers:
+De cijfers over 2011 zijn nader voorlopig.
+Recentere cijfers zijn voorlopig.
+
+Wijzigingen per 21 februari 2018:
+De cijfers van december 2017 zijn toegevoegd.
+
+
+Wanneer komen er nieuwe cijfers?
+Ongeveer zes tot zeven weken na afloop van een verslagmaand.
+
+"," 
+INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie 
+
+1. TOELICHTING
+
+Deze tabel bevat cijfers over de bestedingen van huishoudens in waarde en volume. De cijfers zijn uitgesplitst naar binnenlandse en nationale consumptie door huishoudens.
+Op maandbasis zijn cijferreeksen beschikbaar over de ontwikkeling van de consumptieve bestedingen door huishoudens. Uitgangspunt vormen de bestedingen van consumenten (dit is inclusief BTW).
+
+Gegevens beschikbaar vanaf: 1995
+
+Status van de cijfers:
+De cijfers over 2011 zijn nader voorlopig.
+Recentere cijfers zijn voorlopig.
+
+Wijzigingen per 21 februari 2018:
+De cijfers van december 2017 zijn toegevoegd.
+
+
+Wanneer komen er nieuwe cijfers?
+Ongeveer zes tot zeven weken na afloop van een verslagmaand.
+
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Definities:
+
+Consumptie door huishoudens 
+Dit omvat de volgende posten:
+- De consumptieve bestedingen van consumenten via de handel of direct.
+- Consumptieve bestedingen door instellingen zonder winstoogmerk (IZW's). IZW's zijn bijvoorbeeld sportverenigingen, vakbonden en organisaties op religieuze grondslag, waarvan de activiteiten grotendeels gefinancierd worden uit contributies en donaties van leden en sympathisanten. 
+Onder de consumptieve bestedingen door huishoudens vallen alle vrijwillige uitgaven door particulieren en huishoudens aan goederen en diensten.
+Dus niet de verplichte uitgaven zoals belastingen.
+
+
+Verklaring van symbolen:
+
+niets (blank)   : een cijfer kan op logische gronden niet voorkomen
+.               : gegevens ontbreken
+x               : geheim
+-               : nihil 
+0 (0,0)         : het cijfer is kleiner dan de helft van de gekozen eenheid
+*               : voorlopige cijfers
+**              : nader voorlopige cijfers
+
+
+3. KOPPELING NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Relevante tabellen:
+Consumptieve bestedingen in de kwartaalrekeningen zijn te vinden in <a href='http://statline.cbs.nl/StatWeb/publication/?VW=T&DM=SLNL&PA=03751&HD=140424-0837&HDR=T&STB=G1,G2'>Kwartaalrekeningen; mutaties</a>
+
+
+4. BRONNEN- EN METHODENBESCHRIJVING
+
+
+Voor het samenstellen van de macro-economische maandconsumptiecijfers wordt gebruik gemaakt van de uitkomsten van een groot aantal andere statistieken. Het gaat daarbij onder meer om de omzetontwikkeling van detailhandel en dienstverlenende bedrijven, de consumentenprijsindex en data over energieverbruik. Er worden geen personen geïnterviewd over hun bestedingsgedrag.
+
+De op maandbasis samengestelde consumptiecijfers sluiten wat definities en begrippen betreft volledig aan bij de integratiekaders van de Nationale rekeningen en de Kwartaalrekeningen. De goederen- en dienstencategorieën waarvoor waarde- en volumemutaties beschikbaar zijn sluiten aan bij de classificatie in de Nationale rekeningen. Voor de hoofdgroepen (Voedings- en genotmiddelen, Duurzame goederen, Overige goederen, Diensten, Binnenlandse consumptie en Nationale consumptie) worden behalve procentuele ontwikkelingen ook waarde- en volume-indices gepubliceerd.
+
+
+5. MEER INFORMATIE
+
+<a href='http://www.cbs.nl/nl-NL/menu/informatie/publiek/inlichtingen/default.htm'>Infoservice</a>
+
+Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen 
+Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.
+","ts=1519132573553&graphtype=Table&r=GoederenEnDiensten,Perioden&k=Topics","$filter=((GoederenEnDiensten eq '      8000') or (GoederenEnDiensten eq '      4005') or (GoederenEnDiensten eq '      2005') or (GoederenEnDiensten eq '      3000') or (GoederenEnDiensten eq '      4000') or (GoederenEnDiensten eq '      5000')) and ((Perioden eq '2016MM01') or (Perioden eq '2016MM02') or (Perioden eq '2016MM03') or (Perioden eq '2016KW01') or (Perioden eq '2016MM04') or (Perioden eq '2016MM05') or (Perioden eq '2016MM06') or (Perioden eq '2016KW02') or (Perioden eq '2016MM07') or (Perioden eq '2016MM08') or (Perioden eq '2016MM09') or (Perioden eq '2016KW03') or (Perioden eq '2016MM10') or (Perioden eq '2016MM11') or (Perioden eq '2016MM12') or (Perioden eq '2016KW04') or (Perioden eq '2016JJ00') or (Perioden eq '2017MM01') or (Perioden eq '2017MM02') or (Perioden eq '2017MM03') or (Perioden eq '2017KW01') or (Perioden eq '2017MM04') or (Perioden eq '2017MM05') or (Perioden eq '2017MM06') or (Perioden eq '2017KW02') or (Perioden eq '2017MM07') or (Perioden eq '2017MM08') or (Perioden eq '2017MM09') or (Perioden eq '2017KW03') or (Perioden eq '2017MM10') or (Perioden eq '2017MM11') or (Perioden eq '2017MM12') or (Perioden eq '2017KW04') or (Perioden eq '2017JJ00'))&$select=GoederenEnDiensten, Perioden, Volumemutaties_1, VolumemutatiesKoopdaggecorrigeerd_2, Indexcijfers2000100_3","Table,Bar,Line","Regulier","CBS","2018-02-21T06:30:00","3"

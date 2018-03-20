@@ -1,0 +1,8 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"GoederenEnDiensten","Hoofdgroepen",,
+1,"GoederenEnDiensten","Consumptieve bestedingen",,0
+2,"GoederenEnDiensten","Hoofdgroepen totalen",,0
+3,"GoederenEnDiensten","Voedings- en genotmiddelen",,0
+4,"GoederenEnDiensten","Duurzame goederen",,0
+5,"GoederenEnDiensten","Overige goederen",,0
+6,"GoederenEnDiensten","Diensten",,0

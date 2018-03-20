@@ -1,0 +1,47 @@
+"Key","Title","Description","CategoryGroupID"
+"      8000","Consumptie binnenland","Consumptie binnenland betreft alle uitgaven op Nederlands grondgebied.
+Is gelijk aan de som van de goederen (1000/4000) en diensten (5000).",1
+"      9000","Consumptie nationaal","Nationale consumptie betreft alle uitgaven van Nederlandse ingezetenen in
+zowel het binnenland als het buitenland.
+Is gelijk aan de som van de goederen (1000/4000) en diensten (5000), minus
+de uitgaven van niet in Nederland woonachtigen (6000) plus de uitgaven van
+Nederlanders in het buitenland (7000).",1
+"      4005","1000/4000 Goederen",,2
+"      2005","1000/2000 Voedings- en genotmiddelen",,2
+"      1000","1000 Voedingsmiddelen",,3
+"      1100","1100 Aardappelen, groenten en fruit",,3
+"      1200","1200 Vlees en vleeswaren",,3
+"      1300","1300 Vis",,3
+"      1400","1400 Zuivelproducten",,3
+"      1500","1500 Brood, beschuit en broodproducten",,3
+"      1600","1600 Overige voedingsmiddelen",,3
+"      2000","2000 Genotmiddelen",,3
+"      2100","2100 Consumptie-ijs",,3
+"      2200","2200 Zoetwaren",,3
+"      2300","2300 Dranken",,3
+"      2400","2400 Tabak",,3
+"      3000","3000 Duurzame goederen",,2
+"      3100","3100 Textiel en kleding",,4
+"      3200","3200 Lederwaren en schoeisel",,4
+"      3300","3300 Woninginrichting",,4
+"      3400","3400 Huishoudelijke apparaten",,4
+"      3500","3500 Huishoudelijke artikelen",,4
+"      3600","3600 Voertuigen",,4
+"      3700","3700 Overige duurzame goederen",,4
+"      4000","4000 Overige goederen",,2
+"      4100","4100 Motorbrandstoffen",,5
+"      4200","4200 Energie",,5
+"      4300","4300 Overige goederen",,5
+"      5000","5000 Diensten",,2
+"      5100","5100 Huisvesting",,6
+"      5200","5200 Horecadiensten",,6
+"      5300","5300 Diensten mbt recreatie en cultuur","Zijn alleen jaar- en kwartaalcijfers beschikbaar.",6
+"      5400","5400 Diensten mbt vervoer & communicatie","Zijn alleen jaar- en kwartaalcijfers beschikbaar.",6
+"      5500","5500 Medische diensten en welzijnszorg","Zijn alleen jaar- en kwartaalcijfers beschikbaar.",6
+"      5600","5600 Financiële en zakelijke diensten","Zijn alleen jaar- en kwartaalcijfers beschikbaar.",6
+"      5700","5700 Overige diensten","Zijn alleen jaar- en kwartaalcijfers beschikbaar.",6
+"      6000","6000 Cons. niet-ingezeten huishoudens","Consumptie niet-ingezeten huishoudens betreft de uitgaven in Nederland
+van niet in Nederland wonende huishoudens (bijvorrbeeld door toeristen).",2
+"      7000","7000 Cons. Ned.huishoudens in buitenland","Consumptie door Nederlandse huishoudens in het buitenland.
+Alle uitgaven van in Nederland woonachtige gezinnen
+op buitenlands grondgebied.",2

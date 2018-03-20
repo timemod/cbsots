@@ -3,13 +3,13 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts table 82602NED")
+context("get_ts table 70076NED")
 
 ts_code <- readRDS("tscode/tscode2.rds")
 
 source("utils/check_ts_table.R")
 
-id <- "82602NED"
+id <- "70076ned"
 
 raw_cbs_dir <- "raw_cbs_data"
 
