@@ -9,7 +9,16 @@ read_meta_data <- function(dir) {
   
   read_meta_csv <- function(name) {
     filename <- file.path(dir, paste0(name, ".csv"))
-    return(read.csv(filename, stringsAsFactors = FALSE))
+    
+    # check if the file is empty. If the file is empty read.csv file give
+    # an error
+    tmp <- read.csv(filename, nrows = 1, header = FALSE)
+    if (nrow(tmp) == 0) {
+      # empty file
+      return(NULL)
+    } else {
+      return(read.csv(filename, stringsAsFactors = FALSE))
+    }
   }
   
   tryCatch({
@@ -30,7 +39,8 @@ read_meta_data <- function(dir) {
       return(structure(c(ret, dimension_data), class = "cbs_table"))
     },
     error = function(e) {
-      warning(paste("Error reading files data from directory", dir, "."))
+      print(e)
+      warning(paste("Error reading meta data files in directory", dir, "."))
   })
   
   # error
