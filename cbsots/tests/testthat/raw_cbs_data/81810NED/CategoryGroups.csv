@@ -1,0 +1,67 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"BedrijfstakkenBranchesSBI2008","Bedrijfstakken 1e digit (SBI 2008)","",
+1,"BedrijfstakkenBranchesSBI2008","Bedrijfstakken 1e digit","",0
+2,"BedrijfstakkenBranchesSBI2008","Samentellingen bedrijfstakken 1e digit","",0
+3,"BedrijfstakkenBranchesSBI2008","Bedrijfstakken 2e digit (SBI 2008)","",
+4,"BedrijfstakkenBranchesSBI2008","Bedrijfstakken 2e digit","",3
+5,"BedrijfstakkenBranchesSBI2008","Samentellingen bedrijfstakken 2e digit","",3
+6,"BedrijfstakkenBranchesSBI2008","Bedrijfstakken 2e digit, naar 1e digit","",
+7,"BedrijfstakkenBranchesSBI2008","B Delfstoffenwinning","Deze sectie omvat:
+- de winning van in de natuur voorkomende mineralen in vaste vorm (steenkool, turf en erts), in vloeibare vorm (aardolie) of in de vorm van een gas (aardgas). Winning vindt plaats door middel van ondergrondse mijnbouw, dagbouw of boringen.
+Deze sectie omvat voorts bijkomende bewerkingen die voor het vervoer en de
+afzet van de minerale producten noodzakelijk zijn, bijvoorbeeld het
+vergruizen, malen, wassen, drogen, sorteren of concentreren van ertsen,
+het vloeibaar maken van aardgas en het briketteren van vaste brandstoffen.
+Deze werkzaamheden worden vaak door de eenheden die de delfstoffen winnen
+zelf uitgeoefend en/of door andere eenheden in de buurt van de winplaats.
+
+Deze sectie omvat ook:
+- de vervaardiging van steenkool- en bruinkoolbriketten, het sinteren van
+ertsen;
+- het vergruizen, malen of op andere wijze behandelen van bepaalde soorten
+aarde, steen en mineralen.
+
+Deze sectie omvat niet:
+- de verwerking van delfstoffen (sectie C);
+- de productie aan de bron van natuurlijk bron- of mineraalwater (1107);
+- de winning, zuivering en distributie van water (3600). ",6
+8,"BedrijfstakkenBranchesSBI2008","C Industrie","Deze sectie omvat:
+- de mechanische, fysische of chemische verwerking van materialen, stoffen of onderdelen tot nieuwe producten. De verwerkte materialen, stoffen of onderdelen zijn grondstoffen uit de landbouw, bosbouw, visserij en mijnbouw, alsmede (half)fabricaten uit de industrie.
+- reparatie en installatie van machines, apparatuur en andere benodigdheden voor bedrijven (geen consumentengoederen).
+
+Bij de eenheden in deze sectie gaat het vaak om fabrieken waar gewoonlijk
+machines en apparaten worden gebruikt. Eenheden waar materialen of stoffen met de hand of in de eigen woning tot nieuwe producten worden verwerkt en die producten op de plaats waar deze zijn gemaakt, zelf verkopen, zoals bakkerijen en kleermakerijen, vallen echter ook onder deze sectie.
+
+Industriële eenheden kunnen materialen zelf verwerken of dit aan andere
+eenheden uitbesteden.  In beide gevallen valt dit onder de sectie
+Industrie.
+
+Reparatie van huishoudelijke apparaten en consumptiegoederen wordt
+ingedeeld in afdeling 95; de reparatie van (bedrijfs-)auto's en motoren in afdeling 45: de autobranche.
+
+De vervaardiging van specifieke componenten en onderdelen, toebehoren en
+hulpstukken voor machines en apparaten wordt gewoonlijk ingedeeld in
+dezelfde klasse als de vervaardiging van de desbetreffende machines en
+apparaten.
+De vervaardiging van niet-specifieke componenten en onderdelen voor
+machines en apparatuur, zoals motoren, zuigers, elektromotoren,
+elektroinstallatiemateriaal, kleppen, kogellagers, rollagers, worden in de
+passende klasse van de sectie industrie ingedeeld.
+
+De sectie omvat niet:
+- activiteiten die niet leiden tot een nieuw product, maar tot een
+gewijzigde versie van hetzelfde product:
+* het opsplitsen van partijen stukgoederen in kleinere partijen, inclusief
+het verpakken, herverpakken;
+* het bottelen van producten als alcoholhoudende dranken of chemicaliën;
+* de montage van computers volgens de specifieke wensen van een klant;
+* het mengen van verf;
+Deze activiteiten worden ingedeeld in sectie G (groothandel en
+detailhandel). ",6
+9,"BedrijfstakkenBranchesSBI2008","D Energievoorziening","Deze sectie omvat:
+Productie en distributie van en handel in elektriciteit, aardgas en
+warm water ",6
+10,"BedrijfstakkenBranchesSBI2008","E Waterbedrijven en afvalbeheer","Deze sectie omvat:
+- winning en distributie van water;
+- afvalbehandeling en recycling. ",6
+11,"BedrijfstakkenBranchesSBI2008","Samentellingen Bedrijfstakken 2e digit","",6

@@ -1,0 +1,669 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","SoortMutaties","Soort mutaties","",,,,,
+"Cbs.OData.TimeDimension",1,1,,"TimeDimension","Perioden","Perioden","",TRUE,,,,
+"Cbs.OData.TopicGroup",2,,,"TopicGroup","","Opbouw bbp vanuit de finale bestedingen","De opbouw van het bruto binnenlands product vanuit de productie. Dit is gelijk aan de som van de toegevoegde waarde van alle bedrijfstakken (inclusief niet-commerciële). De toegevoegde waarde wordt geregistreerd tegen basisprijzen. Om uit te komen op het bbp tegen marktprijzen moet het saldo van productgebonden belastingen en subsidies en verschil tussen toegerekende en afgedragen btw erbij worden opgeteld. De belastingen en subsidies hebben betrekking op zowel geproduceerde als ingevoerde goederen en diensten. Voorbeelden hiervan zijn btw en invoerheffingen.",,,,,
+"Cbs.OData.TopicGroup",3,,2,"TopicGroup","","Beschikbaar voor finale bestedingen","Het binnenlands product (bruto, marktprijzen) plus de invoer van goederen en diensten.",,,,,
+"Cbs.OData.Topic",4,2,3,"Topic","Totaal_1","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",5,3,3,"Topic","BrutoBinnenlandsProduct_2","Bruto binnenlands product","Het bruto binnenlands product (bbp) is een maat voor de omvang van de economie. De verandering van het volume van het bbp in een bepaalde tijdsperiode is een maat voor de groei (of krimp) van de economie. Het bruto binnenlands product tegen marktprijzen is het eindresultaat van de productieve activiteiten van ingezeten productie-eenheden. Het kan op drie manieren worden gedefinieerd:
+- vanuit het oogpunt van de productie: het bbp is de som van de bruto toegevoegde waarde van alle institutionele sectoren of bedrijfstakken en het saldo van productgebonden belastingen en subsidies (die niet aan sectoren en bedrijfstakken worden toegerekend). Het is eveneens de sluitpost van de productierekening van de totale economie;
+- vanuit het oogpunt van de bestedingen: het bbp is de som van de finale bestedingen aan goederen en diensten door ingezeten institutionele eenheden (consumptie en bruto-investeringen) en het saldo van uitvoer en invoer van goederen en diensten;
+- vanuit het oogpunt van het inkomen: het bbp is de som van de bestedingen in de inkomensvormingsrekening van de totale economie (beloning van werknemers, belastingen op productie en invoer exclusief subsidies, bruto-exploitatieoverschot en gemengd inkomen van de totale economie).
+Door het bbp te verminderen met het verbruik van vaste activa, wordt het netto binnenlands product (nbp) tegen marktprijzen verkregen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",6,4,3,"Topic","BbpGecorrigeerdVoorWerkdageneffecten_3","Bbp, gecorrigeerd voor werkdageneffecten","De groei van het bruto binnenlands product na verwijdering van de werkdageneffecten. Het aantal werkdagen in twee overeenkomstige kwartalen in opeenvolgende jaren kan verschillen door een schrikkeldag, doordat een ongelijk aantal feestdagen in een weekend valt (bijvoorbeeld 1 januari) of doordat een feestdag van kwartaal is verschoven (bijvoorbeeld paasmaandag). Het effect van een extra werkdag op de groei bedraagt 0,2 à 0,3 procentpunt.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",7,,3,"TopicGroup","","Invoer van goederen en diensten","De goederen- en dienstenstromen (verkoop, ruil en giften) van niet-ingezetenen naar ingezetenen (in Nederland). Invoer van goederen vindt plaats wanneer de economische eigendom van goederen door een niet-ingezetene wordt overgedragen aan een ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederenbeweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake.",,,,,
+"Cbs.OData.Topic",8,5,7,"Topic","Totaal_4","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",9,6,7,"Topic","Goederen_5","Goederen","De goederenstromen (verkoop, ruil en giften) van niet-ingezetenen naar ingezetenen (in Nederland). Invoer van goederen vindt plaats wanneer de economische eigendom van goederen door een niet-ingezetene wordt overgedragen aan een ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederenbeweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake. Tot de invoer behoren ook voor verwerking in het productieproces benodigde grondstoffen, halffabricaten, brandstoffen en voor investeringen bestemde vaste activa. De goedereninvoer omvat verder goederen die, na hooguit een kleine bewerking te hebben ondergaan, weer zijn uitgevoerd (wederuitvoer).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",10,7,7,"Topic","Diensten_6","Diensten","De dienstenstromen (verkoop, ruil en giften) van niet-ingezetenen naar ingezetenen (in Nederland). De invoer van diensten heeft onder meer betrekking op de uitgaven van ingezeten bedrijven in het buitenland, zoals vervoersdiensten, bankdiensten en zakelijke diensten. Bij de overheid gaat het onder meer om uitgaven van Nederlandse ambassades en consulaten in het buitenland. De invoer door huishoudens bestaat uit uitgaven van ingezetenen in het buitenland.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",11,,2,"TopicGroup","","Finale bestedingen","Het totaal van consumptieve bestedingen, investeringen in vaste activa (bruto), veranderingen in voorraden en uitvoer.",,,,,
+"Cbs.OData.Topic",12,8,11,"Topic","Totaal_7","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",13,,11,"TopicGroup","","Nationale finale bestedingen","Binnenlandse finale bestedingen die bestaan uit de consumptieve bestedingen van huishoudens en de overheid, de bruto investeringen in vaste activa (bruto) en de voorraadvorming.",,,,,
+"Cbs.OData.Topic",14,9,13,"Topic","Totaal_8","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",15,,13,"TopicGroup","","Consumptieve bestedingen","Uitgaven aan goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van individuele of collectieve behoeften. De consumptieve bestedingen kunnen zowel op het eigen grondgebied als in het buitenland worden gedaan, maar het gaat altijd om uitgaven door ingezeten institutionele eenheden, dat wil zeggen in Nederland gevestigde huishoudens, izw’s t.b.v. huishoudens en overheidsinstanties. Consumptieve bestedingen worden gedaan door huishoudens, izw’s t.b.v. huishoudens en de overheid. Ondernemingen consumeren niet: kosten aan goederen en diensten die ondernemingen maken ten behoeve van hun productie vallen hier niet onder, maar onder intermediair verbruik of investeringen. De overheid is een speciaal geval. Ook de overheid kent intermediair verbruik, naar analogie van ondernemingen. Maar de productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de (overheids-)consumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheids-productie bij de overheid zelf is neergelegd, is een conventie. Daarnaast bevat de overheidsconsumptie ook door de overheid verstrekte sociale uitkeringen in natura zoals basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en huurtoeslag.",,,,,
+"Cbs.OData.Topic",16,10,15,"Topic","Totaal_9","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",17,11,15,"Topic","Huishoudens_10","Huishoudens","Uitgaven aan goederen en diensten die door de sector huishoudens en de sector instellingen zonder winstoogmerk ten behoeve van huishoudens (IZWh’s) worden gebruikt voor de rechtstreekse bevrediging van hun behoeften.
+Tot de consumptieve bestedingen door huishoudens behoren de volgende grensgevallen:
+- inkomen in natura zoals huisvesting, voeding en kleding en de auto van de zaak
+- diensten van woningen die door de eigenaar zelf worden bewoond en waarbij dus geen sprake is van werkelijk betaalde huur. Deze diensten zijn gewaardeerd met behulp van de huurprijzen voor vergelijkbare woningen
+- producten die voor eigen gebruik zijn geproduceerd, bijvoorbeeld in de landbouw. De waarde ervan is gelijk aan de marktprijs voor deze of vergelijkbare producten
+- duurzame consumptiegoederen, zoals personenauto's, huishoudelijke apparaten, meubilair en kleding. De aankoop door particulieren van woningen wordt echter gerekend tot de investeringen in vaste activa van huishoudens.
+
+Niet alle bestedingen door huishoudens worden als consumptie gezien, huishoudens kunnen ook investeren. Dit betreft met name de aanschaf van een eigen woning en grote werkzaamheden hieraan, zoals verbouwingen en buitenschilderwerk. Kleine reparaties, schilderwerk binnen en de aanschaf van meubelen vallen wel onder consumptie. Ook de aanschaf van een auto en auto-reparaties worden als consumptie gezien.
+
+De consumptieve bestedingen door instellingen zonder winstoogmerk (izw’s) ten behoeve van huishoudens omvatten de niet-marktproductie van deze sector met uitzondering van de investeringen in eigen beheer.
+
+De detailgegevens over de consumptieve bestedingen betreffen de binnenlandse particuliere consumptieve bestedingen. Hieronder vallen de consumptieve bestedingen in Nederland, ongeacht het ingezetenschap van de consument. Hieruit kunnen de consumptieve bestedingen door huishoudens worden afgeleid door de consumptie door niet-ingezetenen in Nederland in mindering te brengen en te registreren als uitvoer en de consumptie door ingezetenen in het buitenland erbij te tellen en te registreren als invoer.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",18,12,15,"Topic","Overheid_11","Overheid","Consumptieve bestedingen door de sector overheid. De productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de overheidsconsumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheidsproductie bij de overheid zelf is neergelegd, is een conventie. Naast de consumptie van eigen productie bevat de consumptie door de overheid ook bij marktproducenten aangekochte goederen en diensten die door de overheid, direct of indirect, in het kader van sociaal beleid gratis aan gezinnen worden verstrekt (‘sociale uitkeringen in natura’). Voorbeelden hiervan zijn de basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en de huurtoeslag. 
+
+De consumptie van eigen productie is op te splitsen in collectieve overheidsconsumptie en individualiseerbare overheidsconsumptie. De collectieve overheidsconsumptie betreft de uitgaven door de overheid voor collectief gebruikte diensten die worden verleend aan alle leden van de samenleving, bijvoorbeeld uitgaven voor defensie, milieubescherming of openbaar bestuur.
+De individualiseerbare overheidsconsumptie betreft uitgaven die zijn toe te rekenen aan specifieke delen van de samenleving. Hierbij gaat het voornamelijk om uitgaven aan onderwijs.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",19,,13,"TopicGroup","","Bruto investeringen in vaste activa","Uitgaven aan productiemiddelen die langer dan één jaar worden ingezet tijdens een productieproces. Het gaat hierbij bijvoorbeeld om een gebouw, woning, vervoermiddel of een machine. Dit in tegenstelling tot goederen of diensten die tijdens het productieproces worden opgebruikt, zoals ijzererts, het intermediair verbruik. Vaste activa kunnen in de loop der jaren in waarde verminderen door slijtage of omdat bijvoorbeeld de techniek veroudert (economische veroudering). Dit wordt verbruik van vaste activa genoemd (ook wel afschrijvingen genoemd). Bij bruto-investeringen zijn deze niet afgehaald van de waarde van de investeringen, bij netto-investeringen is dit wel het geval. 
+
+De volgende investeringsgoederen worden onderscheiden: bouwwerken, vervoermiddelen, machines en installaties, telecommunicatieapparatuur , wapensystemen (inbegrepen bij machines), computers, software, onderzoek en ontwikkeling, in cultuur gebrachte activa (bv. vee en bomen), exploratie en evaluatie van minerale reserves, kosten van eigendomsoverdracht voor niet-geproduceerde activa en intellectuele-eigendommen.",,,,,
+"Cbs.OData.Topic",20,13,19,"Topic","Totaal_12","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",21,14,19,"Topic","BedrijvenEnHuishoudens_13","Bedrijven en huishoudens","Investeringen in vaste activa door vennootschappen (deel uitmakend van de sector niet-financiële ondernemingen of de sector financiële instellingen) en de sector huishoudens inclusief de sector instellingen zonder winstoogmerk ten behoeve van huishoudens (IZWh’s ). De investeringen van huishoudens betreffen bijvoorbeeld die aan een eigen woning, maar ook de investeringen van zelfstandigen. ",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",22,15,19,"Topic","Overheid_14","Overheid","Investeringen in vaste activa door de sector overheid. Het betreft hier voor een groot deel investeringen in infrastructurele werken, maar ook investeringen in onderzoek en ontwikkeling, en wapensystemen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",23,16,13,"Topic","VeranderingInVoorraden_15","Verandering in voorraden","Verandering in voorraden inclusief saldo aan- en verkopen van kostbaarheden.
+Veranderingen in de grondstoffen, halffabricaten, onderhanden werk (onvoltooide producten zoals schepen of machines) en eindproducten die bij de producenten aanwezig zijn en veranderingen in handelsvoorraden. Onderhanden werk in de bouw worden niet tot de voorraadvorming gerekend. Positieve veranderingen in de voorraden ontstaan wanneer in het verslagjaar goederen zijn geproduceerd, die nog niet zijn verkocht. Ook ontstaan toevoegingen aan voorraden wanneer goederen in het verslagjaar zijn gekocht, maar nog niet in het productieproces verbruikt of, in het geval van de handel, verkocht. Negatieve veranderingen in voorraden ontstaan wanneer goederen aan bestaande voorraden worden onttrokken om verkocht of in het productieproces verbruikt te worden.
+
+De waardering van de veranderingen in voorraden gebeurt zodanig, dat er geen winsten of verliezen op voorraden door prijsveranderingen ontstaan. Beginvoorraad en eindvoorraad van elk goed worden voor dit doel tegen dezelfde prijs gewaardeerd, namelijk grondstoffen tegen de in de periode geldende gemiddelde inkoopprijs, eindproducten tegen de gemiddelde verkoopprijs en het onderhanden werk tegen de gemiddelde kostprijs.
+
+Kostbaarheden zijn niet-financiële goederen die niet hoofdzakelijk voor productieve of consumptieve doeleinden worden gebruikt, die onder normale omstandigheden niet aan slijtage onderhevig zijn en die vooral als beleggingsobject worden verworven en bewaard.",,"Double","waarde uitgedrukt als % van het bbp",1,"Missing"
+"Cbs.OData.TopicGroup",24,,11,"TopicGroup","","Uitvoer van goederen en diensten","De goederen- en dienstenstromen (verkoop, ruil en giften) van ingezetenen (in Nederland) naar niet-ingezetenen. Uitvoer van goederen vindt plaats wanneer het economisch eigendom van goederen door een ingezetene wordt overgedragen aan een niet-ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederen-beweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake.",,,,,
+"Cbs.OData.Topic",25,17,24,"Topic","Totaal_16","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",26,18,24,"Topic","Goederen_17","Goederen","De goederenstromen (verkoop, ruil en giften) van ingezetenen (in Nederland) naar niet-ingezetenen. Uitvoer van goederen vindt plaats wanneer het economisch eigendom van goederen door een ingezetene wordt overgedragen aan een niet-ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederenbeweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake. De goederenuitvoer omvat ook wederuitvoer, eerder ingevoerde goederen die weer zijn uitgevoerd, na hooguit een kleine bewerking te hebben ondergaan.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",27,19,24,"Topic","Diensten_18","Diensten","De dienstenstromen (verkoop, ruil en giften) van ingezetenen (in Nederland) naar niet-ingezetenen. De uitvoer van diensten omvat onder meer de diensten van Nederlandse vervoerbedrijven in het buitenland, aan het buitenland bewezen havendiensten, scheepsreparatie en de uitvoering van werken in het buitenland door Nederlandse aannemers. Onder de uitvoer van diensten vallen eveneens de bestedingen door niet-ingezetenen in Nederland.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",28,,,"TopicGroup","","Opbouw bbp vanuit de productie","De opbouw van het bruto binnenlands product vanuit de productie. Dit is gelijk aan de som van de toegevoegde waarde van alle bedrijfstakken (inclusief niet-commerciële). De toegevoegde waarde wordt geregistreerd tegen basisprijzen. Om uit te komen op het bbp tegen marktprijzen moet het saldo van productgebonden belastingen en subsidies en verschil tussen toegerekende en afgedragen btw erbij worden opgeteld. De belastingen en subsidies hebben betrekking op zowel geproduceerde als ingevoerde goederen en diensten. Voorbeelden hiervan zijn btw en invoerheffingen.",,,,,
+"Cbs.OData.TopicGroup",29,,28,"TopicGroup","","Bruto toegevoegde waarde basisprijzen","De waarde van alle geproduceerde goederen en diensten (de productiewaarde of output) minus de waarde van goederen en diensten die tijdens deze productie zijn opgebruikt (het intermediair verbruik). De output is gewaardeerd tegen basisprijzen, dit is de verkoopprijs exclusief de handels- en vervoersmarge en exclusief de afgedragen productgebonden belastingen en de ontvangen productgebonden subsidies. Het intermediair verbruik is gewaardeerd tegen aankoopwaarde exclusief niet-aftrekbare btw.
+Inbegrepen is de toegevoegde waarde van alle in Nederland opererende bedrijfseenheden, dus ook degene die in buitenlandse handen zijn. 
+
+In de nationale rekeningen betekent 'bruto' vóór aftrek van het verbruik van vaste activa (afschrijvingen) en 'netto' na aftrek van het verbruik van vaste activa.
+",,,,,
+"Cbs.OData.Topic",30,20,29,"Topic","Totaal_19","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",31,,29,"TopicGroup","","A-F Landbouw en nijverheid","Landbouw, nijverheid en energievoorziening
+Deze categorie is een samentelling van categorieën: 
+A Landbouw, bosbouw en visserij
+B Winning van delfstoffen
+C Industrie
+D Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht
+E Winning en distributie van water; afval- en afvalwaterbeheer en sanering
+F Bouwnijverheid",,,,,
+"Cbs.OData.Topic",32,21,31,"Topic","Totaal_20","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",33,22,31,"Topic","ALandbouwBosbouwEnVisserij_21","A Landbouw, bosbouw en visserij","Deze sectie omvat:
+- de exploitatie van natuurlijke plantaardige en dierlijke hulpbronnen:
+  w.o. de akkerbouw, veeteelt en de productie van overige planten en dieren op een agrarisch bedrijf of in het natuurlijke leefgebied;
+  w.o. bosbouw, houtteelt en jacht;
+  w.o. specifieke loondiensten met betrekking tot het productieproces landbouw, jacht en bosbouw worden eveneens in deze sectie ingedeeld;
+  w.o. visserij: de vangst of het kweken van vis, schaaldieren en weekdieren.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",34,,31,"TopicGroup","","B-E Nijverheid (geen bouw) en energie","Deze categorie is een samentelling van categorieën:
+B Winning van delfstoffen
+C Industrie
+D Productie en distributie van en handel in elektriciteit, aardgas, stoom
+en gekoelde lucht
+E Winning en distributie van water; afval- en afvalwaterbeheer en sanering",,,,,
+"Cbs.OData.Topic",35,23,34,"Topic","Totaal_22","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",36,24,34,"Topic","BDelfstoffenwinning_23","B Delfstoffenwinning","Winning van delfstoffen
+Deze sectie omvat:
+- de winning van in de natuur voorkomende mineralen in vaste vorm (steenkool, turf en erts), in vloeibare vorm (aardolie) of in de vorm van een gas (aardgas). Winning vindt plaats door middel van ondergrondse mijnbouw, dagbouw of boringen.
+Deze sectie omvat voorts bijkomende bewerkingen die voor het vervoer en de afzet van de minerale producten noodzakelijk zijn, bijvoorbeeld het vergruizen, malen, wassen, drogen, sorteren of concentreren van ertsen, het vloeibaar maken van aardgas en het briketteren van vaste brandstoffen.
+Deze werkzaamheden worden vaak door de eenheden die de delfstoffen winnen zelf uitgeoefend en/of door andere eenheden in de buurt van de winplaats.
+
+Deze sectie omvat ook:
+- de vervaardiging van steenkool- en bruinkoolbriketten, het sinteren van ertsen;
+- het vergruizen, malen of op andere wijze behandelen van bepaalde soorten aarde, steen en mineralen.
+
+Deze sectie omvat niet:
+- de verwerking van delfstoffen (sectie C);
+- de productie aan de bron van natuurlijk bron- of mineraalwater (1107);
+- de winning, zuivering en distributie van water (3600).",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",37,,34,"TopicGroup","","C Industrie","Industrie
+Deze sectie omvat:
+- de mechanische, fysische of chemische verwerking van materialen, stoffen of onderdelen tot nieuwe producten. De verwerkte materialen, stoffen of onderdelen zijn grondstoffen uit de landbouw, bosbouw, visserij en mijnbouw, alsmede (half)fabricaten uit de industrie.
+- reparatie en installatie van machines, apparatuur en andere benodigdheden voor bedrijven (geen consumentengoederen).
+
+Bij de eenheden in deze sectie gaat het vaak om fabrieken waar gewoonlijk machines en apparaten worden gebruikt. Eenheden waar materialen of stoffen met de hand of in de eigen woning tot nieuwe producten worden verwerkt en die producten op de plaats waar deze zijn gemaakt, zelf verkopen, zoals bakkerijen en kleermakerijen, vallen echter ook onder deze sectie.
+
+Industriële eenheden kunnen materialen zelf verwerken of dit aan andere eenheden uitbesteden. In beide gevallen valt dit onder de sectie Industrie.
+
+Reparatie van huishoudelijke apparaten en consumptiegoederen wordt ingedeeld in afdeling 95; 
+de reparatie van (bedrijfs-)auto's en motoren in afdeling 45: de autobranche.
+
+De vervaardiging van specifieke componenten en onderdelen, toebehoren en hulpstukken voor machines en apparaten wordt gewoonlijk ingedeeld in dezelfde klasse als de vervaardiging van de desbetreffende machines en apparaten.
+De vervaardiging van niet-specifieke componenten en onderdelen voor machines en apparatuur, zoals motoren, zuigers, elektromotoren,
+elektra-installatiemateriaal, kleppen, kogellagers, rollagers, worden in de passende klasse van de sectie industrie ingedeeld.
+
+De sectie omvat niet:
+- activiteiten die niet leiden tot een nieuw product, maar tot een gewijzigde versie van hetzelfde product:
+* het opsplitsen van partijen stukgoederen in kleinere partijen, inclusief het verpakken, herverpakken;
+* het bottelen van producten als alcoholhoudende dranken of chemicaliën;
+* de montage van computers volgens de specifieke wensen van een klant;
+* het mengen van verf;
+Deze activiteiten worden ingedeeld in sectie G (groothandel en detailhandel).",,,,,
+"Cbs.OData.Topic",38,25,37,"Topic","Totaal_24","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",39,26,37,"Topic","k_1012VoedingsGenotmiddelenindustrie_25","10-12 Voedings-, genotmiddelenindustrie","Deze categorie is een samentelling van categorieën:
+10 Vervaardiging van voedingsmiddelen
+11 Vervaardiging van dranken
+12 Vervaardiging van tabaksproducten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",40,27,37,"Topic","k_1315TextielKledingLederindustrie_26","13-15 Textiel-, kleding-, lederindustrie","Deze categorie is een samentelling van categorieën:
+13 Vervaardiging van textiel
+14 Vervaardiging van kleding
+15 Vervaardiging van leer, lederwaren en schoenen",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",41,28,37,"Topic","k_1618HoutPapierGrafischeIndustr_27","16-18 Hout-, papier-, grafische industr.","Deze categorie is een samentelling van categorieën:
+16 Primaire houtbewerking en vervaardiging van artikelen van hout, kurk,
+riet en vlechtwerk ( geen meubels)
+17 Vervaardiging van papier, karton en papier- en kartonwaren
+18 Drukkerijen, reproductie van opgenomen media",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",42,29,37,"Topic","k_19AardolieIndustrie_28","19 Aardolie-industrie","Vervaardiging van cokesovenproducten en aardolieverwerking",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",43,30,37,"Topic","k_2021ChemieEnFarmaceutischeIndustrie_29","20-21Chemie en farmaceutische industrie","Deze categorie is een samentelling van categorieën:
+20 Vervaardiging van chemische producten
+21 Vervaardiging van farmaceutische grondstoffen en producten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",44,31,37,"Topic","k_2223KunststofEnBouwmateriaalindustr_30","22-23 Kunststof- en bouwmateriaalindustr","Deze categorie is een samentelling van categorieën:
+22 Rubber- en kunststofproductenindustrie
+23 Vervaardiging van overige niet-metaalhoudende minerale producten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",45,32,37,"Topic","k_2425BasismetaalMetaalprodIndustrie_31","24-25 Basismetaal, metaalprod.-industrie","Deze categorie is een samentelling van categorieën:
+24 Vervaardiging van metalen in primaire vorm
+25 Vervaardiging van producten van metaal (geen machines en apparaten)",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",46,33,37,"Topic","k_2627ElektrischeEnElektronIndustrie_32","26-27 Elektrische en elektron. industrie","Deze categorie is een samentelling van categorieën:
+26 Vervaardiging van computers en van elektronische en optische apparatuur
+27 Vervaardiging van elektrische apparatuur",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",47,34,37,"Topic","k_28MachineIndustrie_33","28 Machine-industrie","Vervaardiging van overige machines en apparaten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",48,35,37,"Topic","k_2930Transportmiddelenindustrie_34","29-30 Transportmiddelenindustrie","Deze categorie is een samentelling van categorieën:
+29 Vervaardiging van auto's, aanhangwagens en opleggers
+30 Vervaardiging van overige transportmiddelen",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",49,36,37,"Topic","k_3133OverigeIndustrieEnReparatie_35","31-33 Overige industrie en reparatie","Deze categorie is een samentelling van categorieën:
+31 Vervaardiging van meubels
+32.1 Slaan van munten; bewerken van edelstenen en vervaardiging van
+sieraden e.d.
+32.2 Vervaardiging van muziekinstrumenten
+32.3 Vervaardiging van sportartikelen
+32.4 Vervaardiging van speelgoed en spellen
+32.9 Vervaardiging van overige goederen
+33 Reparatie en installatie van machines en apparaten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",50,37,34,"Topic","DEnergievoorziening_36","D Energievoorziening","Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht
+Deze sectie omvat:
+- productie en distributie van en handel in elektriciteit, aardgas en warm water.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",51,38,34,"Topic","EWaterbedrijvenEnAfvalbeheer_37","E Waterbedrijven en afvalbeheer","Winning en distributie van water; afval- en afvalwaterbeheer en sanering
+Deze sectie omvat:
+- winning en distributie van water;
+- afvalbehandeling en recycling.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",52,39,31,"Topic","FBouwnijverheid_38","F Bouwnijverheid","Bouwnijverheid
+Deze sectie omvat:
+- algemene en gespecialiseerde bouwkundige en civieltechnische werken, de bouwinstallatie en de afwerking van gebouwen.
+Zij omvat ook nieuwbouw, reparatie, aan- en verbouwwerkzaamheden, het optrekken van geprefabriceerde gebouwen of constructies ter plaatse en van tijdelijke bouwwerken.
+
+Onder algemene bouw valt de bouw van woningen, kantoren, winkels en andere vormen van burgerlijke- en utiliteitsbouw enzovoort of de bouw of aanleg van zware constructies als autowegen, straten, bruggen, tunnels, spoorwegen, vliegvelden, havens en andere waterbouwkundige projecten, irrigatiesystemen, rioleringen, industriële installaties, pijpleidingen en elektriciteitsleidingen, sportvoorzieningen enzovoort. Deze werkzaamheden kunnen voor eigen rekening of voor een vast bedrag of op contractbasis worden uitgevoerd. Een deel van de werkzaamheden of soms zelfs alle uitvoerende werkzaamheden kunnen worden uitbesteed aan onderaannemers.
+
+Gespecialiseerde bouw omvat de bouw of aanleg van een gedeelte van bouwwerken en van civieltechnische werken of de hiervoor vereiste voorbereidende werkzaamheden. Er is gewoonlijk sprake van gespecialiseerde werkzaamheden ten behoeve van diverse bouwwerken, waarvoor specifieke ervaring of een speciale uitrusting nodig is. Het heien, leggen van funderingen, boren van waterputten, de cascobouw, het storten van beton, metselen, zetten van natuursteen, de bouw van steigers, dakbedekking enzovoort worden hiertoe gerekend. Gespecialiseerde bouwkundige werkzaamheden worden meestal aan onderaannemers uitbesteed, maar vooral reparaties worden in de bouw rechtstreeks voor de eigenaar van het onroerend goed uitgevoerd.
+
+De bouwinstallatie omvat de installatie van alle voorzieningen waardoor een bouwwerk als zodanig zijn functie kan vervullen. Deze werkzaamheden worden meestal op de bouwplaats zelf verricht, hoewel bepaalde gedeelten ervan in een werkplaats kunnen worden uitgevoerd. Inbegrepen zijn loodgieterswerk, de installatie van verwarmings- en klimaatregelingssystemen, alarmsystemen en andere elektrische apparatuur, sprinklerinstallaties, liften en roltrappen enzovoort. Ook vallen hieronder isolatiewerkzaamheden (vochtwering, warmte- en geluidsisolatie), het aanbrengen van metalen beplating, de installatie van commerciële koelapparatuur, verlichtings- en signaleringssystemen voor wegen, spoorwegen, luchthavens, havens enzovoort. Het uitvoeren van reparaties in verband met deze activiteiten is ook inbegrepen.
+
+De afwerking van gebouwen omvat werkzaamheden die zijn gericht op de afwerking of voltooiing van een bouwwerk, zoals glaszetten, stukadoorswerk, schilderen, sauzen, het aanbrengen van vloer- of wandtegels of van andere bekleding of bedekking zoals parket, tapijt, behang enzovoort, schuren van vloeren, aftimmeren, geluidstechnische werkzaamheden enzovoort. Het uitvoeren van reparaties in verband met deze activiteiten is ook inbegrepen.
+
+Deze sectie omvat niet:
+- de bouw of installatie van industriële apparatuur en machines (bijvoorbeeld de installatie van industriële ovens, turbines enzovoort)
+(sectie C);
+- het optrekken van volledige geprefabriceerde gebouwen of bouwwerken van zelf vervaardigde onderdelen wordt ingedeeld bij de toepasselijke rubriek van de sectie Industrie, afhankelijk van het materiaal waaruit deze voornamelijk bestaan. Indien dit echter beton is, wordt deze activiteit in deze afdeling ingedeeld.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",53,,29,"TopicGroup","","G-N Commerciële dienstverlening","Commerciële dienstverlening
+Deze categorie is een samentelling van categorieën: 
+G Groot- en detailhandel; reparatie van auto's 
+H Vervoer en opslag 
+I Logies-, maaltijd- en drankverstrekking
+J Informatie en communicatie
+K Financiële instellingen 
+L Verhuur van en handel in onroerend goed
+M Advisering, onderzoek en overige specialistische zakelijke dienstverlening
+N Verhuur van roerende goederen en overige zakelijke dienstverlening",,,,,
+"Cbs.OData.Topic",54,40,53,"Topic","Totaal_39","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",55,,53,"TopicGroup","","G-I Handel, vervoer en horeca","Handel, vervoer en horeca
+Deze categorie is een samentelling van categorieën: 
+G Groot- en detailhandel; reparatie van auto's 
+H Vervoer en opslag 
+I Logies-, maaltijd- en drankverstrekking",,,,,
+"Cbs.OData.Topic",56,41,55,"Topic","Totaal_40","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",57,42,55,"Topic","GHandel_41","G Handel","Groot- en detailhandel; reparatie van auto's
+Deze sectie omvat: 
+- de groot- en detailhandel (verkoop zonder aanbrengen van veranderingen) in alle soorten goederen en de diensten die bij de verkoop van goederen worden verleend;
+- tussenhandel/handelsbemiddeling;
+- reparatie van auto's en motoren.
+
+De verkoop zonder bewerking omvat de in de handel gebruikelijke handelingen, bijvoorbeeld sorteren, samenvoegen en combineren van goederen, mengen (versnijden) van goederen (bijvoorbeeld wijn of zand), bottelen (met of zonder reiniging van de fles vooraf), verpakken, opsplitsen en anders verpakken van partijen stukgoederen voor distributie in kleinere hoeveelheden, opslag (al dan niet bevroren of gekoeld), schoonmaken en drogen van landbouwproducten, snijden van houtvezel- of metalen platen voor eigen rekening.
+
+Groothandel is de wederverkoop (verkoop zonder aanbrengen van veranderingen) van nieuwe en gebruikte goederen aan de detailhandel, aan industriële en andere bedrijfsmatige gebruikers, of aan andere groothandelaren, alsmede de handelsbemiddeling bij de aankoop van goederen voor of de verkoop van goederen aan dergelijke personen of bedrijven. De belangrijkste soort van groothandel is de groothandel in goederen, dat wil zeggen groothandelaren die goederen verkopen die zij in eigendom hebben zoals grossiers, dealers, exporteurs, importeurs en coöperatieve inkooporganisaties, verkooporganisaties en verkoopkantoren (detailhandelsbedrijven uitgezonderd) van industriële ondernemingen, die tot taak hebben de producten ervan op de markt te brengen.
+
+Tussenhandel/handelsbemiddeling is het samenbrengen van koper en verkoper of het uitvoeren van transacties voor rekening van derden. Inbegrepen zijn makelaars op goederenbeurzen, commissionairs, en andere op commissiebasis werkzame tussenpersonen.
+
+Detailhandel is de wederverkoop (verkoop zonder aanbrengen van veranderingen) van nieuwe en gebruikte goederen hoofdzakelijk aan het publiek voor persoonlijk of huishoudelijk ge- of verbruik, op de markt of door winkels, warenhuizen, postorderbedrijven, straathandelaren, consumentencoöperaties, veilinghuizen enzovoort. De meeste detailhandelaren zijn eigenaar van de goederen die zij verkopen, maar sommigen werken als tussenpersoon voor een opdrachtgever en verkopen in consignatie dan wel op commissiebasis.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",58,43,55,"Topic","HVervoerEnOpslag_42","H Vervoer en opslag","Vervoer en opslag
+Deze sectie omvat:
+- het vervoer van personen of goederen, al dan niet volgens een dienstregeling, per spoor, via een pijpleiding, over de weg, over water of door de lucht;
+- de ondersteunende activiteiten als terminal- en parkeerfaciliteiten, vrachtbehandeling, opslag enz.;
+- de posterijen;
+- de verhuur van transportmiddelen met bestuurder of bedienend personeel.
+
+Deze sectie omvat niet:
+- het onderhoud en de reparatie van auto's (45).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",59,44,55,"Topic","IHoreca_43","I Horeca","Logies-, maaltijd- en drankverstrekking
+Deze sectie omvat:
+- het aan gasten verschaffen van logies en/of bereide maaltijden, snacks en dranken voor onmiddellijke consumptie. 
+
+De verschillende activiteiten in sectie I overlappen elkaar in zekere mate, omdat bijvoorbeeld de verkoop van dranken een activiteit op zich is, maar ook deel uitmaakt van de activiteiten van een restaurant (waar bij de
+maaltijden dranken worden verstrekt) en dan met de verkoop van maaltijden bij 56.1 (Restaurants) wordt ingedeeld. Evenzo vormt de exploitatie van een restaurant een aparte activiteit, maar kan zij ook deel uitmaken van een bedrijf dat logies verschaft.
+
+Logiesverschaffende eenheden bieden reizigers, vakantiegangers en anderen accommodatie voor kortstondig verblijf (korter dan 3 maanden) aan. Er zijn vele verschillende eenheden. Sommige verschaffen alleen logies, terwijl andere naast logies ook maaltijden en recreatieve faciliteiten aanbieden. Het soort aanvullende dienstverlening kan van eenheid tot eenheid verschillen.
+
+Restaurants verstrekken volledige, voor onmiddellijke consumptie geschikte maaltijden, ongeacht of het traditionele restaurants, zelfbedienings- of afhaalrestaurants, dan wel permanente of tijdelijke viskramen en
+dergelijke met of zonder zitplaatsen zijn. Bepalend is het feit dat er voor onmiddellijke consumptie geschikte maaltijden worden aangeboden, niet het soort gelegenheid dat deze maaltijden verstrekt. 
+
+Deze sectie omvat niet:
+- de productie van maaltijden niet voor onmiddellijke consumptie geschikt of maaltijden of bereid voedsel dat niet als maaltijd wordt beschouwd (SBI 10: voedingsmiddelenindustrie);
+- de verkoop van niet zelf vervaardigd voedsel dat niet als maaltijd wordt beschouwd of van niet voor onmiddellijke consumptie geschikte maaltijden (SBI 46 groothandel of SBI 47 detailhandel afhankelijk van de afnemerscategorie).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",60,45,53,"Topic","JInformatieEnCommunicatie_44","J Informatie en communicatie","Informatie en communicatie
+Deze sectie omvat:
+- de productie en distributie van informatie, de voorziening van de infrastructuur om die informatie door te geven, alsmede activiteiten op het gebied van data- en communicatie-informatietechnologie en het bewerken van data en andere informatie.
+De belangrijkste activiteiten die hier ingedeeld worden zijn het uitgeven (afdeling 58, incl. het uitgeven van software), productie van films en geluidsopnamen (afdeling 59) radio en TV (afdeling 60), telecommunicatie (afdeling 61), informatietechnologie (afdeling 62) en andere dienstverlening op het gebied van informatie (afdeling 63). Uitgeven omvat ook het verkrijgen van de copyrights voor de content (informatieproducten) en het toegankelijk maken hiervan voor een breed publiek. Alle mogelijke vormen van uitgeven vallen onder deze sectie (in drukvorm, elektronisch of audio, op het internet, als multimediaproduct enzovoorts).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",61,46,53,"Topic","KFinancieleDienstverlening_45","K Financiële dienstverlening","Financiële instellingen
+Deze sectie omvat:
+- financiële instellingen;
+- verzekeringswezen en pensioenfondsen (geen verplichte sociale verzekeringen);
+- financiële beurzen, effectenmakelaars, assurantietussenpersonen, administratiekantoren voor aandelen, waarborgfondsen en dergelijke.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",62,47,53,"Topic","LVerhuurEnHandelVanOnroerendGoed_46","L Verhuur en handel van onroerend goed","Verhuur van en handel in onroerend goed
+Deze sectie omvat: 
+- verhuur van onroerend goed;
+- bemiddeling in en beheer van onroerend goed.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",63,,53,"TopicGroup","","M-N Zakelijke dienstverlening","Zakelijke dienstverlening
+Deze categorie is een samentelling van categorieën: 
+M Advisering, onderzoek en overige specialistische zakelijke dienstverlening
+N Verhuur van roerende goederen en overige zakelijke dienstverlening",,,,,
+"Cbs.OData.Topic",64,48,63,"Topic","Totaal_47","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",65,49,63,"Topic","MSpecialistischeZakelijkeDiensten_48","M Specialistische zakelijke diensten","Advisering, onderzoek en overige specialistische zakelijke dienstverlening
+Deze sectie omvat: 
+- gespecialiseerde professionele wetenschappelijke en technische activiteiten. Deze activiteiten vereisen een hoge opleiding en stellen specifieke kennis ter beschikking.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",66,,63,"TopicGroup","","N Verhuur en overige zakelijke diensten","Verhuur van roerende goederen en overige zakelijke dienstverlening
+Deze sectie omvat:
+- activiteiten die zakelijke gebruikers ondersteunen bij de bedrijfsvoering. Het verschil van deze activiteiten met die uit sectie M is dat de activiteiten uit deze sectie niet primair gericht zijn op het overbrengen van expertise en kennis.",,,,,
+"Cbs.OData.Topic",67,50,66,"Topic","Totaal_49","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",68,51,66,"Topic","k_77VerhuurVanRoerendeGoederen_50","77 Verhuur van roerende goederen","Verhuur en lease van auto's, consumentenartikelen, machines en overige roerende goederen",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",69,52,66,"Topic","k_78UitzendbureausEnArbeidsbemiddeling_51","78 Uitzendbureaus en arbeidsbemiddeling","Arbeidsbemiddeling, uitzendbureaus en personeelsbeheer",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",70,53,66,"Topic","k_79ReisbureausReisorganisatieEnInfo_52","79 Reisbureaus, reisorganisatie en -info","Reisbemiddeling, reisorganisatie, toeristische informatie en reserveringsbureaus",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",71,54,66,"Topic","k_8082BeveiligingEnOverigeDiensten_53","80-82 Beveiliging en overige diensten","Beveiliging en overige zakelijke dienstverlening.
+Deze categorie is een samentelling van categorieën:
+80 Beveiligings- en opsporingsdiensten
+81 Facility management, reiniging en landschapsverzorging
+82 Overige zakelijke dienstverlening",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",72,,29,"TopicGroup","","O-U Niet-commerciële dienstverlening","Niet-commerciële dienstverlening
+Deze categorie is een samentelling van categorieën: 
+O Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen
+P Onderwijs
+Q Gezondheids- en welzijnszorg
+R Cultuur, sport en recreatie
+S Overige dienstverlening
+T Huishoudens als werkgever; niet-gedifferentieerde productie van goederen en diensten door huishoudens voor eigen gebruik
+U Extraterritoriale organisaties en lichamen",,,,,
+"Cbs.OData.Topic",73,55,72,"Topic","Totaal_54","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",74,,72,"TopicGroup","","O-Q Overheid en zorg","Overheid en zorg
+Deze categorie is een samentelling van categorieën: 
+O Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen
+P Onderwijs
+Q Gezondheids- en welzijnszorg",,,,,
+"Cbs.OData.Topic",75,56,74,"Topic","Totaal_55","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",76,,74,"TopicGroup","","O-P Overheid en onderwijs","Deze categorie is een samentelling van categorieën:              
+O. Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen
+P. Onderwijs",,,,,
+"Cbs.OData.Topic",77,57,76,"Topic","Totaal_56","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",78,58,76,"Topic","OOpenbaarBestuurEnOverheidsdiensten_57","O Openbaar bestuur en overheidsdiensten","Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen
+Deze sectie omvat:
+- eenheden die deel uitmaken van de lagere of centrale overheid en die tot een goede werking van het bestuur van de samenleving bijdragen en ook het beheer van de verplichte sociale verzekeringsregelingen;
+- defensie, justitie, politie, buitenlandse zaken enzovoort;
+- het algemeen openbaar bestuur (bijvoorbeeld uitvoerende, wetgevende, financiële taken enzovoort op alle bestuursniveaus) en het toezicht op het economische en sociale leven;
+- provincies en gemeentes;
+- het beheer van de verplichte socialeverzekeringsregelingen.
+
+Activiteiten die elders in de SBI zijn geclassificeerd vallen niet onder afdeling 75, ook al worden zij door overheidinstanties uitgevoerd. Enkele voorbeelden:
+- het beheer van het onderwijsstelsel (d.w.z. regelgeving, inspecties, onderwijsprogramma's) valt onder deze sectie O, maar het onderwijs zelf valt onder afdeling 85 ""Onderwijs"";
+- militaire en penitentiaire ziekenhuizen worden ingedeeld bij afdeling 86 ""Gezondheidszorg"";
+- inzameling en verwerking van afvalwater en afval valt onder afdeling 38 ""Milieudienstverlening"".",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",79,59,76,"Topic","POnderwijs_58","P Onderwijs","Deze sectie omvat:
+- alle vormen van openbaar en particulier onderwijs, op elk niveau en voor
+elk beroep, zowel mondeling en schriftelijk als via radio en televisie.
+Zowel het onderwijs door de instellingen op de verschillende niveaus van
+het normale schoolstelsel als volwasseneneducatie,
+alfabetiseringsprogramma's enzovoort.
+Volwasseneneducatie waarvan de inhoud vergelijkbaar is met die van het
+onderwijs op een specifiek niveau wordt bij dat niveau ingedeeld. Op ieder
+niveau van het initiële onderwijs omvatten de klassen het speciale
+onderwijs aan lichamelijk of geestelijk gehandicapte leerlingen.
+Deze sectie omvat ook:
+- het overige onderwijs, zoals autorijscholen.
+Deze sectie omvat niet:
+- hoofdzakelijk op ontspanning gericht onderwijs, zoals bridge- en
+golflessen, dansonderwijs (93 of 94).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",80,60,74,"Topic","QGezondheidsEnWelzijnszorg_59","Q Gezondheids- en welzijnszorg","Gezondheids- en welzijnszorg
+Deze sectie omvat:
+- behandeling in algemene en gespecialiseerde ziekenhuizen;
+- geestelijke gezondheidszorg en verslavingszorg, eventueel in combinatie met overnachting;
+- behandeling door medische en paramedische praktijken;
+- ondersteunende activiteiten voor de gezondheidszorg, door bijvoorbeeld laboratoria en ambulancediensten;
+- verpleging, verzorging of begeleiding met huisvesting door bijvoorbeeld verpleeg- en verzorgingshuizen of via begeleid wonen;
+- welzijnszorg, zoals thuiszorg, lokaal welzijnswerk en hulp aan gehandicapten en ouderen;
+- kinderopvang.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",81,61,72,"Topic","RUCultuurRecreatieOverigeDiensten_60","R-U Cultuur, recreatie, overige diensten","Cultuur, recreatie, overige diensten
+Deze categorie is een samentelling van categorieën: 
+R Cultuur, sport en recreatie
+S Overige dienstverlening
+T Huishoudens als werkgever; niet- gedifferentieerde productie van goederen en diensten door huishoudens voor eigen gebruik
+U Extraterritoriale organisaties en lichamen",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",82,,28,"TopicGroup","","Productgebonden belastingen en subsidies","De productgebonden belastingen en subsidies op geproduceerde en ingevoerde goederen en diensten.",,,,,
+"Cbs.OData.Topic",83,62,82,"Topic","Saldo_61","Saldo","Het saldo van productgebonden belastingen en subsidies op geproduceerde en ingevoerde goederen en diensten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",84,63,82,"Topic","ProductgebondenBelastingen_62","Productgebonden belastingen","Belastingen die moeten worden betaald per eenheid van een bepaald goed dat of bepaalde dienst die is geproduceerd of ingevoerd. De belasting kan een bepaald bedrag per kwantitatieve eenheid van een goed of een dienst zijn, of worden berekend als een bepaald percentage van de prijs per eenheid of van de waarde van de geproduceerde of verhandelde goederen en diensten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",85,64,82,"Topic","ProductgebondenSubsidies_63","Productgebonden subsidies","Subsidies die zijn uitgekeerd per geproduceerde of ingevoerde eenheid van een goed of een dienst. De subsidies zijn gerelateerd aan de waarde of aan de hoeveelheid van het product.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",86,65,28,"Topic","VerschilToegerekendeEnAfgedragenBtw_64","Verschil toegerekende en afgedragen btw","Het verschil tussen de toegerekende en de afgedragen btw ontstaat onder meer door kwijtscheldingen, oninbaar geleden bedragen, boetes, de Regeling kleine ondernemers en door ontwijking van de afdracht van btw. Het verschil tussen toegerekende en afgedragen btw wordt niet verdeeld over de bedrijfsklassen, maar op het niveau van de totale economie geteld bij som van de toegevoegde waarde in basisprijzen en de productgebonden belastingen en subsidies om uit te komen op het bbp tegen marktprijzen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",87,66,28,"Topic","BrutoBinnenlandsProduct_65","Bruto binnenlands product","Het bruto binnenlands product (bbp) is een maat voor de omvang van de economie. De verandering van het volume van het bbp in een bepaalde tijdsperiode is een maat voor de groei (of krimp) van de economie. Het bruto binnenlands product tegen marktprijzen is het eindresultaat van de productieve activiteiten van ingezeten productie-eenheden. Het kan op drie manieren worden gedefinieerd:
+- vanuit het oogpunt van de productie: het bbp is de som van de bruto toegevoegde waarde van alle institutionele sectoren of bedrijfstakken en het saldo van productgebonden belastingen en subsidies (die niet aan sectoren en bedrijfstakken worden toegerekend). Het is eveneens de sluitpost van de productierekening van de totale economie;
+- vanuit het oogpunt van de bestedingen: het bbp is de som van de finale bestedingen aan goederen en diensten door ingezeten institutionele eenheden (consumptie en bruto-investeringen) en het saldo van uitvoer en invoer van goederen en diensten;
+- vanuit het oogpunt van het inkomen: het bbp is de som van de bestedingen in de inkomensvormingsrekening van de totale economie (beloning van werknemers, belastingen op productie en invoer exclusief subsidies, bruto-exploitatieoverschot en gemengd inkomen van de totale economie).
+Door het bbp te verminderen met het verbruik van vaste activa, wordt het netto binnenlands product (nbp) tegen marktprijzen verkregen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",88,67,28,"Topic","BbpGecorrigeerdVoorWerkdageneffecten_66","Bbp, gecorrigeerd voor werkdageneffecten","De groei van het bruto binnenlands product na verwijdering van de werkdageneffecten. Het aantal werkdagen in twee overeenkomstige kwartalen in opeenvolgende jaren kan verschillen door een schrikkeldag, doordat een ongelijk aantal feestdagen in een weekend valt (bijvoorbeeld 1 januari) of doordat een feestdag van kwartaal is verschoven (bijvoorbeeld paasmaandag). Het effect van een extra werkdag op de groei bedraagt 0,2 à 0,3 procentpunt.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",89,,,"TopicGroup","","Opbouw vanuit de inkomensvorming","De opbouw van het bruto binnenlands product vanuit de inkomens uit productie. Deze bestaan uit de beloning van werknemers en het exploitatieoverschot/gemengd inkomen. Om uit te komen op het bbp tegen marktprijzen moet het saldo van (al dan niet productgebonden) belastingen en subsidies op productie en invoer hierbij worden opgeteld.",,,,,
+"Cbs.OData.Topic",90,68,89,"Topic","BeloningVanWerknemers_67","Beloning van werknemers","De totale vergoeding, in geld of in natura, die door een werkgever aan een werknemer verschuldigd is voor de arbeid die deze tijdens een verslagperiode heeft verricht. De beloning van werknemers is gelijk aan het totaal van lonen en sociale premies ten laste van werkgevers.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",91,69,89,"Topic","Exploitatieoverschot_68","Exploitatieoverschot","Netto-exploitatieoverschot / gemengd inkomen.
+Het saldo dat resteert nadat de toegevoegde waarde tegen basisprijzen is verminderd met de beloning van werknemers en het saldo van belastingen en subsidies op productie en invoer. Bij zelfstandigen (die deel uitmaken van de sector huishoudens) wordt dit saldo gemengd inkomen genoemd omdat het ook de beloning voor de door hen geleverde arbeid bevat. 
+
+In de nationale rekeningen betekent ‘bruto’ vóór aftrek van het verbruik van vaste activa (afschrijvingen) en ‘netto’ na aftrek van het verbruik van vaste activa. Uit het bruto-exploitatieoverschot moeten de afschrijvingen worden bekostigd.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",92,,89,"TopicGroup","","Belastingen en subsidies","De (al dan niet productgebonden) betaalde belastingen op productie en invoer en de ontvangen subsidies.",,,,,
+"Cbs.OData.Topic",93,70,92,"Topic","Saldo_69","Saldo","Het verschil tussen de (al dan niet productgebonden) betaalde belastingen op productie en invoer en de ontvangen subsidies. Het saldo is nodig om het bbp uit de inkomensbenadering gelijk te maken aan dat volgens de productiebenadering en de bestedingsbenadering, het ‘bbp tegen marktprijzen’.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",94,71,92,"Topic","BelastingenOpProductieEnInvoer_70","Belastingen op productie en invoer","Verplichte betalingen om niet, in geld of in natura, die door de overheid of door de instellingen van de Europese Unie worden opgelegd in verband met de productie of de invoer van goederen en diensten, het in dienst hebben van arbeidskrachten en de eigendom of het gebruik van grond, gebouwen of andere activa die in het productieproces worden aangewend. Dergelijke belastingen zijn verschuldigd ongeacht gemaakte winst. Zowel productgebonden als niet-productgebonden belastingen behoren hiertoe.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",95,72,92,"Topic","Subsidies_71","Subsidies","Subsidies zijn betalingen om niet die door de Nederlandse overheid of de instellingen van de Europese Unie worden gedaan aan ingezeten producenten. Zowel productgebonden als niet-productgebonden subsidies behoren hiertoe.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",96,73,89,"Topic","NettoBinnenlandsProduct_72","Netto binnenlands product","Het bruto binnenlands product (bbp) is een maat voor de omvang van de economie. De verandering van het volume van het bbp in een bepaalde tijdsperiode is een maat voor de groei (of krimp) van de economie. Het bruto binnenlands product tegen marktprijzen is het eindresultaat van de productieve activiteiten van ingezeten productie-eenheden. Het kan op drie manieren worden gedefinieerd:
+- vanuit het oogpunt van de productie: het bbp is de som van de bruto toegevoegde waarde van alle institutionele sectoren of bedrijfstakken en het saldo van productgebonden belastingen en subsidies (die niet aan sectoren en bedrijfstakken worden toegerekend). Het is eveneens de sluitpost van de productierekening van de totale economie;
+- vanuit het oogpunt van de bestedingen: het bbp is de som van de finale bestedingen aan goederen en diensten door ingezeten institutionele eenheden (consumptie en bruto-investeringen) en het saldo van uitvoer en invoer van goederen en diensten;
+- vanuit het oogpunt van het inkomen: het bbp is de som van de bestedingen in de inkomensvormingsrekening van de totale economie (beloning van werknemers, belastingen op productie en invoer exclusief subsidies, bruto-exploitatieoverschot en gemengd inkomen van de totale economie).
+Door het bbp te verminderen met het verbruik van vaste activa, wordt het netto binnenlands product (nbp) tegen marktprijzen verkregen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",97,74,89,"Topic","VerbruikVanVasteActiva_73","Verbruik van vaste activa","De waardevermindering van vaste activa (productiemiddelen) in eigendom als gevolg van normale slijtage en economische veroudering. Ook wel afschrijvingen genoemd. 
+
+Bij het berekenen van het verbruik van vaste activa wordt gebruik gemaakt van de PIM methode (perpetual inventory method). Deze methode gaat uit van de waarde van de aan het begin van een jaar aanwezige kapitaalgoederenvoorraad, die op vervangingswaarde wordt gebracht door te corrigeren voor de prijsveranderingen van vergelijkbare kapitaalgoederen in het verslagjaar. Hieraan worden de investeringen in vaste activa van dat jaar toegevoegd en vervolgens wordt de waarde van de buiten gebruik gestelde activa erop in mindering gebracht. Aldus wordt de waarde van de kapitaalgoederenvoorraad aan het eind van het jaar verkregen. Vervolgens wordt via een afschrijvingspercentage de afschrijvingen bepaald. De als hierboven beschreven afschrijvingen behoeven niet overeen te stemmen met de bedrijfseconomische afschrijvingen die zijn vastgesteld op basis van historische kostprijs of fiscale levensduur.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",98,75,89,"Topic","BrutoBinnenlandsProduct_74","Bruto binnenlands product","Het bruto binnenlands product (bbp) is een maat voor de omvang van de economie. De verandering van het volume van het bbp in een bepaalde tijdsperiode is een maat voor de groei (of krimp) van de economie. Het bruto binnenlands product tegen marktprijzen is het eindresultaat van de productieve activiteiten van ingezeten productie-eenheden. Het kan op drie manieren worden gedefinieerd:
+- vanuit het oogpunt van de productie: het bbp is de som van de bruto toegevoegde waarde van alle institutionele sectoren of bedrijfstakken en het saldo van productgebonden belastingen en subsidies (die niet aan sectoren en bedrijfstakken worden toegerekend). Het is eveneens de sluitpost van de productierekening van de totale economie;
+- vanuit het oogpunt van de bestedingen: het bbp is de som van de finale bestedingen aan goederen en diensten door ingezeten institutionele eenheden (consumptie en bruto-investeringen) en het saldo van uitvoer en invoer van goederen en diensten;
+- vanuit het oogpunt van het inkomen: het bbp is de som van de bestedingen in de inkomensvormingsrekening van de totale economie (beloning van werknemers, belastingen op productie en invoer exclusief subsidies, bruto-exploitatieoverschot en gemengd inkomen van de totale economie).
+Door het bbp te verminderen met het verbruik van vaste activa, wordt het netto binnenlands product (nbp) tegen marktprijzen verkregen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",99,76,89,"Topic","BbpGecorrigeerdVoorWerkdageneffecten_75","Bbp, gecorrigeerd voor werkdageneffecten","De groei van het bruto binnenlands product na verwijdering van de werkdageneffecten. Het aantal werkdagen in twee overeenkomstige kwartalen in opeenvolgende jaren kan verschillen door een schrikkeldag, doordat een ongelijk aantal feestdagen in een weekend valt (bijvoorbeeld 1 januari) of doordat een feestdag van kwartaal is verschoven (bijvoorbeeld paasmaandag). Het effect van een extra werkdag op de groei bedraagt 0,2 à 0,3 procentpunt.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",100,,,"TopicGroup","","Opbouw nationaal vorderingensaldo","De opbouw nationaal vorderingensaldo laat twee benaderingen zien die, gestart met het gevormde bruto binnenlands product (bbp), beiden uitkomen op het begrip nationaal vorderingen saldo. ",,,,,
+"Cbs.OData.TopicGroup",101,,100,"TopicGroup","","Nationaal inkomensoverschot benadering","Deze benadering loopt via de inkomens en de bestedingen in Nederland en komt via het nationaal inkomensoverschot en het saldo ontvangen kapitaaltransacties uit op het nationaal vorderingensaldo.
+",,,,,
+"Cbs.OData.Topic",102,77,101,"Topic","BrutoBinnenlandsProduct_76","Bruto binnenlands product","Het bruto binnenlands product (bbp) is een maat voor de omvang van de economie. De verandering van het volume van het bbp in een bepaalde tijdsperiode is een maat voor de groei (of krimp) van de economie. Het bruto binnenlands product tegen marktprijzen is het eindresultaat van de productieve activiteiten van ingezeten productie-eenheden. Het kan op drie manieren worden gedefinieerd:
+- vanuit het oogpunt van de productie: het bbp is de som van de bruto toegevoegde waarde van alle institutionele sectoren of bedrijfstakken en het saldo van productgebonden belastingen en subsidies (die niet aan sectoren en bedrijfstakken worden toegerekend). Het is eveneens de sluitpost van de productierekening van de totale economie;
+- vanuit het oogpunt van de bestedingen: het bbp is de som van de finale bestedingen aan goederen en diensten door ingezeten institutionele eenheden (consumptie en bruto-investeringen) en het saldo van uitvoer en invoer van goederen en diensten;
+- vanuit het oogpunt van het inkomen: het bbp is de som van de bestedingen in de inkomensvormingsrekening van de totale economie (beloning van werknemers, belastingen op productie en invoer exclusief subsidies, bruto-exploitatieoverschot en gemengd inkomen van de totale economie).
+Door het bbp te verminderen met het verbruik van vaste activa, wordt het netto binnenlands product (nbp) tegen marktprijzen verkregen.
+",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",103,,101,"TopicGroup","","Saldo primaire inkomens buitenland","Het verschil tussen de uit het buitenland ontvangen primaire inkomens en de aan het buitenland betaalde primaire inkomens.
+
+Wanneer een in Nederland ingezeten bedrijf in het buitenland actief wordt, wordt de betreffende bedrijfseenheid na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd geldt een bedrijfseenheid met een buitenlandse moederonderneming als ingezetene wanneer het hier langer dan een jaar actief is. Ingezeten personen die zich in het buitenland vestigen, worden eveneens na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd wordt een niet-ingezetene een ingezetene in Nederland wanneer hij of zij hier minimaal een jaar is gevestigd. Een uitzondering op deze regel vormen studenten. Deze worden altijd als ingezetene gezien van het land waar zij gevestigd waren voordat zij gingen studeren.",,,,,
+"Cbs.OData.Topic",104,78,103,"Topic","Saldo_77","Saldo",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",105,79,103,"Topic","OntvangenPrimaireInkomensBuitenland_78","Ontvangen primaire inkomens buitenland","De van het buitenland ontvangen beloning van werknemers, inkomen uit vermogen, en subsidies (EU). ",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",106,80,103,"Topic","BetaaldePrimaireInkomensBuitenland_79","Betaalde primaire inkomens buitenland","De aan het buitenland betaalde beloning van werknemers, inkomen uit vermogen en belastingen op productie en invoer.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",107,81,101,"Topic","BrutoNationaalInkomen_80","Bruto nationaal inkomen","Het totaal van de door ingezeten institutionele eenheden ontvangen primaire inkomens: beloning van werknemers, netto-exploitatieoverschot / netto gemengd inkomen, het saldo van ontvangen en betaald inkomen uit vermogen en de belastingen op productie en invoer minus subsidies. Inkomens uit vermogen die van de ene binnenlandse sector naar de andere gaan, vallen in dit inkomensbegrip tegen elkaar weg. Het bruto nationaal inkomen (tegen marktprijzen) is gelijk aan het bbp minus het primaire inkomen dat ingezeten eenheden aan niet-ingezeten eenheden betalen plus het primaire inkomen dat ingezeten eenheden uit het buitenland ontvangen. De afdrachten van lidstaten aan de Europese Unie is voor een groot deel gebaseerd op het bruto nationaal inkomen.
+
+Het begrip nationaal inkomen is geen productie-, maar een inkomensbegrip; het is daarom relevanter indien het netto wordt uitgedrukt, dat wil zeggen na aftrek van afschrijvingen (het verbruik van vaste activa). 
+",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",108,,101,"TopicGroup","","Saldo inkomensoverdrachten buitenland","Het verschil tussen de uit het buitenland ontvangen inkomensoverdrachten en de aan het buitenland betaalde inkomensoverdrachten.
+
+Wanneer een in Nederland ingezeten bedrijf in het buitenland actief wordt, wordt de betreffende bedrijfseenheid na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd geldt een bedrijfseenheid met een buitenlandse moederonderneming als ingezetene wanneer het hier langer dan een jaar actief is. Ingezeten personen die zich in het buitenland vestigen, worden eveneens na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd wordt een niet-ingezetene een ingezetene in Nederland wanneer hij of zij hier minimaal een jaar is gevestigd. Een uitzondering op deze regel vormen studenten. Deze worden altijd als ingezetene gezien van het land waar zij gevestigd waren voordat zij gingen studeren.
+",,,,,
+"Cbs.OData.Topic",109,82,108,"Topic","Saldo_81","Saldo",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",110,83,108,"Topic","OntvangenInkomensoverdrachtBuitenland_82","Ontvangen inkomensoverdracht buitenland","De uit het buitenland ontvangen belasting op inkomen en vermogen, sociale premies, sociale uitkeringen in geld en overige inkomensoverdrachten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",111,84,108,"Topic","BetaaldeInkomensoverdrachtenBuitenland_83","Betaalde inkomensoverdrachten buitenland","De aan het buitenland betaalde belasting op inkomen en vermogen, de sociale premies, de sociale uitkeringen in geld en de overige inkomensoverdrachten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",112,85,101,"Topic","BrutoBeschikbaarNationaalInkomen_84","Bruto beschikbaar nationaal inkomen","De som van de bruto beschikbare inkomens van de institutionele sectoren. Het bruto nationaal beschikbaar inkomen is gelijk aan het bruto nationaal inkomen (tegen marktprijzen) minus de inkomensoverdrachten (belastingen op inkomen, vermogen enz., sociale premies, sociale uitkeringen en overige inkomensoverdrachten) die aan niet-ingezeten eenheden worden betaald, plus de inkomensoverdrachten die ingezeten eenheden uit het buitenland ontvangen. Meestal wordt het netto-begrip gebruikt, dat wil zeggen: na aftrek van afschrijvingen (het verbruik van vaste activa). ",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",113,86,101,"Topic","ConsumptieveBestedingen_85","Consumptieve bestedingen (-)","Uitgaven aan goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van individuele of collectieve behoeften. De consumptieve bestedingen kunnen zowel op het eigen grondgebied als in het buitenland worden gedaan, maar het gaat altijd om uitgaven door ingezeten institutionele eenheden, dat wil zeggen in Nederland gevestigde huishoudens en overheidsinstanties. Consumptieve bestedingen worden gedaan door huishoudens, instellingen zonder winstoogmerk ten behoeve van huishoudens, en de overheid. Ondernemingen consumeren niet: kosten aan goederen en diensten die ondernemingen maken ten behoeve van hun productie vallen hier niet onder, maar onder intermediair verbruik of investeringen. De overheid is een speciaal geval. Ook de overheid kent intermediair verbruik, naar analogie van ondernemingen. Maar de productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de (overheids)consumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheidsproductie bij de overheid zelf is neergelegd, is een conventie. Daarnaast bevat de overheidsconsumptie ook door de overheid verstrekte sociale uitkeringen in natura zoals basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en huurtoeslag.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",114,87,101,"Topic","CorrectiePensioenvoorziening_86","Correctie pensioenvoorziening","Per saldo uit het buitenland ontvangen correctie pensioenvoorziening. De correctie pensioenvoorziening is bedoeld om de verandering in de pensioenvoorzieningen in de besparingen van de huishoudens tot uitdrukking te kunnen brengen. Het vermogen dat pensioenfondsen en verzekeraars voor huishoudens beheren ten behoeve van de oudedagsvoorziening wordt binnen de nationale rekeningen namelijk gezien als onderdeel van het vermogen van huishoudens. Veranderingen in dit vermogen moeten dan ook worden doorgevoerd in het vermogen van huishoudens. De correctie pensioenvoorziening is gelijk aan de pensioenpremies minus de pensioenuitkeringen. Bij de nationale besparingen spelen alleen de grensoverschrijdende correcties een rol. De correctie wordt ook gemaakt voor de voorzieningen van niet-ingezeten huishoudens bij Nederlandse verzekeringsinstellingen. Uiteraard zijn tegenovergestelde correcties noodzakelijk bij de betreffende verzekeringsinstellingen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",115,88,101,"Topic","BrutoNationaleBesparingen_87","Bruto nationale besparingen","Het gedeelte van het nationaal beschikbaar inkomen dat niet voor consumptieve bestedingen is gebruikt. De nationale besparingen zijn de som van de besparingen van alle institutionele sectoren. Meestal wordt voor de nationale besparingen het netto-begrip gebruikt, dat wil zeggen: na aftrek van afschrijvingen (het verbruik van vaste activa).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",116,89,101,"Topic","BrutoInvesteringen_88","Bruto investeringen (-)","De som van de investeringen in vaste activa (bruto) en de veranderingen in voorraden inclusief het saldo van aan- en verkopen van kostbaarheden.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",117,90,101,"Topic","NationaalInkomensoverschot_89","Nationaal inkomensoverschot","Het nationaal inkomensoverschot is een saldo dat aangeeft hoeveel er van het beschikbaar nationaal inkomen resteert als de uitgaven voor consumptie en investeringen zijn gepleegd. Dit is gelijk aan het saldo van de lopende transacties van Nederland met het buitenland.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",118,,100,"TopicGroup","","Saldo lopende transacties benadering","De benadering van het nationaal vorderingensaldo via het saldo lopende transacties met het buitenland.
+Het saldo van de lopende transacties van Nederland met het buitenland is opgebouwd uit de saldi van goederenverkeer, dienstenverkeer en inkomenstransacties. Achtereenvolgens zijn gepresenteerd: het saldo van de goederenuitvoer (ook wel het uitvoeroverschot van goederen), het uitvoer-
+overschot van diensten, het saldo van ontvangen en betaalde primaire inkomens en het saldo van ontvangen en betaalde secundaire inkomens (inkomensoverdrachten om niet).",,,,,
+"Cbs.OData.Topic",119,91,118,"Topic","UitvoersaldoGoederen_90","Uitvoersaldo goederen","Het uitvoeroverschot van goederen is verschil tussen de waarde van de uitvoer van goederen en de waarde van de invoer van goederen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",120,92,118,"Topic","UitvoersaldoDiensten_91","Uitvoersaldo diensten","Het uitvoeroverschot van diensten is verschil tussen de waarde van de uitvoer van diensten en de waarde van de invoer van diensten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",121,93,118,"Topic","SaldoPrimaireInkomensBuitenland_92","Saldo primaire inkomens buitenland","Het verschil tussen de uit het buitenland ontvangen primaire inkomens en de aan het buitenland betaalde primaire inkomens.
+
+Wanneer een in Nederland ingezeten bedrijf in het buitenland actief wordt, wordt de betreffende bedrijfseenheid na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd geldt een bedrijfseenheid met een buitenlandse moederonderneming als ingezetene wanneer het hier langer dan een jaar actief is. Ingezeten personen die zich in het buitenland vestigen, worden eveneens na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd wordt een niet-ingezetene een ingezetene in Nederland wanneer hij of zij hier minimaal een jaar is gevestigd. Een uitzondering op deze regel vormen studenten. Deze worden altijd als ingezetene gezien van het land waar zij gevestigd waren voordat zij gingen studeren.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",122,94,118,"Topic","SaldoInkomensoverdrachtenBuitenland_93","Saldo inkomensoverdrachten buitenland","Het verschil tussen de uit het buitenland ontvangen inkomensoverdrachten en de aan het buitenland betaalde inkomensoverdrachten.
+
+Wanneer een in Nederland ingezeten bedrijf in het buitenland actief wordt, wordt de betreffende bedrijfseenheid na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd geldt een bedrijfseenheid met een buitenlandse moederonderneming als ingezetene wanneer het hier langer dan een jaar actief is. Ingezeten personen die zich in het buitenland vestigen, worden eveneens na een jaar niet langer gezien als ingezetene in Nederland, maar als ingezetene in het buitenland. Omgekeerd wordt een niet-ingezetene een ingezetene in Nederland wanneer hij of zij hier minimaal een jaar is gevestigd. Een uitzondering op deze regel vormen studenten. Deze worden altijd als ingezetene gezien van het land waar zij gevestigd waren voordat zij gingen studeren.
+",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",123,95,118,"Topic","CorrectiePensioenvoorziening_94","Correctie pensioenvoorziening","Per saldo uit het buitenland ontvangen correctie pensioenvoorziening. De correctie pensioenvoorziening is bedoeld om de verandering in de pensioenvoorzieningen in de besparingen van de huishoudens tot uitdrukking te kunnen brengen. Het vermogen dat pensioenfondsen en verzekeraars voor huishoudens beheren ten behoeve van de oudedagsvoorziening wordt binnen de nationale rekeningen namelijk gezien als onderdeel van het vermogen van huishoudens. Veranderingen in dit vermogen moeten dan ook worden doorgevoerd in het vermogen van huishoudens. De correctie pensioenvoorziening is gelijk aan de pensioenpremies minus de pensioenuitkeringen. Bij de nationale besparingen spelen alleen de grensoverschrijdende correcties een rol. De correctie wordt ook gemaakt voor de voorzieningen van niet-ingezeten huishoudens bij Nederlandse verzekeringsinstellingen. Uiteraard zijn tegenovergestelde correcties noodzakelijk bij de betreffende verzekeringsinstellingen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",124,96,118,"Topic","SaldoLopendeTransactiesBuitenland_95","Saldo lopende transacties buitenland","Het overschot (indien negatief) of het tekort (indien positief) van de totale economie op zijn lopende transacties (handel in goederen en diensten, primair inkomen, inkomensoverdrachten) met het buitenland. Het saldo van de lopende transacties met het buitenland vormt de sluitpost van de rekening voor inkomenstransacties met het buitenland en is opgebouwd uit drie onderdelen:
+- het uitvoeroverschot, dat is het bedrag waarmee de uitvoer de invoer overtreft;
+- het saldo uit het buitenland ontvangen primaire inkomens. De primaire inkomens omvatten belastingen op productie en invoer, subsidies, beloning van werknemers en inkomen uit vermogen, zoals rente en dividend;
+- het saldo uit het buitenland ontvangen inkomensoverdrachten. De inkomensoverdrachten omvatten de dividendbelasting, de uitkeringen sociale verzekering en de overige inkomensoverdrachten.
+Het is saldo van de lopende transacties met het buitenland tevens gelijk aan de netto nationale besparingen minus de netto investeringen in vaste activa (inclusief de veranderingen in voorraden).
+",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",125,,100,"TopicGroup","","Saldo kapitaaloverdrachten buitenland","Het verschil tussen de uit het buitenland ontvangen kapitaaloverdrachten en de aan het buitenland betaalde kapitaaloverdrachten. Kapitaaloverdrachten zijn betalingen of overdracht van eigendom van activa (geen voorraden of geld) waar geen tegenprestatie tegenover staat. De betaling van een kapitaaloverdracht drukt op het vermogen van de betaler. De ontvangst van een kapitaalsoverdracht is over het algemeen bedoeld om investeringen in vaste activa, of andere lange-termijnuitgaven van de ontvanger te financieren. Er zijn vier deeltransacties onderscheiden: investeringsbijdragen, vermogensheffingen, overige kapitaaloverdrachten en toegerekende kapitaaloverdrachten.",,,,,
+"Cbs.OData.Topic",126,97,125,"Topic","Saldo_96","Saldo",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",127,98,125,"Topic","OntvangenKapitaaloverdrachten_97","Ontvangen kapitaaloverdrachten","Ontvangen kapitaaloverdrachten uit het buitenland.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",128,99,125,"Topic","BetaaldeKapitaaloverdrachten_98","Betaalde kapitaaloverdrachten","Betreft betaalde kapitaaloverdrachten aan het buitenland.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",129,100,100,"Topic","SaldoAanEnVerkopenVanNietGeprod_99","Saldo aan- en verkopen van niet-geprod..","Het saldo aan -en verkopen van niet-geproduceerde niet-financiële activa bestaat voornamelijk uit transacties in grond. Het belangrijkste deel wordt gevormd door de verkopen van bouwrijp gemaakte grond door gemeentelijke grondbedrijven aan investeerders in gebouwen en woningen.
+De waardering van de aan- en verkopen van grond is exclusief btw en overdrachtskosten; deze vormen een onderdeel van de investeringen in vaste activa.
+Voor de sector overheid worden de immateriële activa meegerekend, zoals de verkoop van UMTS-frequenties.
+",,"Double","%",0,"Missing"
+"Cbs.OData.Topic",130,101,100,"Topic","NationaalVorderingensaldo_100","Nationaal vorderingensaldo","Het nationaal vorderingensaldo is het saldo van middelen en bestedingen op de lopende rekening en de kapitaalrekening van de gezamenlijke binnenlandse sectoren. In de financiële rekening van Nederland geeft het saldo aan voor welk bedrag nieuwe leningen zijn aangegaan met het buitenland en/of financiële activa zijn verkocht (bij een tekort) of voor welk bedrag schulden zijn afgelost aan het buitenland en/of financiële activa zijn gekocht (bij een overschot). Het vorderingensaldo is dan ook in theorie gelijk aan de mutatie van de saldo van vorderingen en schulden ten opzichte van het buitenland. In praktijk bestaat er echter een statistisch verschil tussen die twee.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",131,,,"TopicGroup","","Aanvullende detailgegevens","De detailgegevens hebben betrekking op variabelen waarvoor elders in deze tabel alleen het totaal is opgenomen. Er zijn detailgegevens over verschillende bestedingsvariabelen. De totale consumptieve bestedingen worden gespecificeerd naar twee verschillende indelingen: de
+bestedingsindeling en de verwervingsindeling. De bruto investeringen in vaste activa zijn nader gespecificeerd naar bedrijfsklasse van bestemming en naar type van activa. Verder zijn de gegevens over de uitvoer en invoer van goederen en diensten naar productgroepen afzonderlijk opgenomen.",,,,,
+"Cbs.OData.TopicGroup",132,,131,"TopicGroup","","Consumptieve bestedingen","Uitgaven aan goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van individuele of collectieve behoeften. De consumptieve bestedingen kunnen zowel op het eigen grondgebied als in het buitenland worden gedaan, maar het gaat altijd om uitgaven door ingezeten institutionele eenheden, dat wil zeggen in Nederland gevestigde huishoudens en overheidsinstanties. Consumptieve bestedingen worden gedaan door huishoudens, instellingen zonder winstoogmerk ten behoeve van huishoudens, en de overheid. Ondernemingen consumeren niet: kosten aan goederen en diensten die ondernemingen maken ten behoeve van hun productie vallen hier niet onder, maar onder intermediair verbruik of investeringen. De overheid is een speciaal geval. Ook de overheid kent intermediair verbruik, naar analogie van ondernemingen. Maar de productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de (overheids)consumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheidsproductie bij de overheid zelf is neergelegd, is een conventie. Daarnaast bevat de overheidsconsumptie ook door de overheid verstrekte sociale uitkeringen in natura zoals basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en huurtoeslag.",,,,,
+"Cbs.OData.TopicGroup",133,,132,"TopicGroup","","Bestedingsindeling consumptie","Hierbij staan de uitgaven voor consumptiegoederen en -diensten centraal.
+De totale consumptieve bestedingen worden ingedeeld naar de sectoren die de consumptieve uitgaven financieren.
+Indelingschema:
+Totaal consumptieve bestedingen =
+Consumptieve bestedingen door huishoudens en instellingen zonder winstoogmerk (IZW) ten behoeve van huishoudens, waarvan:
+  Consumptieve bestedingen door huishoudens;
+  Consumptieve bestedingen door IZW ten behoeve van huishoudens.
+Consumptieve bestedingen door de overheid, waarvan:
+  Collectieve consumptie door de overheid;
+  Individuele consumptie door de overheid.",,,,,
+"Cbs.OData.Topic",134,102,133,"Topic","Totaal_101","Totaal","Uitgaven aan goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van individuele of collectieve behoeften. De consumptieve bestedingen kunnen zowel op het eigen grondgebied als in het buitenland worden gedaan, maar het gaat altijd om uitgaven door ingezeten institutionele eenheden, dat wil zeggen in Nederland gevestigde huishoudens en overheidsinstanties. Consumptieve bestedingen worden gedaan door huishoudens, instellingen zonder winstoogmerk ten behoeve van huishoudens, en de overheid. Ondernemingen consumeren niet: kosten aan goederen en diensten die ondernemingen maken ten behoeve van hun productie vallen hier niet onder, maar onder intermediair verbruik of investeringen. De overheid is een speciaal geval. Ook de overheid kent intermediair verbruik, naar analogie van ondernemingen. Maar de productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de (overheids)consumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheidsproductie bij de overheid zelf is neergelegd, is een conventie. Daarnaast bevat de overheidsconsumptie ook door de overheid verstrekte sociale uitkeringen in natura zoals basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en huurtoeslag.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",135,,133,"TopicGroup","","Consumptie huishoudens incl. IZWh","Uitgaven aan goederen en diensten die door de sector huishoudens en de sector instellingen zonder winstoogmerk ten behoeve van huishoudens (IZWh’s) worden gebruikt voor de rechtstreekse bevrediging van hun behoeften.
+Tot de consumptieve bestedingen door huishoudens behoren de volgende grensgevallen:
+- inkomen in natura zoals huisvesting, voeding en kleding en de auto van de zaak
+- diensten van woningen die door de eigenaar zelf worden bewoond en waarbij dus geen sprake is van werkelijk betaalde huur. Deze diensten zijn gewaardeerd met behulp van de huurprijzen voor vergelijkbare woningen
+- producten die voor eigen gebruik zijn geproduceerd, bijvoorbeeld in de landbouw. De waarde ervan is gelijk aan de marktprijs voor deze of vergelijkbare producten
+- duurzame consumptiegoederen, zoals personenauto's, huishoudelijke apparaten, meubilair en kleding. De aankoop door particulieren van woningen wordt echter gerekend tot de investeringen in vaste activa van huishoudens.
+
+Niet alle bestedingen door huishoudens worden als consumptie gezien, huishoudens kunnen ook investeren. Dit betreft met name de aanschaf van een eigen woning en grote werkzaamheden hieraan, zoals verbouwingen en buitenschilderwerk. Kleine reparaties, schilderwerk binnen en de aanschaf van meubelen vallen wel onder consumptie. Ook de aanschaf van een auto en auto-reparaties worden als consumptie gezien.
+
+De consumptieve bestedingen door instellingen zonder winstoogmerk (izw’s) ten behoeve van huishoudens omvatten de niet-marktproductie van deze sector met uitzondering van de investeringen in eigen beheer.
+
+De detailgegevens over de consumptieve bestedingen betreffen de binnenlandse particuliere consumptieve bestedingen. Hieronder vallen de consumptieve bestedingen in Nederland, ongeacht het ingezetenschap van de consument. Hieruit kunnen de consumptieve bestedingen door huishoudens worden afgeleid door de consumptie door niet-ingezetenen in Nederland in mindering te brengen en te registreren als uitvoer en de consumptie door ingezetenen in het buitenland erbij te tellen en te registreren als invoer.",,,,,
+"Cbs.OData.Topic",136,103,135,"Topic","Totaal_102","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",137,,135,"TopicGroup","","Consumptie goederen huishoudens","Consumptie van goederen door huishoudens en instellingen zonder winstoogmerk huishoudens.",,,,,
+"Cbs.OData.Topic",138,104,137,"Topic","Totaal_103","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",139,,137,"TopicGroup","","Voedings- en genotmiddelen","Deze categorie bevatten aardappelen, groenten en fruit; vlees en vleeswaren; vis; zuivelproducten; brood, beschuit en broodproducten; overige voedingsmiddelen; consumptie-ijs; zoetwaren; dranken; tabak.",,,,,
+"Cbs.OData.Topic",140,105,139,"Topic","Totaal_104","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",141,106,139,"Topic","Voedingsmiddelen_105","Voedingsmiddelen","Aardappelen, groenten en fruit; vlees en vleeswaren; vis; zuivelproducten; brood, beschuit en broodproducten; overige voedingsmiddelen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",142,107,139,"Topic","DrankenEnTabak_106","Dranken en tabak","Dranken en tabak",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",143,,137,"TopicGroup","","Duurzame consumptiegoederen","Deze catagirie bevat textiel en kleding; lederwaren en schoeisel; woninginrichting; huishoudelijke apparaten; huishoudelijke artikelen; voertuigen; overige duurzame goederen",,,,,
+"Cbs.OData.Topic",144,108,143,"Topic","Totaal_107","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",145,109,143,"Topic","KledingEnTextiel_108","Kleding en textiel","Heren, dames- en kinderkleding; reiniging, reparatie en verhuur van kleding.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",146,110,143,"Topic","SchoenenEnLederwaren_109","Schoenen en lederwaren","Schoeisel,  reparatie van schoenen, leder en lederwaren.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",147,111,143,"Topic","WoninginrichtingEnWoningdecoratie_110","Woninginrichting en woningdecoratie","Woninginrichting en woningdecoratie",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",148,112,143,"Topic","ElektrischeApparatuur_111","Elektrische apparatuur","Elektrische apparatuur.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",149,113,143,"Topic","VervoermiddelenEnOnderdelen_112","Vervoermiddelen en onderdelen","Motorvoertuigen, aanhangwagens en opleggers en andere vervoermiddelen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",150,114,143,"Topic","OverigeDuurzameGoederen_113","Overige duurzame goederen","Niet eerder genoemd duurzame consumptiegoederen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",151,,137,"TopicGroup","","Overige goederen","Motorbrandstoffen; energie; overige goederen",,,,,
+"Cbs.OData.Topic",152,115,151,"Topic","TotaalOverigeGoederen_114","Totaal overige goederen","Overige goederen: motorbrandstoffen; energie; overige goederen",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",153,116,151,"Topic","EnergieEnWater_115","Energie en water","Energie en water.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",154,117,151,"Topic","BrandstoffenEnOverigeGoederen_116","Brandstoffen en overige goederen","Motorbrandstoffen en overige goederen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",155,,135,"TopicGroup","","Consumptie diensten huishoudens","Consumptie van diensten.",,,,,
+"Cbs.OData.Topic",156,118,155,"Topic","Totaal_117","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",157,119,155,"Topic","Huisvesting_118","Huisvesting","De overkoepelende term voor verschillende typen onderkomens waarin men tijdelijk of permanent onderdak heeft om in te wonen en te slapen. Alle typen woningen zijn een vorm van huisvesting.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",158,120,155,"Topic","Horecadiensten_119","Horecadiensten","Maaltijdverstrekking en catering, drankverstrekking, logiesverstrekking.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",159,121,155,"Topic","RecreatieEnCultuurdiensten_120","Recreatie en cultuurdiensten","Consumptie in diensten met betrekking tot recreatie en cultuur.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",160,122,155,"Topic","VervoerEnCommunicatieDiensten_121","Vervoer en communicatie diensten","Consumptie in diensten m.b.t. vervoer en communicatie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",161,123,155,"Topic","MedischeDienstenEnWelzijnzorg_122","Medische diensten en welzijnzorg","Consumptie in medische diensten en welzijnszorg.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",162,124,155,"Topic","FinancieleEnZakelijkeDiensten_123","Financiële en zakelijke diensten","Consumptie in financiële en zakelijke diensten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",163,125,155,"Topic","OverigeDiensten_124","Overige diensten","Consumptie van niet elders ingedeelde diensten door huishoudens en
+instellingen zonder winstoogmerk huishoudens.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",164,126,135,"Topic","BinnenlandsConsumptieHuishoudens_125","Binnenlands consumptie huishoudens","Alle consumptie die in Nederland plaatsvindt. Consumptie door Nederlandse huishoudens in het buitenland valt hier dus niet onder, consumptie door buitenlandse huishoudens in Nederland wel.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",165,127,135,"Topic","ConsumptieIngezetenenInHetBuitenland_126","Consumptie ingezetenen in het buitenland","De consumptie door Nederlandse ingezetenen in het buitenland, zoals uitgaven tijdens vakantie.
+",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",166,128,135,"Topic","ConsumptieNietIngezetenenInNederland_127","Consumptie niet-ingezetenen in Nederland","De consumptie door niet-ingezetenen in Nederland, zoals uitgaven tijdens vakantie.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",167,,133,"TopicGroup","","Consumptie overheid","Consumptieve bestedingen door de sector overheid. De productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de overheidsconsumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheidsproductie bij de overheid zelf is neergelegd, is een conventie. Naast de consumptie van eigen productie bevat de consumptie door de overheid ook bij marktproducenten aangekochte goederen en diensten die door de overheid, direct of indirect, in het kader van sociaal beleid gratis aan gezinnen worden verstrekt (‘sociale uitkeringen in natura’). Voorbeelden hiervan zijn de basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en de huurtoeslag. 
+
+De consumptie van eigen productie is op te splitsen in collectieve overheidsconsumptie en individualiseerbare overheidsconsumptie. De collectieve overheidsconsumptie betreft de uitgaven door de overheid voor collectief gebruikte diensten die worden verleend aan alle leden van de samenleving, bijvoorbeeld uitgaven voor defensie, milieubescherming of openbaar bestuur.
+De individualiseerbare overheidsconsumptie betreft uitgaven die zijn toe te rekenen aan specifieke delen van de samenleving. Hierbij gaat het voornamelijk om uitgaven aan onderwijs.",,,,,
+"Cbs.OData.Topic",168,129,167,"Topic","Totaal_128","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",169,130,167,"Topic","IndividueleConsumptieOverheid_129","Individuele consumptie overheid","De verwerving van consumptiegoederen en -diensten die door de overheid worden gefinancieerd en vervolgens als sociale overdrachten in natura aan de huishoudens worden geleverd. Hieronder valt het merendeel van de uitgaven van de overheid op het gebied van gezondheid, onderwijs en
+sociale bescherming.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",170,131,167,"Topic","CollectieveConsumptieOverheid_130","Collectieve consumptie overheid","Collectieve consumptieve bestedingen zijn uitgaven van ingezeten institutionele eenheden voor goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van de collectieve behoeften van leden van de samenleving.
+Collectieve consumptie vindt uitsluitend plaats bij de overheid en betreft met name uitgaven voor diensten op het gebied van:
+- openbaar bestuur, beveiliging en defensie;
+- ordehandhaving, wet- en regelgeving;
+- milieubescherming;
+- speur- en ontwikkelingswerk;
+- infrastructuur en economische ontwikkeling.
+De werkelijke collectieve consumptie wordt berekend door de individuele consumptie van de totale consumptieve bestedingen door de overheid af te trekken.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",171,,132,"TopicGroup","","Verwervingsindeling consumptie","De verwervingsindeling van de totale consumptie.
+Hierbij staat centraal de vraag wie de consumptiegoederen en -diensten verwerft: individuen of het collectief.
+Indelingschema:
+Totale consumptieve bestedingen =
+Werkelijke individuele consumptie, waarvan:
+  Consumptieve bestedingen door huishoudens
+  Consumptieve bestedingen door instellingen zonder winstoogmerk (IZW) ten behoeve van huishoudens
+  Individuele consumptie van de overheid
+Werkelijke collectieve consumptie
+",,,,,
+"Cbs.OData.Topic",172,132,171,"Topic","Totaal_131","Totaal","Uitgaven aan goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van individuele of collectieve behoeften. De consumptieve bestedingen kunnen zowel op het eigen grondgebied als in het buitenland worden gedaan, maar het gaat altijd om uitgaven door ingezeten institutionele eenheden, dat wil zeggen in Nederland gevestigde huishoudens en overheidsinstanties. Consumptieve bestedingen worden gedaan door huishoudens, instellingen zonder winstoogmerk ten behoeve van huishoudens, en de overheid. Ondernemingen consumeren niet: kosten aan goederen en diensten die ondernemingen maken ten behoeve van hun productie vallen hier niet onder, maar onder intermediair verbruik of investeringen. De overheid is een speciaal geval. Ook de overheid kent intermediair verbruik, naar analogie van ondernemingen. Maar de productie die de overheid levert en waar niet rechtstreeks voor wordt betaald, niet-markt-output (veiligheid bijvoorbeeld), valt onder de (overheids)consumptie. Het heet dat de overheid ‘haar eigen productie consumeert’. Binnen de nationale rekeningen moet alles wat wordt geproduceerd namelijk ook worden afgenomen. Dat de consumptie van de overheidsproductie bij de overheid zelf is neergelegd, is een conventie. Daarnaast bevat de overheidsconsumptie ook door de overheid verstrekte sociale uitkeringen in natura zoals basiszorg (gefinancierd uit AWBZ en de Zorgverzekeringswet) en huurtoeslag.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",173,133,171,"Topic","WerkelijkeIndividueleConsumptie_132","Werkelijke individuele consumptie","Consumptieve bestedingen hebben betrekking op de uitgaven voor consumptiegoederen en -diensten. De werkelijke individuele consumptie daarentegen betreft de verwerving van consumptiegoederen en -diensten. Het verschil tussen deze begrippen is gelegen in de behandeling van bepaalde goederen en diensten die door de overheid of izw’s t.b.v. huishoudens worden gefinancierd, en vervolgens als sociale overdrachten in natura aan de huishoudens worden geleverd. Hieronder valt het merendeel van de uitgaven van de overheid op het gebied van gezondheid, onderwijs en sociale bescherming. Per conventie wordt de consumptie door izw’s t.b.v. huishoudens geheel tot de individuele consumptie gerekend.
+
+De werkelijke individuele consumptie door huishoudens wordt als volgt berekend:
+	consumptieve bestedingen door huishoudens
+plus:	consumptieve bestedingen door izw’s t.b.v. huishoudens
+plus:	individuele consumptie door de overheid
+=	werkelijke individuele consumptie
+
+
+",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",174,134,171,"Topic","WerkelijkeCollectieveConsumptie_133","Werkelijke collectieve consumptie","Uitgaven voor goederen en diensten die worden gebruikt voor de rechtstreekse bevrediging van collectieve behoeften of wensten van leden van de gemeenschap. Collectieve consumptieve bestedingen vinden plaats bij de overheid en betreft met name uitgaven voor diensten op het gebied van:
+- openbaar bestuur, beveiliging en defensie
+- ordehandhaving, wet- en regelgeving
+- milieubescherming
+- speur- en ontwikkelingswerk
+- infrastructuur en economische ontwikkeling.
+
+De werkelijke collectieve consumptie wordt berekend door de individuele consumptie van de totale consumptieve bestedingen door de overheid af te trekken.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",175,,131,"TopicGroup","","Bruto investeringen in vaste activa","Uitgaven aan productiemiddelen die langer dan één jaar worden ingezet tijdens een productieproces. Het gaat hierbij bijvoorbeeld om een gebouw, woning, vervoermiddel of een machine. Dit in tegenstelling tot goederen of diensten die tijdens het productieproces worden opgebruikt, zoals ijzererts, het intermediair verbruik. Vaste activa kunnen in de loop der jaren in waarde verminderen door slijtage of omdat bijvoorbeeld de techniek veroudert (economische veroudering). Dit wordt verbruik van vaste activa genoemd (ook wel afschrijvingen genoemd). Bij bruto-investeringen zijn deze niet afgehaald van de waarde van de investeringen, bij netto-investeringen is dit wel het geval. 
+
+De volgende investeringsgoederen worden onderscheiden: bouwwerken, vervoermiddelen, machines en installaties, telecommunicatieapparatuur , wapensystemen (inbegrepen bij machines), computers, software, onderzoek en ontwikkeling, in cultuur gebrachte activa (bv. vee en bomen), exploratie en evaluatie van minerale reserves, kosten van eigendomsoverdracht voor niet-geproduceerde activa en intellectuele-eigendommen.",,,,,
+"Cbs.OData.TopicGroup",176,,175,"TopicGroup","","Bruto investeringen naar type activa","Specificatie van de bruto investeringen naar type van activa.
+De bruto investeringen in vaste activa kunnen ingedeeld worden naar type activa. Deze functionele indeling geeft inzicht in de aard van de investeringsgoederen.
+",,,,,
+"Cbs.OData.Topic",177,135,176,"Topic","Totaal_134","Totaal","Uitgaven aan productiemiddelen die langer dan één jaar worden ingezet tijdens een productieproces. Het gaat hierbij bijvoorbeeld om een gebouw, woning, vervoermiddel of een machine. Dit in tegenstelling tot goederen of diensten die tijdens het productieproces worden opgebruikt, zoals ijzererts, het intermediair verbruik. Vaste activa kunnen in de loop der jaren in waarde verminderen door slijtage of omdat bijvoorbeeld de techniek veroudert (economische veroudering). Dit wordt verbruik van vaste activa genoemd (ook wel afschrijvingen genoemd). Bij bruto-investeringen zijn deze niet afgehaald van de waarde van de investeringen, bij netto-investeringen is dit wel het geval. 
+
+De volgende investeringsgoederen worden onderscheiden: bouwwerken, vervoermiddelen, machines en installaties, telecommunicatieapparatuur , wapensystemen (inbegrepen bij machines), computers, software, onderzoek en ontwikkeling, in cultuur gebrachte activa (bv. vee en bomen), exploratie en evaluatie van minerale reserves, kosten van eigendomsoverdracht voor niet-geproduceerde activa en intellectuele-eigendommen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",178,,176,"TopicGroup","","Investeringen uit productie en invoer","Uitgaven voor geproduceerde of ingevoerde materiële of immateriële activa die langer dan een jaar in het productieproces worden gebruikt.",,,,,
+"Cbs.OData.Topic",179,136,178,"Topic","Totaal_135","Totaal","Uitgaven voor geproduceerde of ingevoerde materiële of immateriële activa die langer dan een jaar in het productieproces worden gebruikt.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",180,137,178,"Topic","Woningen_136","Woningen","Gebouwen die geheel of hoofdzakelijk zijn bestemd voor bewoning, met inbegrip van bijbehorende bouwwerken zoals garages en van alle goederen die gewoonlijk nagelvast in woningen zijn geïnstalleerd. Woonboten, aken, woonwagens en caravans die door huishoudens als hoofdverblijf worden gebruikt, behoren er ook toe, evenals openbare monumenten die in de eerste plaats als woningen worden aangemerkt. Bij de waardering zijn de kosten van het bouwrijp maken van de bouwterreinen inbegrepen. Voorbeelden zijn gebouwen met één of twee wooneenheden en andere gebouwen die zijn bestemd voor permanente bewoning. Woningen in aanbouw zijn inbegrepen voor zover ze al in het bezit zijn van de uiteindelijke gebruiker, hetzij omdat in eigen beheer wordt gebouwd, hetzij omdat er een koopcontract bestaat. Woningen voor militair personeel zijn inbegrepen omdat deze, evenals woningen die door civiele eenheden worden aangeschaft, worden gebruikt voor de productie van woondiensten. De waarde van de woningen omvat niet de waarde van de onderliggende grond.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",181,,178,"TopicGroup","","Gebouwen, GWW en grondverbetering","Bruto investeringen in bedrijfsgebouwen, grond-, weg- en waterbouwkundige werken (GWW) en overdrachtskosten op grond.",,,,,
+"Cbs.OData.Topic",182,138,181,"Topic","Totaal_137","Totaal","Bruto investeringen in bedrijfsgebouwen, grond-, water- en wegenbouwwerken. Het gaan hier om andere bouwwerken dan woningen en
+bedrijfsgebouwen, met inbegrip van de kosten van de  aanleg van wegen en
+riolering. Inclusief historische monumenten die niet als woning of
+bedrijfsgebouw worden aangemerkt. Voorbeelden: Autowegen, straten,
+spoorwegen, start- en landingsbanen op vliegvelden, bruggen, tunnels,
+waterwegen, havens,  telecommunicatie- en elektriciteitsleidingen.
+Bouwrijp maken van grond valt ook onder deze rubriek.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",183,139,181,"Topic","Gebouwen_138","Gebouwen","Andere gebouwen dan woningen, met inbegrip van de goederen, faciliteiten en apparatuur die hiervan integraal deel uitmaken en van de kosten van het bouwrijp maken van de bouwterreinen. Openbare monumenten die in de eerste plaats als bedrijfsgebouwen worden aangemerkt, behoren eveneens tot deze categorie. Openbare monumenten zijn herkenbaar wegens hun bijzondere historische, nationale, regionale, lokale, religieuze of symbolische betekenis. Zij worden als openbaar aangemerkt omdat zij openstaan voor het publiek, en niet omdat de overheidssector eigenaar is. Bezoekers moeten vaak entreegeld betalen. Voor de berekening van het verbruik van vaste activa bij nieuwe monumenten en grote verbeteringen van bestaande monumenten moet worden uitgegaan van een passende lange levensduur. Andere voorbeelden van gebouwen m.u.v. woningen zijn opslagplaatsen en fabrieksgebouwen, winkels, gebouwen voor openbaar amusement, hotels, restaurants, scholen, ziekenhuizen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",184,140,181,"Topic","GrondWegEnWaterbouwkundigeWerken_139","Grond- weg- en waterbouwkundige werken","Onder grond-, weg- en waterbouwkundige werken (GWW) vallen de kosten van de aanleg van straten en riolering en het bouwrijp maken van de bouwterreinen. Inbegrepen zijn verder openbare monumenten die niet als woning of ander gebouw zijn geclassificeerd, schachten, tunnels en andere bouwwerken in verband met de ontginning van minerale en energiereserves, en de bouw van zeeweringen, dijken, stormvloedkeringen, die bedoeld zijn om nabijgelegen grond, die zelf geen deel van de werken uitmaakt, te verbeteren. Voorbeelden zijn autowegen, straten en andere wegen, spoorwegen, start- en landingsbanen op vliegvelden, bruggen, verhoogde wegen, tunnels en metrotunnels, waterwegen, havens, dammen en andere waterwerken, pijpleidingen over lange afstand, communicatielijnen en elektriciteitsleidingen, plaatselijke pijpleidingen en kabels, bijkomende werken, bouwwerken voor de mijnbouw en de industrie of voor sport en recreatie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",185,141,181,"Topic","OverdrachtskostenOpGrond_140","Overdrachtskosten op grond","De kosten in ver band met de eigendomsoverdracht van grond,",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",186,142,178,"Topic","Vervoermiddelen_141","Vervoermiddelen","Vervoermiddelen voor personen- of goederenvervoer. Voorbeelden: Automobielen, aanhangwagens, opleggers, schepen, spoor- en tramwegmateriaal, lucht- en ruimtevaartuigen, fietsen en motorrijwielen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",187,,178,"TopicGroup","","ICT-apparatuur","Apparatuur op het gebied van de informatie- en communicatietechnologie (ICT-apparatuur): elektronisch werkende toestellen en de elektronische onderdelen daarvan. Voorbeelden zijn elektronische onderdelen en printplaten en computers en randapparatuur.",,,,,
+"Cbs.OData.Topic",188,143,187,"Topic","Totaal_142","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",189,144,187,"Topic","Computers_143","Computers","Gegevensverwerkende en elektronische apparaten voor zover deze door de gebruiker vrij programmeerbaar zijn. Onder deze categorie vallen ook randapparatuur zoals terminals en printers.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",190,145,187,"Topic","Telecommunicatieapparatuur_144","Telecommunicatieapparatuur","Apparatuur op het gebied van de telecommunicatietechnologie. Onder deze categorie vallen bijvoorbeeld telefoons, mobiele telefoons, televisie camera’s, digitale camera’s.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",191,146,178,"Topic","MachinesEnOverigeMaterieleActiva_145","Machines en overige materiële activa","Investeringen in alle machines die gebruikt worden voor de productie. Verder ook de machines voor algemeen gebruik (zoals kantoormachines en audio-apparatuur), werktuigen en vervoermiddelen die incidenteel gebruik maken van de openbare weg zoals tractoren,graafmachines, heftrucks en dergelijke. Ook wapensystemen behoren tot deze categorie. As laatste in deze categorie is de niet elders geclassificeerde materiële activa. Voorbeelden zijn meubilair, rekken, silo's, opslagtanks, containers, pallets, sportartikelen en muziekinstrumenten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",192,147,178,"Topic","InCultuurGebrachteActiva_146","In cultuur gebrachte activa","Vee, wijngaarden, boomgaarden en andere aanplant van bomen met een regelmatige opbrengst, die onder rechtstreekse verantwoordelijkheid en onder rechtstreeks toezicht en beheer van institutionele eenheden staan, als hieronder omschreven. Onvolgroeide of onrijpe in cultuur gebrachte activa blijven buiten beschouwing, tenzij zij worden geproduceerd voor eigen gebruik.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",193,,178,"TopicGroup","","Immateriële activa","Vaste activa bestaande uit de resultaten van onderzoek en ontwikkeling, de exploratie en evaluatie van minerale reserves, computerprogrammatuur en databanken, originelen op het gebied van woord, beeld en geluid en overige intellectuele eigendommen, die bedoeld zijn om gedurende meer dan één jaar te worden gebruikt. Ook wel als intellectuele eigendommen genoemd.",,,,,
+"Cbs.OData.Topic",194,148,193,"Topic","Totaal_147","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",195,149,193,"Topic","ComputerprogrammatuurEnDatabanken_148","Computerprogrammatuur en databanken","Computerprogramma's, programmabeschrijvingen en ondersteunend materiaal voor systeem- en toepassingsprogrammatuur. Inbegrepen zijn de aanvankelijke ontwikkeling en de latere uitbreidingen van de programmatuur, alsmede de aankoop van kopieën en databanken.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",196,150,193,"Topic","OnderzoekEnOntwikkeling_149","Onderzoek en ontwikkeling","Bestaat uit de waarde van uitgaven voor creatief werk dat systematisch wordt ondernomen ter vergroting van de hoeveelheid kennis, inclusief kennis van de mens, cultuur en maatschappij, en het gebruik van deze kennis om nieuwe toepassingen te ontwikkelen. De waarde wordt bepaald op basis van de economische baten die in de toekomst worden verwacht. Tenzij de waarde redelijk goed kan worden geraamd, wordt de waarde volgens afspraak vastgesteld als de som van de kosten, met inbegrip van de kosten van niet-geslaagd onderzoeks- en ontwikkelingswerk. Onderzoeks- en ontwikkelingswerk dat de eigenaar geen baten zal opleveren, wordt niet als actief, maar als intermediair verbruik geclassificeerd.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",197,151,193,"Topic","OverigeImmaterieleActiva_150","Overige immateriële activa","Niet elders geclassificeerde immateriële activa. Voorbeelden zijn exploratie en evaluatie van minerale reserves, originelen op het gebied van woord, beeld, geluid en overige intellectuele eigendommen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",198,152,176,"Topic","VerkoopVanGebruikteVasteActiva_151","Verkoop van gebruikte vaste activa (-)","De uitvoer van gebruikte investeringsgoederen en de verkoop ervan aan huishoudens. Deze desinvesteringen worden niet verdeeld naar bedrijfsklassen of naar typen. Deze verkopen van gebruikte vaste activa worden gecorrigeerd op de investeringen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",199,,175,"TopicGroup","","Bruto investeringen naar bestemming","De bruto investeringen in vaste activa ingedeeld naar de bedrijfstakken waarvoor de investeringen bestemd zijn.",,,,,
+"Cbs.OData.Topic",200,153,199,"Topic","Totaal_152","Totaal","Uitgaven aan productiemiddelen die langer dan één jaar worden ingezet tijdens een productieproces. Het gaat hierbij bijvoorbeeld om een gebouw, woning, vervoermiddel of een machine. Dit in tegenstelling tot goederen of diensten die tijdens het productieproces worden opgebruikt, zoals ijzererts, het intermediair verbruik. Vaste activa kunnen in de loop der jaren in waarde verminderen door slijtage of omdat bijvoorbeeld de techniek veroudert (economische veroudering). Dit wordt verbruik van vaste activa genoemd (ook wel afschrijvingen genoemd). Bij bruto-investeringen zijn deze niet afgehaald van de waarde van de investeringen, bij netto-investeringen is dit wel het geval. 
+
+De volgende investeringsgoederen worden onderscheiden: bouwwerken, vervoermiddelen, machines en installaties, telecommunicatieapparatuur , wapensystemen (inbegrepen bij machines), computers, software, onderzoek en ontwikkeling, in cultuur gebrachte activa (bv. vee en bomen), exploratie en evaluatie van minerale reserves, kosten van eigendomsoverdracht voor niet-geproduceerde activa en intellectuele-eigendommen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",201,,199,"TopicGroup","","Investeringen uit productie en invoer","Uitgaven voor geproduceerde of ingevoerde materiële of immateriële activa die langer dan een jaar in het productieproces worden gebruikt.",,,,,
+"Cbs.OData.Topic",202,154,201,"Topic","Totaal_153","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",203,155,201,"Topic","ALandbouwBosbouwEnVisserij_154","A Landbouw, bosbouw en visserij","Deze sectie omvat:
+- de exploitatie van natuurlijke plantaardige en dierlijke hulpbronnen:
+w.o. de akkerbouw, veeteelt en de productie van overige planten en dieren
+op een agrarisch bedrijf of in het natuurlijke leefgebied;
+w.o. bosbouw, houtteelt en jacht;
+w.o. specifieke loondiensten met betrekking tot het productieproces
+landbouw, jacht en bosbouw worden eveneens in deze sectie ingedeeld;
+w.o. visserij: de vangst of het kweken van vis, schaaldieren en
+weekdieren.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",204,156,201,"Topic","BFNijverheidEnEnergie_155","B-F Nijverheid en energie","Deze categorie is een samentelling van categorieën:
+B Winning van delfstoffen
+C Industrie
+D Productie en distributie van en handel in elektriciteit, aardgas, stoom
+en gekoelde lucht
+E Winning en distributie van water; afval- en afvalwaterbeheer en sanering
+F Bouwnijverheid",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",205,157,201,"Topic","GNCommercieleDienstverlening_156","G-N Commerciële dienstverlening","Deze categorie is een samentelling van categorieën:
+G Groot- en detailhandel; reparatie van auto's
+H Vervoer en opslag
+I Logies-, maaltijd- en drankverstrekking
+J Informatie en communicatie
+K Financiële instellingen
+L Verhuur van en handel in onroerend goed
+M Advisering, onderzoek en overige specialistische zakelijke
+dienstverlening
+N Verhuur van roerende goederen en overige zakelijke dienstverlening",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",206,158,201,"Topic","OUNietCommercieleDienstverlening_157","O-U Niet-commerciële dienstverlening","Niet-commerciële diensten: Bruto toegevoegde waarde tegen basisprijzen van
+niet-commerciële dienstenproducenten.
+Tot de niet-commerciële dienstenproducenten behoren de bedrijfstak
+Overheid en de Zorg en overige dienstverlening.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",207,159,199,"Topic","VerkoopVanGebruikteVasteActiva_158","Verkoop van gebruikte vaste activa (-)","De uitvoer van gebruikte investeringsgoederen en de verkoop ervan aan huishoudens. Deze desinvesteringen worden niet verdeeld naar bedrijfsklassen of naar typen. Deze verkopen van gebruikte vaste activa worden gecorrigeerd op de investeringen.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",208,,131,"TopicGroup","","Uitvoer naar productgroepen","Uitvoer van goederen en diensten, gespecificeerd naar productgroepen conform de standaardindeling CPA 2008.",,,,,
+"Cbs.OData.Topic",209,160,208,"Topic","Totaal_159","Totaal","De goederen- en dienstenstromen (verkoop, ruil en giften) van ingezetenen (in Nederland) naar niet-ingezetenen. Uitvoer van goederen vindt plaats wanneer het economisch eigendom van goederen door een ingezetene wordt overgedragen aan een niet-ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederen-beweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",210,161,208,"Topic","LandbouwBosbouwEnVisserijproducten_160","Landbouw, bosbouw en visserijproducten","Akker- en tuinbouwproducten, veeteeltproducten, diensten i.v.m.landbouw en veeteelt, bosbouw- en visserijproducten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",211,162,208,"Topic","WinningVanDelfstoffen_161","Winning van delfstoffen","Steenkool en bruinkool, ruwe aardolie en aardgas, metaalertsen, andere delfstoffen en ondersteunende diensten in verband met de winning van delfstoffen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",212,163,208,"Topic","VoedingsmiddelenDrankenEnTabak_162","Voedingsmiddelen, dranken en tabak","Aardappelen, groenten en fruit; vlees en vleeswaren; vis; zuivelproducten; brood, beschuit en broodproducten; overige voedingsmiddelen; consumptie-ijs; zoetwaren; dranken; tabak.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",213,164,208,"Topic","TextielKledingEnProductenVanLeder_163","Textiel, kleding en producten van leder","Textiel garens en weefsels, overige textielwaren, kleding, leder en lederwaren",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",214,165,208,"Topic","HoutEnPapierwarenDrukwerk_164","Hout- en papierwaren, drukwerk","Hout en houtproducten, papier en karton, sanitaire en huishoudelijke producten van papier, papier- en kartonwaren. Boeken, brochures en dergelijk drukwerk, drukwerk voor bladen en tijdschriften, bladen (abonnementen), bladen (advertenties), cd's, floppy's, cassettes en andere bespeelde informatiedragers, naslagwerken, bindwerk, grafische afwerking, zetten en stereotyperen, overig drukwerk.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",215,166,208,"Topic","AardolieProducten_165","Aardolie-producten","Cokes van vaste brandstoffen en steenkoolderivaten, benzine voor zuigermotoren (exclusief vliegtuigbenzine), petroleum voor reactiemotoren (jetfuel), gasolie en dieselolie, overige vloeibare brandstoffen, splijt- en kweekstoffen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",216,167,208,"Topic","ChemischeEnFarmaceutischeProducten_166","Chemische en farmaceutische producten","Anorganische chemische grondstoffen, organische chemische grondstoffen, kunstmeststoffen, kunstharsen, overige chemische grondstoffen, bestrijdingsmiddelen, verf en verfproducten, farmaceutische producten, zeep, onderhouds- en verzorgingsmiddelen, overige chemische producten, kunstmatige of synthetische vezels en garens.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",217,168,208,"Topic","RubberKunststofEnMineraleProducten_167","Rubber, kunststof en minerale producten","Preservatieven, overige rubberproducten, kunststofproducten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",218,169,208,"Topic","BasismetalenEnMetaalproducten_168","Basismetalen en metaalproducten","Basismetalen (ferro), basismetalen (non-ferro), constructiewerk en overige metaalproducten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",219,170,208,"Topic","MachinesEnElektrischeApparatuur_169","Machines en elektrische apparatuur","Machines, reparatie en onderhoud van overige machines, wapens en munitie, huishoudelijke apparaten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",220,171,208,"Topic","ElektrotechnischeEnOptischeApparaten_170","Elektrotechnische en optische apparaten","Kantoormachines en computers,elektrische machines, audio-, video- en telecommunicatieapparaten, medische, precisie en optische apparaten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",221,172,208,"Topic","Transportmiddelen_171","Transportmiddelen","Auto's, zeeschepen, overige schepen; reparatie, onderdelen voor schepen, rollend en ander materieel voor spoor- en tramwegen; reparatie en onderdelen, vliegtuigen, reparatie en onderhoud van vliegtuigen, motor- en bromfietsen en fietsen en onderdelen, invalidewagens en onderdelen, overige transportmiddelen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",222,173,208,"Topic","OverigeIndustrieleProducten_172","Overige industriële producten","Meubelen, hout en houtproducten, glas en bouwmaterialen en overige industriële producten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",223,174,208,"Topic","OverigeProducten_173","Overige producten","Goederen en diensten niet eerder genoemd.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",224,175,208,"Topic","ConsumptieNietIngezetenenInNederland_174","Consumptie niet-ingezetenen in Nederland","De consumptie door niet-ingezetenen in Nederland, zoals uitgaven tijdens vakantie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",225,176,208,"Topic","UitvoerVanGebruikteVasteActiva_175","Uitvoer van gebruikte vaste activa","Gebruikte vaste activa die door ingezetenen vanuit het economisch gebied van Nederland aan het buitenland zijn geleverd.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",226,177,208,"Topic","CifFobCorrectie_176","Cif/fob-correctie","Correctie op de invoer- of uitvoerprijzen voor de daarin begrepen kosten van vervoer en verzekering door Nederlandse bedrijven in het buitenland. De invoer en de uitvoer worden met hetzelfde bedrag verminderd. Cif staat voor cost, insurance and freight en fob staat voor free on board.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",227,,208,"TopicGroup","","Uitvoer goederen","De goederenstromen (verkoop, ruil en giften) van ingezetenen (in Nederland) naar niet-ingezetenen. Uitvoer van goederen vindt plaats wanneer het economisch eigendom van goederen door een ingezetene wordt overgedragen aan een niet-ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederenbeweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake. De goederenuitvoer omvat ook wederuitvoer, eerder ingevoerde goederen die weer zijn uitgevoerd, na hooguit een kleine bewerking te hebben ondergaan.",,,,,
+"Cbs.OData.Topic",228,178,227,"Topic","Totaal_177","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",229,179,227,"Topic","UitvoerGoederenUitProductie_178","Uitvoer goederen uit productie","Uitvoer van goederen die voortkomen uit productie en invoer",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",230,180,227,"Topic","Wederuitvoer_179","Wederuitvoer","Goederen die waren ingevoerd en daarna weer zijn uitgevoerd, na hoogstens een kleine bewerking te hebben ondergaan. De goederen zijn daarbij tijdelijk in bezit geweest van ingezetenen (in Nederland).",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",231,181,227,"Topic","UitvoerVanGebruikteVasteActiva_180","Uitvoer van gebruikte vaste activa","Gebruikte vaste activa die door ingezetenen vanuit het economisch gebied van Nederland aan het buitenland zijn geleverd.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",232,,208,"TopicGroup","","Uitvoer diensten","De dienstenstromen (verkoop, ruil en giften) van ingezetenen (in Nederland) naar niet-ingezetenen. De uitvoer van diensten omvat onder meer de diensten van Nederlandse vervoerbedrijven in het buitenland, aan het buitenland bewezen havendiensten, scheepsreparatie en de uitvoering van werken in het buitenland door Nederlandse aannemers. Onder de uitvoer van diensten vallen eveneens de bestedingen door niet-ingezetenen in Nederland.",,,,,
+"Cbs.OData.Topic",233,182,232,"Topic","Totaal_181","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",234,183,232,"Topic","ConsumptieNietIngezetenenInNederland_182","Consumptie niet-ingezetenen in Nederland","De consumptie door niet-ingezetenen in Nederland, zoals uitgaven tijdens vakantie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",235,184,232,"Topic","OverigeUitvoerVanDiensten_183","Overige uitvoer van diensten","Uitvoer van diensten exclusief consumptie van diensten door niet-ingezetenen en Cif/fob-correctie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",236,185,232,"Topic","CifFobCorrectie_184","Cif/fob-correctie","Correctie op de invoer- of uitvoerprijzen voor de daarin begrepen kosten van vervoer en verzekering door Nederlandse bedrijven in het buitenland. De invoer en de uitvoer worden met hetzelfde bedrag verminderd. Cif staat voor cost, insurance and freight en fob staat voor free on board.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",237,,131,"TopicGroup","","Invoer naar productgroepen","Uitvoer van goederen en diensten, gespecificeerd naar productgroepen conform de standaardindeling CPA 2008.",,,,,
+"Cbs.OData.Topic",238,186,237,"Topic","Totaal_185","Totaal","De goederen- en dienstenstromen (verkoop, ruil en giften) van niet-ingezetenen naar ingezetenen (in Nederland). Invoer van goederen vindt plaats wanneer de economische eigendom van goederen door een niet-ingezetene wordt overgedragen aan een ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederenbeweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",239,187,237,"Topic","LandbouwBosbouwEnVisserijproducten_186","Landbouw, bosbouw en visserijproducten","Akker- en tuinbouwproducten, veeteeltproducten, diensten i.v.m.landbouw en veeteelt, bosbouw- en visserijproducten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",240,188,237,"Topic","WinningVanDelfstoffen_187","Winning van delfstoffen","Steenkool en bruinkool, ruwe aardolie en aardgas, metaalertsen, andere delfstoffen en ondersteunende diensten in verband met de winning van delfstoffen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",241,189,237,"Topic","VoedingsmiddelenDrankenEnTabak_188","Voedingsmiddelen, dranken en tabak","Aardappelen, groenten en fruit; vlees en vleeswaren; vis; zuivelproducten; brood, beschuit en broodproducten; overige voedingsmiddelen; consumptie-ijs; zoetwaren; dranken; tabak.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",242,190,237,"Topic","TextielKledingEnProductenVanLeder_189","Textiel, kleding en producten van leder","Textiel garens en weefsels, overige textielwaren, kleding, leder en lederwaren.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",243,191,237,"Topic","HoutEnPapierwarenDrukwerk_190","Hout- en papierwaren, drukwerk","Hout en houtproducten, papier en karton, sanitaire en huishoudelijke producten van papier, papier- en kartonwaren. Boeken, brochures en dergelijk drukwerk, drukwerk voor bladen en tijdschriften, bladen (abonnementen), bladen (advertenties), cd's, floppy's, cassettes en andere bespeelde informatiedragers, naslagwerken, bindwerk, grafische afwerking, zetten en stereotyperen, overig drukwerk.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",244,192,237,"Topic","AardolieProducten_191","Aardolie-producten","Cokes van vaste brandstoffen en steenkoolderivaten, benzine voor zuigermotoren (exclusief vliegtuigbenzine), petroleum voor reactiemotoren (jetfuel), gasolie en dieselolie, overige vloeibare brandstoffen, splijt- en kweekstoffen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",245,193,237,"Topic","ChemischeEnFarmaceutischeProducten_192","Chemische en farmaceutische producten","Anorganische chemische grondstoffen, organische chemische grondstoffen, kunstmeststoffen, kunstharsen, overige chemische grondstoffen, bestrijdingsmiddelen, verf en verfproducten, farmaceutische producten, zeep, onderhouds- en verzorgingsmiddelen, overige chemische producten, kunstmatige of synthetische vezels en garens.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",246,194,237,"Topic","RubberKunststofEnMineraleProducten_193","Rubber, kunststof en minerale producten","Preservatieven, overige rubberproducten, kunststofproducten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",247,195,237,"Topic","BasismetalenEnMetaalproducten_194","Basismetalen en metaalproducten","Basismetalen (ferro), basismetalen (non-ferro), constructiewerk en overige metaalproducten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",248,196,237,"Topic","MachinesEnElektrischeApparatuur_195","Machines en elektrische apparatuur","Machines, reparatie en onderhoud van overige machines, wapens en munitie, huishoudelijke apparaten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",249,197,237,"Topic","ElektrotechnischeEnOptischeApparaten_196","Elektrotechnische en optische apparaten","Kantoormachines en computers,elektrische machines, audio-, video- en telecommunicatieapparaten, medische, precisie en optische apparaten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",250,198,237,"Topic","Transportmiddelen_197","Transportmiddelen","Auto's, zeeschepen, overige schepen; reparatie, onderdelen voor schepen, rollend en ander materieel voor spoor- en tramwegen; reparatie en onderdelen, vliegtuigen, reparatie en onderhoud van vliegtuigen, motor- en bromfietsen en fietsen en onderdelen, invalidewagens en onderdelen, overige transportmiddelen.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",251,199,237,"Topic","OverigeIndustrieleProducten_198","Overige industriële producten","Meubelen, hout en houtproducten, glas en bouwmaterialen en overige industriële producten",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",252,200,237,"Topic","OverigeProducten_199","Overige producten","Goederen en diensten niet eerder genoemd.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",253,201,237,"Topic","ConsumptieIngezetenenInHetBuitenland_200","Consumptie ingezetenen in het buitenland","De consumptie door Nederlandse ingezetenen in het buitenland, zoals uitgaven tijdens vakantie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",254,202,237,"Topic","CifFobCorrectie_201","Cif/fob-correctie","Correctie op de invoer- of uitvoerprijzen voor de daarin begrepen kosten van vervoer en verzekering door Nederlandse bedrijven in het buitenland. De invoer en de uitvoer worden met hetzelfde bedrag verminderd. Cif staat voor cost, insurance and freight en fob staat voor free on board.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",255,,237,"TopicGroup","","Invoer goederen","De goederenstromen (verkoop, ruil en giften) van niet-ingezetenen naar ingezetenen (in Nederland). Invoer van goederen vindt plaats wanneer de economische eigendom van goederen door een niet-ingezetene wordt overgedragen aan een ingezetene, ongeacht of er sprake is van een fysieke grensoverschrijdende goederenbeweging. Een bedrijf of instantie wordt als hier ingezetene beschouwd wanneer het minimaal een jaar in Nederland actief is. Of dit bedrijf of deze instantie in buitenlandse handen is, doet niet ter zake. Tot de invoer behoren ook voor verwerking in het productieproces benodigde grondstoffen, halffabricaten, brandstoffen en voor investeringen bestemde vaste activa. De goedereninvoer omvat verder goederen die, na hooguit een kleine bewerking te hebben ondergaan, weer zijn uitgevoerd (wederuitvoer).",,,,,
+"Cbs.OData.Topic",256,203,255,"Topic","Totaal_202","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",257,204,255,"Topic","InvoerGoederenCif_203","Invoer goederen (cif)","De voor ingezetenen bestemde goederen, die vanuit het buitenland in het economisch gebied van Nederland zijn gebracht exclusief de cif/fob-correctie en herclassificatie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",258,205,255,"Topic","CifFobCorrectieEnHerclassificatie_204","Cif/fob-correctie en herclassificatie","De cif/fob-correctie is een correctie op de invoer- of uitvoerprijzen voor de daarin begrepen kosten van vervoer en verzekering door Nederlandse bedrijven in het buitenland. De invoer en de uitvoer worden met hetzelfde bedrag verminderd.
+De cif/fob-herclassificatie is een correctie op de invoerprijzen voor de daarin begrepen kosten van vervoer en verzekering door buitenlandse bedrijven in het buitenland. Er vindt hierdoor een verschuiving plaats van invoer van goederen naar invoer van diensten.
+Cif staat voor cost, insurance and freight en fob staat voor free on board.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",259,,237,"TopicGroup","","Invoer diensten","De dienstenstromen (verkoop, ruil en giften) van niet-ingezetenen naar ingezetenen (in Nederland). De invoer van diensten heeft onder meer betrekking op de uitgaven van ingezeten bedrijven in het buitenland, zoals vervoersdiensten, bankdiensten en zakelijke diensten. Bij de overheid gaat het onder meer om uitgaven van Nederlandse ambassades en consulaten in het buitenland. De invoer door huishoudens bestaat uit uitgaven van ingezetenen in het buitenland.",,,,,
+"Cbs.OData.Topic",260,206,259,"Topic","Totaal_205","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",261,207,259,"Topic","InvoerDienstenCif_206","Invoer diensten (cif)","Hieronder vallen onder andere de uitgaven van Nederlandse bedrijven in het buitenland, zoals vervoerskosten, bankkosten en zakenreizen. Bij de overheid gaat het onder meer om uitgaven van Nederlandse ambassades en consulaten in het buitenland inclusief cif/fob-herclassificatie.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",262,208,259,"Topic","CifFobHerclassificatie_207","Cif/fob-herclassificatie","Correctie op de invoerprijzen voor de daarin begrepen kosten van vervoer en verzekering door buitenlandse bedrijven in het buitenland. Er vindt hierdoor een verschuiving plaats van invoer van goederen naar invoer van diensten. Cif staat voor cost, insurance and freight en fob staat voor free on board.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",263,,131,"TopicGroup","","Belastingen op productie en invoer","Verplichte betalingen om niet, in geld of in natura, die door de overheid of door de instellingen van de Europese Unie worden opgelegd in verband met de productie of de invoer van goederen en diensten, het in dienst hebben van arbeidskrachten en de eigendom of het gebruik van grond, gebouwen of andere activa die in het productieproces worden aangewend. Dergelijke belastingen zijn verschuldigd ongeacht gemaakte winst. Zowel productgebonden als niet-productgebonden belastingen behoren hiertoe.",,,,,
+"Cbs.OData.Topic",264,209,263,"Topic","Totaal_208","Totaal",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",265,210,263,"Topic","ProductgebondenBelastingen_209","Productgebonden belastingen","Belastingen die moeten worden betaald per eenheid van een bepaald goed dat of bepaalde dienst die is geproduceerd of ingevoerd. De belasting kan een bepaald bedrag per kwantitatieve eenheid van een goed of een dienst zijn, of worden berekend als een bepaald percentage van de prijs per eenheid of van de waarde van de geproduceerde of verhandelde goederen en diensten.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",266,211,263,"Topic","NietProductgebondenBelastingen_210","Niet-productgebonden belastingen","Dit zijn de belastingen op productie die producenten moeten betalen, ongeacht de hoeveelheid of de waarde van de geproduceerde of verkochte producten. Voorbeelden hiervan zijn de onroerendezaakbelasting, reinigingsrechten en rioolrechten betaald door producenten.",,"Double","%",1,"Missing"
+"Cbs.OData.TopicGroup",267,,131,"TopicGroup","","Subsidies","Subsidies zijn betalingen om niet die door de Nederlandse overheid of de instellingen van de Europese Unie worden gedaan aan ingezeten producenten. Zowel productgebonden als niet-productgebonden subsidies behoren hiertoe.",,,,,
+"Cbs.OData.Topic",268,212,267,"Topic","TotaalSubsidies_211","Totaal subsidies",,,"Double","%",1,"Missing"
+"Cbs.OData.Topic",269,213,267,"Topic","ProductgebondenSubsidies_212","Productgebonden subsidies","Subsidies die zijn uitgekeerd per geproduceerde of ingevoerde eenheid van een goed of een dienst. De subsidies zijn gerelateerd aan de waarde of aan de hoeveelheid van het product.",,"Double","%",1,"Missing"
+"Cbs.OData.Topic",270,214,267,"Topic","NietProductgebondenSubsidies_213","Niet-productgebonden subsidies","Onder subsidies die niet-productgebonden zijn, vallen de subsidies op productie,die niet direct relateerbaar zijn aan de waarde of de hoeveelheid geproduceerde en verkochte producten. Het betreft vooral landbouwsubsidies, subsidies op R&D en loonsubsidies.",,"Double","%",1,"Missing"

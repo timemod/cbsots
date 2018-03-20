@@ -25,8 +25,8 @@ test_that(id, {
   result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, min_year = 2015,
                                   include_meta = TRUE))
 
-  # there may be small differences between Linux and Windows because the result
-  # of sort is different
+  # the result of sort is platform dependent (it is actually also dependend on
+  # the locale.
   expected_value_file <- file.path("expected_output", paste0(id, "_result_", 
                                    .Platform$OS.type, ".rds"))
   expect_known_value(result1, file = expected_value_file)

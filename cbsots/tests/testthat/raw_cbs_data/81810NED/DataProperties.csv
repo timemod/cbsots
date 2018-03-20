@@ -1,0 +1,126 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","BedrijfstakkenBranchesSBI2008","Bedrijfstakken/branches (SBI 2008)","",,,,,
+"Cbs.OData.TimeDimension",1,1,,"TimeDimension","Perioden","Perioden","",TRUE,,,,
+"Cbs.OData.TopicGroup",2,,,"TopicGroup","","Indexcijfers","Een indexcijfer geeft de verhouding weer tussen de waarde van een variabele (bijv. omzet) in een bepaalde periode en de waarde van diezelfde variabele in de basisperiode. Deze basisperiode heeft het indexcijfer 100.",,,,,
+"Cbs.OData.TopicGroup",3,,2,"TopicGroup","","Productie","De productie dient te worden gezien als de volume-ontwikkeling van de toegevoegde waarde tegen basisprijzen. De toegevoegde waarde is het verschil tussen de productiewaarde en de verbruikswaarde.
+
+De verbruikswaarde is het totaal van alle grond- en hulpstoffen, halffabricaten, energiekosten en diensten die bij de productie zijn verwerkt. Ook kostprijsverhogende indirecte belastingen en prijsverlagende subsidies spelen een rol bij het bepalen van de toegevoegde waarde.",,,,,
+"Cbs.OData.Topic",4,2,3,"Topic","Productie_1","Productie","De volumeontwikkeling van de toegevoegde waarde tegen basisprijzen, niet gecorrigeerd voor werk- en feestdagen.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",5,3,3,"Topic","GemiddeldeDagproductie_2","Gemiddelde dagproductie","De gemiddelde dagproductie wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de productie als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagproductie.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",6,4,3,"Topic","SeizoengecorrigeerdeDagproductie_3","Seizoengecorrigeerde dagproductie ","De gemiddelde dagproductie wordt gecorrigeerd voor seizoensinvloeden. 
+Seizoencorrectie is het uit de cijfers verwijderen van jaarlijks terugkerende patronen die normaal zijn voor de tijd van het jaar.
+Het resultaat is de zogenaamde seizoengecorrigeerde productie.
+
+De gemiddelde dagproductie wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de productie als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagproductie.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.TopicGroup",7,,2,"TopicGroup","","Omzet","De opbrengst uit verkoop van goederen en diensten aan derden, exclusief btw. De omzet is exclusief productgebonden belastingen (accijnzen en verbruiksbelastingen). De omzet omvat zowel de opbrengsten uit hoofdactiviteit als uit nevenactiviteiten. Uitzondering hierop zijn de bedrijfstakken in de industrie, hier omvat de omzet alleen de industriële omzet. Derden zijn consumenten en bedrijven buiten het (Nederlandse deel van het) eigen concernverband.
+",,,,,
+"Cbs.OData.Topic",8,5,7,"Topic","TotaleOmzet_4","Totale omzet","De totale omzet wordt gesplitst naar omzet binnenland en omzet buitenland.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",9,6,7,"Topic","OmzetBinnenland_5","Omzet binnenland","In omzet binnenland is begrepen uitvoer via exporteurs of andere niet-industriële bedrijven.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",10,7,7,"Topic","OmzetBuitenland_6","Omzet buitenland","Het betreft hier rechtstreekse uitvoer van industriële bedrijven. Uitvoer via exporteurs of andere niet-industriële bedrijven, treft men aan bij omzet binnenland.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.TopicGroup",11,,2,"TopicGroup","","Gemiddelde dagomzet","De gemiddelde dagomzet wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de omzet als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagomzet.
+",,,,,
+"Cbs.OData.Topic",12,8,11,"Topic","GemiddeldeDagomzetTotaal_7","Gemiddelde dagomzet, totaal","De totale gemiddelde dagomzet wordt gesplitst naar gemiddelde dagomzet binnenland en gemiddelde dagomzet buitenland.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",13,9,11,"Topic","GemiddeldeDagomzetBinnenland_8","Gemiddelde dagomzet, binnenland","In omzet binnenland is begrepen uitvoer via exporteurs of andere niet-industriële bedrijven.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",14,10,11,"Topic","GemiddeldeDagomzetBuitenland_9","Gemiddelde dagomzet, buitenland","Het betreft hier rechtstreekse uitvoer van industriële bedrijven. Uitvoer via exporteurs of andere niet-industriële bedrijven, treft men aan bij omzet binnenland.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.TopicGroup",15,,2,"TopicGroup","","Seizoengecorrigeerde dagomzet","De seizoensgecorrigeerde dagomzet wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de omzet als gevolg van seizoenseffecten.
+
+Seizoencorrectie is het uit de cijfers verwijderen van jaarlijks terugkerende patronen die normaal zijn voor de tijd van het jaar.
+Het resultaat is de zogenaamde seizoengecorrigeerde dagomzet.
+
+De gemiddelde dagomzet wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de productie als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagomzet.",,,,,
+"Cbs.OData.Topic",16,11,15,"Topic","SeizoengecorrigeerdeDagomzetTotaal_10","Seizoengecorrigeerde dagomzet, totaal","De totale seizoengecorrigeerde dagomzet wordt gesplitst naar seizoengecorrigeerde dagomzet binnenland en seizoengecorrigeerde dagomzet buitenland.
+
+",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",17,12,15,"Topic","SeizoengecorrigeerdeDagomzetBinnenland_11","Seizoengecorrigeerde dagomzet,binnenland","In omzet binnenland is begrepen uitvoer via exporteurs of andere niet-industriële bedrijven.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.Topic",18,13,15,"Topic","SeizoengecorrigeerdeDagomzetBuitenland_12","Seizoengecorrigeerde dagomzet,buitenland","Het betreft hier rechtstreekse uitvoer van industriële bedrijven. Uitvoer via exporteurs of andere niet-industriële bedrijven, treft men aan bij omzet binnenland.",,"Float","2010=100",1,"Missing"
+"Cbs.OData.TopicGroup",19,,,"TopicGroup","","Ontwikkeling t.o.v. een jaar eerder","De procentuele ontwikkeling van een bepaalde periode (maand, kwartaal, jaar) ten opzichte van dezelfde periode in het daaraan voorafgaande jaar.",,,,,
+"Cbs.OData.TopicGroup",20,,19,"TopicGroup","","Productie","De productie dient te worden gezien als de volume-ontwikkeling van de toegevoegde waarde tegen basisprijzen. De toegevoegde waarde is het verschil tussen de productiewaarde en de verbruikswaarde.
+
+De verbruikswaarde is het totaal van alle grond- en hulpstoffen, halffabricaten, energiekosten en diensten die bij de productie zijn verwerkt. Ook kostprijsverhogende indirecte belastingen en prijsverlagende subsidies spelen een rol bij het bepalen van de toegevoegde waarde.",,,,,
+"Cbs.OData.Topic",21,14,20,"Topic","Productie_13","Productie","De volumeontwikkeling van de toegevoegde waarde tegen basisprijzen, niet gecorrigeerd voor werk- en feestdagen.",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",22,15,20,"Topic","GemiddeldeDagproductie_14","Gemiddelde dagproductie","De gemiddelde dagproductie wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de productie als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagproductie.",,"Float","%",1,"Missing"
+"Cbs.OData.TopicGroup",23,,19,"TopicGroup","","Omzet","De opbrengst uit verkoop van goederen en diensten aan derden, exclusief btw. De omzet is exclusief productgebonden belastingen (accijnzen en verbruiksbelastingen). De omzet omvat zowel de opbrengsten uit hoofdactiviteit als uit nevenactiviteiten. Uitzondering hierop zijn de bedrijfstakken in de industrie, hier omvat de omzet alleen de industriële omzet. Derden zijn consumenten en bedrijven buiten het (Nederlandse deel van het) eigen concernverband.",,,,,
+"Cbs.OData.Topic",24,16,23,"Topic","TotaleOmzet_15","Totale omzet","De totale omzet wordt gesplitst naar omzet binnenland en omzet buitenland.",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",25,17,23,"Topic","OmzetBinnenland_16","Omzet binnenland","In omzet binnenland is begrepen uitvoer via exporteurs of andere niet-industriële bedrijven.",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",26,18,23,"Topic","OmzetBuitenland_17","Omzet buitenland","Het betreft hier rechtstreekse uitvoer van industriële bedrijven. Uitvoer via exporteurs of andere niet-industriële bedrijven, treft men aan bij omzet binnenland.",,"Float","%",1,"Missing"
+"Cbs.OData.TopicGroup",27,,19,"TopicGroup","","Gemiddelde dagomzet","De gemiddelde dagomzet wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de omzet als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagomzet.",,,,,
+"Cbs.OData.Topic",28,19,27,"Topic","GemiddeldeDagomzetTotaal_18","Gemiddelde dagomzet, totaal","De totale omzet wordt gesplitst naar gemiddelde dagomzet binnenland en gemiddelde dagomzet buitenland.
+
+",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",29,20,27,"Topic","GemiddeldeDagomzetBinnenland_19","Gemiddelde dagomzet, binnenland","In omzet binnenland is begrepen uitvoer via exporteurs of andere niet-industriële bedrijven.",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",30,21,27,"Topic","GemiddeldeDagomzetBuitenland_20","Gemiddelde dagomzet, buitenland","Het betreft hier rechtstreekse uitvoer van industriële bedrijven. Uitvoer via exporteurs of andere niet-industriële bedrijven, treft men aan bij omzet binnenland.",,"Float","%",1,"Missing"
+"Cbs.OData.TopicGroup",31,,,"TopicGroup","","Ontwikkeling t.o.v. de vorige periode",,,,,,
+"Cbs.OData.Topic",32,22,31,"Topic","OntwikkelingSeizoengecorrDagproductie_21","Ontwikkeling seizoengecorr. dagproductie","De procentuele ontwikkeling van een bepaalde periode (maand, kwartaal, jaar) ten opzichte van de voorafgaande periode.
+
+De gemiddelde dagproductie wordt gecorrigeerd voor seizoensinvloeden. 
+Seizoencorrectie is het uit de cijfers verwijderen van jaarlijks terugkerende patronen die normaal zijn voor de tijd van het jaar.
+
+Het resultaat is de zogenaamde seizoengecorrigeerde productie.
+
+De gemiddelde dagproductie wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de productie als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagproductie.",,"Float","%",1,"Missing"
+"Cbs.OData.TopicGroup",33,,31,"TopicGroup","","Omzet","De opbrengst uit verkoop van goederen en diensten aan derden, exclusief btw. De omzet is exclusief productgebonden belastingen (accijnzen en verbruiksbelastingen). De omzet omvat zowel de opbrengsten uit hoofdactiviteit als uit nevenactiviteiten. Uitzondering hierop zijn de bedrijfstakken in de industrie, hier omvat de omzet alleen de industriële omzet. Derden zijn consumenten en bedrijven buiten het (Nederlandse deel van het) eigen concernverband.",,,,,
+"Cbs.OData.Topic",34,23,33,"Topic","SeizoengecorrigeerdeDagomzetTotaal_22","Seizoengecorrigeerde dagomzet, totaal","De totale omzet wordt gesplitst naar omzet binnenland en omzet buitenland.
+
+De gemiddelde dagomzet wordt gecorrigeerd voor seizoensinvloeden. 
+Seizoencorrectie is het uit de cijfers verwijderen van jaarlijks terugkerende patronen die normaal zijn voor de tijd van het jaar.
+Het resultaat is de zogenaamde seizoengecorrigeerde dagomzet.
+
+De gemiddelde dagomzet wordt berekend via een methode, waarbij wordt gecorrigeerd voor veranderingen in de productie als gevolg van:
+- feestdagen;
+- brugdagen;
+- werkdageffecten;
+- lengte van jaar (schrikkeljaar);
+- vakantiespreiding.
+
+Het resultaat is de zogenaamde gemiddelde dagomzet.",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",35,24,33,"Topic","SeizoengecorrigeerdeDagomzetBinnenland_23","Seizoengecorrigeerde dagomzet,binnenland","In omzet binnenland is begrepen uitvoer via exporteurs of andere niet-industriële bedrijven.",,"Float","%",1,"Missing"
+"Cbs.OData.Topic",36,25,33,"Topic","SeizoengecorrigeerdeDagomzetBuitenland_24","Seizoengecorrigeerde dagomzet,buitenland","Het betreft hier rechtstreekse uitvoer van industriële bedrijven. Uitvoer via exporteurs of andere niet-industriële bedrijven, treft men aan bij omzet binnenland.",,"Float","%",1,"Missing"

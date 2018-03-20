@@ -9,7 +9,7 @@ read_meta_data <- function(dir) {
   
   read_meta_csv <- function(name) {
     filename <- file.path(dir, paste0(name, ".csv"))
-    return(fread(filename, data.table = FALSE))
+    return(read.csv(filename, stringsAsFactors = FALSE))
   }
   
   tryCatch({
