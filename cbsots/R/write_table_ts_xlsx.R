@@ -27,7 +27,8 @@
 #' @param x the \code{table_ts} object returned by function \code{\link{get_ts}}
 #' @param file a filename
 #' @param rowwise a logical value: should the timeseries be written rowwise?
-#' @param ... other arguments passed to \code{\link[regts]{write_ts_xlsx}}
+#' @param ... other arguments passed to 
+#' \code{\link[regts:write_ts_xlsx-slash-write_ts_sheet]{write_ts_xlsx}}
 #' @importFrom xlsx createWorkbook
 #' @importFrom xlsx createSheet
 #' @importFrom xlsx addDataFrame
