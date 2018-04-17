@@ -42,7 +42,6 @@ open_table <- function(new_table_description, values, input, output, debug) {
   
   make_table <- function(name) {
     output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
-                                                dimension = name,
                                                 table_id = new_table_id))
     return()
   }
