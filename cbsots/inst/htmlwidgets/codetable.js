@@ -19,12 +19,14 @@ HTMLWidgets.widget({
                    "Key",
                    "Select",
                    "Code",
-                   "Title"],
+                   "Title",
+                   "table_id"],
             columns: [
                 {data: "Key", type: 'text', readOnly : true},
                 {data: "Select", type: 'checkbox'},
                 {data: "Code", type : 'text'},
-                {data: "Title", type : 'text', readOnly : true}
+                {data: "Title", type : 'text', readOnly : true},
+                {data: "table_id", type : 'text', readOnly : true}
             ],
             filters: true,
             dropdownMenu: true,
@@ -38,12 +40,16 @@ HTMLWidgets.widget({
             multiSelect: false,
             outsideClickDeselects : false,
             contextMenu: ['undo', 'redo'],
+            hiddenColumns: {
+                columns: ["table_id"],
+                indicators: true
+            },
             afterChange: function(changes, source) {
                 if (!changes) {
                     return;
                 }
                 Shiny.onInputChange(el.id, hot.getData());
-            }
+            },
          });
 
          // initialise data

@@ -50,9 +50,6 @@ get_table_id <- function(table_desc, table_ids) {
   return(table_id)
 }
 
-
-
-
 update_tables <- function(table_id, values, input, debug) {
   
   old <- values$tables[[table_id]]
@@ -137,10 +134,17 @@ create_table_choices <- function(names) {
 }
 
 convert_codetable <- function(table, colnames) {
-  data <- matrix(table, ncol = 4, byrow = TRUE)
+  
+  data <- matrix(table, ncol = 5, byrow = TRUE)
+  
+  # extract dimesion and table_id  and remove the corresponding columns
+  table_id <- data[1, 5]
+  data <- data[, 1:4]
+  
   colnames(data) <- colnames
   data <- as.data.table(data)
   data$Select <- as.logical(data$Select)
-  return(data)
+  
+  return(list(table_id = table_id, data = data))
 }
 

@@ -41,13 +41,14 @@ open_table <- function(new_table_description, values, input, output, debug) {
   #
   
   make_table <- function(name) {
-    output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
+    output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
+                                                dimension = name,
+                                                table_id = new_table_id))
     return()
   }
   
   lapply(values$names, FUN = make_table)
   
-
 
   # 
   # observers for the tables
@@ -58,8 +59,10 @@ open_table <- function(new_table_description, values, input, output, debug) {
       if (debug) cat(paste("table", name , "changed\n"))
       if (!is.null(input[[name]])) {
         df_values <- values[[name]]
-        df_input <- convert_codetable(input[[name]], colnames(df_values))
+        info  <- convert_codetable(input[[name]], colnames(df_values))
+        df_input <- info$data
         if (!is.null(df_values) && !is.null(df_input) &&
+            info$table_id == values$table_id &&
             # only respond to changes in Select or Code
             identical(df_input$Key, df_values$Key) &&
             identical(df_input$Title, df_values$Title)) {

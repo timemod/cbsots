@@ -304,7 +304,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
                                         type = type)
-        output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
+        output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
+                                                    table_id = values$table_id))
       }
     })
     
@@ -328,7 +329,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
         values[[name]] <- order_code_rows(values[[name]], orig_key_order,
                                           type = type)
-        output[[name]] <- renderCodetable(codetable(isolate(values[[name]])))
+        output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
+                                                    table_id = values$table_id))
       }
       
     })
