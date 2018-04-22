@@ -50,7 +50,7 @@ download_table <- function(id, raw_cbs_dir, code, min_year, na_strings,
   arguments <- c(list(id = id, recode = FALSE,  
                       dir = file.path(raw_cbs_dir, id)), filters)
   if (!is.null(base_url)) {
-    arguments <- c(arguments, list(base_url = base_url)
+    arguments <- c(arguments, list(base_url = base_url))
   }
   
   data <- do.call(get_data, arguments)
