@@ -1,8 +1,12 @@
 #' @importFrom cbsodataR get_meta
 #' @import data.table 
-create_new_table <- function(id){
+create_new_table <- function(id, base_url = NULL){
   
-  info <- get_meta(id = id, cache = TRUE)
+  if (is.null(base_url)) {
+    info <- get_meta(id = id, cache = TRUE)
+  } else {
+    info <- get_meta(id = id, cache = TRUE, base_url = base_url)
+  }
   
   data_properties <- as.data.table(info$DataProperties)
   dimensies_en_topics <- get_dimensies_en_topics(data_properties)

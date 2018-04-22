@@ -7,6 +7,8 @@
 #'  in the browser. Otherwise the RStudio viewer is used.
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
 #'  (only for developpers)
+#' @param base_url optionally specify a different server. Useful for third party
+#' data services implementing the same protocol.
 #' @import shiny
 #' @import shinyjqui
 #' @importFrom utils packageVersion
@@ -15,7 +17,7 @@
 #' @importFrom shinyalert useShinyalert
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, 
-                         debug = FALSE) {
+                         debug = FALSE, base_url = NULL) {
   
   if (file.exists(ts_code_file)) {
     
@@ -152,7 +154,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     observeEvent(input$new_table, {
       
-      values$new_table_ids <- get_new_table_ids(values$table_ids)
+      values$new_table_ids <- get_new_table_ids(values$table_ids, base_url)
       
       if (is.null(values$new_table_ids)) {
         shinyalert("Error", "Error downloading list of tables" , type = "error")
@@ -190,7 +192,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # add new table
       tryCatch({
         
-        values$tables[[new_table_id]] <- create_new_table(new_table_id)
+        values$tables[[new_table_id]] <- create_new_table(new_table_id, 
+                                                          base_url)
         values$table_ids[new_table_desc] <- new_table_id
       
         # reorder the tables alphabetically

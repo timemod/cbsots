@@ -1,6 +1,7 @@
 # read meta data from downloaded csv files in directory dir
 #' @importFrom data.table fread
 #' @importFrom data.table as.data.table
+#' @importFrom utils read.csv
 read_meta_data <- function(dir) {
   
   if (!dir.exists(dir)) {

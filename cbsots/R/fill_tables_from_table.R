@@ -6,8 +6,10 @@
 #' @param ids ids of tables to be filled from the second tabel
 #' @param basis_id id of the table whose values will be used to fill
 #' the first tables.
+#' @param base_url optionally specify a different server. Useful for third party
+#' data services implementing the same protocol.
 #' @export
-fill_tables_from_table <- function(tscodes, ids,  basis_id) {
+fill_tables_from_table <- function(tscodes, ids,  basis_id, base_url = NULL) {
   
   basis_table <- tscodes$table_code[[basis_id]]$codes
   
@@ -18,7 +20,7 @@ fill_tables_from_table <- function(tscodes, ids,  basis_id) {
     if (id %in% names(tscodes$table_code)) {
       table <- tscodes$table_code[[id]]$codes
     } else {
-      table <- create_new_table(id)
+      table <- create_new_table(id, base_url)
       new_table_created <- TRUE
     }
     

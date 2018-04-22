@@ -16,7 +16,11 @@
 #' @param min_year  the minimum year of the returned timeseries. Data 
 #' for years before \code{min_year} are disregarded. Specify \code{NULL}
 #' or \code{NA} to not impose a minimum year.
+#' @param base_url optionally specify a different server. Useful for third party
+#' data services implementing the same protocol.
 #' @return a list with class \code{table_ts}, with the following components
+#' #' @param base_url optionally specify a different server. Useful for third party
+#' data services implementing the same protocol.
 #'  \item{Y}{Yearly timeseries (if present)}
 #'  \item{Q}{Quarterly timeseries (if present)}
 #'  \item{M}{Monthly timeseries (if present)}
@@ -26,12 +30,11 @@
 #' @importFrom regts as.regts
 #' @importFrom regts update_ts_labels
 #' @importFrom stats as.formula
-#' @importFrom cbsodataR get_data
-#' @importFrom cbsodataR get_meta
 #' @importFrom utils modifyList
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE, min_year = NULL, download) {
+                   include_meta = FALSE, min_year = NULL, download,
+                   base_url = NULL) {
 
   if (!is.null(min_year) && is.na(min_year)) {
     min_year <- NULL
@@ -113,7 +116,8 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   
   if (refresh || !read_ok) {
     ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
-                          min_year = min_year, na_strings = na_strings)
+                          min_year = min_year, na_strings = na_strings,
+                          base_url = base_url)
     meta <- ret$meta
     data <- ret$data
     cbs_code <- ret$cbs_code

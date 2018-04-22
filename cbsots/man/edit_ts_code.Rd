@@ -4,7 +4,8 @@
 \alias{edit_ts_code}
 \title{Edit timeseries codes}
 \usage{
-edit_ts_code(ts_code_file, use_browser = TRUE, debug = FALSE)
+edit_ts_code(ts_code_file, use_browser = TRUE, debug = FALSE,
+  base_url = NULL)
 }
 \arguments{
 \item{ts_code_file}{the name of a file where the timeseries coding is
@@ -16,6 +17,9 @@ in the browser. Otherwise the RStudio viewer is used.}
 
 \item{debug}{a logical. If \code{TRUE}, then use the debugging mode
 (only for developpers)}
+
+\item{base_url}{optionally specify a different server. Useful for third party
+data services implementing the same protocol.}
 }
 \description{
 Edit timeseries codes

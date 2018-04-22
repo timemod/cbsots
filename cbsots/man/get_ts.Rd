@@ -5,7 +5,7 @@
 \title{Return CBS timeseries}
 \usage{
 get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE, min_year = NULL, download)
+  include_meta = FALSE, min_year = NULL, download, base_url = NULL)
 }
 \arguments{
 \item{id}{table id}
@@ -30,9 +30,14 @@ or \code{NA} to not impose a minimum year.}
 
 \item{download}{This argument is deprecated and has been replaced by argument
 \code{refresh}.}
+
+\item{base_url}{optionally specify a different server. Useful for third party
+data services implementing the same protocol.}
 }
 \value{
 a list with class \code{table_ts}, with the following components
+#' @param base_url optionally specify a different server. Useful for third party
+data services implementing the same protocol.
  \item{Y}{Yearly timeseries (if present)}
  \item{Q}{Quarterly timeseries (if present)}
  \item{M}{Monthly timeseries (if present)}

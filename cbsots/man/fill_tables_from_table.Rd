@@ -4,7 +4,7 @@
 \alias{fill_tables_from_table}
 \title{Fill tables with values from another table.}
 \usage{
-fill_tables_from_table(tscodes, ids, basis_id)
+fill_tables_from_table(tscodes, ids, basis_id, base_url = NULL)
 }
 \arguments{
 \item{tscodes}{a \code{ts_code} object. This object can be created
@@ -15,6 +15,9 @@ app}
 
 \item{basis_id}{id of the table whose values will be used to fill
 the first tables.}
+
+\item{base_url}{optionally specify a different server. Useful for third party
+data services implementing the same protocol.}
 }
 \description{
 Fill tables with values from another table.

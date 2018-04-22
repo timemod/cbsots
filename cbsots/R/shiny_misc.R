@@ -104,27 +104,34 @@ check_duplicates <- function(session, values) {
 #  Function get_new_table_ids returns a character vector the ids of tables
 #  that are not yet present.
 #' @importFrom cbsodataR get_table_list
-get_new_table_ids <- function(old_table_ids) {
-
+get_new_table_ids <- function(old_table_ids, base_url) {
+  
   tryCatch({
     
+    if (is.null(base_url)) {
       table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
                                    Language = "nl")
-      new_tables <- setdiff(table_info$Identifier, old_table_ids)
-      table_info <- table_info[table_info$Identifier %in% new_tables, ]
-      table_info <- table_info[order(table_info$Identifier), ]
-      new_table_descriptions <- get_table_description(table_info$Identifier, 
+    } else {
+      table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
+                                   Language = "nl", 
+                                   base_url = base_url)
+    }
+    
+    new_tables <- setdiff(table_info$Identifier, old_table_ids)
+    table_info <- table_info[table_info$Identifier %in% new_tables, ]
+    table_info <- table_info[order(table_info$Identifier), ]
+    new_table_descriptions <- get_table_description(table_info$Identifier, 
                                                     table_info$ShortTitle)
     
-      new_table_ids <- table_info$Identifier
-      names(new_table_ids) <- new_table_descriptions
-      return(new_table_ids)
-    },
-    error = function(e) {
-      warning("Error when downloading table list")
-    }
+    new_table_ids <- table_info$Identifier
+    names(new_table_ids) <- new_table_descriptions
+    return(new_table_ids)
+  },
+  error = function(e) {
+    warning("Error when downloading table list")
+  }
   )
-
+  
   # error
   return(NULL)
 }
@@ -136,10 +143,10 @@ create_table_choices <- function(names) {
 convert_codetable <- function(table, colnames) {
   
   data <- matrix(table, ncol = 5, byrow = TRUE)
-  
+
   # extract dimesion and table_id  and remove the corresponding columns
   table_id <- data[1, 5]
-  data <- data[, 1:4]
+  data <- data[, 1:4, drop = FALSE]
   
   colnames(data) <- colnames
   data <- as.data.table(data)

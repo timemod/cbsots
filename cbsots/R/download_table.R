@@ -1,11 +1,17 @@
-download_table <- function(id, raw_cbs_dir, code, min_year, na_strings) {
+#' @importFrom cbsodataR get_data
+#' @importFrom cbsodataR get_meta
+download_table <- function(id, raw_cbs_dir, code, min_year, na_strings,
+                           base_url) {
   
   cat(paste("Downloading table", id, "...\n"))
   
   # first download the meta data, which is needed to create the filters
   # for downloading the table data
-  meta <- get_meta(id, cache = TRUE)
-  
+  if (is.null(base_url)) {
+    meta <- get_meta(id, cache = TRUE)
+  } else {
+    meta <- get_meta(id, cache = TRUE, base_url = base_url)
+  }
   check_language(meta)
   cbs_code <- get_cbs_code(meta)
   code <- check_code(code, cbs_code)
@@ -41,10 +47,13 @@ download_table <- function(id, raw_cbs_dir, code, min_year, na_strings) {
     print(filters)
   }
   
-  argumenten <- c(list(id = id, recode = FALSE, 
-                       dir = file.path(raw_cbs_dir, id)), filters)
-
-  data <- do.call(get_data, argumenten)
+  arguments <- c(list(id = id, recode = FALSE,  
+                      dir = file.path(raw_cbs_dir, id)), filters)
+  if (!is.null(base_url)) {
+    arguments <- c(arguments, list(base_url = base_url)
+  }
+  
+  data <- do.call(get_data, arguments)
   
   # replace na_strings with an empty string, and convert to data.table
   data <- as.data.table(lapply(data, 
