@@ -6,10 +6,9 @@ check_language <- function(meta) {
   return()
 }
 
-# This function checks if the code contains duplicate codes
-# and compares it with the cbs code. It checks for
-# unknown Keys (Keys that are not present in the meta data).
-# It also updates the Titles with the CBS titles, because
+# This function checks if the code contains duplicate codes and compares it with
+# the cbs code. It checks for unknown Keys (Keys that are not present in the 
+# meta data). It also updates the Titles with the CBS titles, because
 # the titles may be out of date.
 check_code <- function(code, cbs_code) {
 
@@ -22,8 +21,11 @@ check_code <- function(code, cbs_code) {
     tscode <- code[[name]]
     cbs <- cbs_code[[name]]
     
-    if (anyDuplicated(tscode$Code)) {
-      duplicates <- unique(tscode$Code[duplicated(tscode$Code)])
+    # check all non-empty codes
+    codes <- tscode$Code
+    codes <- codes[nchar(codes) > 0]
+    if (anyDuplicated(codes)) {
+      duplicates <- unique(codes[duplicated(codes)])
       stop(paste0("Duplicate codes found for ",  name, ":\n", 
                   paste(duplicates, collapse = "\n")), "\n.")
     }

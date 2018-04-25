@@ -85,6 +85,7 @@ update_tables <- function(table_id, values, input, debug) {
 check_duplicates <- function(session, values) {
   for (name in values$names) {
     codes <- values[[name]]$Code[values[[name]]$Select]
+    codes <- codes[nchar(codes) > 0]
     if (anyDuplicated(codes)) {
       dupl <- codes[duplicated(codes)]
       showModal(modalDialog(

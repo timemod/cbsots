@@ -1,6 +1,8 @@
 library(cbsots)
 
-ts_code_file <- "tscode/tscode_testje.rds"
+ts_code_file <- "tscode/tscode_testje2.rds"
 
+ts_code <- readRDS(ts_code_file)
 
-edit_ts_code(ts_code_file = ts_code_file, debug = FALSE)
+id <- "82595NED"
+x <- get_ts(id, ts_code = ts_code, refresh = FALSE, include_meta = TRUE)

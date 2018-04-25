@@ -123,6 +123,22 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     cbs_code <- ret$cbs_code
   }
   
+
+  check_code_column <- function(name) {
+    # remove all rows with an empty Code, except if the code_table has 1 row
+    table <- code[[name]]
+    if (nrow(table) > 1) {
+      table <- table[nchar(Code) > 0, ]
+      if (nrow(table) == 0) {
+        stop(paste("No single Code specified for", name))
+      }
+    }
+    return(table)
+  }
+  
+  # Convert the code tables based on the code column
+  code <- sapply(table_code$order, FUN = check_code_column, simplify = FALSE)
+  
   # remove  topics that are not present in code
   unused_topics <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
   if (length(unused_topics) > 0) {
