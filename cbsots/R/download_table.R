@@ -1,7 +1,7 @@
 #' @importFrom cbsodataR get_data
 #' @importFrom cbsodataR get_meta
 download_table <- function(id, raw_cbs_dir, code, min_year, na_strings,
-                           base_url) {
+                           base_url, download_all_keys) {
   
   cat(paste("Downloading table", id, "...\n"))
   
@@ -31,8 +31,12 @@ download_table <- function(id, raw_cbs_dir, code, min_year, na_strings,
     return(filter)
   }
 
-  dimensions <- setdiff(names(code), "Topic")
-  filters <- sapply(names(code), FUN = get_dimension_filter, simplify = FALSE)
+  if (!download_all_keys) {
+    dimensions <- setdiff(names(code), "Topic")
+    filters <- sapply(dimensions, FUN = get_dimension_filter, simplify = FALSE)
+  } else {
+    filters <- list()
+  }
   
   if (!is.null(min_year)) {
     period_keys <- get_period_keys(meta, min_year)

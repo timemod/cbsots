@@ -18,6 +18,13 @@
 #' or \code{NA} to not impose a minimum year.
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
+#' @param download_all_keys This option specifies how to download data. By default,
+#' for each table dimension (excluding the topic) only the selected keys in the 
+#' timeseries coding are downloaded.  Although this can significantly reduce 
+#' downloading  time, this approach has the disadvantage that it is necessary to 
+#' download the data again when a new dimension key is selected in the 
+#' timeseries coding. To prevent that, use argument \code{download_all_keys = TRUE},
+#' then all keys are downloaded for each dimension. 
 #' @return a list with class \code{table_ts}, with the following components
 #' #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
@@ -34,7 +41,7 @@
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
                    include_meta = FALSE, min_year = NULL, download,
-                   base_url = NULL) {
+                   base_url = NULL, download_all_keys = FALSE) {
 
   if (!is.null(min_year) && is.na(min_year)) {
     min_year <- NULL
@@ -117,7 +124,8 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   if (refresh || !read_ok) {
     ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
                           min_year = min_year, na_strings = na_strings,
-                          base_url = base_url)
+                          base_url = base_url, 
+                          download_all_keys = download_all_keys)
     meta <- ret$meta
     data <- ret$data
     cbs_code <- ret$cbs_code

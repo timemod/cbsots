@@ -5,7 +5,8 @@
 \title{Return CBS timeseries}
 \usage{
 get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE, min_year = NULL, download, base_url = NULL)
+  include_meta = FALSE, min_year = NULL, download, base_url = NULL,
+  download_all_keys = FALSE)
 }
 \arguments{
 \item{id}{table id}
@@ -33,6 +34,14 @@ or \code{NA} to not impose a minimum year.}
 
 \item{base_url}{optionally specify a different server. Useful for third party
 data services implementing the same protocol.}
+
+\item{download_all_keys}{This option specifies how to download data. By default,
+for each table dimension (excluding the topic) only the selected keys in the 
+timeseries coding are downloaded.  Although this can significantly reduce 
+downloading  time, this approach has the disadvantage that it is necessary to 
+download the data again when a new dimension key is selected in the 
+timeseries coding. To prevent that, use argument \code{download_all_keys = TRUE},
+then all keys are downloaded for each dimension.}
 }
 \value{
 a list with class \code{table_ts}, with the following components
