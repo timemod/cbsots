@@ -130,7 +130,6 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       data <- read_data(data_dir, na_strings = na_strings)
       if (!is.null(data)) {
         period_keys <- get_period_keys(meta, min_year, frequencies)
-        print(period_keys)
         read_ok <- check_read_data(data, code, period_keys = period_keys)
         if (read_ok && (!is.null(min_year) || !is.null(frequencies))) {
           data <- data[Perioden %in% period_keys]
