@@ -10,7 +10,8 @@ id <- "82522NED"
 ts_code_file <- "tscode/tscode_testje.rds"
 ts_code <- readRDS(ts_code_file)
 
-x <- get_ts(id, ts_code = ts_code, refresh = FALSE, include_meta = TRUE,
+x <- get_ts(id, ts_code = ts_code, refresh = TRUE, download = FALSE, 
+            include_meta = TRUE,
             frequencies = "q")
 
 

@@ -18,8 +18,10 @@ app.}
 \item{refresh}{should the data in directory \code{raw_cbs_dir} be refreshed?
 If \code{TRUE}, the data are always downloaded from the 
 CBS website. Otherwise  the data will only be downloaded if the 
-correspondings files in directory \code{raw_cbs_dir} are missing.
-The default is \code{FALSE}}
+correspondings files in directory \code{raw_cbs_dir} are missing or not 
+complete (missing dimension keys). The default is \code{FALSE}.
+Note that data may also be downloaded when new keys are selected 
+in the timeseries coding.}
 
 \item{raw_cbs_dir}{directory where the raw downloaded data are stored.}
 
@@ -34,8 +36,11 @@ required timeseries. For example, specify \code{"Q"} for quarterly series only,
 \code{"YQ"} for both yearly and quarterly series, and \code{"M"} for 
 monthly series only.}
 
-\item{download}{This argument is deprecated and has been replaced by argument
-\code{refresh}.}
+\item{download}{This argument overrules argument \code{refresh}. If \code{FALSE},
+then data all never downloaded again. You will get an error if the files in
+directory \code{raw_cbs_dir} are missing or not 
+complete (missing dimension keys). If \code{TRUE} then data are always 
+downloaded.}
 
 \item{base_url}{optionally specify a different server. Useful for third party
 data services implementing the same protocol.}

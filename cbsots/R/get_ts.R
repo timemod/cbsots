@@ -8,10 +8,15 @@
 #' @param refresh should the data in directory \code{raw_cbs_dir} be refreshed?
 #' If \code{TRUE}, the data are always downloaded from the 
 #' CBS website. Otherwise  the data will only be downloaded if the 
-#' correspondings files in directory \code{raw_cbs_dir} are missing.
-#' The default is \code{FALSE}
-#' @param download This argument is deprecated and has been replaced by argument
-#' \code{refresh}.
+#' correspondings files in directory \code{raw_cbs_dir} are missing or not 
+#' complete (missing dimension keys). The default is \code{FALSE}.
+#' Note that data may also be downloaded when new keys are selected 
+#' in the timeseries coding.
+#' @param download This argument overrules argument \code{refresh}. If \code{FALSE},
+#' then data all never downloaded again. You will get an error if the files in
+#' directory \code{raw_cbs_dir} are missing or not 
+#' complete (missing dimension keys). If \code{TRUE} then data are always 
+#' downloaded.
 #' @param include_meta include meta data
 #' @param min_year  the minimum year of the returned timeseries. Data 
 #' for years before \code{min_year} are disregarded. Specify \code{NULL}
@@ -65,13 +70,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   }
   
   if (!missing(download)) {
-    warning(paste("Argument download is deprecated and has been replaced by",
-                  "argument refresh"))
-    if (missing(refresh)) {
-      refresh <- download
-    } else {
-      warning("Deprecated argument download is overruled by argument refresh")
-    }
+    refresh <- download
   }
   
   ts_code <- convert_ts_code(ts_code)
@@ -136,8 +135,13 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
         }
       }
     }
+    if (!read_ok && !missing(download) && !download) {
+      stop(paste("The files in directory", file.path(raw_cbs_dir, id), 
+                 " are not complete. Please download the data again\n"))
+    }
   }
   
+
   if (refresh || !read_ok) {
     ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
                           min_year = min_year, frequencies = frequencies,
