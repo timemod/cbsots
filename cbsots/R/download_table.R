@@ -1,7 +1,7 @@
 #' @importFrom cbsodataR get_data
 #' @importFrom cbsodataR get_meta
-download_table <- function(id, raw_cbs_dir, code, min_year, na_strings,
-                           base_url, download_all_keys) {
+download_table <- function(id, raw_cbs_dir, code, min_year, frequencies, 
+                           na_strings, base_url, download_all_keys) {
   
   cat(paste("Downloading table", id, "...\n"))
   
@@ -38,8 +38,8 @@ download_table <- function(id, raw_cbs_dir, code, min_year, na_strings,
     filters <- list()
   }
   
-  if (!is.null(min_year)) {
-    period_keys <- get_period_keys(meta, min_year)
+  if (!is.null(min_year) || !is.null(frequencies)) {
+    period_keys <- get_period_keys(meta, min_year, frequencies)
     if (length(period_keys) < nrow(meta$Perioden)) {
       filters <- c(list(Perioden = period_keys), filters)
     }

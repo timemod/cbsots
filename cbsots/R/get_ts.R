@@ -15,7 +15,11 @@
 #' @param include_meta include meta data
 #' @param min_year  the minimum year of the returned timeseries. Data 
 #' for years before \code{min_year} are disregarded. Specify \code{NULL}
-#' or \code{NA} to not impose a minimum year.
+#' or \code{NA} to not impose a minimum year
+#' @param frequencies a character specifying the frequencies of the 
+#' required timeseries. For example, specify \code{"Q"} for quarterly series only,
+#' \code{"YQ"} for both yearly and quarterly series, and \code{"M"} for 
+#' monthly series only. 
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
 #' @param download_all_keys This option specifies how to download data. By default,
@@ -40,11 +44,24 @@
 #' @importFrom utils modifyList
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE, min_year = NULL, download,
-                   base_url = NULL, download_all_keys = FALSE) {
+                   include_meta = FALSE, min_year = NULL, frequencies = NULL,
+                   download, base_url = NULL, download_all_keys = FALSE) {
 
   if (!is.null(min_year) && is.na(min_year)) {
     min_year <- NULL
+  }
+  
+  if (!is.null(frequencies)) {
+    if (!is.character(frequencies) || length(frequencies) > 1) {
+      stop("Argument frequencies should be a character of length 1 (e.g. \"yq\")")
+    }
+    frequencies <- toupper(unique(unlist(strsplit(frequencies, ""))))
+    freqs_error <- ! frequencies %in% c("Y", "Q", "M")
+    if (any(freqs_error)) {
+      stop(paste("Unknown frequencies", 
+                 paste(frequencies[freqs_error], collapse = " "),
+                "specified"))
+    }
   }
   
   if (!missing(download)) {
@@ -112,9 +129,10 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       code <- check_code(code, cbs_code)
       data <- read_data(data_dir, na_strings = na_strings)
       if (!is.null(data)) {
-        period_keys <- get_period_keys(meta, min_year)
+        period_keys <- get_period_keys(meta, min_year, frequencies)
+        print(period_keys)
         read_ok <- check_read_data(data, code, period_keys = period_keys)
-        if (read_ok && !is.null(min_year)) {
+        if (read_ok && (!is.null(min_year) || !is.null(frequencies))) {
           data <- data[Perioden %in% period_keys]
         }
       }
@@ -123,8 +141,8 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   
   if (refresh || !read_ok) {
     ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
-                          min_year = min_year, na_strings = na_strings,
-                          base_url = base_url, 
+                          min_year = min_year, frequencies = frequencies,
+                          na_strings = na_strings, base_url = base_url, 
                           download_all_keys = download_all_keys)
     meta <- ret$meta
     data <- ret$data

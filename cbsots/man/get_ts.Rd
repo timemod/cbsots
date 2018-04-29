@@ -5,8 +5,8 @@
 \title{Return CBS timeseries}
 \usage{
 get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE, min_year = NULL, download, base_url = NULL,
-  download_all_keys = FALSE)
+  include_meta = FALSE, min_year = NULL, frequencies = NULL, download,
+  base_url = NULL, download_all_keys = FALSE)
 }
 \arguments{
 \item{id}{table id}
@@ -27,7 +27,12 @@ The default is \code{FALSE}}
 
 \item{min_year}{the minimum year of the returned timeseries. Data 
 for years before \code{min_year} are disregarded. Specify \code{NULL}
-or \code{NA} to not impose a minimum year.}
+or \code{NA} to not impose a minimum year}
+
+\item{frequencies}{a character specifying the frequencies of the 
+required timeseries. For example, specify \code{"Q"} for quarterly series only,
+\code{"YQ"} for both yearly and quarterly series, and \code{"M"} for 
+monthly series only.}
 
 \item{download}{This argument is deprecated and has been replaced by argument
 \code{refresh}.}
