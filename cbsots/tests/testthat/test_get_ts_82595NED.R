@@ -9,6 +9,7 @@ ts_code_file_1 <- "tscode/tscode_82595NED_1.rds"
 ts_code_file_2 <- "tscode/tscode_82595NED_2.rds"
 ts_code_file_3 <- "tscode/tscode_82595NED_3.rds"
 
+#  edit_ts_code(ts_code_file_3)
 
 ts_code_1 <- readRDS(ts_code_file_1)
 ts_code_2 <- readRDS(ts_code_file_2)

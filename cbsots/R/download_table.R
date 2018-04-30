@@ -18,12 +18,7 @@ download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,
  
   # create a filter for each dimension if necessary
   get_dimension_filter <-function(dimension) {
-    nkey <- nrow(code[[dimension]])
-    # Temporary solution: do not use filter if there are more than 20 keys if 
-    # min_year has been specified. If there are more than 20 keys, than 
-    # sometimes downloading data fails.
-    if ((is.null(min_year) || nkey <= 20) && 
-        nrow(cbs_code[[dimension]]) > nrow(code[[dimension]])) {
+     if (nrow(cbs_code[[dimension]]) > nrow(code[[dimension]])) {
       filter <- code[[dimension]]$Key
     } else {
       filter <- NULL
