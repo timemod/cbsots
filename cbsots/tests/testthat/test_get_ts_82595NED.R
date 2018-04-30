@@ -41,6 +41,7 @@ test_that(paste(id, "download_all_keys"), {
   
   result1 <- expect_message(expect_output(get_ts(id, ts_code_1, refresh = TRUE, 
                                                  min_year = 2017, 
+                                                 frequencies = "Y",
                                                  raw_cbs_dir = raw_cbs_dir,
                                                  download_all_keys = TRUE)))
   
@@ -49,7 +50,8 @@ test_that(paste(id, "download_all_keys"), {
   expect_equal(ncol(result1$Y), 2)
   
   result2 <- expect_silent(get_ts(id, ts_code_3, refresh = FALSE, 
-                                  min_year = 2017, raw_cbs_dir = raw_cbs_dir))
+                                  min_year = 2017, frequencies = "Y", 
+                                  raw_cbs_dir = raw_cbs_dir))
   check <- check_ts_table(result2, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check$equal)
   expect_equal(ncol(result2$Y), 6)
