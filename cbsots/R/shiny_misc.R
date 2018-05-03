@@ -109,21 +109,21 @@ create_table_choices <- function(names) {
   return(c("Select a table ..." = "", names))
 }
 
-convert_codetable <- function(table, colnames) {
-  
-  data <- matrix(table, ncol = 5, byrow = TRUE)
-
-  # extract dimesion and table_id  and remove the corresponding columns
-  table_id <- data[1, 5]
-  data <- data[, 1:4, drop = FALSE]
-  
-  colnames(data) <- colnames
-  data <- as.data.table(data)
-  data$Select <- as.logical(data$Select)
-  
-  return(list(table_id = table_id, data = data))
+convert_codetable <- function(table) {
+  if (length(table) %% 4 != 0) {
+    warning("Internal error: length hot data not divisible by 4")
+    return(NULL)
+  } else if (length(table) == 0) {
+    warning("Internal error: length hot data is 0")
+    return(NULL)
+  } else {
+    data <- matrix(table, ncol = 4, byrow = TRUE)
+    colnames(data) <- c("Key", "Select", "Code", "Title")
+    data <- as.data.table(data)
+    data$Select <- as.logical(data$Select)
+    return(data)
+  }
 }
-
 
 get_hot_id <- function(table_id, name) {
   return(paste(table_id, name, sep = "_"))

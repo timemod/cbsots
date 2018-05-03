@@ -1,5 +1,5 @@
 #' @import htmlwidgets
-codetable <- function(data, table_id, width = NULL, height = NULL) {
+codetable <- function(data, width = NULL, height = NULL) {
 
   if (is.null(data))  {
     data <- as.data.frame("Internal error: no data available")
@@ -8,10 +8,10 @@ codetable <- function(data, table_id, width = NULL, height = NULL) {
     # column. It is not clear what caused that problem, but is may result
     # is serious problems
     data$Code[is.na(data$Code)] <- ""
-    
-    # add an extra columns with the table_id, this is used for additional 
-    # checking
-    data$table_id <- table_id
+  
+    if (any(is.na(data))) {
+      stop("Internal error in codetable... data contains NA values")
+    }
   }
   
   x <- list(

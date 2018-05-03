@@ -308,8 +308,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           if (debug) { 
             cat(sprintf("Reordering table %s\n", hot_id))
           }
-          output[[hot_id]] <- renderCodetable(codetable(isolate(tab),
-                                                  table_id = values$table_id))
+          output[[hot_id]] <- renderCodetable(codetable(isolate(tab)))
         }
       })
       

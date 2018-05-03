@@ -19,14 +19,12 @@ HTMLWidgets.widget({
                    "Key",
                    "Select",
                    "Code",
-                   "Title",
-                   "table_id"],
+                   "Title"],
             columns: [
                 {data: "Key", type: 'text', readOnly : true},
                 {data: "Select", type: 'checkbox'},
                 {data: "Code", type : 'text'},
-                {data: "Title", type : 'text', readOnly : true},
-                {data: "table_id", type : 'text', readOnly : true}
+                {data: "Title", type : 'text', readOnly : true}
             ],
             filters: true,
             dropdownMenu: true,

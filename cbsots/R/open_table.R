@@ -34,7 +34,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
     tab <- isolate(values$tables[[new_table_id]]$codes[[name]])
     tab <- tab[ , 1:4] 
     hot_id <- get_hot_id(new_table_id, name)
-    output[[hot_id]] <- renderCodetable(codetable(tab, table_id = new_table_id))
+    output[[hot_id]] <- renderCodetable(codetable(tab))
     return()
   }
   
@@ -49,29 +49,19 @@ open_table <- function(new_table_description, values, input, output, debug) {
     observeEvent(input[[hot_id]], {
       if (debug) cat(paste("Table", hot_id , "has changed\n"))
       if (!is.null(input[[hot_id]])) {
-        df_values <- values$tables[[new_table_id]]$codes[[name]]
-        info  <- convert_codetable(input[[hot_id]], colnames(df_values)[1:4])
-        df_input <- info$data
-        if (!is.null(df_values) && !is.null(df_input) && 
-            info$table_id == values$table_id) {
+        df_input <- convert_codetable(input[[hot_id]])
           if (debug) {
+        if (!is.null(df_input)) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
           values$tables[[values$table_id]]$codes[[name]][, 1:4] <- df_input
         } else if (debug) {
-          if (info$table_id != values$table_id) {
-            cat("Panic: the shiny app got confused about the id")
-          }
-          if (is.null(df_values)) {
-            cat("Panic: df_values in NULL")
-          }
-          if (is.null(df_values)) {
-            cat("Panic: df_values in NULL")
-          }
+          cat(paste0("Something is wrong with input$", hot_id, ", 
+                     check warnings\n"))
         }
       } else if (debug) {
-        cat(paste0("input$", hot_id, " is NULL...\n"))
+        cat(paste0("input$", hot_id, " is NULL ...\n"))
       }
     })
   }

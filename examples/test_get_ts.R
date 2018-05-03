@@ -15,8 +15,8 @@ x <- get_ts(id, ts_code = ts_code, refresh = TRUE, download = FALSE,
             frequencies = "q")
 
 
-# write_table_ts_xlsx(x, file.path("output", paste0("ts_", id, ".xlsx")), 
-#                     rowwise = TRUE)
+write_table_ts_xlsx(x, file.path("output", paste0("ts_", id, ".xlsx")), 
+                     rowwise = TRUE)
 
 ret <- check_ts_table(x, id)
 print(ret$equal)
