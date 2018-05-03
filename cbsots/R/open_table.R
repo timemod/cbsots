@@ -47,23 +47,31 @@ open_table <- function(new_table_description, values, input, output, debug) {
   make_observer <- function(name) {
     hot_id <- get_hot_id(new_table_id, name)
     observeEvent(input[[hot_id]], {
-      if (debug) cat(paste("table", hot_id , "has changed\n"))
+      if (debug) cat(paste("Table", hot_id , "has changed\n"))
       if (!is.null(input[[hot_id]])) {
         df_values <- values$tables[[new_table_id]]$codes[[name]]
         info  <- convert_codetable(input[[hot_id]], colnames(df_values)[1:4])
         df_input <- info$data
-        if (!is.null(df_values) && !is.null(df_input) &&
-            info$table_id == values$table_id &&
-            # only respond to changes in Select or Code
-            identical(df_input$Key, df_values$Key) &&
-            identical(df_input$Title, df_values$Title)) {
-          
+        if (!is.null(df_values) && !is.null(df_input) && 
+            info$table_id == values$table_id) {
           if (debug) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
           values$tables[[values$table_id]]$codes[[name]][, 1:4] <- df_input
+        } else if (debug) {
+          if (info$table_id != values$table_id) {
+            cat("Panic: the shiny app got confused about the id")
+          }
+          if (is.null(df_values)) {
+            cat("Panic: df_values in NULL")
+          }
+          if (is.null(df_values)) {
+            cat("Panic: df_values in NULL")
+          }
         }
+      } else if (debug) {
+        cat(paste0("input$", hot_id, " is NULL...\n"))
       }
     })
   }

@@ -67,7 +67,7 @@ read_ts_table_xlsx <- function(table_id, xlsx_file) {
     
     code <- code[, c("Key", "Select", "Code", "Title", "OrigKeyOrder")]
   
-    code[, 1:4] <- order_code_rows(code, type = "cbs")
+    code[, 1:4] <- order_code_rows(code, cbs_order = TRUE)
     
     return(code)
   }

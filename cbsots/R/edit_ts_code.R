@@ -293,27 +293,21 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       isolate({
         
-        if (debug) { 
-          cat("in reorder_table\n")
-        }
         name <- input$selected_tab
         if (is.null(name)) {
           # this happens when the app starts
           return()
         }
         
-        if (input$order_table == CBS_ORDER) {
-          type <- "cbs"
-        } else {
-          type <- "selected_first" 
-        }
-        
-        
+        new_type <- input$order_table
         current_type <- get_order_type(values$table_id, name)
-        if (current_type != type) {
+        if (current_type != new_type) {
           tab <- values$tables[[values$table_id]]$codes[[name]]
-          tab <- order_code_rows(tab, type = type)
+          tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
           hot_id <- get_hot_id(values$table_id, name)
+          if (debug) { 
+            cat(sprintf("Reordering table %s\n", hot_id))
+          }
           output[[hot_id]] <- renderCodetable(codetable(isolate(tab),
                                                   table_id = values$table_id))
         }
@@ -321,7 +315,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       return()
     }
-    
     
     observeEvent(input$order_table, {
       reorder_table()
