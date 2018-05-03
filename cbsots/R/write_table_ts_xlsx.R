@@ -44,12 +44,17 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
     stop("Argument x is not a table_ts object")
   }
   
-  sheet_names <- c(Y = "annual", Q = "quarterly", M = "monthly")
+  freq_sheet_names <- c(Y = "annual", Q = "quarterly", M = "monthly")
   
-  frequencies <- setdiff(names(x), c("ts_names", "meta"))
+  frequencies <- intersect(names(x), names(freq_sheet_names))
+  
+  if (length(frequencies) == 0) {
+    stop("Argument x does not have any frequency component")
+  }
+  
   wb <- createWorkbook()
   for (freq in frequencies) {
-    sheet_name <- sheet_names[freq]
+    sheet_name <- freq_sheet_names[freq]
     sheet <- createSheet(wb, sheet_name)
     label_option <- if (rowwise) "after" else "no"
     write_ts_sheet(x[[freq]], sheet, rowwise = rowwise, 
