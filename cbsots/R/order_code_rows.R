@@ -1,7 +1,7 @@
-order_code_rows <- function(code, orig_key_order, 
-                            type = c("cbs", "selected_first")) {
+order_code_rows <- function(code,  type = c("cbs", "selected_first")) {
   
   type <- match.arg(type)
+  orig_key_order <- code$OrigKeyOrder
   
   if (type == "cbs") {
     

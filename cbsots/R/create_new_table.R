@@ -31,7 +31,6 @@ create_new_table <- function(id, base_url = NULL){
   }
   dimcodes <- sapply(dimensies, FUN = create_dimcode, simplify = FALSE)
   codes <- c(codes, dimcodes)
-  return(structure(list(last_modified = Sys.time(), 
-                        short_title = info$TableInfos$ShortTitle,
+  return(structure(list(short_title = info$TableInfos$ShortTitle,
               order = names(codes), codes = codes), class = "table_code"))
 }

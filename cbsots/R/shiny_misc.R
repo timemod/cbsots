@@ -50,38 +50,6 @@ get_table_id <- function(table_desc, table_ids) {
   return(table_id)
 }
 
-update_tables <- function(table_id, values, input, debug) {
-  
-  old <- values$tables[[table_id]]
-  
-  if (is.null(old)) {
-    # this situation occurs when a table has been deleted
-    return(invisible(NULL))
-  }
-  
-  # ordering
-  values$tables[[table_id]]$order <- input$order_input_order
-  
-  # tables
-  for (name in values$names) {
-    orig_key_order <- values$tables[[table_id]]$codes[[name]]$OrigKeyOrde
-    values$tables[[table_id]]$codes[[name]][ ,1:4] <- 
-      order_code_rows(values[[name]], orig_key_order)
-  }
-  
-  if (!isTRUE(all.equal(old, values$tables[[table_id]]))) {
-    values$tables[[table_id]]$last_modified <- Sys.time()
-  }
-  
-  if (debug) {
-    cat(sprintf("\n\nSaving current values for table %s\n", table_id))
-    print(values$tables[[table_id]])
-  }
-  
-  return(invisible(NULL))
-}
-
-
 check_duplicates <- function(session, values) {
   for (name in values$names) {
     codes <- values[[name]]$Code[values[[name]]$Select]
@@ -156,3 +124,7 @@ convert_codetable <- function(table, colnames) {
   return(list(table_id = table_id, data = data))
 }
 
+
+get_hot_id <- function(table_id, name) {
+  return(paste(table_id, name, sep = "_"))
+}

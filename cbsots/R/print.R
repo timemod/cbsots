@@ -13,7 +13,6 @@ print.ts_code <- function(x, ...) {
 #' @export
 print.table_code <- function(x, ...) {
   cat("ts_code_table object\n")
-  cat(sprintf("Last modified : %s\n", as.character(x$last_modified)))
   cat(sprintf("Order : %s\n", paste(x$order, collapse = ", ")))
   cat("The first 6 rows and 3 columns are shown.\n")
   for (dim in names(x$codes)) {

@@ -13,36 +13,28 @@ open_table <- function(new_table_description, values, input, output, debug) {
     cat(sprintf("Opening table with id = %s\n", new_table_id))
   }
   
-  # save current table if present
   if (!is.na(values$table_id)) {
-  
+    # another table now open
     if (values$table_id == new_table_id) {
       return(invisible(NULL))
-    } 
-    
-    # save current table 
-    update_tables(values$table_id, values, input, debug)
-    
-    # remove previous dimensions (not Topic)
-    for (dimension in values$names[-1]) {
-      values[[dimension]] <- NULL
+    } else {
+      # save ordering
+      values$tables[[values$table_id]]$order <- input$order_input_order
     }
   }
   
-  # copy new tables
+  # update new tab names for the current table
   values$names <- names(values$tables[[new_table_id]]$codes)
-  dimensions <- values$names[-1]
-  for (name in values$names) {
-    values[[name]] <- values$tables[[new_table_id]]$codes[[name]][, 1:4]
-  }
   
   #
   # create the tabels
   #
   
   make_table <- function(name) {
-    output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
-                                                table_id = new_table_id))
+    tab <- isolate(values$tables[[new_table_id]]$codes[[name]])
+    tab <- tab[ , 1:4] 
+    hot_id <- get_hot_id(new_table_id, name)
+    output[[hot_id]] <- renderCodetable(codetable(tab, table_id = new_table_id))
     return()
   }
   
@@ -53,12 +45,12 @@ open_table <- function(new_table_description, values, input, output, debug) {
   # observers for the tables
   #
   make_observer <- function(name) {
-    
-    observeEvent(input[[name]], {
-      if (debug) cat(paste("table", name , "changed\n"))
-      if (!is.null(input[[name]])) {
-        df_values <- values[[name]]
-        info  <- convert_codetable(input[[name]], colnames(df_values))
+    hot_id <- get_hot_id(new_table_id, name)
+    observeEvent(input[[hot_id]], {
+      if (debug) cat(paste("table", hot_id , "has changed\n"))
+      if (!is.null(input[[hot_id]])) {
+        df_values <- values$tables[[new_table_id]]$codes[[name]]
+        info  <- convert_codetable(input[[hot_id]], colnames(df_values)[1:4])
         df_input <- info$data
         if (!is.null(df_values) && !is.null(df_input) &&
             info$table_id == values$table_id &&
@@ -70,7 +62,7 @@ open_table <- function(new_table_description, values, input, output, debug) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
-          values[[name]] <- df_input
+          values$tables[[values$table_id]]$codes[[name]][, 1:4] <- df_input
         }
       }
     })
@@ -83,14 +75,13 @@ open_table <- function(new_table_description, values, input, output, debug) {
   #
   
   make_panel <- function(name) {
-    return(tabPanel(name, codetableOutput(name)))
+    hot_id <- get_hot_id(new_table_id, name)
+    return(tabPanel(name, codetableOutput(hot_id)))
   }
   
   output$tabel <- renderUI({
     isolate({
-      table_items <- values$names
-      myTabs <- lapply(table_items, make_panel)
-      
+      myTabs <- lapply(values$names, make_panel)
       ret <- list(h3(paste("Tabel", new_table_description)), br(),
                   p(), 
                   h5("Order used to create names"),

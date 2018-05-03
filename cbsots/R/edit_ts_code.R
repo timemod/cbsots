@@ -101,7 +101,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   
   server <- function(input, output, session) {
     
-  
     session$onSessionEnded(shiny::stopApp)
     
     # register reactive values
@@ -112,10 +111,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     #
     # local functions
     #
+    
     get_order_type <- function(table_id, name) {
       isolate({
-        orig_key_order <- values$tables[[table_id]]$codes[[name]]$OrigKeyOrder
-        if (identical(values[[name]]$Key, orig_key_order)) {
+        tab <- values$tables[[table_id]]$codes[[name]]
+        if (identical(tab$Key, tab$OrigKeyOrder)) {
           type <- CBS_ORDER
         } else {
           type <- SELECTED_FIRST_ORDER
@@ -288,64 +288,55 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })
     
     
+    # local function: reorder the table in the current tab
+    reorder_table <- function() {
+      
+      isolate({
+        
+        if (debug) { 
+          cat("in reorder_table\n")
+        }
+        name <- input$selected_tab
+        if (is.null(name)) {
+          # this happens when the app starts
+          return()
+        }
+        
+        if (input$order_table == CBS_ORDER) {
+          type <- "cbs"
+        } else {
+          type <- "selected_first" 
+        }
+        
+        
+        current_type <- get_order_type(values$table_id, name)
+        if (current_type != type) {
+          tab <- values$tables[[values$table_id]]$codes[[name]]
+          tab <- order_code_rows(tab, type = type)
+          hot_id <- get_hot_id(values$table_id, name)
+          output[[hot_id]] <- renderCodetable(codetable(isolate(tab),
+                                                  table_id = values$table_id))
+        }
+      })
+      
+      return()
+    }
+    
+    
     observeEvent(input$order_table, {
-      
-      name <- input$selected_tab
-      if (is.null(name)) {
-        # this happens when the app starts
-        return()
-      }
-      
-      if (input$order_table == CBS_ORDER) {
-        type <- "cbs"
-      } else {
-        type <- "selected_first" 
-      }
-      
-      current_type <- get_order_type(values$table_id, name)
-      if (current_type != type) {
-        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
-        values[[name]] <- order_code_rows(values[[name]], orig_key_order,
-                                        type = type)
-        output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
-                                                    table_id = values$table_id))
-      }
+      reorder_table()
     })
     
     observeEvent(input$reorder, {
-      
-      # TODO: combine code with observeEvent order_table
-      name <- input$selected_tab
-      if (is.null(name)) {
-        # this happens when the app starts
-        return()
-      }
-      
-      if (input$order_table == CBS_ORDER) {
-        type <- "cbs"
-      } else {
-        type <- "selected_first" 
-      }
-      
-      current_type <- get_order_type(values$table_id, name)
-      if (current_type != type) {
-        orig_key_order <- values$tables[[values$table_id]]$codes[[name]]$OrigKeyOrder
-        values[[name]] <- order_code_rows(values[[name]], orig_key_order,
-                                          type = type)
-        output[[name]] <- renderCodetable(codetable(isolate(values[[name]]),
-                                                    table_id = values$table_id))
-      }
-      
+      reorder_table()
     })
-    
-    
- 
       
     observeEvent(input$save, {
       
       if (check_duplicates(session, values)) return()
       
-      update_tables(values$table_id, values, input, debug)
+      # save ordering    
+      values$tables[[values$table_id]]$order <- input$order_input_order
       
       ts_code <-  structure(list(package_version = packageVersion("cbsots"),
                             table_code = values$tables),
