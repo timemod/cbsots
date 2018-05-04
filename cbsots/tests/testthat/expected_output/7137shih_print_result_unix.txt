@@ -4,11 +4,11 @@ Topleft part of the result (the first 6 rows and 10 columns):
      334_slbg_wn_ 334_slmg_wn_ 33_slbg_wn_ 33_slmg_wn_ ag_slbg_wn_ ag_slmg_wn_
 2015     38271057     25726161          NA    52192069    10400881     7271155
 2016     34299860     22527007          NA    45083125     8163039     5463564
-2017     35793531     23044864          NA    48988472     6431667     6534390
+2017     39095107     25557583          NA    54247063     7571767     7317975
      el_slbg_wn_ el_slmg_wn_ en_slbg_wn_ en_slmg_wn_
 2015      979330     1176978    56954547    64246402
 2016      707730      873227    50489687    54776343
-2017      823143      648530    54267308    59715404
+2017      905238      742086    59945416    66230070
 Frequency M :
 Topleft part of the result (the first 6 rows and 10 columns):
         334_slbg_wn_ 334_slmg_wn_ 33_slbg_wn_ 33_slmg_wn_ ag_slbg_wn_

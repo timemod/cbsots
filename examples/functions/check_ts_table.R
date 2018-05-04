@@ -29,9 +29,7 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data") {
   
   cbs_data_file <- file.path(raw_cbs_dir, id, "data.csv")
 
-  na_strings <- c("       .", ".", "       -")   
-  cbs_data <- data.table::fread(cbs_data_file, drop = "ID", 
-                                na.strings = na_strings)
+  cbs_data <- data.table::fread(cbs_data_file, drop = "ID")
   
   ts_names <- x$ts_names$name
 

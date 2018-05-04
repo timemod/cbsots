@@ -29,9 +29,23 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data") {
   
   cbs_data_file <- file.path(raw_cbs_dir, id, "data.csv")
 
-  na_strings <- c("       .", ".", "       -")   
-  cbs_data <- data.table::fread(cbs_data_file, drop = "ID", 
-                                na.strings = na_strings)
+  cbs_data <- data.table::fread(cbs_data_file, drop = "ID")
+  
+  # The raw cbs data downloaded with cbsodataR versions prior to 0.3 
+  # contained strings such as "       ." for NA values. Therefore replace 
+  # them with NA_character_. Note that we cannot use argument na.string of
+  # function fread, because fread does not support NA strings with spaces
+  # any more.
+  na_strings_old <- c("       .", ".", "       -")  
+  check_na_strings<- function(x) {
+    if (is.character(x)) {
+      return(ifelse(x %in% na_strings_old, NA_character_, x))  
+    } else {
+      return(x)
+    }
+  }
+  cbs_data <- as.data.table(lapply(cbs_data, FUN = check_na_strings))
+  
   
   ts_names <- x$ts_names$name
 

@@ -12,7 +12,7 @@ read_ts_code_xlsx <- function(xlsx_files) {
   
   table_ids <- names(xlsx_files)
   table_ids_lower <- tolower(table_ids)
-  table_ids_cbs <- as.character(get_table_list(select = "Identifier")[, 1])
+  table_ids_cbs <- as.character(cbs_get_toc()[, 1])
   
   # case insensitive
   table_ids_cbs_lower <- tolower(table_ids_cbs)

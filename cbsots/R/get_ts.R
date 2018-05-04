@@ -114,9 +114,6 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   # This order determines how the timeseries names are created.
   code <- sapply(table_code$order, FUN = convert_code, simplify = FALSE)
 
-  # strings used by the CBS to represent NA values
-  na_strings <- c("       .", ".", "       -")   
-  
   dimensions <- setdiff(names(table_code$codes), "Topic")
   
   if (!refresh) {
@@ -126,7 +123,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       check_language(meta)
       cbs_code <- get_cbs_code(meta)
       code <- check_code(code, cbs_code)
-      data <- read_data(data_dir, na_strings = na_strings)
+      data <- read_data(data_dir)
       if (!is.null(data)) {
         period_keys <- get_period_keys(meta, min_year, frequencies)
         read_ok <- check_read_data(data, code, period_keys = period_keys)
@@ -145,7 +142,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   if (refresh || !read_ok) {
     ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
                           min_year = min_year, frequencies = frequencies,
-                          na_strings = na_strings, base_url = base_url, 
+                          base_url = base_url, 
                           download_all_keys = download_all_keys)
     meta <- ret$meta
     data <- ret$data

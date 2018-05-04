@@ -48,19 +48,27 @@ check_duplicates <- function(session, values) {
 
 #  Function get_new_table_ids returns a character vector the ids of tables
 #  that are not yet present.
-#' @importFrom cbsodataR get_table_list
+#' @importFrom cbsodataR cbs_get_toc
 get_new_table_ids <- function(old_table_ids, base_url) {
   
   tryCatch({
     
+    
+    #if (is.null(base_url)) {
+    #  table_info <- cbs_get_toc(select = c("Identifier", "ShortTitle"), 
+    #                            Language = "nl")
+    #} else {
+    #  table_info <- cbs_get_toc(select = c("Identifier", "ShortTitle") 
+    #                            Language = "nl", base_url = base_url)
+    #}
+    
+    # select does not work anymore
     if (is.null(base_url)) {
-      table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
-                                   Language = "nl")
+      table_info <- cbs_get_toc(Language = "nl")
     } else {
-      table_info <- get_table_list(select = c("Identifier", "ShortTitle"), 
-                                   Language = "nl", 
-                                   base_url = base_url)
+      table_info <- cbs_get_toc(Language = "nl", base_url = base_url)
     }
+    table_info <- table_info[ , c("Identifier", "ShortTitle")]
     
     new_tables <- setdiff(table_info$Identifier, old_table_ids)
     table_info <- table_info[table_info$Identifier %in% new_tables, ]

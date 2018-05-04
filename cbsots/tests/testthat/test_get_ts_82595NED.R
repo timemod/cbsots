@@ -23,9 +23,8 @@ raw_cbs_dir <- tempdir()
 
 test_that(id, {
   
-  result1 <- expect_message(expect_output(get_ts(id, ts_code_1, refresh = TRUE, 
-                                  min_year = 2008, raw_cbs_dir = raw_cbs_dir)))
-  
+  result1 <- expect_output(get_ts(id, ts_code_1, refresh = TRUE, 
+                                  min_year = 2008, raw_cbs_dir = raw_cbs_dir))
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check$equal)
   expect_equal(ncol(result1$Y), 2)
@@ -40,11 +39,10 @@ test_that(id, {
 
 test_that(paste(id, "download_all_keys"), {
   
-  result1 <- expect_message(expect_output(get_ts(id, ts_code_1, refresh = TRUE, 
-                                                 min_year = 2017, 
-                                                 frequencies = "Y",
-                                                 raw_cbs_dir = raw_cbs_dir,
-                                                 download_all_keys = TRUE)))
+  result1 <- expect_output(get_ts(id, ts_code_1, refresh = TRUE, 
+                                  min_year = 2017, frequencies = "Y",
+                                  raw_cbs_dir = raw_cbs_dir, 
+                                  download_all_keys = TRUE))
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check$equal)

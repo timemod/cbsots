@@ -1,16 +1,16 @@
-#' @importFrom cbsodataR get_data
-#' @importFrom cbsodataR get_meta
-download_table <- function(id, raw_cbs_dir, code, min_year, frequencies, 
-                           na_strings, base_url, download_all_keys) {
+#' @importFrom cbsodataR cbs_get_data
+#' @importFrom cbsodataR cbs_get_meta
+download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,  
+                           base_url, download_all_keys) {
   
   cat(paste("Downloading table", id, "...\n"))
   
   # first download the meta data, which is needed to create the filters
   # for downloading the table data
   if (is.null(base_url)) {
-    meta <- get_meta(id, cache = TRUE)
+    meta <- cbs_get_meta(id, cache = TRUE)
   } else {
-    meta <- get_meta(id, cache = TRUE, base_url = base_url)
+    meta <- cbs_get_meta(id, cache = TRUE, base_url = base_url)
   }
   check_language(meta)
   cbs_code <- get_cbs_code(meta)
@@ -46,24 +46,20 @@ download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,
     print(filters)
   }
   
-  arguments <- c(list(id = id, recode = FALSE,  
-                      dir = file.path(raw_cbs_dir, id)), filters)
+  # TODO: use argument select to select only the topics that we need.
+  # problem: this may lead to a too long url. Maybe we should
+  # keep downloading all columns
+  arguments <- c(list(id = id,  dir = file.path(raw_cbs_dir, id)), filters)
   if (!is.null(base_url)) {
     arguments <- c(arguments, list(base_url = base_url))
   }
   
-  data <- do.call(get_data, arguments)
+  data <- do.call(cbs_get_data, arguments)
   
-  # replace na_strings with an empty string, and convert to data.table
-  data <- as.data.table(lapply(data, 
-                               FUN = function(x) {
-                                        ifelse(x %in% na_strings, "", x)
-                                      }))
-  
-  # prevent notes from R CMD check about no visible binding for global variable
-  ID <- NULL;
-  
-  data[, ID := NULL]
+  # convert factor columns to character columns
+  data <- as.data.table(lapply(data, FUN = function(x) {
+    if (is.factor(x)) as.character(x) else x
+  }))
   
   return(list(meta = meta, data = data, cbs_code = cbs_code))
 }

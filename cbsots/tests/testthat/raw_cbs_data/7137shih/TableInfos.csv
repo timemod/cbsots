@@ -1,22 +1,22 @@
 "ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
 0,"Internationale handel; in- en uitvoer naar SITC (3 digit), landen(groepen)","In- en uitvoer; SITC-3, landen(groepen)","7137shih","In- en uitvoerwaarde van goederen; naar SITC (3 digit) 
-en landen(groepen).","2018-02-05T02:00:00","Actualisering","","nl","CBS","Permaand","1996 - 2016; 1996 januari - 2017 november.","
+en landen(groepen).","2018-05-03T02:00:00","Bijstelling","","nl","CBS","Permaand","1996 - 2017; 1996 januari - 2017 december.","
 In deze tabel wordt de Nederlandse invoer-, uitvoerwaarde en de handelsbalans uitgesplitst naar secties, divisies en groepen volgens de Standard International Trade Classification (SITC). De gegevens worden vervolgens verder ingedeeld naar landen(groepen) en continenten. Het dekkingspercentage en de procentuele mutaties van de invoer, uitvoer en handelsbalans, uitgesplitst naar landen(groepen) en continenten zijn alleen voor het totaal van de goederen beschikbaar.
 
 Gegevens beschikbaar vanaf: januari 1996. 
 
 Status van de cijfers:
-De cijfers over de Internationale handel kunnen worden aangepast op basis van het beschikbaar komen van nieuw of geactualiseerd bronmateriaal. Hierdoor hebben de cijfers voor een langere periode een voorlopig karakter. Deze voorlopige cijfers worden nader voorlopig, door een bijstelling van de cijfers, na respectievelijk tien, veertien en negentien weken na afloop van de betreffende maand. In het derde kwartaal van het huidige jaar worden de cijfers van het voorafgaande jaar definitief gemaakt en komt tevens het definitieve jaarcijfer beschikbaar op StatLine.
+De voorlopige cijfers over de internationale handel kunnen worden bijgesteld op basis van nieuw of gewijzigd bronmateriaal. Hierdoor zijn ze voor langere tijd voorlopig. In het vierde kwartaal na het verslagjaar worden de voorlopige cijfers definitief. Alle jaren ervoor zijn al definitief.
 
-Wijzigingen per 5 februari 2018:
-De voorlopige cijfers van november 2017 zijn toegevoegd.
+Wijzigingen per 3 mei 2018:
+De voorlopige cijfers van 2017 zijn bijgesteld.
 
 Wijzigingen per 7 augustus 2017:
 Door voortschrijdende inzichten zijn vanaf statistiekjaar 2015 de handelsstromen herzien. Als gevolg hiervan komt de totale goederenuitvoer (niet-reëel) 8 miljard euro lager uit. Bij de totale goedereninvoer is dit 10 miljard euro minder. Door de herziening zijn de cijfers over 2015 niet precies vergelijkbaar met die over 2014.
 Tevens zijn uit de in- en uitvoercijfers over 2015 en 2016 de waarden van de post- en fiscale zegels (49070010), bankbiljetten (49070030), monetair goud (71082000) en munten (71189000) verwijderd conform de Foreign Trade Statistics (FTS) verordening van Eurostat. Dit is in deze versie gecorrigeerd.
 
 Wanneer komen er nieuwe cijfers?
-De cijfers zijn voor de eerste keer beschikbaar ongeveer acht weken na de verslagmaand.
+De nieuwe cijfers verschijnen ongeveer twee maanden na de verslagmaand.
 
 ","INHOUDSOPGAVE
 
@@ -34,17 +34,17 @@ In deze tabel wordt de Nederlandse invoer-, uitvoerwaarde en de handelsbalans ui
 Gegevens beschikbaar vanaf: januari 1996. 
 
 Status van de cijfers:
-De cijfers over de Internationale handel kunnen worden aangepast op basis van het beschikbaar komen van nieuw of geactualiseerd bronmateriaal. Hierdoor hebben de cijfers voor een langere periode een voorlopig karakter. Deze voorlopige cijfers worden nader voorlopig, door een bijstelling van de cijfers, na respectievelijk tien, veertien en negentien weken na afloop van de betreffende maand. In het derde kwartaal van het huidige jaar worden de cijfers van het voorafgaande jaar definitief gemaakt en komt tevens het definitieve jaarcijfer beschikbaar op StatLine.
+De voorlopige cijfers over de internationale handel kunnen worden bijgesteld op basis van nieuw of gewijzigd bronmateriaal. Hierdoor zijn ze voor langere tijd voorlopig. In het vierde kwartaal na het verslagjaar worden de voorlopige cijfers definitief. Alle jaren ervoor zijn al definitief.
 
-Wijzigingen per 5 februari 2018:
-De voorlopige cijfers van november 2017 zijn toegevoegd.
+Wijzigingen per 3 mei 2018:
+De voorlopige cijfers van 2017 zijn bijgesteld.
 
 Wijzigingen per 7 augustus 2017:
 Door voortschrijdende inzichten zijn vanaf statistiekjaar 2015 de handelsstromen herzien. Als gevolg hiervan komt de totale goederenuitvoer (niet-reëel) 8 miljard euro lager uit. Bij de totale goedereninvoer is dit 10 miljard euro minder. Door de herziening zijn de cijfers over 2015 niet precies vergelijkbaar met die over 2014.
 Tevens zijn uit de in- en uitvoercijfers over 2015 en 2016 de waarden van de post- en fiscale zegels (49070010), bankbiljetten (49070030), monetair goud (71082000) en munten (71189000) verwijderd conform de Foreign Trade Statistics (FTS) verordening van Eurostat. Dit is in deze versie gecorrigeerd.
 
 Wanneer komen er nieuwe cijfers?
-De cijfers zijn voor de eerste keer beschikbaar ongeveer acht weken na de verslagmaand.
+De nieuwe cijfers verschijnen ongeveer twee maanden na de verslagmaand.
 
 
 2. DEFINITIES EN VERKLARINGEN VAN SYMBOLEN 
@@ -95,9 +95,9 @@ m.i.v.  : met inbegrip van
 
 Relevante tabellen:
 
-<a href=""http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=37952""> Internationale handel; in- en uitvoer, Geharmoniseerd Systeem 1996 - 2012</a> 
+Deze tabel gaat vanaf statistiekjaar 2018 over in de tabel '<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83926NED'>Internationale handel; in- en uitvoerwaarde, SITC, landen</a>'.
 
-Meer <a href='http://www.cbs.nl/nl-nl/cijfers/statline/recente-cijfers?thema=internationale handel'>Recente cijfers</a> over de Internationale handel.
+Meer <a href='https://www.cbs.nl/nl-nl/cijfers/statline/recente-cijfers?thema=internationale handel'>Recente cijfers</a> over de Internationale handel.
 
 
 4. BRONNEN EN METHODEN
@@ -130,4 +130,4 @@ Er zijn soms verschillen tussen gepubliceerde statistische uitkomsten over Neder
 
 Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen 
 Verveelvoudiging is toegestaan, mits CBS als bron wordt vermeld.
-","ts=1517306874467&graphtype=Table&r=Perioden&k=Topics,LandenGroepen&t=SITC","$filter=((SITC eq 'T  ')) and ((LandenGroepen eq '999') or (LandenGroepen eq 'teu') or (LandenGroepen eq 'neu')) and ((Perioden eq '2016MM11') or (Perioden eq '2016MM12') or (Perioden eq '2016JJ00') or (Perioden eq '2017MM01') or (Perioden eq '2017MM02') or (Perioden eq '2017MM03') or (Perioden eq '2017MM04') or (Perioden eq '2017MM05') or (Perioden eq '2017MM06') or (Perioden eq '2017MM07') or (Perioden eq '2017MM08') or (Perioden eq '2017MM09') or (Perioden eq '2017MM10') or (Perioden eq '2017MM11') or (Perioden eq '2017JJ00'))&$select=SITC, LandenGroepen, Perioden, Invoerwaarde_1, Uitvoerwaarde_2, Handelsbalans_3","Table,Bar,Line","Regulier","CBS.","2018-02-05T02:00:00","3"
+","ts=1519981339267&graphtype=Table&r=Perioden&k=Topics,LandenGroepen&t=SITC","$filter=((SITC eq 'T  ')) and ((LandenGroepen eq '999') or (LandenGroepen eq 'teu') or (LandenGroepen eq 'neu')) and ((Perioden eq '2016MM12') or (Perioden eq '2016JJ00') or (Perioden eq '2017MM01') or (Perioden eq '2017MM02') or (Perioden eq '2017MM03') or (Perioden eq '2017MM04') or (Perioden eq '2017MM05') or (Perioden eq '2017MM06') or (Perioden eq '2017MM07') or (Perioden eq '2017MM08') or (Perioden eq '2017MM09') or (Perioden eq '2017MM10') or (Perioden eq '2017MM11') or (Perioden eq '2017MM12') or (Perioden eq '2017JJ00'))&$select=SITC, LandenGroepen, Perioden, Invoerwaarde_1, Uitvoerwaarde_2, Handelsbalans_3","Table,Bar,Line","Regulier","CBS.","2018-05-03T02:00:00","3"

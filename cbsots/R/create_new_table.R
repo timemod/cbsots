@@ -1,11 +1,11 @@
-#' @importFrom cbsodataR get_meta
+#' @importFrom cbsodataR cbs_get_meta
 #' @import data.table 
 create_new_table <- function(id, base_url = NULL){
   
   if (is.null(base_url)) {
-    info <- get_meta(id = id, cache = TRUE)
+    info <- cbs_get_meta(id = id, cache = TRUE)
   } else {
-    info <- get_meta(id = id, cache = TRUE, base_url = base_url)
+    info <- cbs_get_meta(id = id, cache = TRUE, base_url = base_url)
   }
   
   data_properties <- as.data.table(info$DataProperties)
