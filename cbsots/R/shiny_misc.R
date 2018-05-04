@@ -20,7 +20,7 @@ read_ts_code <- function(filename) {
 # Returns a character vector with table descriptions, based on the table ids
 # and short titles.
 get_table_description <- function(ids, short_titles) {
-  return(paste(ids, "-", short_titles))
+  return(paste(ids, short_titles, sep = " - "))
 }
 
 # Returns the table_id for a table with a table description.
@@ -51,8 +51,10 @@ get_table_id <- function(table_desc, table_ids) {
 }
 
 check_duplicates <- function(session, values) {
+  ts_code <-  values$tables[[values$table_id]]$codes
   for (name in values$names) {
-    codes <- values[[name]]$Code[values[[name]]$Select]
+    tab <- ts_code[[name]]
+    codes <- tab$Code[tab$Select]
     codes <- codes[nchar(codes) > 0]
     if (anyDuplicated(codes)) {
       dupl <- codes[duplicated(codes)]
