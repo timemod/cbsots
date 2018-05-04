@@ -14,7 +14,7 @@ read_data <- function(dir) {
   
   tryCatch({
     
-    data <- fread(data_file)
+    data <- fread(data_file, drop = "ID")
     
     # The raw cbs data downloaded with cbsodataR versions prior to 0.3 
     # contained strings such as "       ." for NA values. Therefore replace 

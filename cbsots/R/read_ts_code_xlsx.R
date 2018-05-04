@@ -12,7 +12,10 @@ read_ts_code_xlsx <- function(xlsx_files) {
   
   table_ids <- names(xlsx_files)
   table_ids_lower <- tolower(table_ids)
-  table_ids_cbs <- as.character(cbs_get_toc()[, 1])
+  
+  # TODO: use argument select of cbs_get_toc, but this does currently 
+  # not work
+  table_ids_cbs <- as.character(cbs_get_toc()$Identifier)
   
   # case insensitive
   table_ids_cbs_lower <- tolower(table_ids_cbs)
@@ -67,7 +70,7 @@ read_ts_table_xlsx <- function(table_id, xlsx_file) {
     
     code <- code[, c("Key", "Select", "Code", "Title", "OrigKeyOrder")]
   
-    code[, 1:4] <- order_code_rows(code, cbs_order = TRUE)
+    code <- order_code_rows(code, cbs_order = TRUE)
     
     return(code)
   }

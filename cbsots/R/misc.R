@@ -49,5 +49,7 @@ order_code_rows <- function(code,  cbs_order) {
   
   order <-  match(required_order, code$Key)
   
-  return(code[order, , drop = FALSE])
+  code[ , 1:4] <- code[order, 1:4]
+  
+  return(code)
 }
