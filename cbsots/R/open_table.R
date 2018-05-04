@@ -53,8 +53,8 @@ open_table <- function(values, input, output, debug) {
       if (debug) cat(paste("Table", hot_id , "has changed\n"))
       if (!is.null(input[[hot_id]])) {
         df_input <- convert_codetable(input[[hot_id]])
-          if (debug) {
         if (!is.null(df_input)) {
+          if (debug) {
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
