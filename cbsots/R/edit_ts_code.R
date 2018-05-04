@@ -143,7 +143,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         }
       }
 
-      open_table(input$table_desc, values, input, output, debug)
+      open_table(values, input, output, debug)
       
       current_order <- get_order_type(values$table_id, "Topic")
       updateSelectInput(session, "order_table", selected = current_order)
@@ -170,22 +170,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (new_table_desc == "") {
         return()
       }
-      new_table_id <- get_table_id(new_table_desc, values$new_table_ids)
+      new_table_id <- values$new_table_ids[new_table_desc]
       if (is.na(new_table_id)) {
+        warning(paste("Internal error ... Table", new_table_desc, 
+                      "not in list of new tables"))
         return(invisible(NULL))
       }
       
-      # additional test
+      # additional check
       if (new_table_id %in% values$table_ids) {
-        cat("\n*** Internal error in get_table_id ***\n")
-        cat("Table \"", new_table_desc, "\" already present")
-        cat("Current list of tables\n")
-        if (length(values$table_ids) == 0) {
-          print(values$table_ids)
-        } else {
-          print(as.data.frame(values$table_ids))
-        }
-        cat("\n\n")
+        warning(paste("Internal error ... Table", new_table_desc, 
+                      "already in list of tables"))
         return(invisible(NULL))
       }
       
@@ -232,8 +227,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (delete_table_desc == "") {
         return()
       }
-      delete_table_id <- get_table_id(delete_table_desc, values$table_ids)
+      delete_table_id <- values$table_ids[delete_table_desc]
       if (is.na(delete_table_id)) {
+        warning(paste("Internal error ... Table", new_table_desc, 
+                      "not in list of new tables"))
         return(invisible(NULL))
       }
       values$delete_table_id <- delete_table_id

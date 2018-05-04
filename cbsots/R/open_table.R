@@ -1,11 +1,14 @@
-open_table <- function(new_table_description, values, input, output, debug) {
+open_table <- function(values, input, output, debug) {
   
   #
   # open a new table
   #
   
-  new_table_id <- get_table_id(new_table_description, values$table_ids)
+  new_table_description <- input$table_desc
+  new_table_id <- values$table_ids[new_table_description]
   if (is.na(new_table_id)) {
+    warning(paste("Internal error ... Table", new_table_description, 
+                  "not in list of tables"))
     return(invisible(NULL))
   }
  

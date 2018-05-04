@@ -23,32 +23,6 @@ get_table_description <- function(ids, short_titles) {
   return(paste(ids, short_titles, sep = " - "))
 }
 
-# Returns the table_id for a table with a table description.
-# INPUT:
-#   table_desc: the table description (a character)
-#   table_ids:  a named character vector with the table ids. the names are the 
-#               table descriptions.
-# RETURN:
-#   the table_id, or NA if an error has occurred
-get_table_id <- function(table_desc, table_ids) {
-
-  table_id <- table_ids[table_desc]
- 
-  # error message
-  if (is.na(table_id)) {
-    cat("\n*** Internal error in get_table_id ***\n")
-    cat("Table \"", table_desc, "\" not found in list of tables\n")
-    cat("Current list of tables\n")
-    if (length(table_ids) == 0) {
-      print(table_ids)
-    } else {
-      print(as.data.frame(table_ids))
-    }
-    cat("\n\n")
-  }
-  
-  return(table_id)
-}
 
 check_duplicates <- function(session, values) {
   ts_code <-  values$tables[[values$table_id]]$codes
