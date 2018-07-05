@@ -4,21 +4,21 @@
 \alias{fill_tables_from_table}
 \title{Fill tables with values from another table.}
 \usage{
-fill_tables_from_table(tscodes, ids, basis_id, base_url = NULL)
+fill_tables_from_table(tscodes, ids, base_id, base_url = NULL)
 }
 \arguments{
 \item{tscodes}{a \code{ts_code} object. This object can be created
 and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
 app}
 
-\item{ids}{ids of tables to be filled from the second tabel}
+\item{ids}{ids of tables to be filled from the base tabel}
 
-\item{basis_id}{id of the table whose values will be used to fill
-the first tables.}
+\item{base_id}{the id of the base table}
 
 \item{base_url}{optionally specify a different server. Useful for third party
 data services implementing the same protocol.}
 }
 \description{
-Fill tables with values from another table.
+This function fills in the Select and Code fields from a base table based
+on common Keys or Titles.
 }
