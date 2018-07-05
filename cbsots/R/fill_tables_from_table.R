@@ -26,7 +26,7 @@ fill_tables_from_table <- function(tscodes, ids,  base_id, base_url = NULL) {
       new_table_created <- TRUE
     }
     
-    table <- fill_table_from_table(table, base_table)
+    table <- update_table(table, base_table)
   
     tscodes$table_code[[id]] <- table
     
@@ -37,47 +37,4 @@ fill_tables_from_table <- function(tscodes, ids,  base_id, base_url = NULL) {
   }
   
   return(tscodes)
-}
-
-# internal function: fill in Select and Code based on common Keys or Titles
-fill_table_from_table <- function(table, base_table) {
-  
-  fill_code_from_code <- function(dimension) {
-    
-    code <- table$codes[[dimension]]
-    base_code <- base_table$codes[[dimension]]
-    
-    common_keys <- intersect(code$Key, base_code$Key)
-    rows <- match(common_keys, code$Key)
-    base_rows <- match(common_keys, base_code$Key)
-    common_titles <- intersect(code$Title, base_code$Title)
-    rows <- union(rows, match(common_titles, code$Title))
-    base_rows <- union(base_rows, match(common_titles, base_code$Title))
-    
-    code[rows, "Select"] <- base_code[base_rows, "Select"]
-    code[rows, "Code"] <- base_code[base_rows, "Code"]
-    
-    # If the keys were ordered according to original cbs ordering in the base
-    # table, then they were not ordered in the origina table.
-    # then the keys were ordered according to selected first.
-    cbs_order <- identical(base_code$Key, base_code$OrigKeyorder)
-    if (!cbs_order) {
-      code <- order_code_rows(code, cbs_order)
-    }
-
-    return(code)
-  }
-  
-  common_dimensions <- intersect(names(table$codes), names(base_table$codes))
-  new_codes <- sapply(common_dimensions, FUN = fill_code_from_code, 
-                      simplify = FALSE)
-  table$codes <- modifyList(table$codes, new_codes)
-  
-  # also adapt the ordering
-  ord <- match(base_table$order, table$order)
-  ord <- ord[!is.na(ord)]
-  ord <- c(ord, setdiff(seq_along(table$order), ord))
-  table$order <- table$order[ord]
-  
-  return(table)
 }
