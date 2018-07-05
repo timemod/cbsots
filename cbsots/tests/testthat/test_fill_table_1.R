@@ -13,9 +13,8 @@ ts_code <- readRDS(ts_code_file_old)
 
 test_that("fill 83935NED from 81974NED", {
   
-  expect_warning(
-   tscodes_new <- fill_tables_from_table(ts_code, ids = "83935NED", 
-                                        base_id = "81974NED"))
+  tscodes_new <- fill_tables_from_table(ts_code, ids = "83935NED", 
+                                        base_id = "81974NED")
 
   expect_known_value(tscodes_new, "expected_output/full_table_1.rds")
   

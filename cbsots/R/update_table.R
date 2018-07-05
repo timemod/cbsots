@@ -28,18 +28,21 @@ update_table <- function(table, old_table) {
     base_rows <- union(base_rows, match(common_titles, 
                                         base_code_titles_no_spaces))
     
-    if (length(rows) != nrow(code)) {
-      missing <- setdiff(seq_len(nrow(code)), rows)
-      warning(paste0("No matching entries found for dimension ", dimension,
-                     ":\n",
-                     paste(paste(code$Key[missing], paste0("\"", 
-                                                    code$Title[missing], "\""), 
-                                 sep = " - "),
-                           collapse = ", ")))
-    }
-    
     code[rows, "Select"] <- base_code[base_rows, "Select"]
     code[rows, "Code"] <- base_code[base_rows, "Code"]
+    
+    
+    # check if all previously selected variables have been found
+    orig_selected <- which(base_code$Select)
+    missing <- setdiff(orig_selected, base_rows)
+    if (length(missing) > 0) {
+      warning(paste0("No matching entries found for dimension ", dimension,
+                     ":\n",
+                     paste(paste(base_code$Key[missing], paste0("\"", 
+                                                                base_code$Title[missing], "\""), 
+                                 sep = " - "),
+                           collapse = "\n")))
+    }
     
     # If the keys were ordered according to original cbs ordering in the base
     # table, then they were not ordered in the original table.

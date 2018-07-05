@@ -15,10 +15,10 @@ test_that(paste("update", id),  {
   
   expect_known_value(ts_code, "expected_output/update_table_1.rds")
   
-  msg <- paste("No matching entries found for dimension SITC:\nA018540 - \"2 Grondstoffen, niet",
-              "eetbaar, behalve...\", A018591 - \"3 Minerale brandstoffen,",
-              "smeermiddele...\", A018678 - \"6 Fabricaten hoofdzakelijk", 
-               "gerangschi...\"")
+  msg <- paste("No matching entries found for dimension SITC:\ntt2 - \"2  Grondstoffen, niet",
+              "eetbaar, behalv...\"\ntt3 - \"3  Minerale brandstoffen,",
+              "smeermiddel...\"\ntt6 - \"6  Fabrikaten, hoofdzakelijk", 
+               "gerangsc...\"")
   expect_warning(tscode_new <- update_tables(ts_code, ids = id), msg)
  
   expect_known_value(tscode_new, "expected_output/update_table_2.rds")
