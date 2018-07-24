@@ -7,16 +7,17 @@ context("fill_tables_from_table")
 
 ts_code_file_old <- "tscode/tscode_81974NED.rds"
 
-
 ts_code <- readRDS(ts_code_file_old)
 
+#edit_ts_code(ts_code_file_old)
 
 test_that("fill 83935NED from 81974NED", {
   
   tscodes_new <- fill_tables_from_table(ts_code, ids = "83935NED", 
                                         base_id = "81974NED")
 
-  expect_known_value(tscodes_new, "expected_output/full_table_1.rds")
+  #saveRDS(tscodes_new, "tmp.rds")
+  expect_known_value(tscodes_new, "expected_output/fill_table_1.rds")
   
   if (FALSE) {
 

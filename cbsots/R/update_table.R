@@ -21,7 +21,7 @@ update_table <- function(table, old_table) {
     code_titles_no_spaces <- skip_spaces(code$Title)
     base_code_titles_no_spaces <- skip_spaces(base_code$Title)
 
-    
+    # register common titles for the entries that have no matching Keys
     common_titles <- intersect(code_titles_no_spaces, 
                                base_code_titles_no_spaces)
     rows <- union(rows, match(common_titles, code_titles_no_spaces))
@@ -45,9 +45,8 @@ update_table <- function(table, old_table) {
     }
     
     # If the keys were ordered according to original cbs ordering in the base
-    # table, then they were not ordered in the original table.
-    # then the keys were ordered according to selected first.
-    cbs_order <- identical(base_code$Key, base_code$OrigKeyorder)
+    # table, then the keys were ordered according to selected first.
+    cbs_order <- identical(base_code$Key, base_code$OrigKeyOrder)
     if (!cbs_order) {
       code <- order_code_rows(code, cbs_order)
     }

@@ -26,7 +26,7 @@ test_that(id, {
                                   include_meta = TRUE))
 
   # the result of sort is platform dependent (it is actually also dependend on
-  # the locale.
+  # the locale)
   expected_value_file <- file.path("expected_output", paste0(id, "_result_", 
                                    .Platform$OS.type, ".rds"))
   expect_known_value(result1, file = expected_value_file)
