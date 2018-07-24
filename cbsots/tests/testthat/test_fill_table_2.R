@@ -3,21 +3,22 @@ library(testthat)
 
 rm(list = ls())
 
-context("fill_tables_from_table (1)")
+context("fill_tables_from_table (2)")
 
-ts_code_file_old <- "tscode/tscode_81974NED.rds"
+ts_code_file_old <- "tscode/tscode_82595NED_1.rds"
 
 ts_code <- readRDS(ts_code_file_old)
 
 #edit_ts_code(ts_code_file_old)
 
-test_that("fill 83935NED from 81974NED", {
+test_that("fill 84098NED from 82595NED", {
   
-  tscodes_new <- fill_tables_from_table(ts_code, ids = "83935NED", 
-                                        base_id = "81974NED")
+  tscodes_new <- fill_tables_from_table(ts_code, ids = "84098NED", 
+                                        base_id = "82595NED")
 
   #saveRDS(tscodes_new, "tmp.rds")
-  expect_known_value(tscodes_new, "expected_output/fill_table_1.rds")
+  
+  expect_known_value(tscodes_new, "expected_output/fill_table_2.rds")
   
   if (FALSE) {
 
