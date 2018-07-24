@@ -23,7 +23,8 @@ Imports:
     shinyjqui (>= 0.2.9001),
     htmlwidgets,
     jsonlite,
-    shinyalert
+    shinyalert,
+    stringdist
 Suggests:
     testthat,
     knitr,

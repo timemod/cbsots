@@ -52,6 +52,7 @@ update_table <- function(table, old_table) {
 # Internal function: find matching keys and/or titles.
 # Keys have to match exactly, titles approximately.
 # The key takes precedence over the Title.
+#' @importFrom stringdist amatch
 match_keys_and_titles <- function(code, base) {
   
   # first check keys
@@ -63,18 +64,19 @@ match_keys_and_titles <- function(code, base) {
   missing_code_rows <- setdiff(seq_len(nrow(code)), code_rows)
   missing_base_rows <- setdiff(seq_len(nrow(base)), base_rows)
   
-  skip_spaces <- function(x) {
-    return(gsub(" ", "", x))
+  convert_char <- function(x) {
+    x <- tolower(x)
+    return(gsub("[  ,;.:]", "", x))
   }
   
   if (length(missing_code_rows) > 0) {
-    # Check if the titles are the same, but ignore spaces.
-    # TODO: use package stringDist to find out which titles are 
-    # closest. This seems to be rather complicated.
-    code_titles <- skip_spaces(code$Title[missing_code_rows])
-    base_titles <- skip_spaces(base$Title[missing_base_rows])
+    # Check if the titles are the same, ignoring spaces and some
+    # punctuation characters.
+    code_titles <- convert_char(code$Title[missing_code_rows])
+    base_titles <- convert_char(base$Title[missing_base_rows])
     
-    match_title <- match(code_titles, base_titles)
+    match_title <- amatch(code_titles, base_titles, method = "jw", 
+                          maxDist = 0.1)
     title_code_rows <- which(!is.na(match_title))
     title_base_rows <- match_title[!is.na(match_title)]
     
