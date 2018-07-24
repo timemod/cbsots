@@ -7,45 +7,27 @@ update_table <- function(table, old_table) {
     code <- table$codes[[dimension]]
     base_code <- old_table$codes[[dimension]]
     
-    common_keys <- intersect(code$Key, base_code$Key)
-    rows <- match(common_keys, code$Key)
-    base_rows <- match(common_keys, base_code$Key)
+    # Find matching keys and/or titles, and update code based on base_code
+    # TODO: only update Select and Code if base_code has Select = TRUE and Code 
+    # is a non-empty string.
+    ret <- match_keys_and_titles(code, base_code)
+    code[ret$code_rows, "Select"] <- base_code[ret$base_rows, "Select"]
+    code[ret$code_rows, "Code"] <- base_code[ret$base_rows, "Code"]
     
-    skip_spaces <- function(x) {
-      return(gsub(" ", "", x))
-    }
-   
-    # Check if the titles are the same, but ignore spaces.
-    # TODO: use package stringDist to find out which titles are 
-    # closest. This seems to be rather complicated.
-    code_titles_no_spaces <- skip_spaces(code$Title)
-    base_code_titles_no_spaces <- skip_spaces(base_code$Title)
-
-    # register common titles for the entries that have no matching Keys
-    common_titles <- intersect(code_titles_no_spaces, 
-                               base_code_titles_no_spaces)
-    rows <- union(rows, match(common_titles, code_titles_no_spaces))
-    base_rows <- union(base_rows, match(common_titles, 
-                                        base_code_titles_no_spaces))
-    
-    code[rows, "Select"] <- base_code[base_rows, "Select"]
-    code[rows, "Code"] <- base_code[base_rows, "Code"]
-    
-    
-    # check if all previously selected variables have been found
+    # Check if all previously selected variables have been found
     orig_selected <- which(base_code$Select)
-    missing <- setdiff(orig_selected, base_rows)
+    missing <- setdiff(orig_selected, ret$base_rows)
     if (length(missing) > 0) {
       warning(paste0("No matching entries found for dimension ", dimension,
                      ":\n",
-                     paste(paste(base_code$Key[missing], paste0("\"", 
-                                                                base_code$Title[missing], "\""), 
+                     paste(paste(base_code$Key[missing], 
+                                 paste0("\"", base_code$Title[missing], "\""), 
                                  sep = " - "),
                            collapse = "\n")))
     }
     
-    # If the keys were ordered according to original cbs ordering in the base
-    # table, then the keys were ordered according to selected first.
+    # Reorder the rows of code if base_code was ordered according to selected 
+    # first.
     cbs_order <- identical(base_code$Key, base_code$OrigKeyOrder)
     if (!cbs_order) {
       code <- order_code_rows(code, cbs_order)
@@ -58,11 +40,50 @@ update_table <- function(table, old_table) {
   new_codes <- sapply(common_dimensions, FUN = update_code, simplify = FALSE)
   table$codes <- modifyList(table$codes, new_codes)
   
-  # also adapt the ordering
+  # also adapt the ordering of the dimensions
   ord <- match(old_table$order, table$order)
   ord <- ord[!is.na(ord)]
   ord <- c(ord, setdiff(seq_along(table$order), ord))
   table$order <- table$order[ord]
   
   return(table)
+}
+
+# Internal function: find matching keys and/or titles.
+# Keys have to match exactly, titles approximately.
+# The key takes precedence over the Title.
+match_keys_and_titles <- function(code, base) {
+  
+  # first check keys
+  match_key <- match(code$Key, base$Key)
+  code_rows <- which(!is.na(match_key))
+  base_rows <- match_key[!is.na(match_key)]
+  
+  # now check matching titles for the rows that have no match yet
+  missing_code_rows <- setdiff(seq_len(nrow(code)), code_rows)
+  missing_base_rows <- setdiff(seq_len(nrow(base)), base_rows)
+  
+  skip_spaces <- function(x) {
+    return(gsub(" ", "", x))
+  }
+  
+  if (length(missing_code_rows) > 0) {
+    # Check if the titles are the same, but ignore spaces.
+    # TODO: use package stringDist to find out which titles are 
+    # closest. This seems to be rather complicated.
+    code_titles <- skip_spaces(code$Title[missing_code_rows])
+    base_titles <- skip_spaces(base$Title[missing_base_rows])
+    
+    match_title <- match(code_titles, base_titles)
+    title_code_rows <- which(!is.na(match_title))
+    title_base_rows <- match_title[!is.na(match_title)]
+    
+    # title_code_rows and title_base_rows are the row numbers for the
+    # row selection missing_code_rows and missing_base_rows. Now get the row 
+    # number of original base and code data frames, and add to the original
+    # code rows.
+    code_rows <- c(code_rows, missing_code_rows[title_code_rows])
+    base_rows <- c(base_rows, missing_base_rows[title_base_rows])
+  }
+  return(list(code_rows = code_rows, base_rows = base_rows))
 }
