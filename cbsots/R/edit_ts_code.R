@@ -89,6 +89,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),
+      h3("Update table"),
+      "Updated Keys and Titles with recent information on the CBS website",
+      p(),
+      actionButton("update_table", "Update"),
       h3("Save code"), 
       paste("Save the code to file", ts_code_file),
       p(),
@@ -142,6 +146,31 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           return()
         }
       }
+      
+      new_table_desc <- input$table_desc
+      new_table_id <- values$table_ids[new_table_desc]
+      if (is.na(new_table_id)) {
+        warning(paste("Internal error ... Table", new_table_desc, 
+                      "not in list of tables"))
+        return(invisible(NULL))
+      }
+      
+      if (debug) {
+        cat(sprintf("Opening table with id = %s\n", new_table_id))
+      }
+      
+      if (!is.na(values$table_id)) {
+        # another table now open
+        if (values$table_id == new_table_id) {
+          return(invisible(NULL))
+        } else {
+          # save ordering
+          values$tables[[values$table_id]]$order <- input$order_input_order
+        }
+      }
+      
+      values$table_id <- new_table_id
+      values$table_desc <- new_table_desc
 
       open_table(values, input, output, debug)
       
@@ -160,7 +189,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         shinyalert("Error", "Error downloading list of tables" , type = "error")
       } else {
         showModal(select_table_dialog("new_table", "New Table", 
-                                    names(values$new_table_ids)))
+                                    names(values$new_table_ids),
+                                    names(values$table_ids)))
       } 
     })
     
@@ -187,8 +217,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # add new table
       tryCatch({
         
-        values$tables[[new_table_id]] <- create_new_table(new_table_id, 
-                                                          base_url)
+        new_table <- create_new_table(new_table_id, base_url)
+        
+        base_table_desc <-  input$new_table_base_desc
+        if (base_table_desc != "") {
+          base_table_id <- values$table_ids[base_table_desc]
+          base_table <- values$tables[[base_table_id]]
+          # TODO: show warning messages in a separate dialog
+          new_table <- update_table(new_table, base_table)
+        }
+        
+        values$tables[[new_table_id]]  <- new_table
         values$table_ids[new_table_desc] <- new_table_id
       
         # reorder the tables alphabetically
@@ -273,6 +312,33 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       removeModal()
     })
     
+    observeEvent(input$update_table, {
+      table_id <- values$table_id
+      if (!is.na(table_id)) {
+        showModal(modalDialog(
+          title = "Confirm",
+          HTML(paste0("Do you want to update \"", table_id, "\"",
+                      "<br>with recent table information on the CBS website?")),
+          footer = tagList(
+            modalButton("No"),
+            actionButton("update_table_confirmed", "Yes")
+          ),
+          easyClose = TRUE
+        ))
+      }
+    })
+    
+    observeEvent(input$update_table_confirmed, {
+      id <- values$table_id
+      if (!is.na(id)) {
+        new_table <- create_new_table(id, base_url)
+        # TODO: show warnings in a separate window
+        values$tables[[id]] <- update_table(new_table, values$tables[[id]])
+        open_table(values, input, output, debug)
+      }
+      removeModal()
+    })
+    
     observeEvent(input$selected_tab, {
       # if a new tab has been seleced, check if we need to adapt the
       # order_table input
@@ -305,6 +371,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           if (debug) { 
             cat(sprintf("Reordering table %s\n", hot_id))
           }
+          tab <- tab[ , 1:4]
           output[[hot_id]] <- renderCodetable(codetable(isolate(tab)))
         }
       })

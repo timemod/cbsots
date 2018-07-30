@@ -1,42 +1,22 @@
+# This function open a new table. All information about the table is contained in
+# argument values
 open_table <- function(values, input, output, debug) {
   
-  #
-  # open a new table
-  #
-  
-  new_table_description <- input$table_desc
-  new_table_id <- values$table_ids[new_table_description]
-  if (is.na(new_table_id)) {
-    warning(paste("Internal error ... Table", new_table_description, 
-                  "not in list of tables"))
-    return(invisible(NULL))
-  }
- 
-  if (debug) {
-    cat(sprintf("Opening table with id = %s\n", new_table_id))
-  }
-  
-  if (!is.na(values$table_id)) {
-    # another table now open
-    if (values$table_id == new_table_id) {
-      return(invisible(NULL))
-    } else {
-      # save ordering
-      values$tables[[values$table_id]]$order <- input$order_input_order
-    }
-  }
-  
+  isolate({
+  table_id <- values$table_id
+  table_desc <- values$table_desc
+  })
   # update new tab names for the current table
-  values$names <- names(values$tables[[new_table_id]]$codes)
+  values$names <- names(values$tables[[table_id]]$codes)
   
   #
   # create the tabels
   #
   
   make_table <- function(name) {
-    tab <- isolate(values$tables[[new_table_id]]$codes[[name]])
+    tab <- isolate(values$tables[[table_id]]$codes[[name]])
     tab <- tab[ , 1:4] 
-    hot_id <- get_hot_id(new_table_id, name)
+    hot_id <- get_hot_id(table_id, name)
     output[[hot_id]] <- renderCodetable(codetable(tab))
     return()
   }
@@ -48,7 +28,7 @@ open_table <- function(values, input, output, debug) {
   # observers for the tables
   #
   make_observer <- function(name) {
-    hot_id <- get_hot_id(new_table_id, name)
+    hot_id <- get_hot_id(table_id, name)
     observeEvent(input[[hot_id]], {
       if (debug) cat(paste("Table", hot_id , "has changed\n"))
       if (!is.null(input[[hot_id]])) {
@@ -76,18 +56,18 @@ open_table <- function(values, input, output, debug) {
   #
   
   make_panel <- function(name) {
-    hot_id <- get_hot_id(new_table_id, name)
+    hot_id <- get_hot_id(table_id, name)
     return(tabPanel(name, codetableOutput(hot_id)))
   }
   
   output$tabel <- renderUI({
     isolate({
       myTabs <- lapply(values$names, make_panel)
-      ret <- list(h3(paste("Tabel", new_table_description)), br(),
+      ret <- list(h3(paste("Tabel", table_desc)), br(),
                   p(), 
                   h5("Order used to create names"),
                   orderInput(inputId = "order_input", label = NULL, 
-                             items = values$tables[[new_table_id]]$order),
+                             items = values$tables[[table_id]]$order),
                   p(),p(),
                   tags$div(
                     HTML("&#128270;"),
@@ -104,9 +84,6 @@ open_table <- function(values, input, output, debug) {
       return(ret)
     })
   })
-  
-  values$table_id <- new_table_id
-  values$table_desc <- new_table_description
   
   return(invisible(NULL))
 }
