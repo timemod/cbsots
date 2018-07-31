@@ -15,9 +15,8 @@ test_that(paste("update", id),  {
   
   expect_known_value(ts_code, "expected_output/update_table_1.rds")
   
-  msg <- paste("\ntt6 - \"6  Fabrikaten, hoofdzakelijk gerangsc...\"")
-  expect_warning(tscode_new <- update_tables(ts_code, ids = id), msg)
- 
+  tscode_new <- update_tables(ts_code, ids = id)
+
   expect_known_value(tscode_new, "expected_output/update_table_2.rds")
   
   if (FALSE) {

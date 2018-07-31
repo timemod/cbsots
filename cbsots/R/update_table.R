@@ -76,7 +76,7 @@ match_keys_and_titles <- function(code, base) {
     base_titles <- convert_char(base$Title[missing_base_rows])
     
     match_title <- amatch(code_titles, base_titles, method = "jw", 
-                          maxDist = 0.1)
+                          maxDist = 0.2)
     title_code_rows <- which(!is.na(match_title))
     title_base_rows <- match_title[!is.na(match_title)]
     
