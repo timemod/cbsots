@@ -2,10 +2,9 @@
 # argument values
 open_table <- function(values, input, output, debug) {
   
-  isolate({
   table_id <- values$table_id
   table_desc <- values$table_desc
-  })
+
   # update new tab names for the current table
   values$names <- names(values$tables[[table_id]]$codes)
   

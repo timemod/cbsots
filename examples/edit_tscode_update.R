@@ -1,5 +1,7 @@
 library(cbsots)
 
+# Use this example to update table 83028NED using the update tool.
+
 ts_code_file <- "tscode/tscode_83028NED_old.rds"
 
 edit_ts_code(ts_code_file = ts_code_file, debug = FALSE)

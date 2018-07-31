@@ -5,11 +5,11 @@
 read_ts_code <- function(filename) {
   
   ts_code <- readRDS(filename)
-
+  
   if (ts_code$package_version == "0.1") {
     stop("old package") 
   }
-    
+  
   if (!inherits(ts_code, "ts_code")) {
     stop(paste("File", filename, "does not contain a ts_code object"))
   }
@@ -111,4 +111,31 @@ convert_codetable <- function(table) {
 
 get_hot_id <- function(table_id, name) {
   return(paste(table_id, name, sep = "_"))
+}
+
+call_update_table <- function(table, base_table) {
+  # This function calls update_table and captures warnings. 
+  # It returns a list containing the updated table and the captured warnings.
+  warnings <- character(0)
+  dum <- capture.output({
+    withCallingHandlers(
+    new_table <- update_table(table, base_table), 
+    warning = function(w) {
+      warnings <<- c(warnings, w$message)
+    }
+  )}, type = "message")
+  return(list(new_table = new_table, warnings = warnings))
+}
+
+showWarningsDialog <- function(warnings, ok_button_id) {
+  showModal(modalDialog(
+    title = "Warning(s):",
+    HTML(paste(warnings, collapse = "<br>"),
+         HTML("<br>Do you want to continue?")),
+    footer = tagList(
+      modalButton("No"),
+      actionButton(ok_button_id, "Yes")
+    ),
+    easyClose = TRUE
+  ))
 }

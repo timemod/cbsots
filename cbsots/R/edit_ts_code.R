@@ -30,9 +30,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     
   } else {
-  
-      ts_code <-  structure(list(package_version = packageVersion("cbsots"),
-                            table_code = list()), class = "ts_code")
+    
+    ts_code <-  structure(list(package_version = packageVersion("cbsots"),
+                               table_code = list()), class = "ts_code")
   }
   
   tables <- ts_code$table_code
@@ -49,7 +49,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   } else {
     table_ids <- character(0)
   }
-
+  
   ui <- fluidPage(
     
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
@@ -70,7 +70,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       "When necessary, use Backspace to erase the text field.",
       p(),
       selectInput("table_desc", label = NULL, 
-                 choices = create_table_choices(names(table_ids))),
+                  choices = create_table_choices(names(table_ids))),
       p(),
       h3("Create new code table"),
       p(),
@@ -85,7 +85,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       p(),
       fluidRow(
         column(5, selectInput("order_table", label = NULL,
-                    choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "100%")),
+                              choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "100%")),
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),
@@ -171,7 +171,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       values$table_id <- new_table_id
       values$table_desc <- new_table_desc
-
+      
       open_table(values, input, output, debug)
       
       current_order <- get_order_type(values$table_id, "Topic")
@@ -188,9 +188,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (is.null(values$new_table_ids)) {
         shinyalert("Error", "Error downloading list of tables" , type = "error")
       } else {
-        showModal(select_table_dialog("new_table", "New Table", 
-                                    names(values$new_table_ids),
-                                    names(values$table_ids)))
+        showModal(select_new_table_dialog(names(values$new_table_ids),
+                                          names(values$table_ids)))
       } 
     })
     
@@ -217,37 +216,57 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # add new table
       tryCatch({
         
-        new_table <- create_new_table(new_table_id, base_url)
+        values$new_table <- create_new_table(new_table_id, base_url)
+        values$new_table_id <- new_table_id
+        values$new_table_desc <- new_table_desc
         
         base_table_desc <-  input$new_table_base_desc
         if (base_table_desc != "") {
           base_table_id <- values$table_ids[base_table_desc]
           base_table <- values$tables[[base_table_id]]
-          # TODO: show warning messages in a separate dialog
-          new_table <- update_table(new_table, base_table)
+          ret <- call_update_table(values$new_table, base_table)
+          values$new_table <- ret$new_table
+          if (length(ret$warnings) > 0) {
+            showWarningsDialog(ret$warnings, "filled_table_ok")
+          } else {
+            insert_new_table()
+            removeModal()
+          }
+        } else {
+          insert_new_table()
+          removeModal()
         }
-        
-        values$tables[[new_table_id]]  <- new_table
-        values$table_ids[new_table_desc] <- new_table_id
+      }, error = function(e) {
+        cat("error\n")
+        print(e)
+        shinyalert("Error", paste("Error while downloading table", 
+                                  new_table_id) , 
+                   type = "error")
+      })
+    })
+
+    insert_new_table <- function() {
       
+      isolate({
+        values$tables[[values$new_table_id]]  <- values$new_table
+        values$table_ids[values$new_table_desc] <- values$new_table_id
+        
         # reorder the tables alphabetically
         ord <- order(values$table_ids)
         values$tables <- values$tables[ord]
         values$table_ids <- values$table_ids[ord]
-      
+        
         updateSelectInput(session, inputId = "table_desc",
                           choices = create_table_choices(names(values$table_ids)), 
-                          selected = new_table_desc)
-      
-        removeModal()
-      }, error = function(e) {
-        shinyalert("Error", paste("Error while downloading table", 
-                   new_table_id) , 
-                   type = "error")
+                          selected = values$new_table_desc)
       })
+    }
+    
+    observeEvent(input$filled_table_ok, {
+      insert_new_table()
+      removeModal()
     })
     
-  
     observeEvent(input$delete_table, {
       
       if (length(values$tables) == 0) {
@@ -256,7 +275,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           easyClose = TRUE)) 
       } else {
         showModal(select_table_dialog("delete_table", "Delete Table", 
-                                      names(values$table_ids)))
+                                       names(values$table_ids)))
       }
     })
     
@@ -275,16 +294,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       values$delete_table_id <- delete_table_id
       
       showModal(modalDialog(
-          title = "Confirm",
-           HTML(paste0("Table \"", delete_table_desc, 
-                       "\" will be permanently deleted",
-                      "<br>Are you sure?")),
-          footer = tagList(
-            modalButton("No"),
-            actionButton("delete_table_confirmed", "Yes")
-          ),
-          easyClose = TRUE
-        ))
+        title = "Confirm",
+        HTML(paste0("Table \"", delete_table_desc, 
+                    "\" will be permanently deleted",
+                    "<br>Are you sure?")),
+        footer = tagList(
+          modalButton("No"),
+          actionButton("delete_table_confirmed", "Yes")
+        ),
+        easyClose = TRUE
+      ))
     })
     
     observeEvent(input$delete_table_confirmed, {
@@ -294,7 +313,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # update table_ids
       idx <- pmatch(values$delete_table_id, values$table_ids)
       values$table_ids <- values$table_ids[-idx]
-
+      
       
       choices <- create_table_choices(names(values$table_ids))                 
       
@@ -305,9 +324,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         values$table_desc <- NA_character_
       } else {
         updateSelectInput(session, inputId = "table_desc", choices = choices,
-                            selected = values$table_desc)
+                          selected = values$table_desc)
       }
-
+      
       
       removeModal()
     })
@@ -332,10 +351,26 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       id <- values$table_id
       if (!is.na(id)) {
         new_table <- create_new_table(id, base_url)
-        # TODO: show warnings in a separate window
-        values$tables[[id]] <- update_table(new_table, values$tables[[id]])
-        open_table(values, input, output, debug)
+        ret <- call_update_table(new_table, values$tables[[id]])
+        values$new_table <- ret$new_table
+        if (length(ret$warnings) > 0) {
+          showWarningsDialog(ret$warnings, "update_table_ok")
+        } else {
+          insert_updated_table()
+          removeModal()
+        }
       }
+    })
+    
+    insert_updated_table <- function() {
+      isolate({
+        values$tables[[values$table_id]] <- values$new_table
+        open_table(values, input, output, debug)
+      })
+    }
+    
+    observeEvent(input$update_table_ok, {
+      insert_updated_table()
       removeModal()
     })
     
@@ -386,7 +421,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     observeEvent(input$reorder, {
       reorder_table()
     })
-      
+    
     observeEvent(input$save, {
       
       if (check_duplicates(session, values)) return()
@@ -395,7 +430,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       values$tables[[values$table_id]]$order <- input$order_input_order
       
       ts_code <-  structure(list(package_version = packageVersion("cbsots"),
-                            table_code = values$tables),
+                                 table_code = values$tables),
                             class = "ts_code")
       if (debug) {
         cat("saving table_codes\n")
@@ -413,6 +448,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   } else {
     runApp(app_list)
   }
-    
+  
   return(invisible(NULL))
 }
