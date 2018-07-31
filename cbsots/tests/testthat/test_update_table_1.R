@@ -23,7 +23,7 @@ test_that(paste("update", id),  {
 
     print(tscodes_new$table_code[[id]])
 
-    ts_code_file_tmp <- "tscode/tscode_83935NED_tmp.rds"
+    ts_code_file_tmp <- tempfile()
     saveRDS(tscodes_new, ts_code_file_tmp)
     edit_ts_code(ts_code_file = ts_code_file_tmp)
 

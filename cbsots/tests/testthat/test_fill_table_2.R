@@ -24,10 +24,11 @@ test_that("fill 84098NED from 82595NED", {
 
     print(tscodes_new$table_code$`83935NED`)
 
-    ts_code_file_tmp <- "tscode/tscode_83935NED_tmp.rds"
-    saveRDS(tscodes_new, ts_code_file_tmp)
+    ts_code_file_tmp <- tempfile()
+    saveRDS(tscodes_new, ts_codes_file_tmp)
+    
     edit_ts_code(ts_code_file = ts_code_file_tmp)
-
+    
     unlink(ts_code_file_tmp)
   }
 })

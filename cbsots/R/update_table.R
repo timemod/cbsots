@@ -7,13 +7,21 @@ update_table <- function(table, old_table) {
     code <- table$codes[[dimension]]
     base_code <- old_table$codes[[dimension]]
     
-    # Find matching keys and/or titles, and update code based on base_code
-    # TODO: only update Select and Code if base_code has Select = TRUE and Code 
-    # is a non-empty string.
+    # Find matching keys and/or titles, and update code based on base_code.
+
     ret <- match_keys_and_titles(code, base_code)
-    code[ret$code_rows, "Select"] <- base_code[ret$base_rows, "Select"]
-    code[ret$code_rows, "Code"] <- base_code[ret$base_rows, "Code"]
     
+    base_code_select <- base_code[ret$base_rows]$Select
+    code_select <- code[ret$code_rows]$Select
+    base_code_code <- base_code[ret$base_rows]$Code
+    code_code <- code[ret$code_rows]$Code
+    
+    code[ret$code_rows, "Select"] <- ifelse(base_code_select, base_code_select, 
+                                            code_select)
+    code[ret$code_rows, "Code"] <- ifelse(is.na(base_code_code) | 
+                                            base_code_code == "", 
+                                          code_code, base_code_code)
+
     # Check if all previously selected variables have been found
     orig_selected <- which(base_code$Select)
     missing <- setdiff(orig_selected, ret$base_rows)
