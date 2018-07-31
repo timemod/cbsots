@@ -117,14 +117,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     #
     
     get_order_type <- function(table_id, name) {
-      isolate({
-        tab <- values$tables[[table_id]]$codes[[name]]
-        if (identical(tab$Key, tab$OrigKeyOrder)) {
-          type <- CBS_ORDER
-        } else {
-          type <- SELECTED_FIRST_ORDER
-        }
-      })
+      tab <- values$tables[[table_id]]$codes[[name]]
+      if (identical(tab$Key, tab$OrigKeyOrder)) {
+        type <- CBS_ORDER
+      } else {
+        type <- SELECTED_FIRST_ORDER
+      }
       return(type)
     }
     
@@ -244,22 +242,25 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
                    type = "error")
       })
     })
-
+    
     insert_new_table <- function() {
       
-      isolate({
-        values$tables[[values$new_table_id]]  <- values$new_table
-        values$table_ids[values$new_table_desc] <- values$new_table_id
-        
-        # reorder the tables alphabetically
-        ord <- order(values$table_ids)
-        values$tables <- values$tables[ord]
-        values$table_ids <- values$table_ids[ord]
-        
-        updateSelectInput(session, inputId = "table_desc",
-                          choices = create_table_choices(names(values$table_ids)), 
-                          selected = values$new_table_desc)
-      })
+      if (debug) {
+        cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
+                    values$new_table_id))
+      }
+      
+      values$tables[[values$new_table_id]]  <- values$new_table
+      values$table_ids[values$new_table_desc] <- values$new_table_id
+      
+      # reorder the tables alphabetically
+      ord <- order(values$table_ids)
+      values$tables <- values$tables[ord]
+      values$table_ids <- values$table_ids[ord]
+      
+      updateSelectInput(session, inputId = "table_desc",
+                        choices = create_table_choices(names(values$table_ids)), 
+                        selected = values$new_table_desc)
     }
     
     observeEvent(input$filled_table_ok, {
@@ -275,7 +276,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           easyClose = TRUE)) 
       } else {
         showModal(select_table_dialog("delete_table", "Delete Table", 
-                                       names(values$table_ids)))
+                                      names(values$table_ids)))
       }
     })
     
@@ -363,10 +364,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })
     
     insert_updated_table <- function() {
-      isolate({
-        values$tables[[values$table_id]] <- values$new_table
-        open_table(values, input, output, debug)
-      })
+      values$tables[[values$table_id]] <- values$new_table
+      open_table(values, input, output, debug)
     }
     
     observeEvent(input$update_table_ok, {
@@ -386,30 +385,31 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })
     
     
-    # local function: reorder the table in the current tab
+    # Reorder the table in the current tab
     reorder_table <- function() {
       
-      isolate({
-        
-        name <- input$selected_tab
-        if (is.null(name)) {
-          # this happens when the app starts
-          return()
+      if (debug) {
+        cat(sprintf("reorder_table for tab %s\n.", input$selected_tab))
+      }
+      
+      name <- input$selected_tab
+      if (is.null(name)) {
+        # this happens when the app starts
+        return()
+      }
+      
+      new_type <- input$order_table
+      current_type <- get_order_type(values$table_id, name)
+      if (current_type != new_type) {
+        tab <- values$tables[[values$table_id]]$codes[[name]]
+        tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
+        hot_id <- get_hot_id(values$table_id, name)
+        if (debug) { 
+          cat(sprintf("Reordering table %s\n", hot_id))
         }
-        
-        new_type <- input$order_table
-        current_type <- get_order_type(values$table_id, name)
-        if (current_type != new_type) {
-          tab <- values$tables[[values$table_id]]$codes[[name]]
-          tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
-          hot_id <- get_hot_id(values$table_id, name)
-          if (debug) { 
-            cat(sprintf("Reordering table %s\n", hot_id))
-          }
-          tab <- tab[ , 1:4]
-          output[[hot_id]] <- renderCodetable(codetable(isolate(tab)))
-        }
-      })
+        tab <- tab[ , 1:4]
+        output[[hot_id]] <- renderCodetable(codetable(tab))
+      }
       
       return()
     }

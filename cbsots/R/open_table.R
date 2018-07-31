@@ -2,6 +2,10 @@
 # argument values
 open_table <- function(values, input, output, debug) {
   
+  if (debug) {
+    cat(sprintf("In function open_table, table_id =  %s.\n", values$table_id))
+  }
+  
   table_id <- values$table_id
   table_desc <- values$table_desc
 
@@ -13,7 +17,7 @@ open_table <- function(values, input, output, debug) {
   #
   
   make_table <- function(name) {
-    tab <- isolate(values$tables[[table_id]]$codes[[name]])
+    tab <- values$tables[[table_id]]$codes[[name]]
     tab <- tab[ , 1:4] 
     hot_id <- get_hot_id(table_id, name)
     output[[hot_id]] <- renderCodetable(codetable(tab))
@@ -60,7 +64,6 @@ open_table <- function(values, input, output, debug) {
   }
   
   output$tabel <- renderUI({
-    isolate({
       myTabs <- lapply(values$names, make_panel)
       ret <- list(h3(paste("Tabel", table_desc)), br(),
                   p(), 
@@ -81,7 +84,6 @@ open_table <- function(values, input, output, debug) {
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
       
       return(ret)
-    })
   })
   
   return(invisible(NULL))
