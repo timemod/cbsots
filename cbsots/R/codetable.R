@@ -4,6 +4,9 @@ codetable <- function(data, width = NULL, height = NULL) {
   if (is.null(data))  {
     data <- as.data.frame("Internal error: no data available")
   } else {
+      
+    data <- data[ , 1:4]
+    
     # remove NA values in data$Code, sometimes there is an NA value in this 
     # column. It is not clear what caused that problem, but is may result
     # is serious problems

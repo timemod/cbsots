@@ -378,31 +378,44 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })
     
     observeEvent(input$selected_tab, {
+      
+      # a new tab has been selected
   
-      if (debug) {
-        cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
-                    input$selected_tab))
-      }
+      if (debug) cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
+                         input$selected_tab))
       
-      
-      # if a new tab has been seleced, check if we need to adapt the
-      # order_table input
+      # Update the order_table input if necessary, and reorder the table if
+      # the table is ordered with SELECTED_FIRST_ORDER.
+
       name <- input$selected_tab
       current_type <- get_order_type(values$table_id, name)
       selected <- input$order_table
+      update_order_table <- selected != current_type
       if (selected != current_type) {
+        # Update the select input for order_table. Note that this will also 
+        # cause an "order_table" event, so that funtion reorder_table() will be 
+        # called. If current_type == SELECTED_FIRST_ORDER then the table will
+        # actually be reordered.
         updateSelectInput(session, "order_table", selected = current_type)
+      } else if (current_type == SELECTED_FIRST_ORDER) {
+        reorder_table()
+      }
+      
+      # When a new tab has been selected, we want to re-render the table, 
+      # because sometimes handsontable does not render the table correctly when 
+      # the tab selection changes. 
+      # If current_type == SELECTED_ORDER, then the tables have already been 
+      # re-rendered by function reorder_table() (see code above).
+      if (current_type != SELECTED_FIRST_ORDER) {
+        tab <- values$tables[[values$table_id]]$codes[[name]]
+        hot_id <- get_hot_id(values$table_id, name)
+        output[[hot_id]] <- renderCodetable(codetable(tab))
       }
     })
-    
-    
+  
     # Reorder the table in the current tab
     reorder_table <- function() {
 
-      if (debug) {
-        cat(sprintf("reorder_table for tab %s.\n", input$selected_tab))
-      }
-      
       name <- input$selected_tab
       if (is.null(name)) {
         # this happens when the app starts
@@ -411,14 +424,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       new_type <- input$order_table
       current_type <- get_order_type(values$table_id, name)
-      if (current_type != new_type) {
+      if (current_type != new_type || new_type == SELECTED_FIRST_ORDER) {
+        hot_id <- get_hot_id(values$table_id, name)
+        if (debug) cat(sprintf("Reordering table %s.\n", hot_id))
         tab <- values$tables[[values$table_id]]$codes[[name]]
         tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
-        hot_id <- get_hot_id(values$table_id, name)
-        if (debug) { 
-          cat(sprintf("Reordering table %s\n", hot_id))
-        }
-        tab <- tab[ , 1:4]
         output[[hot_id]] <- renderCodetable(codetable(tab))
       }
       
@@ -426,10 +436,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     }
     
     observeEvent(input$order_table, {
+      if (debug) cat(sprintf("order_table event (tab = %s).\n", 
+                             input$selected_tab))
       reorder_table()
     })
     
     observeEvent(input$reorder, {
+      if (debug) cat(sprintf("reorder event (tab = %s).\n", input$selected_tab))
       reorder_table()
     })
     
