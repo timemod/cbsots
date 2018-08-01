@@ -380,10 +380,18 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     observeEvent(input$selected_tab, {
       
       # a new tab has been selected
-  
+    
       if (debug) cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
                          input$selected_tab))
       
+      # first clean all tabs, the table for the selected tab will be recreated.
+      make_empty_table <- function(name) {
+        hot_id <- get_hot_id(values$table_id, name)
+        output[[hot_id]] <- NULL
+        return()
+      }
+      lapply(values$names, FUN = make_empty_table)
+    
       # Update the order_table input if necessary, and reorder the table if
       # the table is ordered with SELECTED_FIRST_ORDER.
 

@@ -16,16 +16,21 @@ open_table <- function(values, input, output, debug) {
   # create the tabels
   #
   
-  make_table <- function(name) {
-    tab <- values$tables[[table_id]]$codes[[name]]
-    tab <- tab[ , 1:4] 
-    hot_id <- get_hot_id(table_id, name)
-    output[[hot_id]] <- renderCodetable(codetable(tab))
-    return()
+  # create the table for the first dimension (the Topic)
+  hot_id <- get_hot_id(table_id, values$names[1])
+  tab <- values$tables[[table_id]]$codes[[1]]
+  output[[hot_id]] <- renderCodetable(codetable(tab))
+  
+  # create empty tables for the other dimensions, the real tables will
+  # actually be created when the tab selection changes.
+  if (length(values$names) > 1) {
+    make_empty_table <- function(name) {
+      hot_id <- get_hot_id(table_id, name)
+      output[[hot_id]] <- NULL
+      return()
+    }
+    lapply(values$names[-1], FUN = make_empty_table)
   }
-  
-  lapply(values$names, FUN = make_table)
-  
 
   # 
   # observers for the tables
