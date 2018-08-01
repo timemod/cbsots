@@ -159,6 +159,9 @@ HTMLWidgets.widget({
                  var cell = get_search_result(!new_search_result);
                  hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, 
                                 false);
+                 // Note: the next statement only works for the read-only
+                 // columns. Thereforen it is not possible to change the focus
+                 // for the Select and Code columns.
                  search_field.focus();
                  new_search_result = false;
  
