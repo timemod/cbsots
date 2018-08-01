@@ -11,6 +11,11 @@ HTMLWidgets.widget({
       renderValue: function(x) {
     
         var BOOLEAN_COL = 1;
+
+        // default callback function for the search plugin
+        const DEFAULT_CALLBACK = function(instance, row, col, data, testResult) {
+                 instance.getCellMeta(row, col).isSearchResult = testResult;
+        };
  
 	    var hot = new Handsontable(el, {
             data: x.data,
@@ -54,9 +59,11 @@ HTMLWidgets.widget({
          Shiny.onInputChange(el.id, hot.getData());
 
          function search_call_back(instance, row, col, value, result) {
-         //do not show search results in the column with logical values -->
+
+             // do not highlight search results in the Select column.
+
              if (col != BOOLEAN_COL) {
-                 Handsontable.plugins.Search.DEFAULT_CALLBACK.apply(this, arguments);
+                 DEFAULT_CALLBACK.apply(this, arguments);
              }
          };
 
@@ -72,7 +79,9 @@ HTMLWidgets.widget({
          var ncol = hot.countCols();
          var nrow = hot.countRows();
          var ncell = ncol * nrow;
-         
+
+         var search = hot.getPlugin('search');
+
          // get_cell_index returns the index of a cell in the matrix data,
          // where the matrix data is stored rowwise
          var get_cell_index = function(row, col) {
@@ -105,11 +114,10 @@ HTMLWidgets.widget({
          
              if (nxt) {
                  start_index = ++start_index % ncell;
-             }
+            }
          
              var fun = function(cell_index, index, array) {
-                 return cell_index >= start_index  &&
-                        search_result[index].col != BOOLEAN_COL;
+                 return cell_index >= start_index
              }
          
              index = found_cell_indices.findIndex(fun);
@@ -132,9 +140,7 @@ HTMLWidgets.widget({
              start_index = (ncell + --start_index) % ncell;
          
              var fun = function(cell_index, index, array) {
-                 return (cell_index <= start_index  && 
-                        found_cell_indices_rev[search_result.length - 1 - index].col 
-                        != BOOLEAN_COL);
+                 return cell_index <= start_index;
              };
          
              index  = found_cell_indices_rev.findIndex(fun);
@@ -146,70 +152,85 @@ HTMLWidgets.widget({
              return search_result[index];
          }
          
-         Handsontable.dom.addEvent(search_field, 'keyup', 
-                 function (event) {
-                     if (event.code == "Enter" && search_result.length > 0) {
-                         var cell;
-                         if (!new_search_result) {
-                             cell = get_search_result(true);
-                         } else {
-                             cell = get_search_result(false);
-                         }
-                         hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, 
-                                        false);
-                         search_field.focus();
-                         new_search_result = false;
-         
-                     } else {
-         
-                         search_result = hot.search.query(this.value);
-         
-                         if (search_result.length > 0) {
-         
-                             // administration for the cell indices of found cells
-                             found_cell_indices = new Array(search_result.length);
-                             for (i = 0; i < search_result.length; i++) {
-                                 found_cell_indices[i] = get_cell_index(search_result[i].row,
-                                                                            search_result[i].col);
-                             }
-                             found_cell_indices_rev = found_cell_indices.slice();
-                             found_cell_indices_rev.reverse();
-         
-                             new_search_result = true;
-                             var cell = get_search_result(false);
-                             hot.scrollViewportTo(cell.row, cell.col);
-                         } 
-                         hot.render();
+         Handsontable.dom.addEvent(search_field, 'keyup', function (event) {
+
+             if (event.code == "Enter" && search_result.length > 0) {
+
+                 var cell = get_search_result(!new_search_result);
+                 hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, 
+                                false);
+                 search_field.focus();
+                 new_search_result = false;
+ 
+             } else {
+    
+                 var search_result_tmp = search.query(this.value);
+
+                 // Remove search results in the Select column (col == BOOLEAN_COL). 
+                 if (search_result_tmp.length > 0) {
+                     var cnt = 0;
+                     for (i = 0; i < search_result_tmp.length; i++) {
+                        if (search_result_tmp[i].col != BOOLEAN_COL) cnt++;
                      }
-                 });
+                     search_result = new Array(cnt);
+                     cnt = 0;
+                     for (i = 0; i < search_result_tmp.length; i++) {
+                        if (search_result_tmp[i].col != BOOLEAN_COL) {
+                            search_result[cnt++] = search_result_tmp[i];
+                        }
+                     }
+                 } else {
+                    search_result = new Array(0);
+                }
+
+                if (search_result.length > 0) {
+ 
+                    // administration for the cell indices of found cells
+                    found_cell_indices = new Array(search_result.length);
+                    for (i = 0; i < search_result.length; i++) {
+                        found_cell_indices[i] = get_cell_index(search_result[i].row,
+                                                               search_result[i].col);
+                    }
+                    found_cell_indices_rev = found_cell_indices.slice();
+                    found_cell_indices_rev.reverse();
+
+                    new_search_result = true;
+                    var cell = get_search_result(false);
+                    hot.scrollViewportTo(cell.row, cell.col);
+                } 
+
+                // render table again, to all cells will be displayed with
+                // colour
+                hot.render();
+             }
+         });
          
-               /* 
-                * Add listeners to thee buttons
-                */
+         /* 
+          * Add listeners to the next and prev buttons
+          */
                
-               var next_button = document.getElementById("next_button");
-               var prev_button = document.getElementById("prev_button");
+          var next_button = document.getElementById("next_button");
+          var prev_button = document.getElementById("prev_button");
          
-               next_button.addEventListener("click", function(event) {
-                   if (search_result.length > 0) {
-                       cell = get_search_result(true);
-                       hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, false);
-                       new_search_result = false;
-                   }
-               });
+          next_button.addEventListener("click", function(event) {
+               if (search_result.length > 0) {
+                   cell = get_search_result(true);
+                   hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, false);
+                   new_search_result = false;
+               }
+           });
          
-               prev_button.addEventListener("click", function(event) {
-                   if (search_result.length > 0) {
-                       cell = get_prev_search_result();
-                       hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, false);
-                       new_search_result = false;
-                   }
-               })
+           prev_button.addEventListener("click", function(event) {
+               if (search_result.length > 0) {
+                   cell = get_prev_search_result();
+                   hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, false);
+                   new_search_result = false;
+               }
+           })
 
       },
 
       resize: function(width, height) {
-
       }
 
     };
