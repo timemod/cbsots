@@ -99,7 +99,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       actionButton("save", "Save codes")
     ),
     mainPanel(
-      uiOutput('tabel')
+      uiOutput('table_pane')
     )
   )
   
@@ -128,12 +128,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     observeEvent(input$table_desc, {
       
+      if (debug) {
+        cat(sprintf("table_desc event, table_desc = %s\n", input$table_desc))
+      }
+      
       if (input$table_desc == "") {
         return()
       }
       
       if (length(values$tables) == 0) {
-        output$tabel <- renderUI({return(NULL)})
+        output$table_pane <- renderUI({return(NULL)})
         return(invisible(NULL))
       }
       
@@ -320,7 +324,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       if (is.na(values$table_id) || values$delete_table_id == values$table_id) {
         updateSelectInput(session, inputId = "table_desc", choices = choices)
-        output$tabel <- renderUI({return(NULL)})
+        output$table_pane <- renderUI({return(NULL)})
         values$table_id <- NA_character_
         values$table_desc <- NA_character_
       } else {
@@ -374,6 +378,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })
     
     observeEvent(input$selected_tab, {
+  
+      if (debug) {
+        cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
+                    input$selected_tab))
+      }
+      
+      
       # if a new tab has been seleced, check if we need to adapt the
       # order_table input
       name <- input$selected_tab
@@ -387,9 +398,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     # Reorder the table in the current tab
     reorder_table <- function() {
-      
+
       if (debug) {
-        cat(sprintf("reorder_table for tab %s\n.", input$selected_tab))
+        cat(sprintf("reorder_table for tab %s.\n", input$selected_tab))
       }
       
       name <- input$selected_tab

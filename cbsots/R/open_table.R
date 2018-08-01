@@ -63,7 +63,10 @@ open_table <- function(values, input, output, debug) {
     return(tabPanel(name, codetableOutput(hot_id)))
   }
   
-  output$tabel <- renderUI({
+  output$table_pane <- renderUI({
+    # add isolate, otherwise the table_pane will be redrawn every time that
+    # values$tables changes
+    isolate({
       myTabs <- lapply(values$names, make_panel)
       ret <- list(h3(paste("Tabel", table_desc)), br(),
                   p(), 
@@ -82,8 +85,8 @@ open_table <- function(values, input, output, debug) {
                   ),
                   p(),
                   do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
-      
-      return(ret)
+    })
+    return(ret)
   })
   
   return(invisible(NULL))
