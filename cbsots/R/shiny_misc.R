@@ -113,6 +113,7 @@ get_hot_id <- function(table_id, name) {
   return(paste(table_id, name, sep = "_"))
 }
 
+#' @importFrom utils capture.output
 call_update_table <- function(table, base_table) {
   # This function calls update_table and captures warnings. 
   # It returns a list containing the updated table and the captured warnings.

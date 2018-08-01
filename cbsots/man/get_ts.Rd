@@ -5,8 +5,8 @@
 \title{Return CBS timeseries}
 \usage{
 get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE, min_year = NULL, frequencies = NULL, download,
-  base_url = NULL, download_all_keys = FALSE)
+  include_meta = FALSE, min_year = NULL, frequencies = NULL,
+  download, base_url = NULL, download_all_keys = FALSE)
 }
 \arguments{
 \item{id}{table id}
