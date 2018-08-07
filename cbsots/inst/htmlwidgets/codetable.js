@@ -55,9 +55,6 @@ HTMLWidgets.widget({
             },
          });
 
-         // initialise data
-         Shiny.onInputChange(el.id, hot.getData());
-
          function search_call_back(instance, row, col, value, result) {
 
              // do not highlight search results in the Select column.

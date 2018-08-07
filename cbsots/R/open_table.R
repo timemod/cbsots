@@ -43,6 +43,8 @@ open_table <- function(values, input, output, debug) {
         df_input <- convert_codetable(input[[hot_id]])
         if (!is.null(df_input)) {
           if (debug) {
+            cat("old values\n")
+            print(head(values$tables[[values$table_id]]$codes[[name]][, 1:3]))
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
