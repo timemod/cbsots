@@ -23,20 +23,15 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
                   1
                 }
   
-  hot_id <- get_hot_id(table_id, values$names[name_index])
-  tab <- values$tables[[table_id]]$codes[[name_index]]
-  output[[hot_id]] <- renderCodetable(codetable(tab))
-  
-  # create empty tables for the other dimensions, the real tables will
-  # actually be created when the tab selection changes.
-  if (length(values$names) > 1) {
-    make_empty_table <- function(name) {
-      hot_id <- get_hot_id(table_id, name)
-      output[[hot_id]] <- NULL
-      return()
-    }
-    lapply(values$names[-name_index], FUN = make_empty_table)
+  # Create empty tables for all dimensions.
+  # The actual table in the selected tab will be created in the observer
+  # for an tabsetpanel event (see code in edit_ts_code.R).
+  make_empty_table <- function(name) {
+    hot_id <- get_hot_id(table_id, name)
+    output[[hot_id]] <- NULL
+    return()
   }
+  lapply(values$names, FUN = make_empty_table)
 
   # 
   # observers for the tables
