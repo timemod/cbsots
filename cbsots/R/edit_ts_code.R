@@ -464,6 +464,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       if (check_duplicates(session, values)) return()
       
+      # reorder the table in the current tab
+      reorder_table()
+      
       # save ordering    
       values$tables[[values$table_id]]$order <- input$order_input_order
       
