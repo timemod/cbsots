@@ -437,15 +437,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       new_type <- input$order_table
       current_type <- get_order_type(values$table_id, name)
       if (current_type != new_type || new_type == SELECTED_FIRST_ORDER) {
-        hot_id <- get_hot_id(values$table_id, name)
+        hot_id <- get_hot_id(values$table_id, name)        
         if (debug) cat(sprintf("Reordering table %s.\n", hot_id))
         tab <- values$tables[[values$table_id]]$codes[[name]]
         tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
+        values$tables[[values$table_id]]$codes[[name]] <- tab
         output[[hot_id]] <- renderCodetable(codetable(tab))
       }
       
       return()
     }
+    
     
     observeEvent(input$order_table, {
       if (debug) cat(sprintf("order_table event (tab = %s).\n", 
