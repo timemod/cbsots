@@ -1,6 +1,6 @@
 # This function open a new table. All information about the table is contained in
 # argument values
-open_table <- function(values, input, output, debug) {
+open_table <- function(values, input, output, selected_tab = NULL, debug) {
   
   if (debug) {
     cat(sprintf("In function open_table, table_id =  %s.\n", values$table_id))
@@ -17,8 +17,14 @@ open_table <- function(values, input, output, debug) {
   #
   
   # create the table for the first dimension (the Topic)
-  hot_id <- get_hot_id(table_id, values$names[1])
-  tab <- values$tables[[table_id]]$codes[[1]]
+  name_index <- if (!is.null(selected_tab)) {
+                  match(selected_tab, values$names)
+                } else {
+                  1
+                }
+  
+  hot_id <- get_hot_id(table_id, values$names[name_index])
+  tab <- values$tables[[table_id]]$codes[[name_index]]
   output[[hot_id]] <- renderCodetable(codetable(tab))
   
   # create empty tables for the other dimensions, the real tables will
@@ -29,7 +35,7 @@ open_table <- function(values, input, output, debug) {
       output[[hot_id]] <- NULL
       return()
     }
-    lapply(values$names[-1], FUN = make_empty_table)
+    lapply(values$names[-name_index], FUN = make_empty_table)
   }
 
   # 
@@ -91,7 +97,8 @@ open_table <- function(values, input, output, debug) {
                                 id = "next_button")
                   ),
                   p(),
-                  do.call(tabsetPanel, c(list(id = "selected_tab"), myTabs)))
+                  do.call(tabsetPanel, c(list(id = "tabsetpanel", 
+                                            selected = selected_tab), myTabs)))
     })
     return(ret)
   })

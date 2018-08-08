@@ -174,7 +174,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       values$table_id <- new_table_id
       values$table_desc <- new_table_desc
       
-      open_table(values, input, output, debug)
+      open_table(values, input, output, debug = debug)
       
       current_order <- get_order_type(values$table_id, "Topic")
       updateSelectInput(session, "order_table", selected = current_order)
@@ -368,8 +368,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     })
     
     insert_updated_table <- function() {
+      
+      if (debug) cat("in insert_update_table\n")
+      
       values$tables[[values$table_id]] <- values$new_table
-      open_table(values, input, output, debug)
+      open_table(values, input, output, selected_tab = input$tabsetpanel, 
+                 debug = debug)
     }
     
     observeEvent(input$update_table_ok, {
@@ -377,12 +381,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       removeModal()
     })
     
-    observeEvent(input$selected_tab, {
+    observeEvent(input$tabsetpanel, {
       
       # a new tab has been selected
     
       if (debug) cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
-                         input$selected_tab))
+                         input$tabsetpanel))
       
       # first clean all tabs, the table for the selected tab will be recreated.
       make_empty_table <- function(name) {
@@ -395,7 +399,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # Update the order_table input if necessary, and reorder the table if
       # the table is ordered with SELECTED_FIRST_ORDER.
 
-      name <- input$selected_tab
+      name <- input$tabsetpanel
       current_type <- get_order_type(values$table_id, name)
       selected <- input$order_table
       update_order_table <- selected != current_type
@@ -424,7 +428,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     # Reorder the table in the current tab
     reorder_table <- function() {
 
-      name <- input$selected_tab
+      name <- input$tabsetpanel
       if (is.null(name)) {
         # this happens when the app starts
         return()
@@ -445,12 +449,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     observeEvent(input$order_table, {
       if (debug) cat(sprintf("order_table event (tab = %s).\n", 
-                             input$selected_tab))
+                             input$tabsetpanel))
       reorder_table()
     })
     
     observeEvent(input$reorder, {
-      if (debug) cat(sprintf("reorder event (tab = %s).\n", input$selected_tab))
+      if (debug) cat(sprintf("reorder event (tab = %s).\n", input$tabsetpanel))
       reorder_table()
     })
     
