@@ -175,11 +175,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       open_table(values, input, output, debug = debug)
       
-      # TODO: only do this when the orde type has actually changed, to prevent
-      # an extra event.
       updateSelectInput(session, "order_table", selected = get_order_type(1))
-      
-      
+    
     })  # table_description_event
     
     
