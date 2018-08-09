@@ -9,9 +9,9 @@ create_new_table <- function(id, base_url = NULL){
   }
   
   data_properties <- as.data.table(info$DataProperties)
-  dimensies_en_topics <- get_dimensies_en_topics(data_properties)
-  dimensies <- dimensies_en_topics$dimensies
-  topics <- dimensies_en_topics$topics
+  dimensions_and_topics <- get_dimensions_and_topics(data_properties)
+  dimensions <- dimensions_and_topics$dimensions
+  topics <- dimensions_and_topics$topics
   topics$Code <- ""
   topics$Select <- FALSE
   # TODO: handle description
@@ -21,16 +21,21 @@ create_new_table <- function(id, base_url = NULL){
   
   codes <- list(Topic = topics)
   
-  create_dimcode <- function(dimensie) {
-    ret <- info[[dimensie]]
+  create_dimcode <- function(dimension) {
+    ret <- info[[dimension]]
     ret$Code <- ""
     ret$Select <- FALSE
     ret$OrigKeyOrder <- ret$Key
     ret <- ret[, c("Key", "Select", "Code", "Title",  "OrigKeyOrder")]
     return(as.data.table(ret))
   }
-  dimcodes <- sapply(dimensies, FUN = create_dimcode, simplify = FALSE)
+  dimcodes <- sapply(dimensions, FUN = create_dimcode, simplify = FALSE)
   codes <- c(codes, dimcodes)
+  
+  cbs_key_order <- rep(TRUE,  length(dimensions) + 1)
+  names(cbs_key_order) <- c("Topic", dimensions)
+  
   return(structure(list(short_title = info$TableInfos$ShortTitle,
-              order = names(codes), codes = codes), class = "table_code"))
+              order = names(codes), cbs_key_order = cbs_key_order,
+              codes = codes), class = "table_code"))
 }

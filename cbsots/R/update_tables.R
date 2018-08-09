@@ -11,6 +11,8 @@
 #' @export
 update_tables <- function(tscodes, ids, base_url = NULL) {
  
+  tscodes <- convert_ts_code(tscodes)
+  
   for (id in  ids) {
     
     if (id %in% names(tscodes$table_code)) {
@@ -20,7 +22,6 @@ update_tables <- function(tscodes, ids, base_url = NULL) {
     }
     
     new_table <- create_new_table(id, base_url)
-    
     
     table <- update_table(new_table, table)
     

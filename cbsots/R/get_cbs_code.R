@@ -2,7 +2,7 @@
 get_cbs_code <- function(meta_data) {
   
   data_properties <- as.data.table(meta_data$DataProperties)
-  dimensies_en_topics <- get_dimensies_en_topics(data_properties)
+  dimensions_and_topics <- get_dimensions_and_topics(data_properties)
  
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
@@ -13,28 +13,28 @@ get_cbs_code <- function(meta_data) {
     df <- df[, .(Key, Title)]
     return(df)
   }
-  code <- sapply(dimensies_en_topics$dimensies, FUN = get_code, simplify = FALSE)
-  code$Topic <- dimensies_en_topics$topics
+  code <- sapply(dimensions_and_topics$dimensions, FUN = get_code, simplify = FALSE)
+  code$Topic <- dimensions_and_topics$topics
   
-  code <- code[c("Topic", dimensies_en_topics$dimensies)]
+  code <- code[c("Topic", dimensions_and_topics$dimensions)]
   return(code)
 }
 
-# Haal de dimensies, topics en bijbehorende omschrijvingen uit
+# Haal de dimensions, topics en bijbehorende omschrijvingen uit
 # de data_properties data frame zoals ingelezen / gedownload van het CBS.
-get_dimensies_en_topics <- function(data_properties) {
+get_dimensions_and_topics <- function(data_properties) {
   
-  dimensies <- data_properties[endsWith(Type, "Dimension") & 
+  dimensions <- data_properties[endsWith(Type, "Dimension") & 
                                  Type != "TimeDimension"]$Key
   
-  if ("Perioden" %in% dimensies) {
+  if ("Perioden" %in% dimensions) {
     if ("TimeDimension" %in% data_properties$Type) {
       stop(paste("PROBLEEM: dimensie met naam \"Perioden\" gevonden naast een",
                  "\"TimeDimension\""))
     } else {
       # Geen Timedimension maar wel een dimensie met naam "Perioden" gevonden,
       # in dat geval gaan we ervan uit dat dit toch een  TimeDimension is.
-      dimensies <- setdiff(dimensies, "Perioden")
+      dimensions <- setdiff(dimensions, "Perioden")
     }
   }
 
@@ -63,5 +63,5 @@ get_dimensies_en_topics <- function(data_properties) {
   
   topics <- data_properties[Type == "Topic", .(Key, Title)]
   
-  return(list(dimensies = dimensies, topics = topics))
+  return(list(dimensions = dimensions, topics = topics))
 }

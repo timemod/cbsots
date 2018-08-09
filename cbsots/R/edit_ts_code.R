@@ -116,14 +116,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     # local functions
     #
     
-    get_order_type <- function(table_id, name) {
-      tab <- values$tables[[table_id]]$codes[[name]]
-      if (identical(tab$Key, tab$OrigKeyOrder)) {
-        type <- CBS_ORDER
+    get_order_type <- function(dimension) {
+      has_cbs_order <- values$tables[[values$table_id]]$cbs_key_order[[dimension]]
+      if (has_cbs_order) {
+        return(CBS_ORDER)
       } else {
-        type <- SELECTED_FIRST_ORDER
+        return(SELECTED_FIRST_ORDER)
       }
-      return(type)
     }
     
     observeEvent(input$table_desc, {
@@ -176,8 +175,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       open_table(values, input, output, debug = debug)
       
-      current_order <- get_order_type(values$table_id, "Topic")
-      updateSelectInput(session, "order_table", selected = current_order)
+      # TODO: only do this when the orde type has actually changed, to prevent
+      # an extra event.
+      updateSelectInput(session, "order_table", selected = get_order_type(1))
       
       
     })  # table_description_event
@@ -396,14 +396,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       }
       lapply(values$names, FUN = make_empty_table)
     
-      # Update the order_table input if necessary, and reorder the table if
-      # the table is ordered with SELECTED_FIRST_ORDER.
-
       name <- input$tabsetpanel
-      current_type <- get_order_type(values$table_id, name)
-      selected <- input$order_table
-      update_order_table <- selected != current_type
-      if (selected != current_type) {
+      
+      # Update the order_table input if necessary, and reorder the table if
+      # the table is ordered with SELECTED_FIRST_ORDER
+      current_type <- get_order_type(name)
+      if (input$order_table != current_type) {
         # Update the select input for order_table. Note that this will also 
         # cause an "order_table" event, so that funtion reorder_table() will be 
         # called. If current_type == SELECTED_FIRST_ORDER then the table will
@@ -435,8 +433,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       }
       
       new_type <- input$order_table
-      current_type <- get_order_type(values$table_id, name)
+      current_type <- get_order_type(name)
       if (current_type != new_type || new_type == SELECTED_FIRST_ORDER) {
+        # for the SELECTED_FIRST_ORDER we always want to reorder since the
+        # selection may have changed. This is not necessary for CBS_ORDER.
         hot_id <- get_hot_id(values$table_id, name)        
         if (debug) cat(sprintf("Reordering table %s.\n", hot_id))
         tab <- values$tables[[values$table_id]]$codes[[name]]
@@ -450,8 +450,26 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     
     observeEvent(input$order_table, {
+      
       if (debug) cat(sprintf("order_table event (tab = %s).\n", 
                              input$tabsetpanel))
+      
+      name <- input$tabsetpanel
+      if (is.null(name)) {
+        # this happens when the app starts
+        return()
+      }
+      if (debug) {
+        cat("Updating cbs_key_order, old = \n")
+        print(values$tables[[values$table_id]]$cbs_key_order)
+      }
+      values$tables[[values$table_id]]$cbs_key_order[[name]] <- 
+                                       input$order_table == CBS_ORDER
+      if (debug) {
+        cat("updating reorder, new = \n")
+        print(values$tables[[values$table_id]]$cbs_key_order)
+      }
+
       reorder_table()
     })
     

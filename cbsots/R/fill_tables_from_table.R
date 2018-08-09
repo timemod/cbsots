@@ -13,6 +13,8 @@
 #' @export
 fill_tables_from_table <- function(tscodes, ids,  base_id, base_url = NULL) {
   
+  tscodes <- convert_ts_code(tscodes)
+ 
   base_table <- tscodes$table_code[[base_id]]
   
   new_table_created <- FALSE

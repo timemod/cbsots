@@ -14,6 +14,9 @@ print.ts_code <- function(x, ...) {
 print.table_code <- function(x, ...) {
   cat("ts_code_table object\n")
   cat(sprintf("Order : %s\n", paste(x$order, collapse = ", ")))
+  cat("cbs_key_order for each dimension:\n")
+  print(x$cbs_key_order)
+  cat("\n")
   cat("The first 6 rows and 3 columns are shown.\n")
   for (dim in names(x$codes)) {
     cat(sprintf("Dimension %s : \n", dim))

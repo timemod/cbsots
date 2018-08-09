@@ -20,6 +20,10 @@ test_that("fill 84098NED from 82595NED", {
   
   expect_known_value(tscodes_new, "expected_output/fill_table_2.rds")
   
+  # tscodes_old <- readRDS("expected_output/fill_table_2.rds")
+  # tscodes_old <- cbsots:::convert_ts_code(tscodes_old)
+  # all.equal(tscodes_new, tscodes_old)
+  
   if (FALSE) {
 
     print(tscodes_new$table_code$`83935NED`)

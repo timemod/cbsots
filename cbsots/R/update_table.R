@@ -54,6 +54,10 @@ update_table <- function(table, old_table) {
   ord <- c(ord, setdiff(seq_along(table$order), ord))
   table$order <- table$order[ord]
   
+  # update cbs_key_order
+  table$cbs_key_order[common_dimensions] <- 
+                   old_table$cbs_key_order[common_dimensions]
+  
   return(table)
 }
 
