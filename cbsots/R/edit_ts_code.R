@@ -459,18 +459,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         # this happens when the app starts
         return()
       }
-      if (debug) {
-        cat("Updating cbs_key_order, old = \n")
-        print(values$tables[[values$table_id]]$cbs_key_order)
-      }
+      
+      # first reorder table
+      reorder_table()
+      
+      # and then update cbs_key_order
       values$tables[[values$table_id]]$cbs_key_order[[name]] <- 
-                                       input$order_table == CBS_ORDER
+                                             input$order_table == CBS_ORDER
+      
       if (debug) {
-        cat("updating reorder, new = \n")
+        cat("Updating cbs_key_order, new value = \n")
         print(values$tables[[values$table_id]]$cbs_key_order)
       }
 
-      reorder_table()
     })
     
     observeEvent(input$reorder, {
