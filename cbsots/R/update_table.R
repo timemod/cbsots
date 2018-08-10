@@ -1,4 +1,4 @@
-# internal function: fill in Select and Code from an old table into table.
+# Internal function: fill in Select and Code from an old table into table.
 # Use common dimension names and Keys or Titles.
 update_table <- function(table, old_table) {
   
@@ -24,14 +24,20 @@ update_table <- function(table, old_table) {
 
     # Check if all previously selected variables have been found
     orig_selected <- which(base_code$Select)
-    missing <- setdiff(orig_selected, ret$base_rows)
-    if (length(missing) > 0) {
-      warning(paste0("No matching entries found for dimension ", dimension,
-                     ":\n",
-                     paste(paste(base_code$Key[missing], 
-                                 paste0("\"", base_code$Title[missing], "\""), 
-                                 sep = " - "),
-                           collapse = "\n")))
+    
+    if (length(ret$base_rows) == 0) {
+      warning(paste0("No matching entries found for dimension ", dimension, 
+                     "."))
+    } else {
+      missing <- setdiff(orig_selected, ret$base_rows)
+      if (length(missing) > 0) {
+        warning(paste0("No matching entries found for dimension ", dimension,
+                       ":\n",
+                       paste(paste(base_code$Key[missing], 
+                                   paste0("\"", base_code$Title[missing], "\""), 
+                                   sep = " - "),
+                             collapse = "\n")))
+      }
     }
     
     # Reorder the rows of code if base_code was ordered according to selected 
@@ -65,13 +71,69 @@ update_table <- function(table, old_table) {
 # Keys have to match exactly, titles approximately.
 # The key takes precedence over the Title.
 #' @importFrom stringdist amatch
+#' @importFrom stringr str_match
 match_keys_and_titles <- function(code, base) {
   
-  # first check keys
-  match_key <- match(code$Key, base$Key)
-  code_rows <- which(!is.na(match_key))
-  base_rows <- match_key[!is.na(match_key)]
+  # 
+  # check keys
+  #
   
+  code_keys <- tolower(code$Key)
+  base_keys <- tolower(base$Key)
+  ignore_keys <- FALSE
+  
+  # cat("code_keys\n")
+  # print(code_keys)
+  # cat("base_keys\n")
+  # print(base_keys)
+  
+  if (!isTRUE(all.equal(code_keys, base_keys))) {
+
+    # If the keys are not equal (apart of the ordering), then check if
+    # the keys contain running numbers, for example Uitvoerwaarde_1, 
+    # Invoerwaarde_2, Handelsbalans_3 etc. 
+    # When comparing the keys from code with base, we remove the running numbers 
+    # because in the base table the corresponding key may have a different 
+    # running number when another key was deleted or inserted. 
+    # However, sometimes the keys without running numbers are not unique
+    # (e.g. totaal_1, totaal_2 etc.), in that case we should ignore the keys.
+    
+    pattern <- "_(\\d+)$"
+    
+    has_running_numbers <- function(x) {
+      ma <- str_match(x, pattern)
+      suffixes <- ma[, 2]
+      return(identical(suffixes, as.character(seq_along(x))))
+    }
+    
+    remove_running_numbers <- function(x) {
+      return(sub(pattern, "", x))
+    }
+    
+    code_keys_run <- has_running_numbers(code_keys)
+    base_keys_run <- has_running_numbers(base_keys)
+    
+    if (code_keys_run && base_keys_run) {
+      code_keys <- remove_running_numbers(code_keys)
+      base_keys <- remove_running_numbers(base_keys)
+    } else  if (xor(code_keys_run, base_keys_run)) {
+      
+      # only one of code or base_keys have running numbers
+      ignore_keys <- TRUE
+    }
+  }
+  
+  
+  if (!ignore_keys) {
+    match_key <- match_unique(code_keys, base_keys)
+    code_rows <- which(!is.na(match_key))
+    base_rows <- match_key[!is.na(match_key)]
+  } else {match
+    code_rows <- integer(0)
+    base_rows <- integer(0)
+  }
+  
+
   # now check matching titles for the rows that have no match yet
   missing_code_rows <- setdiff(seq_len(nrow(code)), code_rows)
   missing_base_rows <- setdiff(seq_len(nrow(base)), base_rows)
@@ -81,11 +143,26 @@ match_keys_and_titles <- function(code, base) {
     return(gsub("[  ,;.:]", "", x))
   }
   
+  # cat("missing_code_rows\n")
+  # print(missing_code_rows)
+  
   if (length(missing_code_rows) > 0) {
     # Check if the titles are the same, ignoring spaces and some
     # punctuation characters.
     code_titles <- convert_char(code$Title[missing_code_rows])
     base_titles <- convert_char(base$Title[missing_base_rows])
+    
+    # cat("code_titles\n")
+    # print(code_titles)
+    # cat("base_titles\n")
+    # print(base_titles)
+    
+    if (anyDuplicated(code_titles) || anyDuplicated(base_titles)) {
+      return(list(code_rows = integer(0), base_rows = integer(0)))
+    }
+    
+    # TODO: use amatch only to match unique pairs, see function
+    #       match_unique.
     
     match_title <- amatch(code_titles, base_titles, method = "jw", 
                           maxDist = 0.2)
@@ -101,3 +178,22 @@ match_keys_and_titles <- function(code, base) {
   }
   return(list(code_rows = code_rows, base_rows = base_rows))
 }
+
+
+# This function works as match, but only matches unique elements in x and y.
+# TODO: is is possible to implement this more efficiently
+match_unique <- function(x, y) {
+  
+  # replace duplicated in y with NA  
+  y_dupl <- y[duplicated(y)]
+  y[y %in% y_dupl] <- NA
+  
+  result <- match(x, y)
+  
+  result_dupl <- result[duplicated(result)]
+  result[result %in% result_dupl] <- NA
+  
+  return(result)
+}
+
+# TODO: create similar function amatch_unique
