@@ -25,7 +25,8 @@ Imports:
     jsonlite,
     shinyalert,
     stringdist,
-    utils
+    utils,
+    stringr
 Suggests:
     testthat,
     knitr,
