@@ -1,8 +1,7 @@
 Package: cbsots
 Type: Package
-Title: CBS open timeseires
+Title: CBS Open Timeseries
 Version: 0.5
-Date: 2016-01-26
 Authors@R: c(
  person("Rob", "van Harrevelt", email = "rvanharrevelt@gmail.com", role = c("aut", "cre"))
  )
