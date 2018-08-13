@@ -12,7 +12,7 @@ ts_code <- readRDS(ts_code_file_old)
 new_ids <- c("83357NED", "83361NED")
 base_id <- "83186NED"
 
-# edit_ts_code(ts_code_file_old)
+#edit_ts_code(ts_code_file_old)
 
 test_that("fill 84098NED from 82595NED", {
   

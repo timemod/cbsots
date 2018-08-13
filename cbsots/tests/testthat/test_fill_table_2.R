@@ -16,8 +16,6 @@ test_that("fill 84098NED from 82595NED", {
   tscodes_new <- fill_tables_from_table(ts_code, ids = "84098NED", 
                                         base_id = "82595NED")
 
-  #saveRDS(tscodes_new, "tmp.rds")
-  
   expect_known_value(tscodes_new, "expected_output/fill_table_2.rds")
   
   # tscodes_old <- readRDS("expected_output/fill_table_2.rds")
@@ -29,7 +27,7 @@ test_that("fill 84098NED from 82595NED", {
     print(tscodes_new$table_code$`83935NED`)
 
     ts_code_file_tmp <- tempfile()
-    saveRDS(tscodes_new, ts_codes_file_tmp)
+    saveRDS(tscodes_new, ts_code_file_tmp)
     
     edit_ts_code(ts_code_file = ts_code_file_tmp)
     

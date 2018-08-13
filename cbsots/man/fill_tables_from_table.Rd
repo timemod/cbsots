@@ -20,5 +20,7 @@ data services implementing the same protocol.}
 }
 \description{
 This function fills in the Select and Code fields from a base table based
-on common Keys or Titles.
+on common Keys or Titles. The function tries to find matching keys or titles
+and updates the corresponding Select en Code fields. This function is still
+experimental and you should always check the results carefully.
 }

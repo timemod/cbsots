@@ -1,6 +1,7 @@
 # Internal function: fill in Select and Code from an old table into table.
 # Use common dimension names and Keys or Titles.
 update_table <- function(table, old_table) {
+
   
   update_code <- function(dimension) {
     
@@ -23,7 +24,8 @@ update_table <- function(table, old_table) {
                                           code_code, base_code_code)
 
     # Check if all previously selected variables have been found
-    orig_selected <- which(base_code$Select)
+    orig_selected <- which(base_code$Select | 
+                          !(is.na(base_code$Code) | base_code$Code == "")) 
     
     if (length(ret$base_rows) == 0) {
       warning(paste0("No matching entries found for dimension ", dimension, 
@@ -78,14 +80,11 @@ match_keys_and_titles <- function(code, base) {
   # check keys
   #
   
+  debug_match_keys_titles <- FALSE
+
   code_keys <- tolower(code$Key)
   base_keys <- tolower(base$Key)
   ignore_keys <- FALSE
-  
-  # cat("code_keys\n")
-  # print(code_keys)
-  # cat("base_keys\n")
-  # print(base_keys)
   
   if (!isTRUE(all.equal(code_keys, base_keys))) {
 
@@ -133,7 +132,11 @@ match_keys_and_titles <- function(code, base) {
     base_rows <- integer(0)
   }
   
-
+  if (debug_match_keys_titles) {
+    cat("matching keys\n")
+    print(data.frame(code = code$Key[code_rows], base = base$Key[base_rows]))
+  }
+  
   # now check matching titles for the rows that have no match yet
   missing_code_rows <- setdiff(seq_len(nrow(code)), code_rows)
   missing_base_rows <- setdiff(seq_len(nrow(base)), base_rows)
@@ -143,19 +146,16 @@ match_keys_and_titles <- function(code, base) {
     return(gsub("[  ,;.:]", "", x))
   }
   
-  # cat("missing_code_rows\n")
-  # print(missing_code_rows)
+  if (debug_match_keys_titles) {
+    cat("missing_code_rows\n")
+    print(missing_code_rows)
+  }
   
   if (length(missing_code_rows) > 0) {
     # Check if the titles are the same, ignoring spaces and some
     # punctuation characters.
     code_titles <- convert_char(code$Title[missing_code_rows])
     base_titles <- convert_char(base$Title[missing_base_rows])
-    
-    # cat("code_titles\n")
-    # print(code_titles)
-    # cat("base_titles\n")
-    # print(base_titles)
     
     if (anyDuplicated(code_titles) || anyDuplicated(base_titles)) {
       return(list(code_rows = integer(0), base_rows = integer(0)))
@@ -168,6 +168,12 @@ match_keys_and_titles <- function(code, base) {
                           maxDist = 0.2)
     title_code_rows <- which(!is.na(match_title))
     title_base_rows <- match_title[!is.na(match_title)]
+    
+    if (debug_match_keys_titles) {
+      cat("matching titles\n")
+      print(data.frame(code = code$Title[title_code_rows], 
+                     base = base$Title[title_base_rows]))
+    }
     
     # title_code_rows and title_base_rows are the row numbers for the
     # row selection missing_code_rows and missing_base_rows. Now get the row 

@@ -1,6 +1,10 @@
 #' Update tables
 #' 
 #' This function updates one or more tables in a table_code object.
+#' The function downloads the latest meta data from the CBS website
+#' and tries to find  matching keys or titles in the old and new table.
+#' This function is still experimental and you should always check the results 
+#' carefully.
 #' 
 #' @param tscodes a \code{ts_code} object. This object can be created
 #' and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
