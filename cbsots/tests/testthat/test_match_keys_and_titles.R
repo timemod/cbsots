@@ -51,3 +51,48 @@ test_that("no common keys and titles", {
   expect_identical(ret, expected_result)
 })
 
+test_that("keys with running numbers (1)", {
+ 
+  code <- data.frame(Key = c("Totaal_1", "Invoer_2", "Uitvoer_3", "Export_4", 
+                             "Totaal_5", "Totaal_6", "steenkool_7"),
+                    Title = c("R", "onzin", "uitzxdsfdaa", "textiel",
+                               "pluimvee", "rundvee", 
+                              "steenkool en bruinkool"),
+                    stringsAsFactors = FALSE)
+  
+  base <- data.frame(Key = c("Totaal_1", "Invoer_2", "Uitvoer_3", "Totaal_4",
+                             "Totaal_5", "steenkool_6"),
+                     Title = c("middelen-totaal", "invoer", "uitvoer",
+                               "pluimvee", "varkens", "steenkool en bruinkool"),
+                     stringsAsFactors = FALSE)
+  
+  ret <- cbsots:::match_keys_and_titles(code, base)
+  
+  expected_result <- list(code_rows = c(2, 3, 7, 5), base_rows = c(2, 3, 6, 4))
+  expect_equal(ret, expected_result)
+})
+
+test_that("keys with running numbers (2)", {
+  
+  code <- data.frame(Key = c("Totaal_1", "Invoer_2", "Uitvoer_3", "Export_4", 
+                             "Totaal_5", "Totaal_6", "steenkool_7"),
+                     Title = c("middelen totaal", "onzin", "uitzxdsfdaa", "textiel",
+                               "pluimvee", "rundvee", 
+                               "steenkool en bruinkool"),
+                     stringsAsFactors = FALSE)
+  
+  base <- data.frame(Key = c("Totaal_1", "Invoer_2", "Uitvoer_3", "Totaal_4",
+                             "Totaal_5", "steenkool_6"),
+                     Title = c("middelen-totaal", "invoer", "uitvoer",
+                               "pluimvee", "varkens", "steenkool en bruinkool"),
+                     stringsAsFactors = FALSE)
+  
+  ret <- cbsots:::match_keys_and_titles(code, base)
+  
+  expected_result <- list(code_rows = c(2, 3, 7, 1, 5), 
+                          base_rows = c(2, 3, 6, 1, 4))
+  expect_equal(ret, expected_result)
+})
+
+
+

@@ -169,18 +169,22 @@ match_keys_and_titles <- function(code, base) {
     title_code_rows <- which(!is.na(match_title))
     title_base_rows <- match_title[!is.na(match_title)]
     
+    # calculate indices with respect to data frames code and base
+    title_code_rows <- missing_code_rows[title_code_rows]
+    title_base_rows <- missing_base_rows[title_base_rows]
+    
     if (debug_match_keys_titles) {
       cat("matching titles\n")
       print(data.frame(code = code$Title[title_code_rows], 
-                     base = base$Title[title_base_rows]))
+                       base = base$Title[title_base_rows]))
     }
     
     # title_code_rows and title_base_rows are the row numbers for the
     # row selection missing_code_rows and missing_base_rows. Now get the row 
     # number of original base and code data frames, and add to the original
     # code rows.
-    code_rows <- c(code_rows, missing_code_rows[title_code_rows])
-    base_rows <- c(base_rows, missing_base_rows[title_base_rows])
+    code_rows <- c(code_rows, title_code_rows)
+    base_rows <- c(base_rows, title_base_rows)
   }
   return(list(code_rows = code_rows, base_rows = base_rows))
 }
