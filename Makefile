@@ -74,7 +74,7 @@ endif
 # build date of package must be at least today
 # build source package for submission to CRAN
 # after building do a check as CRAN does it
-mkpkg: cleanx syntax install_deps
+mkpkg: cleanx install_deps
 ifeq ($(OSTYPE), windows) 
 	@echo Please run mkpkg on Linux or MAC OSX
 else
