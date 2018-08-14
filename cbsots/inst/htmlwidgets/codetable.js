@@ -151,7 +151,7 @@ HTMLWidgets.widget({
          
          Handsontable.dom.addEvent(search_field, 'keyup', function (event) {
 
-             if (event.code == "Enter" && search_result.length > 0) {
+             if (event.keyCode == 13 && search_result.length > 0) {
 
                  var cell = get_search_result(!new_search_result);
                  hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, 
