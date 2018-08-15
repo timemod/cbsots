@@ -5,29 +5,38 @@ update_table <- function(table, old_table, table_id, old_table_id) {
   update_code <- function(dimension) {
     
     code <- table$codes[[dimension]]
-    base_code <- old_table$codes[[dimension]]
+    base <- old_table$codes[[dimension]]
+    
+    # check key ordering
+    cbs_order <- identical(base$Key, base$OrigKeyOrder)
+    
+    # save all keys and titles of the base table
+    base_all_keys <- base$Key
+    base_all_titles <- base$Title
+    
+    # now only select rows in base with either Select = TRUE or some text in 
+    # Code
+    base <- base[base$Select | !(is.na(base$Code) | base$Code == ""), , 
+                 drop = FALSE]
     
     # Find matching keys and/or titles, and update code based on base_code.
-
-    matches <- match_keys_and_titles(code, base_code)
+    matches <- match_keys_and_titles(code, base, base_all_keys, base_all_titles)
     
-    base_code_select <- base_code[matches$base_rows]$Select
+    base_select <- base[matches$base_rows]$Select
     code_select <- code[matches$code_rows]$Select
-    base_code_code <- base_code[matches$base_rows]$Code
-    code_code <- code[matches$code_rows]$Code
+    base_code   <- base[matches$base_rows]$Code
+    code_code   <- code[matches$code_rows]$Code
     
-    code[matches$code_rows, "Select"] <- ifelse(base_code_select, base_code_select, 
+    code[matches$code_rows, "Select"] <- ifelse(base_select, base_select, 
                                                 code_select)
-    code[matches$code_rows, "Code"] <- ifelse(is.na(base_code_code) | 
-                                              base_code_code == "", 
-                                              code_code, base_code_code)
+    code[matches$code_rows, "Code"] <- ifelse(is.na(base_code) | base_code == "", 
+                                              code_code, base_code)
 
-    check_matches(matches, code, base_code, dimension)
+    check_matches(matches, code, base, dimension)
     
-    # Reorder the rows of code if base_code was ordered according to selected 
-    # first.
-    cbs_order <- identical(base_code$Key, base_code$OrigKeyOrder)
     if (!cbs_order) {
+      # Reorder the rows of code if base_code was ordered according to selected 
+      # first.
       code <- order_code_rows(code, cbs_order)
     }
     
@@ -35,24 +44,23 @@ update_table <- function(table, old_table, table_id, old_table_id) {
   }
   
   
-  check_matches <- function(matches, code, base_code, dimension) {
+  check_matches <- function(matches, code, base, dimension) {
     
     # Check if variables in base_code with either Select = TRUE or a specified
     # code have been matched.
     
-    base_selected <- which(base_code$Select | 
-                             !(is.na(base_code$Code) | base_code$Code == "")) 
+    # check missing elements  
+    missing <- setdiff(seq_len(nrow(base)), matches$base_rows)
     
-    if (length(base_selected) > 0 && length(matches$base_rows) == 0) {
+    if (nrow(base) > 0 && length(matches$base_rows) == 0) {
       warning(paste0("No matching entries found for dimension ", dimension, 
                      "."))
     } else {
-      missing <- setdiff(base_selected, matches$base_rows)
       if (length(missing) > 0) {
         warning(paste0("No matching entries found for dimension ", dimension,
                        ":\n",
-                       paste(paste(base_code$Key[missing], 
-                                   paste0("\"", base_code$Title[missing], "\""), 
+                       paste(paste(base$Key[missing], 
+                                   paste0("\"", base$Title[missing], "\""), 
                                    sep = " - "),
                              collapse = "\n")))
       }
@@ -66,22 +74,23 @@ update_table <- function(table, old_table, table_id, old_table_id) {
                                               table_id, "_", dimension, 
                                               ".xlsx"))
     
-    sel <- matches$base_rows %in% base_selected
-    ma <- data.frame(base_key = base_code$Key[matches$base_rows[sel]],
-                     code_key = code$Key[matches$code_rows[sel]],
-                     base_title = base_code$Title[matches$base_rows[sel]],
-                     code_title = code$Title[matches$code_rows[sel]],
+    ma <- data.frame(base_key = base$Key[matches$base_rows],
+                     code_key = code$Key[matches$code_rows],
+                     base_title = base$Title[matches$base_rows],
+                     code_title = code$Title[matches$code_rows],
                      stringsAsFactors = FALSE)
     
     is_perfect <- ma$base_key == ma$code_key & ma$base_title == ma$code_title
     perfect_match <- ma[is_perfect, ]
     imperfect_match <- ma[!is_perfect, ]
+
     
-    missing <- setdiff(base_selected, matches$base_rows)
-    no_match <- data.frame(base_key = base_code$Key[missing], 
-                           base_title = base_code$Title[missing],
-                        stringsAsFactors = FALSE)
-    
+ 
+
+    no_match <- data.frame(base_key = base$Key[missing], 
+                           base_title = base$Title[missing],
+                           stringsAsFactors = FALSE)
+     
     wb <- createWorkbook()
     sheet <- createSheet(wb, "perfect match")
     if (nrow(perfect_match) > 0) {
@@ -126,22 +135,71 @@ update_table <- function(table, old_table, table_id, old_table_id) {
 # Internal function: find matching keys and/or titles.
 # Keys have to match exactly, titles approximately.
 # The key takes precedence over the Title.
+# INPUT
+#   code            the new table code object
+#   base            code for basis table, selection of rows with either 
+#                   Select = TRUE or some text in code.
+#   base_all_keys   all keys in the original base table
+#   base_all_titles all titles in the origin base table
 #' @importFrom stringdist amatch
 #' @importFrom stringr str_match
-match_keys_and_titles <- function(code, base) {
+match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
   
   # 
-  # check keys
+  # try to find matching keys and titles
   #
   
   debug_match_keys_titles <- FALSE
-
+  
+  # first convert the keys and titles to lowercase.
+  # for titles also remove spaced and punctuation marks.
+  
   code_keys <- tolower(code$Key)
   base_keys <- tolower(base$Key)
-  ignore_keys <- FALSE
+  base_all_keys <- tolower(base_all_keys)
   
-  if (!isTRUE(all.equal(code_keys, base_keys))) {
+  convert_title <- function(x) {
+    x <- tolower(x)
+    return(gsub("[  ,;.:]", "", x))
+  }
+  
+  code_titles <- convert_title(code$Title)
+  base_titles <- convert_title(base$Title)
+  base_all_titles <- convert_title(base_all_titles)
+  
+  if (isTRUE(all.equal(sort(code_keys), sort(base_all_keys)))) {
+  
+    # All keys are identical (apart from the ordering). Simply match the keys 
+    # and return. Note that we compare with base_all_keys and not with 
+    # base_keys, because some keys have a running number
+    # (e.g. "Total_1", "Total_2"). If the number of keys is different, 
+    # then we have to take care of the running numbers, this code is 
+    # performed below.
+    
+    match_key <- match(code_keys, base_keys)
+    code_rows <- which(!is.na(match_key))
+    base_rows <- match_key[!is.na(match_key)]
+    
+    return(list(code_rows = code_rows, base_rows = base_rows))
+    
+  } else if (!anyDuplicated(code_titles) && !anyDuplicated(base_titles) &&
+            all(base_titles %in% code_titles)) {
+  
+    # All selected titles have a perfect match with code_titles, which are 
+    # unique. Match by title.
 
+    match_title <- match(code_titles, base_titles)
+    code_rows <- which(!is.na(match_title))
+    base_rows <- match_title[!is.na(match_title)]
+ 
+    return(list(code_rows = code_rows, base_rows = base_rows))
+  
+  } else {
+    
+    # 
+    # More complicated case.
+    #
+    
     # If the keys are not equal (apart of the ordering), then check if
     # the keys contain running numbers, for example Uitvoerwaarde_1, 
     # Invoerwaarde_2, Handelsbalans_3 etc. 
@@ -150,6 +208,8 @@ match_keys_and_titles <- function(code, base) {
     # running number when another key was deleted or inserted. 
     # However, sometimes the keys without running numbers are not unique
     # (e.g. totaal_1, totaal_2 etc.), in that case we should ignore the keys.
+    
+    ignore_keys <- FALSE
     
     pattern <- "_(\\d+)$"
     
@@ -164,7 +224,7 @@ match_keys_and_titles <- function(code, base) {
     }
     
     code_keys_run <- has_running_numbers(code_keys)
-    base_keys_run <- has_running_numbers(base_keys)
+    base_keys_run <- has_running_numbers(base_all_keys)
     
     if (code_keys_run && base_keys_run) {
       code_keys <- remove_running_numbers(code_keys)
@@ -195,25 +255,15 @@ match_keys_and_titles <- function(code, base) {
   missing_code_rows <- setdiff(seq_len(nrow(code)), code_rows)
   missing_base_rows <- setdiff(seq_len(nrow(base)), base_rows)
   
-  convert_char <- function(x) {
-    x <- tolower(x)
-    return(gsub("[  ,;.:]", "", x))
-  }
-  
   if (debug_match_keys_titles) {
     cat("missing_code_rows\n")
     print(missing_code_rows)
   }
   
   if (length(missing_code_rows) > 0) {
-    # Check if the titles are the same, ignoring spaces and some
-    # punctuation characters.
-    code_titles <- convert_char(code$Title[missing_code_rows])
-    base_titles <- convert_char(base$Title[missing_base_rows])
-    
-    if (anyDuplicated(code_titles) || anyDuplicated(base_titles)) {
-      return(list(code_rows = integer(0), base_rows = integer(0)))
-    }
+    # Check if the titles are the same, ignoring leading numbers
+    code_titles <- sub("^\\d+", "", code_titles[missing_code_rows])
+    base_titles <- sub("^\\d+", "", base_titles[missing_base_rows])
     
     match_title <- amatch_unique(code_titles, base_titles, method = "jw", 
                                  maxDist = 0.2)
