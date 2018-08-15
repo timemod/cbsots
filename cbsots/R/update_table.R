@@ -78,8 +78,8 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     imperfect_match <- ma[!is_perfect, ]
     
     missing <- setdiff(base_selected, matches$base_rows)
-    no_match <- data.frame(key = base_code$Key[missing], 
-                        title = base_code$Title[missing],
+    no_match <- data.frame(base_key = base_code$Key[missing], 
+                           base_title = base_code$Title[missing],
                         stringsAsFactors = FALSE)
     
     wb <- createWorkbook()
