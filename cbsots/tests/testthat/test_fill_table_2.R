@@ -24,8 +24,6 @@ test_that("fill 84098NED from 82595NED", {
   
   if (FALSE) {
 
-    print(tscodes_new$table_code$`83935NED`)
-
     ts_code_file_tmp <- tempfile()
     saveRDS(tscodes_new, ts_code_file_tmp)
     

@@ -17,7 +17,7 @@ test_that("first simple test", {
   
   ret <- cbsots:::match_keys_and_titles(code, base)
   
-  expected_result <- list(code_rows = c(2L, 4L, 3L), base_rows = c(1L, 4L, 3L))
+  expected_result <- list(code_rows = c(2L, 3L, 4L), base_rows = c(1L, 3L, 4L))
   expect_identical(ret, expected_result)
 })
 
@@ -68,7 +68,7 @@ test_that("keys with running numbers (1)", {
   
   ret <- cbsots:::match_keys_and_titles(code, base)
   
-  expected_result <- list(code_rows = c(2, 3, 7, 5), base_rows = c(2, 3, 6, 4))
+  expected_result <- list(code_rows = c(2, 3, 5, 7), base_rows = c(2, 3, 4, 6))
   expect_equal(ret, expected_result)
 })
 
@@ -89,8 +89,8 @@ test_that("keys with running numbers (2)", {
   
   ret <- cbsots:::match_keys_and_titles(code, base)
   
-  expected_result <- list(code_rows = c(2, 3, 7, 1, 5), 
-                          base_rows = c(2, 3, 6, 1, 4))
+  expected_result <- list(code_rows = c(1, 2, 3, 5, 7), 
+                          base_rows = c(1, 2, 3, 4, 6))
   expect_equal(ret, expected_result)
 })
 

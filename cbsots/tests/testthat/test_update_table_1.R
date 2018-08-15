@@ -21,10 +21,8 @@ test_that(paste("update", id),  {
   
   if (FALSE) {
 
-    print(tscodes_new$table_code[[id]])
-
     ts_code_file_tmp <- tempfile()
-    saveRDS(tscodes_new, ts_code_file_tmp)
+    saveRDS(tscode_new, ts_code_file_tmp)
     edit_ts_code(ts_code_file = ts_code_file_tmp)
 
     unlink(ts_code_file_tmp)

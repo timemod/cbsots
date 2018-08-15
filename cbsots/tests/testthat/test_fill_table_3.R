@@ -14,7 +14,7 @@ base_id <- "83186NED"
 
 #edit_ts_code(ts_code_file_old)
 
-test_that("fill 84098NED from 82595NED", {
+test_that("fill 83357NED and 83361NED from 83186NED", {
   
   msg <- 
     paste0("No matching entries found for dimension BedrijfstakkenBranchesSBI2008:\n",

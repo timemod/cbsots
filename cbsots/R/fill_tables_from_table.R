@@ -30,7 +30,7 @@ fill_tables_from_table <- function(tscodes, ids,  base_id, base_url = NULL) {
       new_table_created <- TRUE
     }
     
-    table <- update_table(table, base_table)
+    table <- update_table(table, base_table, id, base_id)
   
     tscodes$table_code[[id]] <- table
     

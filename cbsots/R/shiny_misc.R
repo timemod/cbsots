@@ -114,13 +114,13 @@ get_hot_id <- function(table_id, name) {
 }
 
 #' @importFrom utils capture.output
-call_update_table <- function(table, base_table) {
+call_update_table <- function(table, base_table, table_id, base_table_id) {
   # This function calls update_table and captures warnings. 
   # It returns a list containing the updated table and the captured warnings.
   warnings <- character(0)
   dum <- capture.output({
     withCallingHandlers(
-    new_table <- update_table(table, base_table), 
+    new_table <- update_table(table, base_table, table_id, base_table_id), 
     warning = function(w) {
       warnings <<- c(warnings, w$message)
     }

@@ -8,4 +8,5 @@ cbsots.Rcheck
 cbsots*zip
 cbsots*tar.gz
 tmp/
+cbsots/tests/testthat/match_reports/
 

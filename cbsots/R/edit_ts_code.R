@@ -223,7 +223,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         if (base_table_desc != "") {
           base_table_id <- values$table_ids[base_table_desc]
           base_table <- values$tables[[base_table_id]]
-          ret <- call_update_table(values$new_table, base_table)
+          ret <- call_update_table(values$new_table, base_table, new_table_id,
+                                   base_table_id)
           values$new_table <- ret$new_table
           if (length(ret$warnings) > 0) {
             showWarningsDialog(ret$warnings, "filled_table_ok")
@@ -353,7 +354,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       id <- values$table_id
       if (!is.na(id)) {
         new_table <- create_new_table(id, base_url)
-        ret <- call_update_table(new_table, values$tables[[id]])
+        ret <- call_update_table(new_table, values$tables[[id]], id, id)
         values$new_table <- ret$new_table
         if (length(ret$warnings) > 0) {
           showWarningsDialog(ret$warnings, "update_table_ok")

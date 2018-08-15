@@ -27,7 +27,7 @@ update_tables <- function(tscodes, ids, base_url = NULL) {
     
     new_table <- create_new_table(id, base_url)
     
-    table <- update_table(new_table, table)
+    table <- update_table(new_table, table, id, id)
     
     tscodes$table_code[[id]] <- table
     

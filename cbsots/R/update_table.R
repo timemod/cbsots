@@ -1,8 +1,7 @@
 # Internal function: fill in Select and Code from an old table into table.
 # Use common dimension names and Keys or Titles.
-update_table <- function(table, old_table) {
+update_table <- function(table, old_table, table_id, old_table_id) {
 
-  
   update_code <- function(dimension) {
     
     code <- table$codes[[dimension]]
@@ -10,28 +9,45 @@ update_table <- function(table, old_table) {
     
     # Find matching keys and/or titles, and update code based on base_code.
 
-    ret <- match_keys_and_titles(code, base_code)
+    matches <- match_keys_and_titles(code, base_code)
     
-    base_code_select <- base_code[ret$base_rows]$Select
-    code_select <- code[ret$code_rows]$Select
-    base_code_code <- base_code[ret$base_rows]$Code
-    code_code <- code[ret$code_rows]$Code
+    base_code_select <- base_code[matches$base_rows]$Select
+    code_select <- code[matches$code_rows]$Select
+    base_code_code <- base_code[matches$base_rows]$Code
+    code_code <- code[matches$code_rows]$Code
     
-    code[ret$code_rows, "Select"] <- ifelse(base_code_select, base_code_select, 
-                                            code_select)
-    code[ret$code_rows, "Code"] <- ifelse(is.na(base_code_code) | 
-                                            base_code_code == "", 
-                                          code_code, base_code_code)
+    code[matches$code_rows, "Select"] <- ifelse(base_code_select, base_code_select, 
+                                                code_select)
+    code[matches$code_rows, "Code"] <- ifelse(is.na(base_code_code) | 
+                                              base_code_code == "", 
+                                              code_code, base_code_code)
 
-    # Check if all previously selected variables have been found
-    orig_selected <- which(base_code$Select | 
-                          !(is.na(base_code$Code) | base_code$Code == "")) 
+    check_matches(matches, code, base_code, dimension)
     
-    if (length(ret$base_rows) == 0) {
+    # Reorder the rows of code if base_code was ordered according to selected 
+    # first.
+    cbs_order <- identical(base_code$Key, base_code$OrigKeyOrder)
+    if (!cbs_order) {
+      code <- order_code_rows(code, cbs_order)
+    }
+    
+    return(code)
+  }
+  
+  
+  check_matches <- function(matches, code, base_code, dimension) {
+    
+    # Check if variables in base_code with either Select = TRUE or a specified
+    # code have been matched.
+    
+    base_selected <- which(base_code$Select | 
+                             !(is.na(base_code$Code) | base_code$Code == "")) 
+    
+    if (length(base_selected) > 0 && length(matches$base_rows) == 0) {
       warning(paste0("No matching entries found for dimension ", dimension, 
                      "."))
     } else {
-      missing <- setdiff(orig_selected, ret$base_rows)
+      missing <- setdiff(base_selected, matches$base_rows)
       if (length(missing) > 0) {
         warning(paste0("No matching entries found for dimension ", dimension,
                        ":\n",
@@ -42,14 +58,52 @@ update_table <- function(table, old_table) {
       }
     }
     
-    # Reorder the rows of code if base_code was ordered according to selected 
-    # first.
-    cbs_order <- identical(base_code$Key, base_code$OrigKeyOrder)
-    if (!cbs_order) {
-      code <- order_code_rows(code, cbs_order)
+    match_dir <- "match_reports"
+    if (!dir.exists(match_dir)) {
+      dir.create(match_dir)
     }
+    match_file <- file.path(match_dir, paste0(old_table_id, "_", 
+                                              table_id, "_", dimension, 
+                                              ".xlsx"))
     
-    return(code)
+    sel <- matches$base_rows %in% base_selected
+    ma <- data.frame(base_key = base_code$Key[matches$base_rows[sel]],
+                     code_key = code$Key[matches$code_rows[sel]],
+                     base_title = base_code$Title[matches$base_rows[sel]],
+                     code_title = code$Title[matches$code_rows[sel]],
+                     stringsAsFactors = FALSE)
+    
+    is_perfect <- ma$base_key == ma$code_key & ma$base_title == ma$code_title
+    perfect_match <- ma[is_perfect, ]
+    imperfect_match <- ma[!is_perfect, ]
+    
+    missing <- setdiff(base_selected, matches$base_rows)
+    no_match <- data.frame(key = base_code$Key[missing], 
+                        title = base_code$Title[missing],
+                        stringsAsFactors = FALSE)
+    
+    wb <- createWorkbook()
+    sheet <- createSheet(wb, "perfect match")
+    if (nrow(perfect_match) > 0) {
+      addDataFrame(perfect_match, sheet, row.names = FALSE)
+      autoSizeColumn(sheet, 1:4)
+      createFreezePane(sheet, 1, 0)
+    }
+    sheet <- createSheet(wb, "imperfect match")
+    if (nrow(imperfect_match) > 0) {
+      addDataFrame(imperfect_match, sheet, row.names = FALSE)
+      autoSizeColumn(sheet, 1:4)
+      createFreezePane(sheet, 1, 0)
+    }
+    sheet <- createSheet(wb, "no match")
+    if (nrow(no_match) > 0) {
+      addDataFrame(no_match, sheet, row.names = FALSE)
+      autoSizeColumn(sheet, 1:2)
+      createFreezePane(sheet, 1, 0)
+    }
+    saveWorkbook(wb, match_file)
+        
+    return()
   }
   
   common_dimensions <- intersect(names(table$codes), names(old_table$codes))
@@ -182,6 +236,11 @@ match_keys_and_titles <- function(code, base) {
     # code rows.
     code_rows <- c(code_rows, title_code_rows)
     base_rows <- c(base_rows, title_base_rows)
+    
+    # reorder with the order of base rows
+    idx <- order(base_rows)
+    code_rows <- code_rows[idx]
+    base_rows <- base_rows[idx]
   }
   return(list(code_rows = code_rows, base_rows = base_rows))
 }
