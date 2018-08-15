@@ -161,11 +161,8 @@ match_keys_and_titles <- function(code, base) {
       return(list(code_rows = integer(0), base_rows = integer(0)))
     }
     
-    # TODO: use amatch only to match unique pairs, see function
-    #       match_unique.
-    
-    match_title <- amatch(code_titles, base_titles, method = "jw", 
-                          maxDist = 0.2)
+    match_title <- amatch_unique(code_titles, base_titles, method = "jw", 
+                                 maxDist = 0.2)
     title_code_rows <- which(!is.na(match_title))
     title_base_rows <- match_title[!is.na(match_title)]
     
@@ -206,4 +203,18 @@ match_unique <- function(x, y) {
   return(result)
 }
 
-# TODO: create similar function amatch_unique
+# This function works as amatch, but only matches unique elements in x and y.
+# TODO: is is possible to implement this more efficiently
+amatch_unique <- function(x, y, ...) {
+  
+  # replace duplicated in y with NA  
+  y_dupl <- y[duplicated(y)]
+  y[y %in% y_dupl] <- NA
+  
+  result <- amatch(x, y, ...)
+  
+  result_dupl <- result[duplicated(result)]
+  result[result %in% result_dupl] <- NA
+  
+  return(result)
+}
