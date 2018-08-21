@@ -50,7 +50,7 @@ download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,
   # Problem: this may lead to a too long url. Therefore try to estimate the 
   # length of the url and keep the length accordingly.
   arguments <- c(list(id = id,  dir = file.path(raw_cbs_dir, id)), filters,
-                 cache = TRUE)
+                 cache = TRUE, typed = TRUE)
   if (!is.null(base_url)) {
     arguments <- c(arguments, list(base_url = base_url))
   }
