@@ -4,6 +4,10 @@ read_table <- function(data_dir, code, min_year, frequencies) {
   
   meta <- read_meta_data(data_dir)
   
+  # prevent notes from R CMD check about no visible binding for global
+  # or no visible global function
+  Perioden <- NULL
+  
   if (!is.null(meta)) {
     check_language(meta)
     cbs_code <- get_cbs_code(meta)
