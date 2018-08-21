@@ -1,4 +1,4 @@
-#' @importFrom cbsodataR cbs_get_data
+#' @importFrom cbsodataR cbs_download_table
 #' @importFrom cbsodataR cbs_get_meta
 download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,  
                            base_url, download_all_keys) {
@@ -47,19 +47,15 @@ download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,
   }
   
   # TODO: use argument select to select only the topics that we need.
-  # problem: this may lead to a too long url. Maybe we should
-  # keep downloading all columns
-  arguments <- c(list(id = id,  dir = file.path(raw_cbs_dir, id)), filters)
+  # Problem: this may lead to a too long url. Therefore try to estimate the 
+  # length of the url and keep the length accordingly.
+  arguments <- c(list(id = id,  dir = file.path(raw_cbs_dir, id)), filters,
+                 cache = TRUE)
   if (!is.null(base_url)) {
     arguments <- c(arguments, list(base_url = base_url))
   }
   
-  data <- do.call(cbs_get_data, arguments)
-  
-  # convert factor columns to character columns
-  data <- as.data.table(lapply(data, FUN = function(x) {
-    if (is.factor(x)) as.character(x) else x
-  }))
-  
-  return(list(meta = meta, data = data, cbs_code = cbs_code))
+  data <- do.call(cbs_download_table, arguments)
+ 
+  return(invisible(NULL))
 }

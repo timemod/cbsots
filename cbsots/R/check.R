@@ -50,14 +50,4 @@ check_code <- function(code, cbs_code) {
   return(sapply(names(code), FUN = convert, simplify = FALSE))
 }
 
-# this function returns TRUE if data contains all keys in code and period_keys
-check_read_data <- function(data, code, period_keys) {
-  
-  # check dimension keys
-  for (dimension in setdiff(names(code), "Topic")) {
-    if (any(!code[[dimension]]$Key %in% data[[dimension]])) {
-      return(FALSE)
-    }
-  }
-  return(all(period_keys %in% data$Perioden))
-}
+

@@ -117,39 +117,28 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   dimensions <- setdiff(names(table_code$codes), "Topic")
   
   if (!refresh) {
-    read_ok <- FALSE
-    meta <- read_meta_data(data_dir)
-    if (!is.null(meta)) {
-      check_language(meta)
-      cbs_code <- get_cbs_code(meta)
-      code <- check_code(code, cbs_code)
-      data <- read_data(data_dir)
-      if (!is.null(data)) {
-        period_keys <- get_period_keys(meta, min_year, frequencies)
-        read_ok <- check_read_data(data, code, period_keys = period_keys)
-        if (read_ok && (!is.null(min_year) || !is.null(frequencies))) {
-          data <- data[Perioden %in% period_keys]
-        }
-      }
-    }
-    if (!read_ok && !missing(download) && !download) {
+    read_result <- read_table(data_dir, code, min_year, frequencies)
+    if (is.null(read_result) && !missing(download) && !download) {
       stop(paste("The files in directory", file.path(raw_cbs_dir, id), 
                  "are not complete. Please download the data again."))
     }
   }
   
-
-  if (refresh || !read_ok) {
-    ret <- download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
-                          min_year = min_year, frequencies = frequencies,
-                          base_url = base_url, 
-                          download_all_keys = download_all_keys)
-    meta <- ret$meta
-    data <- ret$data
-    cbs_code <- ret$cbs_code
+  if (refresh || is.null(read_result)) {
+    download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
+                   min_year = min_year, frequencies = frequencies,
+                   base_url = base_url, 
+                   download_all_keys = download_all_keys)
+    read_result <- read_table(data_dir, code, min_year, frequencies)
+    if (is.null(read_result)) {
+      stop("Error reading the downloaded data")
+    }
   }
   
-
+  meta <- read_result$meta
+  data <- read_result$data
+  cbs_code <- read_result$cbs_code
+  
   select_code_rows <- function(name) {
     # remove all rows with an empty Code, except if the code_table has 1 row
     table <- code[[name]]
