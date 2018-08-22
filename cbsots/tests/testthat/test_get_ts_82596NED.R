@@ -15,7 +15,7 @@ source("utils/check_ts_table.R")
 
 id <- "82596NED"
 
-raw_cbs_dir <- "raw_cbs_dir"
+raw_cbs_dir <- "raw_cbs_data"
 
 test_that(id, {
   
