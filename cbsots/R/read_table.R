@@ -100,14 +100,8 @@ read_data_file <- function(dir, topic_keys) {
   
   tryCatch({
     
-    # read data. Use colClasses = "character" to prevent that empty columns
-    # get the column class "logical". We do not use colClasses = "numeric" 
-    # for the data columns because in the csv file a numbers are represented
-    # with a character string such as "     560", therefore fread will read
-    # this data as a column.
-    
-    # use numeric column clases, this ensures that empty columns do not become 
-    # logical columns
+    # Specify the column class for the data columns. This prevents that
+    # empty columns will be read as logical columns with all NA values.
     col_classes <- rep("numeric", length(topic_keys))
     names(col_classes) <- topic_keys
 
