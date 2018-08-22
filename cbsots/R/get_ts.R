@@ -55,6 +55,9 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   if (!is.null(min_year) && is.na(min_year)) {
     min_year <- NULL
   }
+  if (!is.null(frequencies) && is.na(frequencies)) {
+    frequencies <- NULL
+  }
   
   if (!is.null(frequencies)) {
     if (!is.character(frequencies) || length(frequencies) > 1) {

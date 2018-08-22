@@ -20,7 +20,8 @@ raw_cbs_dir <- "raw_cbs_data"
 test_that(id, {
   
   result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, 
-                          min_year = 2015, raw_cbs_dir = raw_cbs_dir))
+                          min_year = 2015, raw_cbs_dir = raw_cbs_dir, 
+                          frequencies = NA))
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check$equal)
 })
