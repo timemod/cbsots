@@ -54,14 +54,6 @@ get_new_table_ids <- function(old_table_ids, base_url) {
   tryCatch({
     
     
-    #if (is.null(base_url)) {
-    #  table_info <- cbs_get_toc(select = c("Identifier", "ShortTitle"), 
-    #                            Language = "nl")
-    #} else {
-    #  table_info <- cbs_get_toc(select = c("Identifier", "ShortTitle") 
-    #                            Language = "nl", base_url = base_url)
-    #}
-    
     # select does not work anymore
     if (is.null(base_url)) {
       table_info <- cbs_get_toc(Language = "nl")
@@ -73,6 +65,18 @@ get_new_table_ids <- function(old_table_ids, base_url) {
     new_tables <- setdiff(table_info$Identifier, old_table_ids)
     table_info <- table_info[table_info$Identifier %in% new_tables, ]
     table_info <- table_info[order(table_info$Identifier), ]
+    
+    # remove diacritics from ShortTitle, the Shiny app cannot handle this
+    remove_diacritics <- function(x) {
+      enc <- Encoding(x)
+      if (enc != "unknown") {
+        x <- iconv(x, from = enc, to = "ASCII//TRANSLIT")
+      }
+      return(x)
+    }
+    table_info$ShortTitle <- sapply(table_info$ShortTitle, 
+                                    FUN = remove_diacritics, USE.NAMES = FALSE)
+    
     new_table_descriptions <- get_table_description(table_info$Identifier, 
                                                     table_info$ShortTitle)
     

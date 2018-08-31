@@ -150,10 +150,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       
       new_table_desc <- input$table_desc
       new_table_id <- values$table_ids[new_table_desc]
+
       if (is.na(new_table_id)) {
-        warning(paste("Internal error ... Table", new_table_desc, 
+        stop(paste("Internal error ... Table", new_table_desc, 
                       "not in list of tables"))
-        return(invisible(NULL))
       }
       
       if (debug) {
@@ -183,7 +183,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     observeEvent(input$new_table, {
       
       values$new_table_ids <- get_new_table_ids(values$table_ids, base_url)
-      
+
       if (is.null(values$new_table_ids)) {
         shinyalert("Error", "Error downloading list of tables" , type = "error")
       } else {
@@ -200,16 +200,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       }
       new_table_id <- values$new_table_ids[new_table_desc]
       if (is.na(new_table_id)) {
-        warning(paste("Internal error ... Table", new_table_desc, 
+        stop(paste("Internal error ... Table", new_table_desc, 
                       "not in list of new tables"))
-        return(invisible(NULL))
       }
       
       # additional check
       if (new_table_id %in% values$table_ids) {
-        warning(paste("Internal error ... Table", new_table_desc, 
+        stop(paste("Internal error ... Table", new_table_desc, 
                       "already in list of tables"))
-        return(invisible(NULL))
       }
       
       # add new table
@@ -290,9 +288,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       }
       delete_table_id <- values$table_ids[delete_table_desc]
       if (is.na(delete_table_id)) {
-        warning(paste("Internal error ... Table", new_table_desc, 
+        stop(paste("Internal error ... Table", new_table_desc, 
                       "not in list of new tables"))
-        return(invisible(NULL))
       }
       values$delete_table_id <- delete_table_id
       
