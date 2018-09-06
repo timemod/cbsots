@@ -17,16 +17,26 @@ read_ts_code <- function(filename) {
   return(ts_code)
 }
 
-# Returns a character vector with table descriptions, based on the table ids
-# and short titles.
+# Returns a named character vector with table descriptions, based on the table ids
+# and short titles. The names are the table ids.
 get_table_description <- function(ids, short_titles) {
-  return(paste(ids, short_titles, sep = " - "))
+  ret <- paste(ids, short_titles, sep = " - ")
+  names(ret) <- ids
+  return(ret)
 }
 
+# Convert a string with a table description to a table id. The table id is the 
+# text before the first " - "  substring.  NOTE: we assume here that the
+# table id does not contain a substring " - ".
+#' @importFrom stringr str_split
+get_table_id <- function(table_desc) {
+  ret <- str_split(table_desc, " - ", n = 2)
+  return(unlist(ret)[1])
+}
 
 check_duplicates <- function(session, values) {
   ts_code <-  values$tables[[values$table_id]]$codes
-  for (name in values$names) {
+  for (name in values$tab_names) {
     tab <- ts_code[[name]]
     codes <- tab$Code[tab$Select]
     codes <- codes[nchar(codes) > 0]
@@ -49,10 +59,9 @@ check_duplicates <- function(session, values) {
 #  Function get_new_table_ids returns a character vector the ids of tables
 #  that are not yet present.
 #' @importFrom cbsodataR cbs_get_toc
-get_new_table_ids <- function(old_table_ids, base_url) {
+get_new_table_descs <- function(old_table_ids, base_url) {
   
   tryCatch({
-    
     
     # select does not work anymore
     if (is.null(base_url)) {
@@ -62,27 +71,13 @@ get_new_table_ids <- function(old_table_ids, base_url) {
     }
     table_info <- table_info[ , c("Identifier", "ShortTitle")]
     
-    new_tables <- setdiff(table_info$Identifier, old_table_ids)
-    table_info <- table_info[table_info$Identifier %in% new_tables, ]
+    new_table_ids <- setdiff(table_info$Identifier, old_table_ids)
+    table_info <- table_info[table_info$Identifier %in% new_table_ids, ]
     table_info <- table_info[order(table_info$Identifier), ]
     
-    # remove diacritics from ShortTitle, the Shiny app cannot handle this
-    remove_diacritics <- function(x) {
-      enc <- Encoding(x)
-      if (enc != "unknown") {
-        x <- iconv(x, from = enc, to = "ASCII//TRANSLIT")
-      }
-      return(x)
-    }
-    table_info$ShortTitle <- sapply(table_info$ShortTitle, 
-                                    FUN = remove_diacritics, USE.NAMES = FALSE)
-    
-    new_table_descriptions <- get_table_description(table_info$Identifier, 
-                                                    table_info$ShortTitle)
-    
-    new_table_ids <- table_info$Identifier
-    names(new_table_ids) <- new_table_descriptions
-    return(new_table_ids)
+    new_table_descs <- get_table_description(table_info$Identifier, 
+                                             table_info$ShortTitle)
+    return(new_table_descs)
   },
   error = function(e) {
     warning("Error when downloading table list")
@@ -94,7 +89,7 @@ get_new_table_ids <- function(old_table_ids, base_url) {
 }
 
 create_table_choices <- function(names) {
-  return(c("Select a table ..." = "", names))
+  return(c("Select a table ..." = "", unname(names)))
 }
 
 convert_codetable <- function(table) {
@@ -124,11 +119,11 @@ call_update_table <- function(table, base_table, table_id, base_table_id) {
   warnings <- character(0)
   dum <- capture.output({
     withCallingHandlers(
-    new_table <- update_table(table, base_table, table_id, base_table_id), 
-    warning = function(w) {
-      warnings <<- c(warnings, w$message)
-    }
-  )}, type = "message")
+      new_table <- update_table(table, base_table, table_id, base_table_id), 
+      warning = function(w) {
+        warnings <<- c(warnings, w$message)
+      }
+    )}, type = "message")
   return(list(new_table = new_table, warnings = warnings))
 }
 

@@ -7,35 +7,32 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
   }
   
   table_id <- values$table_id
-  table_desc <- values$table_desc
-
-  # update new tab names for the current table
-  values$names <- names(values$tables[[table_id]]$codes)
-  
+  tab_names <- values$tab_names
+ 
   #
   # create the tabels
   #
   
   # create the table for the first dimension (the Topic)
-  name_index <- if (!is.null(selected_tab)) {
-                  match(selected_tab, values$names)
+  tab_index <- if (!is.null(selected_tab)) {
+                  match(selected_tab, tab_names)
                 } else {
                   1
                 }
   
-  hot_id <- get_hot_id(table_id, values$names[name_index])
-  tab <- values$tables[[table_id]]$codes[[name_index]]
+  hot_id <- get_hot_id(table_id, tab_names[tab_index])
+  tab <- values$tables[[table_id]]$codes[[tab_index]]
   output[[hot_id]] <- renderCodetable(codetable(tab))
   
   # create empty tables for the other dimensions, the real tables will
   # actually be created when the tab selection changes.
-  if (length(values$names) > 1) {
+  if (length(tab_names) > 1) {
     make_empty_table <- function(name) {
       hot_id <- get_hot_id(table_id, name)
       output[[hot_id]] <- NULL
       return()
     }
-    lapply(values$names[-name_index], FUN = make_empty_table)
+    lapply(tab_names[-tab_index], FUN = make_empty_table)
   }
 
   # 
@@ -65,7 +62,7 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
     })
   }
   
-  lapply(values$names, make_observer)
+  lapply(tab_names, make_observer)
   
   # 
   # prepare tabbed pane
@@ -80,8 +77,8 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
     # add isolate, otherwise the table_pane will be redrawn every time that
     # values$tables changes
     isolate({
-      myTabs <- lapply(values$names, make_panel)
-      ret <- list(h3(paste("Tabel", table_desc)), br(),
+      myTabs <- lapply(tab_names, make_panel)
+      ret <- list(h3(paste("Tabel", values$table_desc)), br(),
                   p(), 
                   h5("Order used to create names"),
                   orderInput(inputId = "order_input", label = NULL, 

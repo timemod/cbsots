@@ -40,14 +40,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   CBS_ORDER <- "Original CBS order"
   SELECTED_FIRST_ORDER <- "Selected first"
   
-  # create a named character vector with table ids. The names are 
-  # the table descriptions.
+  # create a vector with table ids and a named vector with table descriptions
   if (length(tables) > 0) {
-    short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
     table_ids <- names(tables)
-    names(table_ids) <- get_table_description(table_ids, short_titles)
+    short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
+    table_descs <- get_table_description(table_ids, short_titles)
   } else {
     table_ids <- character(0)
+    table_descs  <- character(0)
   }
   
   ui <- fluidPage(
@@ -70,7 +70,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       "When necessary, use Backspace to erase the text field.",
       p(),
       selectInput("table_desc", label = NULL, 
-                  choices = create_table_choices(names(table_ids))),
+                  choices = create_table_choices(table_descs)),
       p(),
       h3("Create new code table"),
       p(),
@@ -111,6 +111,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     values <- reactiveValues(tables = tables, table_id = NA_character_,
                              table_desc = NA_character_,
                              table_ids = table_ids,
+                             table_descs = table_descs,
                              table_desc_stack = character(0))
     #
     # local functions
@@ -140,39 +141,28 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         return(invisible(NULL))
       }
       
-      # check for duplicates in current table, otherwise don't change
-      if (!is.null(values$table_id)) {
-        if (check_duplicates(session, values)) {
-          updateSelectInput(session, "table_desc", selected = values$table_desc)
-          return()
-        }
+      if (!is.na(values$table_id) && check_duplicates(session, values)) {
+        # There are duplicates in the current table. Select original table
+        # and return.
+        updateSelectInput(session, "table_desc", selected = values$table_desc)
+        return()
       }
       
-      new_table_desc <- input$table_desc
-      new_table_id <- values$table_ids[new_table_desc]
+      new_table_id <- get_table_id(input$table_desc)
 
-      if (is.na(new_table_id)) {
-        stop(paste("Internal error ... Table", new_table_desc, 
-                      "not in list of tables"))
-      }
-      
       if (debug) {
         cat(sprintf("Opening table with id = %s\n", new_table_id))
       }
       
       if (!is.na(values$table_id)) {
-        # another table now open
-        if (values$table_id == new_table_id) {
-          return(invisible(NULL))
-        } else {
-          # save ordering
-          values$tables[[values$table_id]]$order <- input$order_input_order
-        }
+        # save ordering current table
+        values$tables[[values$table_id]]$order <- input$order_input_order
       }
       
       values$table_id <- new_table_id
-      values$table_desc <- new_table_desc
-      
+      values$table_desc <- values$table_descs[new_table_id]
+      values$tab_names <- names(values$tables[[new_table_id]]$codes)
+   
       open_table(values, input, output, debug = debug)
       
       updateSelectInput(session, "order_table", selected = get_order_type(1))
@@ -182,13 +172,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
     
     observeEvent(input$new_table, {
       
-      values$new_table_ids <- get_new_table_ids(values$table_ids, base_url)
-
-      if (is.null(values$new_table_ids)) {
+      new_table_descs <- get_new_table_descs(values$table_ids, base_url)
+      
+      if (is.null(new_table_descs)) {
         shinyalert("Error", "Error downloading list of tables" , type = "error")
       } else {
-        showModal(select_new_table_dialog(names(values$new_table_ids),
-                                          names(values$table_ids)))
+        values$new_table_descs <- new_table_descs
+        showModal(select_new_table_dialog(new_table_descs, values$table_descs))
       } 
     })
     
@@ -198,28 +188,18 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (new_table_desc == "") {
         return()
       }
-      new_table_id <- values$new_table_ids[new_table_desc]
-      if (is.na(new_table_id)) {
-        stop(paste("Internal error ... Table", new_table_desc, 
-                      "not in list of new tables"))
-      }
-      
-      # additional check
-      if (new_table_id %in% values$table_ids) {
-        stop(paste("Internal error ... Table", new_table_desc, 
-                      "already in list of tables"))
-      }
+      new_table_id <- get_table_id(new_table_desc)
+      new_table_desc <- values$new_table_descs[new_table_id]
       
       # add new table
       tryCatch({
         
         values$new_table <- create_new_table(new_table_id, base_url)
         values$new_table_id <- new_table_id
-        values$new_table_desc <- new_table_desc
-        
+  
         base_table_desc <-  input$new_table_base_desc
         if (base_table_desc != "") {
-          base_table_id <- values$table_ids[base_table_desc]
+          base_table_id <- get_table_id(base_table_desc)
           base_table <- values$tables[[base_table_id]]
           ret <- call_update_table(values$new_table, base_table, new_table_id,
                                    base_table_id)
@@ -227,11 +207,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           if (length(ret$warnings) > 0) {
             showWarningsDialog(ret$warnings, "filled_table_ok")
           } else {
-            insert_new_table()
+            insert_new_table(new_table_id, new_table_desc)
             removeModal()
           }
         } else {
-          insert_new_table()
+          insert_new_table(new_table_id, new_table_desc)
           removeModal()
         }
       }, error = function(e) {
@@ -243,24 +223,26 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       })
     })
     
-    insert_new_table <- function() {
+    insert_new_table <- function(new_table_id, new_table_desc) {
       
       if (debug) {
         cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
                     values$new_table_id))
       }
       
-      values$tables[[values$new_table_id]]  <- values$new_table
-      values$table_ids[values$new_table_desc] <- values$new_table_id
-      
+      values$table_ids <- c(values$table_ids, new_table_id)
+      values$table_descs[new_table_id] <- new_table_desc
+      values$tables[[new_table_id]]  <- values$new_table
+     
       # reorder the tables alphabetically
       ord <- order(values$table_ids)
       values$tables <- values$tables[ord]
       values$table_ids <- values$table_ids[ord]
+      values$table_descs <- values$table_descs[values$table_ids]
       
       updateSelectInput(session, inputId = "table_desc",
-                        choices = create_table_choices(names(values$table_ids)), 
-                        selected = values$new_table_desc)
+                        choices = create_table_choices(values$table_descs), 
+                        selected = new_table_desc)
     }
     
     observeEvent(input$filled_table_ok, {
@@ -276,7 +258,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
           easyClose = TRUE)) 
       } else {
         showModal(select_table_dialog("delete_table", "Delete Table", 
-                                      names(values$table_ids)))
+                                      values$table_descs))
       }
     })
     
@@ -286,11 +268,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (delete_table_desc == "") {
         return()
       }
-      delete_table_id <- values$table_ids[delete_table_desc]
-      if (is.na(delete_table_id)) {
-        stop(paste("Internal error ... Table", new_table_desc, 
-                      "not in list of new tables"))
-      }
+      delete_table_id <- get_table_id(delete_table_desc)
+      delete_table_desc <- values$table_descs[delete_table_id]
       values$delete_table_id <- delete_table_id
       
       showModal(modalDialog(
@@ -313,19 +292,20 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       # update table_ids
       idx <- pmatch(values$delete_table_id, values$table_ids)
       values$table_ids <- values$table_ids[-idx]
+      values$table_descs <- values$table_descs[values$table_ids]
       
-      
-      choices <- create_table_choices(names(values$table_ids))                 
+      choices <- create_table_choices(values$table_descs)                 
       
       if (is.na(values$table_id) || values$delete_table_id == values$table_id) {
         updateSelectInput(session, inputId = "table_desc", choices = choices)
         output$table_pane <- renderUI({return(NULL)})
         values$table_id <- NA_character_
-        values$table_desc <- NA_character_
+        selected <- NULL
       } else {
-        updateSelectInput(session, inputId = "table_desc", choices = choices,
-                          selected = values$table_desc)
+        selected <- values$table_desc
       }
+      updateSelectInput(session, inputId = "table_desc", choices = choices,
+                        selected = selected)
       
       
       removeModal()
@@ -367,6 +347,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
       if (debug) cat("in insert_update_table\n")
       
       values$tables[[values$table_id]] <- values$new_table
+      
       open_table(values, input, output, selected_tab = input$tabsetpanel, 
                  debug = debug)
     }
@@ -389,7 +370,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
         output[[hot_id]] <- NULL
         return()
       }
-      lapply(values$names, FUN = make_empty_table)
+      lapply(values$tab_names, FUN = make_empty_table)
     
       name <- input$tabsetpanel
       
