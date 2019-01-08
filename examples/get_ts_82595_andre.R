@@ -15,4 +15,4 @@ x <- get_ts(id, ts_code = ts_code, refresh = TRUE, include_meta = TRUE,
 check <- check_ts_table(x, id, raw_cbs_dir = "raw_cbs_data")
 
 
-write_table_ts_xlsx(x, file = "jan.xlsx")
+write_table_ts_xlsx(x, file = file.path("output", paste0("ts_", id, ".xlsx")))

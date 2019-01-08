@@ -29,13 +29,13 @@
 #' @param rowwise a logical value: should the timeseries be written rowwise?
 #' @param ... other arguments passed to 
 #' \code{\link[regts:write_ts_xlsx-slash-write_ts_sheet]{write_ts_xlsx}}
-#' @importFrom xlsx createWorkbook
-#' @importFrom xlsx createSheet
-#' @importFrom xlsx addDataFrame
-#' @importFrom xlsx autoSizeColumn
-#' @importFrom xlsx autoSizeColumn
-#' @importFrom xlsx createFreezePane
-#' @importFrom xlsx saveWorkbook
+#' @importFrom openxlsx createWorkbook
+#' @importFrom openxlsx addWorksheet
+#' @importFrom openxlsx freezePane
+#' @importFrom openxlsx setColWidths
+#' @importFrom openxlsx saveWorkbook
+#' @importFrom openxlsx writeData
+#' 
 #' @importFrom regts write_ts_sheet
 #' @export
 write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
@@ -52,18 +52,21 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
     stop("Argument x does not have any frequency component")
   }
   
+ 
   wb <- createWorkbook()
   for (freq in frequencies) {
     sheet_name <- freq_sheet_names[freq]
-    sheet <- createSheet(wb, sheet_name)
+    addWorksheet(wb, sheet_name)
     label_option <- if (rowwise) "after" else "no"
-    write_ts_sheet(x[[freq]], sheet, rowwise = rowwise, 
+    write_ts_sheet(x[[freq]], wb, sheet_name, rowwise = rowwise, 
                    labels = label_option, ...)
   }
-  sheet <- createSheet(wb, "ts_names")
-  addDataFrame(x$ts_names, sheet, row.names = FALSE)
-  autoSizeColumn(sheet, seq_len(ncol(x$ts_names)))
-  createFreezePane(sheet, 2, 1)
+  
+  sheet_name <- "ts_names"
+  addWorksheet(wb, sheet_name)
+  writeData(wb, sheet_name, x$ts_names, rowNames = FALSE)
+  setColWidths(wb, sheet_name, 1:ncol(x$ts_names), widths = "auto")
+  freezePane(wb, sheet_name, firstActiveRow = 2, firstActiveCol = 2)
   
   # write meta data
   meta <- x$meta
@@ -71,14 +74,23 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
     for (name in names(meta)) {
       data <- meta[[name]]
       if (length(data) == 0) next
-      sheet <- createSheet(wb, paste("meta_data_", name))
-      addDataFrame(data, sheet, row.names = FALSE)
-      autoSizeColumn(sheet, seq_len(ncol(data)))
-      createFreezePane(sheet, 1, 0)
+      sheet_name <- paste0("meta_data_", name)
+      if (nchar(sheet_name) > 31) {
+        sheet_name <- substr(sheet_name, 1, 31)
+      }
+      addWorksheet(wb,  sheet_name)
+      writeData(wb, sheet_name, data, rowNames = FALSE)
+      setColWidths(wb, sheet_name, 1:ncol(data), widths = "auto")
+      freezePane(wb, sheet_name, firstActiveRow = 2, firstActiveCol = 2)
     }
   }
   
-  saveWorkbook(wb, file)
+  minWidth_old <- options("openxlsx.minWidth")[[1]]
+  options("openxlsx.minWidth" = 8.43)
+  
+  saveWorkbook(wb, file, overwrite = TRUE)
+  
+  options("openxlsx.minWidth" = minWidth_old)
   
   return(invisible(NULL))
 }

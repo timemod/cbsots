@@ -10,14 +10,14 @@ Maintainer: Rob van Harrevelt <rvanharrevelt@gmail.com>
 Description: Tools from downloading timeseries using the cbsodataR package.
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Depends:
     regts
 Imports:
     cbsodataR (>= 0.2.5),
     data.table,
     readxl,
-    xlsx,
+    openxlsx,
     shiny,
     shinyjqui (>= 0.2.9001),
     htmlwidgets,
