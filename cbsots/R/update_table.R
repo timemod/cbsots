@@ -84,33 +84,42 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     perfect_match <- ma[is_perfect, ]
     imperfect_match <- ma[!is_perfect, ]
 
-    
- 
-
     no_match <- data.frame(base_key = base$Key[missing], 
                            base_title = base$Title[missing],
                            stringsAsFactors = FALSE)
      
     wb <- createWorkbook()
-    sheet <- createSheet(wb, "perfect match")
+    
+    sheet <- "perfect match"
+    addWorksheet(wb, sheet)
     if (nrow(perfect_match) > 0) {
-      addDataFrame(perfect_match, sheet, row.names = FALSE)
-      autoSizeColumn(sheet, 1:4)
-      createFreezePane(sheet, 1, 0)
+      writeData(wb, sheet, perfect_match, rowNames = FALSE)
+      setColWidths(wb, sheet, 1:4, widths = "auto")
+      freezePane(wb, sheet, 2, 1)
     }
-    sheet <- createSheet(wb, "imperfect match")
+    
+    sheet <- "imperfect match"
+    addWorksheet(wb, sheet)
     if (nrow(imperfect_match) > 0) {
-      addDataFrame(imperfect_match, sheet, row.names = FALSE)
-      autoSizeColumn(sheet, 1:4)
-      createFreezePane(sheet, 1, 0)
+      writeData(wb, sheet, imperfect_match, rowNames = FALSE)
+      setColWidths(wb, sheet, 1:4, widths = "auto")
+      freezePane(wb, sheet, 2, 1)
     }
-    sheet <- createSheet(wb, "no match")
+    
+    sheet <- "no match"
+    addWorksheet(wb, sheet)
     if (nrow(no_match) > 0) {
-      addDataFrame(no_match, sheet, row.names = FALSE)
-      autoSizeColumn(sheet, 1:2)
-      createFreezePane(sheet, 1, 0)
+      writeData(wb, sheet, no_match, rowNames = FALSE)
+      setColWidths(wb, sheet, 1:4, widths = "auto")
+      freezePane(wb, sheet, 2, 1)
     }
-    saveWorkbook(wb, match_file)
+    
+    minWidth_old <- options("openxlsx.minWidth")[[1]]
+    options("openxlsx.minWidth" = 8.43)
+    
+    saveWorkbook(wb, match_file, overwrite = TRUE)
+    
+    options("openxlsx.minWidth" = minWidth_old)
         
     return()
   }
