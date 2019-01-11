@@ -18,9 +18,9 @@ raw_cbs_dir <- tempdir()
 result1 <- expect_output(get_ts(id, ts_code, refresh = TRUE,
                                 raw_cbs_dir = raw_cbs_dir))
 
-test_that("adding a new key", {
+test_that("select a new key", {
   
-  # add a new key programmatically
+  # select a new key programmatically
   ts_code_tmp <- ts_code
   ts_code_tmp$table_code[[id]]$codes$AfzetInvoerEnVerbruik[1, 2] <- TRUE
   ts_code_tmp$table_code[[id]]$codes$AfzetInvoerEnVerbruik[1, 3] <- "p040"

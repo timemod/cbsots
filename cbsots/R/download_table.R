@@ -1,7 +1,7 @@
 #' @importFrom cbsodataR cbs_download_table
 #' @importFrom cbsodataR cbs_get_meta
-download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,  
-                           base_url, download_all_keys) {
+download_table <- function(id, raw_cbs_dir, code, selected_code, min_year, 
+                           frequencies, base_url, download_all_keys) {
   
   cat(paste("Downloading table", id, "...\n"))
   
@@ -14,12 +14,12 @@ download_table <- function(id, raw_cbs_dir, code, min_year, frequencies,
   }
   check_language(meta)
   cbs_code <- get_cbs_code(meta)
-  code <- check_code(code, cbs_code)
+  check_code(id, code, selected_code, cbs_code)
  
   # create a filter for each dimension if necessary
   get_dimension_filter <-function(dimension) {
-     if (nrow(cbs_code[[dimension]]) > nrow(code[[dimension]])) {
-      filter <- code[[dimension]]$Key
+    if (nrow(cbs_code[[dimension]]) > nrow(selected_code[[dimension]])) {
+      filter <- selected_code[[dimension]]$Key
     } else {
       filter <- NULL
     }

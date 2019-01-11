@@ -34,13 +34,13 @@ test_that("unknown key for refresh = TRUE", {
   
   ts_code_tmp <- ts_code
   ts_code_tmp$table_code[[id]]$codes$Topic[1, 1] <- "xxx"
-  msg <- "Unknown keys in code for Topic:\nxxx\n."
+  msg <- "Unknown keys in code for dimension Topic in table 81974NED:\nxxx\n."
   expect_output(expect_error(get_ts(id, ts_code_tmp, refresh = TRUE,
                                     raw_cbs_dir = tempdir()), msg))
   
   ts_code_tmp <- ts_code
   ts_code_tmp$table_code[[id]]$codes$ProductenPRODCOM[1, 1] <- "aaa"
-  msg <- "Unknown keys in code for ProductenPRODCOM:\naaa\n."
+  msg <- "Unknown keys in code for dimension ProductenPRODCOM in table 81974NED:\naaa\n."
   expect_output(expect_error(get_ts(id, ts_code_tmp, refresh = TRUE), msg))
 })
 
@@ -78,12 +78,12 @@ test_that("unknown key for refresh = FALSE", {
   
   ts_code_tmp <- ts_code
   ts_code_tmp$table_code[[id]]$codes$Topic[1, 1] <- "xxx"
-  msg <- "Unknown keys in code for Topic:\nxxx\n."
+  msg <- "Unknown keys in code for dimension Topic in table 81974NED:\nxxx\n."
   expect_error(get_ts(id, ts_code_tmp, refresh = FALSE), msg)
   
   ts_code_tmp <- ts_code
   ts_code_tmp$table_code[[id]]$codes$ProductenPRODCOM[1, 1] <- "aaa"
-  msg <- "Unknown keys in code for ProductenPRODCOM:\naaa\n."
+  msg <- "Unknown keys in code for dimension ProductenPRODCOM in table 81974NED:\naaa\n."
   expect_error(get_ts(id, ts_code_tmp, refresh = FALSE), msg)
 })
 

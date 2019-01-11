@@ -1,4 +1,4 @@
-read_table <- function(data_dir, code, min_year, frequencies) {
+read_table <- function(id, data_dir, code, selected_code, min_year, frequencies) {
   
   read_ok <- FALSE
   
@@ -11,11 +11,11 @@ read_table <- function(data_dir, code, min_year, frequencies) {
   if (!is.null(meta)) {
     check_language(meta)
     cbs_code <- get_cbs_code(meta)
-    code <- check_code(code, cbs_code)
+    check_code(id, code, selected_code, cbs_code)
     data <- read_data_file(data_dir, cbs_code$Topic$Key)
     if (!is.null(data)) {
       period_keys <- get_period_keys(meta, min_year, frequencies)
-      read_ok <- check_read_data(data, code, period_keys = period_keys)
+      read_ok <- check_read_data(data, selected_code, period_keys = period_keys)
       if (read_ok && (!is.null(min_year) || !is.null(frequencies))) {
         data <- data[Perioden %in% period_keys]
       }

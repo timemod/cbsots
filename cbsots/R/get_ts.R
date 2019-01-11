@@ -94,6 +94,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   id <- table_ids[idx]
   
   table_code <- ts_code$table_code[[id]]
+  dimensions <- setdiff(names(table_code$codes), "Topic")
   
   data_dir <- file.path(raw_cbs_dir, id)
   
@@ -101,26 +102,21 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   # or no visible global function
   `.` <- NULL; Select <- NULL; Code <- NULL; Perioden <- NULL
   
-  convert_code <- function(name) {
-  
+  select_code <- function(name) {
     code <- table_code$codes[[name]]
-    
-    code <- code[Select == TRUE,]
-    
-    # If the code is empty, then also make the title empty.
-    code[(is.na(Code) | trimws(Code) == ""), c("Title", "Code") := ""]
-    
-    return(code)
+    return(code[Select == TRUE, ])
   }
   
-  # Convert codes and create a list with the order given by table_code$order.
-  # This order determines how the timeseries names are created.
-  code <- sapply(table_code$order, FUN = convert_code, simplify = FALSE)
-
-  dimensions <- setdiff(names(table_code$codes), "Topic")
+  # Select all rows with Select = TRUE. The ordering of the 
+  # dimensionswill be equal to table_code$order, this ordering is important
+  # because it determines how the timeseries names are created.
+  selected_code <- sapply(table_code$order, FUN = select_code, simplify = FALSE)
+  
   
   if (!refresh) {
-    read_result <- read_table(data_dir, code, min_year, frequencies)
+    read_result <- read_table(id, data_dir, code = table_code$codes, 
+                              selected_code = selected_code, 
+                              min_year = min_year, frequencies = frequencies)
     if (is.null(read_result) && !missing(download) && !download) {
       stop(paste("The files in directory", file.path(raw_cbs_dir, id), 
                  "are not complete. Please download the data again."))
@@ -128,11 +124,13 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   }
   
   if (refresh || is.null(read_result)) {
-    download_table(id, raw_cbs_dir = raw_cbs_dir, code = code, 
-                   min_year = min_year, frequencies = frequencies,
-                   base_url = base_url, 
+    download_table(id, raw_cbs_dir = raw_cbs_dir, code = table_code$codes, 
+                   selected_code = selected_code, min_year = min_year, 
+                   frequencies = frequencies, base_url = base_url, 
                    download_all_keys = download_all_keys)
-    read_result <- read_table(data_dir, code, min_year, frequencies)
+    read_result <- read_table(id, data_dir, code = table_code$codes, 
+                              selected_code = selected_code, 
+                              min_year = min_year, frequencies = frequencies)
     if (is.null(read_result)) {
       stop("Error reading the downloaded data")
     }
@@ -143,19 +141,22 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   cbs_code <- read_result$cbs_code
   
   select_code_rows <- function(name) {
-    # remove all rows with an empty Code, except if the code_table has 1 row
-    table <- code[[name]]
+    # remove all rows with an empty Code, except if the select_code table has 1 row
+    table <- selected_code[[name]]
     if (nrow(table) > 1) {
       table <- table[nchar(Code) > 0, ]
       if (nrow(table) == 0) {
         stop(paste("No single Code specified for", name))
       }
+    } else {
+      # If the code is empty, then also make the title empty.
+      table[(is.na(Code) | trimws(Code) == ""), c("Title", "Code") := ""]
     }
     return(table)
   }
   
-  # Convert the code tables based on the code column
-  code <- sapply(table_code$order, FUN = select_code_rows, simplify = FALSE)
+  # Convert the code tables based on the code column. 
+  code <- sapply(names(selected_code), FUN = select_code_rows, simplify = FALSE)
   
   # remove  topics that are not present in code
   unused_topics <- setdiff(cbs_code$Topic$Key, code$Topic$Key)

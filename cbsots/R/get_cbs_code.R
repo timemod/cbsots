@@ -13,7 +13,8 @@ get_cbs_code <- function(meta_data) {
     df <- df[, .(Key, Title)]
     return(df)
   }
-  code <- sapply(dimensions_and_topics$dimensions, FUN = get_code, simplify = FALSE)
+  code <- sapply(dimensions_and_topics$dimensions, FUN = get_code, 
+                 simplify = FALSE)
   code$Topic <- dimensions_and_topics$topics
   
   code <- code[c("Topic", dimensions_and_topics$dimensions)]

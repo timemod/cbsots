@@ -6,22 +6,22 @@ check_language <- function(meta) {
   return()
 }
 
-# This function checks if the code contains duplicate codes and compares it with
-# the cbs code. It checks for unknown Keys (Keys that are not present in the 
-# meta data). It also updates the Titles with the CBS titles, because
-# the titles may be out of date.
-check_code <- function(code, cbs_code) {
-
+# This function checks if the code is valid.
+# For example, it checks if the code contains duplicate codes,
+# or has invalid keys. It also checks for unknown Keys.
+check_code <- function(id, code, selected_code, cbs_code) {
+  
   if (!identical(sort(names(code)), sort(names(cbs_code)))) {
     stop("Corrupt timeseriescode: dimension names does not agree with CBS names")
   }
   
-  convert <- function(name) {
+  check <- function(name) {
     
     tscode <- code[[name]]
+    selected_tscode <- selected_code[[name]]
     cbs <- cbs_code[[name]]
     
-    # check all non-empty codes
+    # check that all non-empty codes are unique
     codes <- tscode$Code
     codes <- codes[nchar(codes) > 0]
     if (anyDuplicated(codes)) {
@@ -29,25 +29,78 @@ check_code <- function(code, cbs_code) {
       stop(paste0("Duplicate codes found for ",  name, ":\n", 
                   paste(duplicates, collapse = "\n")), "\n.")
     }
-    
-    unknown_keys <- setdiff(tscode$Key, cbs$Key)
-    if (length(unknown_keys) > 0) {
-      stop(paste0("Unknown keys in code for ", name, ":\n", 
-                paste(unknown_keys, collapse = "\n")), "\n.")
-    }
-    
+
     # at least one key should be selected
     if (!any(tscode$Select)) {
       stop(paste0("No single key selected for ", name, "."))
     }
     
-    # TODO: update Titles in code based on cbs_code, then check_code
-    # should return a code with updated Titles
-  
-    return(tscode)
+    # check if the keys have changed
+    if (nrow(tscode) != nrow(cbs) || 
+        !identical(sort(tscode$Key), sort(cbs$Key))) {
+      
+      # Keys are different
+      
+      # Check for unknown selected keys => Error
+      unknown_keys <- setdiff(selected_tscode$Key, cbs$Key)
+      if (length(unknown_keys) > 0) {
+        stop(paste0("Unknown keys in code for dimension ", name, 
+                    " in table ", id, ":\n", 
+                  paste(unknown_keys, collapse = "\n")), "\n.")
+      
+      } else {
+      
+        # find problematic keys with a running number
+        missing_keys_code <- setdiff(cbs$Key, tscode$Key)
+        missing_keys_cbs  <- setdiff(tscode$Key, cbs$Key)
+        problem_keys <- union(missing_keys_code, missing_keys_cbs)
+        problem_keys <- grep("_\\d+$", problem_keys, value = TRUE)
+        if (length(problem_keys) > 0) {
+          problem_keys_no_run <- sub("_\\d+$", "", problem_keys)
+          code_keys_no_run <- sub("_\\d+$", "", tscode$Key)
+          cbs_keys_no_run <- sub("_\\d+$", "", cbs$Key)
+          dupl_code <- unique(code_keys_no_run[duplicated(code_keys_no_run)])
+          dupl_cbs <- unique(code_keys_no_run[duplicated(code_keys_no_run)])
+          dupl <- union(dupl_code, dupl_cbs)
+          if (length(intersect(dupl, problem_keys_no_run)) > 0) {
+            stop(paste0("Keys in code for dimension ", name, " in table ", id,  
+                        " do not agree with CBS keys.\n",
+                        "The problem keys without running number are not unique.\n",
+                        "Update the table coding with the shiny application ",
+                        "edit_ts_code."))
+            
+          }    
+        }
+      
+        warning(paste0("Keys in code for dimension ", name, " in table ", id,  
+                      " do not agree with CBS keys.\n",
+                      "Update the table coding with the shiny application ",
+                      "edit_ts_code."))
+        
+      }
+      
+    } else {
+      
+      # The keys are identical. Maybe the titles have changed
+      code_titles <- tscode$Title
+      cbs_titles <- cbs$Title
+      code_titles <- code_titles[match(cbs$Key, tscode$Key)]
+      
+      if (!identical(code_titles, cbs_titles)) {
+      
+        warning(paste0("Titles in code for dimension ", name, " in table ", id,  
+                       " do not agree with CBS titles.\n",
+                       "Update the table coding with the shiny application ",
+                       "edit_ts_code."))
+      }
+    }
+    
+    return()
   }
   
-  return(sapply(names(code), FUN = convert, simplify = FALSE))
+  dum <- lapply(names(code), FUN = check)
+  
+  return()
 }
 
 
