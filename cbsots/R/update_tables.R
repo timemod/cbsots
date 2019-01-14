@@ -2,7 +2,10 @@
 #' 
 #' This function updates one or more tables in a table_code object.
 #' The function downloads the latest meta data from the CBS website
-#' and tries to find  matching keys or titles in the old and new table.
+#' and tries to find  matching keys or titles in the old and new table. The 
+#' function creates a match report in directory \code{match_reoport} 
+#' for each table and dimension. The match report is an Excel file with a name
+#' composed of the table id and dimension, e.g. \code{81810NED_Topic.xlsx}.
 #' This function is still experimental and you should always check the results 
 #' carefully.
 #' 
