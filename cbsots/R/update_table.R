@@ -70,9 +70,14 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     if (!dir.exists(match_dir)) {
       dir.create(match_dir)
     }
-    match_file <- file.path(match_dir, paste0(old_table_id, "_", 
-                                              table_id, "_", dimension, 
-                                              ".xlsx"))
+    
+    prefix <- if (old_table_id == table_id) {
+                  table_id
+              } else {
+                  paste0(old_table_id, "_",  table_id)
+              }
+    
+    match_file <- file.path(match_dir, paste0(prefix, "_", dimension, ".xlsx"))
     
     ma <- data.frame(base_key = base$Key[matches$base_rows],
                      code_key = code$Key[matches$code_rows],

@@ -21,6 +21,13 @@ data services implementing the same protocol.}
 \description{
 This function fills in the Select and Code fields from a base table based
 on common Keys or Titles. The function tries to find matching keys or titles
-and updates the corresponding Select en Code fields. This function is still
-experimental and you should always check the results carefully.
+and updates the corresponding Select en Code fields. 
+The 
+function creates a match report in directory \code{match_reoport} 
+for each table and dimension. The match report is an Excel file with a name
+composed of the table id of the base table and the new
+table, and the and the dimension, e.g. 
+\code{83186NED_83361NED_TypeZelfstandige.xlsx}.
+This function is still experimental and you should always check the 
+results carefully.
 }
