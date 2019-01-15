@@ -88,7 +88,7 @@ read_meta_data <- function(dir) {
     return(structure(c(ret, dimension_data), class = "cbs_table"))
   },
   error = function(e) {
-    print(e)
+    warning(e)
     warning(paste("Error reading meta data files in directory", dir, "."))
   })
   
@@ -110,16 +110,29 @@ read_data_file <- function(dir, topic_keys) {
   
   tryCatch({
     
-    # Specify the column class for the data columns. This prevents that
-    # empty columns will be read as logical columns with all NA values.
-    col_classes <- rep("numeric", length(topic_keys))
-    names(col_classes) <- topic_keys
-
-    data <- fread(data_file, drop = "ID", colClasses = col_classes,
-                  data.table = FALSE)
+    data <- fread(data_file, drop = "ID", data.table = FALSE, 
+                  na.strings = c(".", ""))
     
-    data_col_is_character <- sapply(data[ , topic_keys], FUN = is.character)
-
+    #
+    # fix character columns, character columns typically arise when 
+    # the data contains old style NA strings 
+    #
+    
+    data_cols <- match(topic_keys, colnames(data))
+    data_col_classes <- sapply(data[, data_cols], FUN = class)
+    
+    # check if there are data columns with stange types
+    weird_col_classes <- ! data_col_classes %in% c("numeric", "integer", 
+                                                   "character", "logical")
+  
+     if (any(weird_col_classes)) {
+      stop(paste("Column with illegal classes",
+                 paste(unique(data_col_classes[weird_col_classes]), collapse = ","),
+                 "found"))
+    }
+    
+    data_col_is_character <- data_col_classes == "character"
+    
     if (any(data_col_is_character)) {
       
       # NA-string used in older versions of cbsodataR (see code below)
@@ -140,15 +153,53 @@ read_data_file <- function(dir, topic_keys) {
         return(as.numeric(ret))
       }
     
-      cols <- topic_keys[data_col_is_character]
+      cols <- data_cols[data_col_is_character]
       data[ , cols] <- lapply(data[ , cols, drop = FALSE], 
                               FUN = convert_character_data_cols)
     }
     
+    #
+    # convert integer columns to numeric
+    #
+    data_col_is_integer <- data_col_classes == "integer"
+    if (any(data_col_is_integer)) {
+      data[ , data_cols[data_col_is_integer]] <-
+        lapply(data[ , data_cols[data_col_is_integer]], FUN = as.numeric) 
+    }
+    
+    #
+    # fix logical data columns. logical columns arise when a column is 
+    # completely empty
+    #
+    data_col_is_logical <- data_col_classes == "logical"
+    # TODO: check if any logical column contains any non-NA value,
+    # otherwise give an error message
+    if (any(data_col_is_logical)) {
+      
+      convert_logical_data_cols <- function(x) {
+        
+        # Logical columns may arise if a column is completely
+        # empty. In that case replace the result with NA_real_.
+        # Otherwise give an error
+        
+        if (all(is.na(x))) {
+          return(rep(NA_real_, length(x)))
+        } else {
+          stop("Error reading data ... found logical data columns")
+        }
+      }
+      
+      cols <- data_cols[data_col_is_logical]
+      data[ , cols] <- lapply(data[ , cols, drop = FALSE], 
+                              FUN = convert_logical_data_cols)
+    }
+    
+    # finally convert to data.table
     data <- as.data.table(data)
   },
   error = function(e) {
-    print(e)
+    data <<- NULL
+    warning(e)
     warning(paste("Error reading file", data_file, "."))
   }
   )
