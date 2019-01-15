@@ -26,7 +26,7 @@ test_that(id, {
                             "Frequencies M not present in table")
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
   
   result2 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, 
                                   raw_cbs_dir = raw_cbs_dir,

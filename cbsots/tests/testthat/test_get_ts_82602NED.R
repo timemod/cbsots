@@ -22,7 +22,7 @@ test_that(id, {
   result1 <- expect_silent(get_ts(id, ts_code_new, refresh = FALSE))
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
   
   expect_known_value(read_match_report(ts_code, id),
                      file = file.path("expected_output", 

@@ -37,5 +37,5 @@ test_that(id, {
   expect_known_output(print(result1), expected_output_file)
 
   check <- check_ts_table(result1, id)
-  expect_true(check$equal)
+  expect_true(check)
 })

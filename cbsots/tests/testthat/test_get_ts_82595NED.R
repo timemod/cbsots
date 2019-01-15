@@ -24,13 +24,13 @@ test_that(id, {
   result1 <- expect_output(get_ts(id, ts_code_1, refresh = TRUE, 
                                   min_year = 2008, raw_cbs_dir = raw_cbs_dir))
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
   expect_equal(ncol(result1$Y), 2)
   
   result2 <- expect_silent(get_ts(id, ts_code_2, refresh = FALSE, 
                                   min_year = 2008, raw_cbs_dir = raw_cbs_dir))
   check <- check_ts_table(result2, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
   expect_equal(ncol(result2$Y), 4)
 })
 
@@ -43,14 +43,14 @@ test_that(paste(id, "download_all_keys"), {
                                   download_all_keys = TRUE))
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
   expect_equal(ncol(result1$Y), 2)
   
   result2 <- expect_silent(get_ts(id, ts_code_3, refresh = FALSE, 
                                   min_year = 2017, frequencies = "Y", 
                                   raw_cbs_dir = raw_cbs_dir))
   check <- check_ts_table(result2, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
   expect_equal(ncol(result2$Y), 6)
 })
 
@@ -76,7 +76,7 @@ test_that(paste(id, "deleted keys"), {
     msg)
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
 })
 
 test_that("non unique key differences", {
@@ -115,7 +115,7 @@ test_that("modified title", {
     msg)
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
 })
 
 
@@ -136,7 +136,7 @@ test_that(paste(id, "modified key and downloading"), {
       msg)
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
 })
 
 test_that("non unique key differences with download", {

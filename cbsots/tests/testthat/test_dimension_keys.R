@@ -30,5 +30,5 @@ test_that("select a new key", {
                                                  raw_cbs_dir = raw_cbs_dir))
 
   check <- check_ts_table(result2, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
 })

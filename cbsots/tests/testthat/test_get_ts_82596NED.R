@@ -22,6 +22,9 @@ test_that(id, {
   expect_silent(result1 <- get_ts(id, ts_code, refresh = FALSE, 
                                   min_year = 2015, raw_cbs_dir = raw_cbs_dir, 
                                   frequencies = NA))
-  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  
+  print(system.time(
+    check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+  ))
+  expect_true(check)
 })

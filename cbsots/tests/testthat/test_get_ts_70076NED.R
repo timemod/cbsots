@@ -18,7 +18,7 @@ test_that(paste(id, "no refresh"), {
    result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE))
    
    check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-   expect_true(check$equal)
+   expect_true(check)
 })
 
 test_that(paste(id, "refresh"), {
@@ -31,5 +31,5 @@ test_that(paste(id, "refresh"), {
   expect_equal_to_reference(result1, file.path("expected_output", "70076NED.rds"))
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
 })

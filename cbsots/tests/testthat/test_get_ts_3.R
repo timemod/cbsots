@@ -21,5 +21,5 @@ test_that(id, {
                                   raw_cbs_dir = raw_cbs_dir, min_year = 2016))
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check$equal)
+  expect_true(check)
 })
