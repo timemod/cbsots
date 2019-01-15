@@ -9,7 +9,7 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
   read_ok <- FALSE
   
   meta <- read_meta_data(data_dir)
-  
+
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
   Perioden <- NULL
@@ -17,9 +17,7 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
   if (!is.null(meta)) {
     check_language(meta)
     cbs_code <- get_cbs_code(meta)
-    if (!read_downloaded_data) {
-      check_code(id, code, selected_code, cbs_code, downloaded = FALSE)
-    }
+    check_unknown_keys(id, selected_code, cbs_code)
     data <- read_data_file(data_dir, cbs_code$Topic$Key)
     if (!is.null(data)) {
       period_keys <- get_period_keys(meta, min_year, frequencies)
@@ -27,10 +25,14 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
       if (read_ok && (!is.null(min_year) || !is.null(frequencies))) {
         data <- data[Perioden %in% period_keys]
       }
-    }
+    } 
   }
+
   
   if (read_ok) {
+    if (!read_downloaded_data) {
+      check_code(id, code, selected_code, cbs_code, downloaded = FALSE)
+    }
     return(list(meta = meta, data = data, cbs_code = cbs_code))
   } else {
     return(NULL)
@@ -172,6 +174,7 @@ check_read_data <- function(data, code, period_keys) {
   topic_keys <- code$Topic$Key
   missing_topics <- setdiff(topic_keys, colnames(data))
   if (length(missing_topics) > 0) {
+    cat("missing topics\n")
     return(FALSE)
   }
   
@@ -181,6 +184,14 @@ check_read_data <- function(data, code, period_keys) {
       return(FALSE)
     }
   }
+  
+ 
+  if (!all(period_keys %in% data$Perioden)) {
+    cat("missing periods\n")
+    print(period_keys)
+    print(data$Perioden)
+  }
+  
   return(all(period_keys %in% data$Perioden))
 }
 

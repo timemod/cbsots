@@ -41,7 +41,7 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
       stop(paste0("Duplicate codes found for ",  name, ":\n", 
                   paste(duplicates, collapse = "\n")), "\n.")
     }
-
+    
     # at least one key should be selected
     if (!any(tscode$Select)) {
       stop(paste0("No single key selected for ", name, "."))
@@ -53,53 +53,42 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
       
       # Keys are different
       
-      # Check for unknown selected keys => Error
-      unknown_keys <- setdiff(selected_tscode$Key, cbs$Key)
-      if (length(unknown_keys) > 0) {
-        stop(paste0("Unknown keys in code for dimension ", name, 
-                    " in table ", id, ":\n", 
-                  paste(unknown_keys, collapse = "\n")), "\n.")
-      
+      if (downloaded) {
+        key_source <- "CBS keys"
+        advice <-  paste("Update the table coding with the shiny application",
+                         "edit_ts_code.")
       } else {
-        
-        if (downloaded) {
-          key_source <- "CBS keys"
-          advice <-  paste("Update the table coding with the shiny application",
-                           "edit_ts_code.")
-        } else {
-          key_source <- "the keys on file"
-          advice <- paste("Download the data with function get_ts using",
-                          "argument refresh or download.")
-        }
-      
-        # find problematic keys with a running number
-        missing_keys_code <- setdiff(cbs$Key, tscode$Key)
-        missing_keys_cbs  <- setdiff(tscode$Key, cbs$Key)
-        problem_keys <- union(missing_keys_code, missing_keys_cbs)
-        problem_keys <- grep("_\\d+$", problem_keys, value = TRUE)
-        if (length(problem_keys) > 0) {
-          problem_keys_no_run <- sub("_\\d+$", "", problem_keys)
-          code_keys_no_run <- sub("_\\d+$", "", tscode$Key)
-          cbs_keys_no_run <- sub("_\\d+$", "", cbs$Key)
-          dupl_code <- unique(code_keys_no_run[duplicated(code_keys_no_run)])
-          dupl_cbs <- unique(code_keys_no_run[duplicated(code_keys_no_run)])
-          dupl <- union(dupl_code, dupl_cbs)
-          if (length(intersect(dupl, problem_keys_no_run)) > 0) {
-            stop(paste0("Keys in code for dimension ", name, " in table ", id,  
-                        " do not agree with ", key_source, ".\n",
-                        "The problem keys without running number are not unique.\n",
-                        advice))
-          }    
-        }
-      
-        warning(paste0("Keys in code for dimension ", name, " in table ", id,  
-                      " do not agree with ", key_source, ".\n",
-                      advice))
+        key_source <- "the keys on file"
+        advice <- paste("Download the data with function get_ts using",
+                        "argument refresh or download.")
       }
+      
+      # find problematic keys with a running number
+      missing_keys_code <- setdiff(cbs$Key, tscode$Key)
+      missing_keys_cbs  <- setdiff(tscode$Key, cbs$Key)
+      problem_keys <- union(missing_keys_code, missing_keys_cbs)
+      problem_keys <- grep("_\\d+$", problem_keys, value = TRUE)
+      if (length(problem_keys) > 0) {
+        problem_keys_no_run <- sub("_\\d+$", "", problem_keys)
+        code_keys_no_run <- sub("_\\d+$", "", tscode$Key)
+        cbs_keys_no_run <- sub("_\\d+$", "", cbs$Key)
+        dupl_code <- unique(code_keys_no_run[duplicated(code_keys_no_run)])
+        dupl_cbs <- unique(code_keys_no_run[duplicated(code_keys_no_run)])
+        dupl <- union(dupl_code, dupl_cbs)
+        if (length(intersect(dupl, problem_keys_no_run)) > 0) {
+          stop(paste0("Keys in code for dimension ", name, " in table ", id,  
+                      " do not agree with ", key_source, ".\n",
+                      "The problem keys without running number are not unique.\n",
+                      advice))
+        }    
+      }
+      
+      warning(paste0("Keys in code for dimension ", name, " in table ", id,  
+                     " do not agree with ", key_source, ".\n",
+                     advice))
       
     } else {
       
-     
       
       # The keys are identical. Maybe the titles have changed
       code_titles <- tscode$Title
@@ -117,7 +106,7 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
       }
       
       if (!identical(code_titles, cbs_titles)) {
-      
+        
         warning(paste0("Titles in code for dimension ", name, " in table ", id,  
                        " do not agree with ", key_source, ".\n",
                        advice))
@@ -126,6 +115,32 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
     
     return()
   }
+  
+  dum <- lapply(names(code), FUN = check)
+  
+  return()
+}
+
+
+# This function checks for keys in code that are not in cbs_code
+check_unknown_keys <- function(id, code, cbs_code) {
+  
+  
+  check <- function(name) {
+    
+    tscode <- code[[name]]
+    cbs <- cbs_code[[name]]
+    
+    # Check for unknown selected keys => Error
+    unknown_keys <- setdiff(tscode$Key, cbs$Key)
+    if (length(unknown_keys) > 0) {
+      stop(paste0("Unknown keys in code for dimension ", name, 
+                  " in table ", id, ":\n", 
+                  paste(unknown_keys, collapse = "\n")), "\n.")
+    }
+    return()
+  }
+  
   
   dum <- lapply(names(code), FUN = check)
   

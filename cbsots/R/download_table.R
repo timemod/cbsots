@@ -14,6 +14,7 @@ download_table <- function(id, raw_cbs_dir, code, selected_code, min_year,
   }
   check_language(meta)
   cbs_code <- get_cbs_code(meta)
+  check_unknown_keys(id, selected_code, cbs_code)
   check_code(id, code, selected_code, cbs_code, downloaded = TRUE)
  
   # create a filter for each dimension if necessary

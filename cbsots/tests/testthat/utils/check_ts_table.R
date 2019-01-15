@@ -25,7 +25,8 @@
 
 library(data.table)
 
-check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data") {
+check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
+                           min_year) {
   
   cbs_data_file <- file.path(raw_cbs_dir, id, "data.csv")
   
@@ -54,6 +55,12 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data") {
   # select topic columns 
   cbs_data <- cbs_data[ , c(dimensions, "Perioden", ts_names$Topic), 
                         with = FALSE]
+  
+  if (!missing(min_year)) {
+    years <- sub("^(\\d+).*", "\\1", cbs_data$Perioden)
+    years <- as.numeric(years)
+    cbs_data <- cbs_data[years >= min_year]
+  }
   
   # split data in frequencies
   

@@ -54,18 +54,14 @@ test_that(paste(id, "download_all_keys"), {
   expect_equal(ncol(result2$Y), 6)
 })
 
-test_that(paste(id, "deleted keys"), {
-  
+test_that(paste(id, "deleted keys (1)"), {
+
   topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic <- topic[Key != 'InvoerVanGoederen_3']
   
   ts_code <- ts_code_1
   ts_code$table_code$`82595NED`$codes$Topic <- topic
-  
-  #
-  # TODO: check_ts_table gives an error if min_year = 2013 is used
-  # below. Sometging must be wrong. What is going on?
-  #
+
   msg <- paste0("Keys in code for dimension Topic in table 82595NED do not",
                 " agree with the keys on file.\n",
                 "Download the data with function get_ts using argument",
@@ -73,6 +69,28 @@ test_that(paste(id, "deleted keys"), {
   expect_warning(
     result1 <- get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
                       frequencies = "Y"),
+    msg)
+  
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+  expect_true(check)
+})
+
+test_that(paste(id, "deleted keys (2)"), {
+  
+  # in this test we force a new download
+  
+  topic <- ts_code_1$table_code$`82595NED`$codes$Topic
+  topic <- topic[Key != 'InvoerVanGoederen_3']
+  
+  ts_code <- ts_code_1
+  ts_code$table_code$`82595NED`$codes$Topic <- topic
+  
+  msg <- paste0("Keys in code for dimension Topic in table 82595NED do not",
+                " agree with CBS keys.\n",
+                "Update the table coding with the shiny application edit_ts_code.")
+  expect_warning(expect_message(expect_output(
+    result1 <- get_ts(id, ts_code, min_year = 2016, raw_cbs_dir = raw_cbs_dir,
+                      frequencies = "Y"))),
     msg)
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
@@ -93,62 +111,64 @@ test_that("non unique key differences", {
                 "The problem keys without running number are not unique.\n",
                 "Download the data with function get_ts using argument",
                 " refresh or download.")
-  expect_error(get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir),
+  expect_error(get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
+                      frequencies = "Y"),
                msg)
 })
 
 test_that("modified title", {
-  
+
   topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic$Title[151] <- "xxx"
-   
+
   ts_code <- ts_code_1
   ts_code$table_code$`82595NED`$codes$Topic <- topic
-  
+
   msg <- paste0("Titles in code for dimension Topic in table 82595NED do not",
-               " agree with the keys on file.\n",
-               "Download the data with function get_ts using argument",
-               " refresh or download.")
+                " agree with the keys on file.\n",
+                "Download the data with function get_ts using argument",
+                " refresh or download.")
   expect_warning(
     result1 <- get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
                       frequencies = "Y"),
     msg)
-  
-  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir,
+                          min_year = 2017)
   expect_true(check)
 })
 
 
 test_that(paste(id, "modified key and downloading"), {
-  
+
   topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic[Key == 'InvoerVanGoederen_3', Key := "aap_3"]
-  
+
   ts_code <- ts_code_1
   ts_code$table_code$`82595NED`$codes$Topic <- topic
-  
+
   msg <- paste0("Keys in code for dimension Topic in table 82595NED do not",
                 " agree with CBS keys.\n",
                 "Update the table coding with the shiny application edit_ts_code.")
   expect_warning(expect_message(expect_output(
     result1 <- get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
                       frequencies = "Y", download = TRUE))),
-      msg)
-  
+    msg)
+
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
 })
 
 test_that("non unique key differences with download", {
-  
+
   topic <- ts_code_1$table_code$`82595NED`$codes$Topic
-  topic <- rbind(topic, 
-                 data.table(Key = "Totaal_136", Select = FALSE, Code  ="xxx", 
+  topic <- rbind(topic,
+                 data.table(Key = "Totaal_136", Select = FALSE, Code  ="xxx",
                             Title = "dummy2", OrigKeyOrder = "Totaal_136"))
-  
+
   ts_code <- ts_code_1
   ts_code$table_code$`82595NED`$codes$Topic <- topic
-  
+
   # this statement should give an error because of the running numbers
   msg <- paste0("Keys in code for dimension Topic in table 82595NED do not",
                 " agree with CBS keys.\n",
@@ -156,8 +176,31 @@ test_that("non unique key differences with download", {
                 "Update the table coding with the shiny application edit_ts_code.")
   expect_error(expect_output(
     get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
-                      download = TRUE)),
-               msg)
+           download = TRUE)),
+    msg)
+})
+
+test_that("unknown key", {
+  
+  topic <- ts_code_1$table_code$`82595NED`$codes$Topic
+  topic <- rbind(topic,
+                 data.table(Key = "Goudimport", Select = TRUE, Code  ="goudi",
+                            Title = "dummy2", OrigKeyOrder = "Goudimport"))
+  
+  ts_code <- ts_code_1
+  ts_code$table_code$`82595NED`$codes$Topic <- topic
+  
+  msg <- "Unknown keys in code for dimension Topic in table 82595NED:\nGoudimport\n."
+  
+  expect_error(
+    get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
+           download = FALSE),
+    msg)
+  
+  expect_error(expect_output(
+    get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
+           download = TRUE)),
+    msg)
 })
 
 
