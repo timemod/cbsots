@@ -1,4 +1,10 @@
-read_table <- function(id, data_dir, code, selected_code, min_year, frequencies) {
+# This function reads a downloaded table from a file. 
+# If read_downloaded_data == TRUE, then the  file has just been downloaded.
+# If read_downloaded_data == FALSE, thenn the file was downloaded in a previous
+# call of get_ts.
+#
+read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
+                       read_downloaded_data = FALSE) {
   
   read_ok <- FALSE
   
@@ -11,7 +17,9 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies)
   if (!is.null(meta)) {
     check_language(meta)
     cbs_code <- get_cbs_code(meta)
-    check_code(id, code, selected_code, cbs_code)
+    if (!read_downloaded_data) {
+      check_code(id, code, selected_code, cbs_code, downloaded = FALSE)
+    }
     data <- read_data_file(data_dir, cbs_code$Topic$Key)
     if (!is.null(data)) {
       period_keys <- get_period_keys(meta, min_year, frequencies)

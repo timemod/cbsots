@@ -130,7 +130,8 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
                    download_all_keys = download_all_keys)
     read_result <- read_table(id, data_dir, code = table_code$codes, 
                               selected_code = selected_code, 
-                              min_year = min_year, frequencies = frequencies)
+                              min_year = min_year, frequencies = frequencies,
+                              read_downloaded_data = TRUE)
     if (is.null(read_result)) {
       stop("Error reading the downloaded data")
     }
