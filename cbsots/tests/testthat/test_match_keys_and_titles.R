@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("match_keys_and_titles")
 
+options(encoding = "native.enc") 
+
 test_that("first simple test", {
 
   code <- data.frame(Key = c("x", "a", "y", "d", "xxxx"),

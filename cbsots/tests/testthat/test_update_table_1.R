@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("update_tables")
 
+options(encoding = "native.enc") 
+
 id <- "83028NED"
 ts_code_file_old <- paste0("tscode/tscode_", id, "_old.rds") 
 ts_code <- readRDS(ts_code_file_old)
