@@ -89,11 +89,11 @@ read_meta_data <- function(dir) {
   },
   warning = function(e) {
     warning(e)
-    warning(paste("Error reading meta data files in directory", dir, "."))
+    warning(paste0("Error reading meta data files in directory ", dir, "."))
   },
   error = function(e) {
     warning(e)
-    warning(paste("Error reading meta data files in directory", dir, "."))
+    warning(paste0("Error reading meta data files in directory ", dir, "."))
   })
   
   # error
@@ -204,12 +204,12 @@ read_data_file <- function(dir, topic_keys) {
     # if a warning occurs, we do not accept the result and data is set to FALSE
     data <<- NULL
     warning(e)
-    warning(paste("Error reading file", data_file, "."))
+    warning(paste0("Error reading file ", data_file, "."))
   },
   error = function(e) {
     data <<- NULL
     warning(e)
-    warning(paste("Error reading file", data_file, "."))
+    warning(paste0("Error reading file ", data_file, "."))
   }
   )
   
@@ -234,7 +234,6 @@ check_read_data <- function(data, code, period_keys) {
   topic_keys <- code$Topic$Key
   missing_topics <- setdiff(topic_keys, colnames(data))
   if (length(missing_topics) > 0) {
-    cat("missing topics\n")
     return(FALSE)
   }
   
@@ -243,13 +242,6 @@ check_read_data <- function(data, code, period_keys) {
     if (any(!code[[dimension]]$Key %in% data[[dimension]])) {
       return(FALSE)
     }
-  }
-  
-  
-  if (!all(period_keys %in% data$Perioden)) {
-    cat("missing periods\n")
-    print(period_keys)
-    print(data$Perioden)
   }
   
   return(all(period_keys %in% data$Perioden))

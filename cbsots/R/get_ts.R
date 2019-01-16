@@ -119,7 +119,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
                               min_year = min_year, frequencies = frequencies)
     if (is.null(read_result) && !missing(download) && !download) {
       stop(paste("The files in directory", file.path(raw_cbs_dir, id), 
-                 "are not complete. Please download the data again."))
+                 "are incomplete or corrupt. Please download the data again."))
     }
   }
   

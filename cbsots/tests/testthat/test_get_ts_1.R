@@ -52,8 +52,8 @@ test_that(id, {
   # Now we want the timeseries again for all years. 
   
   expect_error(get_ts(id, ts_code, download = FALSE, frequencies = "Q"),
-               paste("The files in directory raw_cbs_data/83460NED are not",
-                     "complete. Please download the data again."))
+               paste("The files in directory raw_cbs_data/83460NED are",
+                     "incomplete or corrupt. Please download the data again."))
   
   # We expect some output, because the data has to be downloaded again:
   # the last download only downloaded data starting from 2010
@@ -66,8 +66,8 @@ test_that(id, {
   
   expect_error(get_ts(id, ts_code, download = FALSE, min_year = 2010, 
                       frequencies = "QY"),
-               paste("The files in directory raw_cbs_data/83460NED are not",
-                     "complete. Please download the data again."))
+               paste("The files in directory raw_cbs_data/83460NED are",
+                     "incomplete or corrupt. Please download the data again."))
   
   # We expect some output, because the data has to be downloaded again: the 
   # last download only downloaded only quaterly timeseries.

@@ -3,7 +3,7 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts: test for dimension keys")
+context("get_ts: test_errors")
 
 ts_code <- readRDS("tscode/tscode.rds")
 
@@ -65,13 +65,20 @@ test_that("duplicate code for refresh = FALSE", {
   ts_code_tmp$table_code[[id]]$codes$Topic[2, 2] <- TRUE
   ts_code_tmp$table_code[[id]]$codes$Topic[2, 3] <- "x1"
   msg <- "Duplicate codes found for Topic:\nx1\n."
-  expect_error(get_ts(id, ts_code_tmp, refresh = FALSE), msg)
+  expect_error(
+    expect_silent(
+      get_ts(id, ts_code_tmp, refresh = FALSE)
+    ), 
+    msg)
   
   ts_code_tmp <- ts_code
   ts_code_tmp$table_code[[id]]$codes$ProductenPRODCOM[2, 2] <- TRUE
   ts_code_tmp$table_code[[id]]$codes$ProductenPRODCOM[2, 3] <- "b__sl"
   msg <- "Duplicate codes found for ProductenPRODCOM:\nb__sl\n."
-  expect_error(get_ts(id, ts_code_tmp, refresh = FALSE), msg)
+  expect_error(
+    expect_output(
+      get_ts(id, ts_code_tmp, refresh = FALSE), msg)
+    )
 })
 
 test_that("unknown key for refresh = FALSE", {

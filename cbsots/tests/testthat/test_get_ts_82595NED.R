@@ -56,7 +56,7 @@ test_that(paste(id, "download_all_keys"), {
 
 test_that(paste(id, "deleted keys (1)"), {
 
-  topic <- copy(ts_code_1$table_code$`82595NED`$codes$Topic)
+  topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic <- topic[Key != 'InvoerVanGoederen_3']
   
   ts_code <- ts_code_1
@@ -79,7 +79,7 @@ test_that(paste(id, "deleted keys (2)"), {
   
   # in this test we force a new download
   
-  topic <- copy(ts_code_1$table_code$`82595NED`$codes$Topic)
+  topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic <- topic[Key != 'InvoerVanGoederen_3']
   
   ts_code <- ts_code_1
@@ -99,7 +99,7 @@ test_that(paste(id, "deleted keys (2)"), {
 
 test_that("non unique key differences", {
 
-  topic <- copy(ts_code_1$table_code$`82595NED`$codes$Topic)
+  topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic <- topic[Key != 'Totaal_135']
 
   ts_code <- ts_code_1
@@ -118,7 +118,7 @@ test_that("non unique key differences", {
 
 test_that("modified title", {
 
-  topic <- copy(ts_code_1$table_code$`82595NED`$codes$Topic)
+  topic <- ts_code_1$table_code$`82595NED`$codes$Topic
   topic$Title[151] <- "xxx"
 
   ts_code <- ts_code_1
@@ -220,10 +220,10 @@ test_that("corrupt data (1)", {
   ok <- copy_corrupt_data_file("corrupt1")
   expect_true(ok)
   
-  error_msg <- paste("The files in directory raw_cbs_data/82595NED are not",
-                    "complete. Please download the data again.")
+  error_msg <- paste("The files in directory raw_cbs_data/82595NED are",
+                    "incomplete or corrupt. Please download the data again.")
   warning_msgs <- c("NAs introduced by coercion", 
-                   "Error reading file raw_cbs_data/82595NED/data.csv .")
+                   "Error reading file raw_cbs_data/82595NED/data.csv.")
                    
   warnings <- capture_warnings(
     expect_error(

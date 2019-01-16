@@ -23,8 +23,9 @@ test_that(id, {
                                   min_year = 2015, raw_cbs_dir = raw_cbs_dir, 
                                   frequencies = NA))
   
-  print(system.time(
+  t <- system.time(
     check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  ))
+  )
+  
   expect_true(check)
 })
