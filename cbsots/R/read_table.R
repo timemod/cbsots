@@ -114,8 +114,7 @@ read_data_file <- function(dir, topic_keys) {
   
   tryCatch({
     
-    data <- fread(data_file, drop = "ID", data.table = FALSE, 
-                  na.strings = c(".", ""))
+    data <- fread(data_file, drop = "ID", na.strings = c(".", ""))
     
     #
     # fix character columns, character columns typically arise when 
@@ -124,8 +123,8 @@ read_data_file <- function(dir, topic_keys) {
     
     data_cols <- match(topic_keys, colnames(data))
     
-    data_col_classes <- sapply(data[, data_cols, drop = FALSE], FUN = class)
-    
+    data_col_classes <- data[ , sapply(.SD, class), .SD = data_cols]
+  
     # check if there are data columns with stange types
     weird_col_classes <- ! data_col_classes %in% c("numeric", "integer", 
                                                    "character", "logical")
@@ -141,9 +140,9 @@ read_data_file <- function(dir, topic_keys) {
     if (any(data_col_is_character)) {
       
       # NA-string used in older versions of cbsodataR (see code below)
-      na_strings_old <- c("       .", ".", "       -")  
+      na_strings_old <- c("       .",  "       -")  
       
-      convert_character_data_cols <- function(x) {
+      fix_character_col <- function(x) {
         
         # convert numeric columns to numeric
         
@@ -159,8 +158,7 @@ read_data_file <- function(dir, topic_keys) {
       }
       
       cols <- data_cols[data_col_is_character]
-      data[ , cols] <- lapply(data[ , cols, drop = FALSE], 
-                              FUN = convert_character_data_cols)
+      data[ , (cols) := lapply(.SD, fix_character_col), .SDcols = cols]
     }
     
     #
@@ -169,17 +167,16 @@ read_data_file <- function(dir, topic_keys) {
     data_col_is_integer <- data_col_classes == "integer"
     if (any(data_col_is_integer)) {
       cols <- data_cols[data_col_is_integer]
-      data[ , cols] <- lapply(data[ , cols, drop = FALSE], FUN = as.numeric) 
+      data[ , (cols) := lapply(.SD, as.numeric), .SDcols = cols]
     }
     
     #
-    # fix logical data columns. logical columns arise when a column is 
-    # completely empty
-    #
+    # Fix logical data columns. Logical columns arise when a column is 
+    # completely empty.
     data_col_is_logical <- data_col_classes == "logical"
     if (any(data_col_is_logical)) {
       
-      convert_logical_data_cols <- function(x) {
+      fix_logical_col <- function(x) {
         
         # Logical columns may arise if a column is completely
         # empty. In that case replace the result with NA_real_.
@@ -193,12 +190,8 @@ read_data_file <- function(dir, topic_keys) {
       }
       
       cols <- data_cols[data_col_is_logical]
-      data[ , cols] <- lapply(data[ , cols, drop = FALSE], 
-                              FUN = convert_logical_data_cols)
+      data[ , (cols) := lapply(.SD, fix_logical_col), .SDcols = cols]
     }
-    
-    # finally convert to data.table
-    data <- as.data.table(data)
   },
   warning = function(e) {
     # if a warning occurs, we do not accept the result and data is set to FALSE
