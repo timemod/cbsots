@@ -5,7 +5,9 @@ rm(list = ls())
 
 context("get_ts: compare expected output")
 
-options(encoding = "native.enc")
+# Use UTF-8 encoding, because the Titles contains diacritical characters 
+# and the data files have been created with UTF-8 encoding.
+options(encoding = "UTF-8")
 
 # 
 # In this test we will compare the results with expected output, 
