@@ -9,7 +9,7 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
   read_ok <- FALSE
   
   meta <- read_meta_data(data_dir)
-
+  
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
   Perioden <- NULL
@@ -27,7 +27,7 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
       }
     } 
   }
-
+  
   
   if (read_ok) {
     if (!read_downloaded_data) {
@@ -119,13 +119,14 @@ read_data_file <- function(dir, topic_keys) {
     #
     
     data_cols <- match(topic_keys, colnames(data))
-    data_col_classes <- sapply(data[, data_cols], FUN = class)
+    
+    data_col_classes <- sapply(data[, data_cols, drop = FALSE], FUN = class)
     
     # check if there are data columns with stange types
     weird_col_classes <- ! data_col_classes %in% c("numeric", "integer", 
                                                    "character", "logical")
-  
-     if (any(weird_col_classes)) {
+    
+    if (any(weird_col_classes)) {
       stop(paste("Column with illegal classes",
                  paste(unique(data_col_classes[weird_col_classes]), collapse = ","),
                  "found"))
@@ -137,22 +138,22 @@ read_data_file <- function(dir, topic_keys) {
       
       # NA-string used in older versions of cbsodataR (see code below)
       na_strings_old <- c("       .", ".", "       -")  
-    
+      
       convert_character_data_cols <- function(x) {
         
         # convert numeric columns to numeric
-      
+        
         # The raw cbs data downloaded with older versions of cbsots /cbsodataR 
         # contained strings such as "       ." for NA values. Therefore replace 
         # them with NA_character_. Note that it was not possible to use argument 
         # na.strings of function fread, because fread does not support NA strings 
         # with spaces.
-      
+        
         ret <- ifelse(x %in% na_strings_old, NA_character_, x)
-      
+        
         return(as.numeric(ret))
       }
-    
+      
       cols <- data_cols[data_col_is_character]
       data[ , cols] <- lapply(data[ , cols, drop = FALSE], 
                               FUN = convert_character_data_cols)
@@ -163,8 +164,8 @@ read_data_file <- function(dir, topic_keys) {
     #
     data_col_is_integer <- data_col_classes == "integer"
     if (any(data_col_is_integer)) {
-      data[ , data_cols[data_col_is_integer]] <-
-        lapply(data[ , data_cols[data_col_is_integer]], FUN = as.numeric) 
+      cols <- data_cols[data_col_is_integer]
+      data[ , cols] <- lapply(data[ , cols, drop = FALSE], FUN = as.numeric) 
     }
     
     #
@@ -236,7 +237,7 @@ check_read_data <- function(data, code, period_keys) {
     }
   }
   
- 
+  
   if (!all(period_keys %in% data$Perioden)) {
     cat("missing periods\n")
     print(period_keys)
