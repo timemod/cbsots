@@ -5,9 +5,7 @@ rm(list = ls())
 
 context("get_ts table 82595NED")
 
-# Use UTF-8 encoding, because the Titles contains diacritical characters 
-# and the data files have been created with UTF-8 encoding.
-options(encoding = "UTF-8")
+options(encoding = "native.enc")
 
 ts_code_file_1 <- "tscode/tscode_82595NED_1.rds"
 ts_code_file_2 <- "tscode/tscode_82595NED_2.rds"
@@ -22,6 +20,8 @@ source("utils/check_ts_table.R")
 id <- "82595NED"
 
 raw_cbs_dir <- tempdir()
+
+corrupt_data_dir <- "corrupt_data_files"
 
 test_that(id, {
   
@@ -208,12 +208,16 @@ test_that("unknown key", {
 })
 
 
-raw_cbs_dir_2 <- "raw_cbs_data"
-data_dir <- file.path(raw_cbs_dir_2, id)
+#
+# extra tests for corrupt data files
+#
+
+data_dir <- file.path(raw_cbs_dir, id)
+data_file <- file.path(data_dir, "data.csv")
 
 copy_corrupt_data_file <- function(suffix) {
-  corrupt_data_file <- file.path(data_dir, paste0("data_", suffix, ".csv"))
-  data_file <- file.path(data_dir, "data.csv")
+  corrupt_data_file <- file.path(corrupt_data_dir, paste0("data_", 
+                                                          suffix, ".csv"))
   return(file.copy(corrupt_data_file, data_file, overwrite = TRUE))
 }
 
@@ -224,16 +228,17 @@ test_that("corrupt data (1)", {
   ok <- copy_corrupt_data_file("corrupt1")
   expect_true(ok)
   
-  error_msg <- paste("The files in directory raw_cbs_data/82595NED are",
+  error_msg <- paste("The files in directory", data_dir, "are",
                     "incomplete or corrupt. Please download the data again.")
+  error_msg <- gsub("[\\]", "\\\\\\\\", error_msg)
   warning_msgs <- c("NAs introduced by coercion", 
-                   "Error reading file raw_cbs_data/82595NED/data.csv.")
+                   paste0("Error reading file ", data_file, "."))
                    
   warnings <- capture_warnings(
     expect_error(
       result1 <- get_ts(id, ts_code_1, download = FALSE, 
                           min_year = 2017, 
-                          raw_cbs_dir = raw_cbs_dir_2),
+                          raw_cbs_dir = raw_cbs_dir),
       error_msg)
   )
   
@@ -244,12 +249,12 @@ test_that("corrupt data (1)", {
   warnings <- capture_warnings(
     expect_output(
       result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir_2)
+                        raw_cbs_dir = raw_cbs_dir)
     )
   )
   
   expect_identical(warnings, warning_msgs)
-  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir_2)
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
   expect_equal(ncol(result1$Y), 2)
 })
@@ -266,7 +271,7 @@ test_that("corrupt data (2)", {
   expect_error(
     result1 <- get_ts(id, ts_code_1, download = FALSE, 
                         min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir_2),
+                        raw_cbs_dir = raw_cbs_dir),
     error_msg)
 })
 
