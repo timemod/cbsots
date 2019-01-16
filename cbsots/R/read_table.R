@@ -87,6 +87,10 @@ read_meta_data <- function(dir) {
     
     return(structure(c(ret, dimension_data), class = "cbs_table"))
   },
+  warning = function(e) {
+    warning(e)
+    warning(paste("Error reading meta data files in directory", dir, "."))
+  },
   error = function(e) {
     warning(e)
     warning(paste("Error reading meta data files in directory", dir, "."))
@@ -173,8 +177,6 @@ read_data_file <- function(dir, topic_keys) {
     # completely empty
     #
     data_col_is_logical <- data_col_classes == "logical"
-    # TODO: check if any logical column contains any non-NA value,
-    # otherwise give an error message
     if (any(data_col_is_logical)) {
       
       convert_logical_data_cols <- function(x) {
@@ -197,6 +199,12 @@ read_data_file <- function(dir, topic_keys) {
     
     # finally convert to data.table
     data <- as.data.table(data)
+  },
+  warning = function(e) {
+    # if a warning occurs, we do not accept the result and data is set to FALSE
+    data <<- NULL
+    warning(e)
+    warning(paste("Error reading file", data_file, "."))
   },
   error = function(e) {
     data <<- NULL
