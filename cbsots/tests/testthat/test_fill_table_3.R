@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("fill_tables_from_table (3)")
 
+options(encoding = "native.enc")
+
 ts_code_file_old <- "tscode/tscode_ernest.rds"
 
 ts_code <- readRDS(ts_code_file_old)

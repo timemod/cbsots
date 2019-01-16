@@ -5,6 +5,10 @@ rm(list = ls())
 
 context("get_ts table 82596NED")
 
+# Use UTF-8 endocing, because the Titles contains diacritical characters 
+# and the data files have been created with UTF-8 encoding 
+options(encoding = "UTF-8")
+
 ts_code_file <- "tscode/tscode_82596NED.rds"
 
 #edit_ts_code(ts_code_file)

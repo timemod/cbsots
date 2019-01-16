@@ -5,11 +5,14 @@ rm(list = ls())
 
 context("fill_tables_from_table (1)")
 
+options(encoding = "native.enc")
+
 ts_code_file_old <- "tscode/tscode_81974NED.rds"
+
+#edit_ts_code(ts_code_file_old)
 
 ts_code <- readRDS(ts_code_file_old)
 
-#edit_ts_code(ts_code_file_old)
 
 test_that("fill 83935NED from 81974NED", {
   

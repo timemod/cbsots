@@ -11,6 +11,8 @@ source("utils/check_ts_table.R")
 
 id <- "81974NED"
 
+options(encoding = "native.enc")
+
 ts_code <- readRDS("tscode/tscode.rds")
 
 test_that("duplicate code for refresh = TRUE", {

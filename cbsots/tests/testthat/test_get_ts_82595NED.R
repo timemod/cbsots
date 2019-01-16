@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("get_ts table 82595NED")
 
+options(encoding = "native.enc")
+
 ts_code_file_1 <- "tscode/tscode_82595NED_1.rds"
 ts_code_file_2 <- "tscode/tscode_82595NED_2.rds"
 ts_code_file_3 <- "tscode/tscode_82595NED_3.rds"

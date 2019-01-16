@@ -5,6 +5,16 @@ rm(list = ls())
 
 context("get_ts table 82602NED")
 
+# 
+# In this test we check the refresh and min_year arguments. Note that we cannot 
+# compare the results with expected results, because the table data is downloaded
+# from the CBS and the table may change over time.
+#
+
+# Use UTF-8 encoding, because the Titles contains diacritical characters 
+# and the data files have been created with UTF-8 encoding.
+options(encoding = "UTF-8") 
+
 ts_code <- readRDS("tscode/tscode2.rds")
 
 source("utils/check_ts_table.R")

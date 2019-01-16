@@ -5,6 +5,7 @@ rm(list = ls())
 
 context("get_ts table 81810NED")
 
+options(encoding = "native.enc")
 
 ts_code <- readRDS("tscode/tscode2.rds")
 

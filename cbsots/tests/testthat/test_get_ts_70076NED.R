@@ -5,6 +5,10 @@ rm(list = ls())
 
 context("get_ts table 70076NED")
 
+# Use UTF-8 encoding, because the files in raw_cbs_dir contain diacritics
+# and have been created using UTF_8 encodng.
+options(encoding = "UTF-8")
+
 ts_code <- readRDS("tscode/tscode2.rds")
 
 source("utils/check_ts_table.R")

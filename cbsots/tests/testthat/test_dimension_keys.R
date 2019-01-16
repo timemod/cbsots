@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("get_ts: test for dimension keys")
 
+options(encoding = "native.enc")
+
 ts_code <- readRDS("tscode/tscode.rds")
 
 source("utils/check_ts_table.R")
