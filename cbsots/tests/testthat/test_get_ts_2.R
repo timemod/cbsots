@@ -5,6 +5,7 @@ rm(list = ls())
 
 context("get_ts: compare expected output")
 
+options(encoding = "native.enc")
 
 # 
 # In this test we will compare the results with expected output, 
@@ -13,11 +14,6 @@ context("get_ts: compare expected output")
 # We should make sure that subsequent calls of get_ts do not
 # modify the data.
 # 
-
-# Use UTF-8 encocing, because the Titles contains diacritical characters 
-# and the data files have been created with UTF-8 encoding.
-# The encoding also determines the result of function sort.
-options(encoding = "UTF-8")
 
 ts_code <- readRDS("tscode/tscode.rds")
 
@@ -31,12 +27,15 @@ test_that(id, {
   result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, min_year = 2015,
                                   include_meta = TRUE))
 
-  expected_value_file <- file.path("expected_output", paste0(id, 
-                                "_result.rds"))
+  # the result of sort is platform dependent (it is actually also dependend on
+  # the locale)
+  expected_value_file <- file.path("expected_output", paste0(id, "_result_", 
+                                   .Platform$OS.type, ".rds"))
   expect_known_value(result1, file = expected_value_file)
 
   expected_output_file <- file.path("expected_output",
-                                    paste0(id, "_print_result.txt"))
+                                    paste0(id, "_print_result_", 
+                                           .Platform$OS.type, ".txt"))
   expect_known_output(print(result1), expected_output_file)
 
   check <- check_ts_table(result1, id)
