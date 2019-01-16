@@ -5,10 +5,9 @@ rm(list = ls())
 
 context("get_ts table 82595NED")
 
-
-# Use WINDOWS-1252 encoding, because the files in raw_cbs_dir contain diacritics
-# and have been created using WINDOWS-1252 encodng.
-options(encoding = "WINDOWS-1252")
+# Use UTF-8 encoding, because the Titles contains diacritical characters 
+# and the data files have been created with UTF-8 encoding.
+options(encoding = "UTF-8")
 
 ts_code_file_1 <- "tscode/tscode_82595NED_1.rds"
 ts_code_file_2 <- "tscode/tscode_82595NED_2.rds"
