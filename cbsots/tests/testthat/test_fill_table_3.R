@@ -20,7 +20,16 @@ source("utils/read_match_report.R")
 
 test_that("fill 83357NED and 83361NED from 83186NED", {
   
-  msg <- 
+  warnings <- capture_warnings(
+    tscodes_new <- fill_tables_from_table(ts_code, ids = new_ids,
+                                          base_id = base_id)
+  )
+ 
+  expect_known_value(tscodes_new, "expected_output/fill_table_3.rds")
+  
+  expected_warnings <- c(
+    paste0("Imperfect matches found for dimension Topic.\n",
+           "Check match_reports/83186NED_83357NED_Topic.xlsx."),
     paste0("No matching entries found for dimension BedrijfstakkenBranchesSBI2008:\n",
            "305700  - \"B Delfstoffenwinning\"\n",
            "307500  - \"C Industrie\"\n",
@@ -30,13 +39,15 @@ test_that("fill 83357NED and 83361NED from 83186NED", {
            "383100  - \"H Vervoer en opslag\"\n",
            "389100  - \"I Horeca\"\n",
            "403300  - \"M Specialistische zakelijke diensten\"\n",
-           "410200  - \"N Verhuur en overige zakelijke diensten\"")
+           "410200  - \"N Verhuur en overige zakelijke diensten\".\n",
+           "Check match_reports/83186NED_83357NED_BedrijfstakkenBranchesSBI2008.xlsx."),
+    paste0("Imperfect matches found for dimension Topic.\n",
+           "Check match_reports/83186NED_83361NED_Topic.xlsx."),
+    paste0("Imperfect matches found for dimension TypeZelfstandige.\n",
+           "Check match_reports/83186NED_83361NED_TypeZelfstandige.xlsx.")
+  )
   
-  expect_warning(tscodes_new <- fill_tables_from_table(ts_code, ids = new_ids,
-                                        base_id = base_id), msg)
-
- 
-  expect_known_value(tscodes_new, "expected_output/fill_table_3.rds")
+  expect_identical(warnings, expected_warnings)
   
   for (id in new_ids) {
     prefix <- paste0(base_id, id, sep = "_")

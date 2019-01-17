@@ -19,7 +19,12 @@ test_that(paste("update", id),  {
   
   expect_known_value(ts_code, "expected_output/update_table_1.rds")
   
-  tscode_new <- update_tables(ts_code, ids = id)
+  msg <- paste0("Imperfect matches found for dimension SITC.\n",
+                "Check match_reports/83028NED_SITC.xlsx.")
+  expect_warning(
+    tscode_new <- update_tables(ts_code, ids = id),
+    msg
+  )
 
   expect_known_value(tscode_new, "expected_output/update_table_2.rds")
   

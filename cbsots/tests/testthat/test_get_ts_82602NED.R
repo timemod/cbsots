@@ -27,7 +27,12 @@ raw_cbs_dir <- "raw_cbs_data"
 
 test_that(id, {
   
-  ts_code_new <- update_tables(ts_code, ids = id)
+  msg <- paste0("Imperfect matches found for dimension Topic.\n",
+                "Check match_reports/82602NED_Topic.xlsx.")
+  expect_warning(
+    ts_code_new <- update_tables(ts_code, ids = id),
+    msg
+  )
   
   result1 <- expect_silent(get_ts(id, ts_code_new, refresh = FALSE))
   

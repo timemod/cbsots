@@ -49,35 +49,19 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     # Check if variables in base_code with either Select = TRUE or a specified
     # code have been matched.
     
-    # check missing elements  
-    missing <- setdiff(seq_len(nrow(base)), matches$base_rows)
     
-    if (nrow(base) > 0 && length(matches$base_rows) == 0) {
-      warning(paste0("No matching entries found for dimension ", dimension, 
-                     "."))
+    prefix <- if (old_table_id == table_id) {
+      table_id
     } else {
-      if (length(missing) > 0) {
-        warning(paste0("No matching entries found for dimension ", dimension,
-                       ":\n",
-                       paste(paste(base$Key[missing], 
-                                   paste0("\"", base$Title[missing], "\""), 
-                                   sep = " - "),
-                             collapse = "\n")))
-      }
+      paste0(old_table_id, "_",  table_id)
     }
     
     match_dir <- "match_reports"
-    if (!dir.exists(match_dir)) {
-      dir.create(match_dir)
-    }
-    
-    prefix <- if (old_table_id == table_id) {
-                  table_id
-              } else {
-                  paste0(old_table_id, "_",  table_id)
-              }
-    
     match_file <- file.path(match_dir, paste0(prefix, "_", dimension, ".xlsx"))
+    
+    # check missing elements  
+    missing <- setdiff(seq_len(nrow(base)), matches$base_rows)
+    
     
     ma <- data.frame(base_key = base$Key[matches$base_rows],
                      code_key = code$Key[matches$code_rows],
@@ -88,12 +72,43 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     is_perfect <- ma$base_key == ma$code_key & ma$base_title == ma$code_title
     perfect_match <- ma[is_perfect, ]
     imperfect_match <- ma[!is_perfect, ]
-
+    
     no_match <- data.frame(base_key = base$Key[missing], 
                            base_title = base$Title[missing],
                            code = base$Code[missing],
                            stringsAsFactors = FALSE)
-     
+    
+    #
+    # warnings
+    #
+    
+    advice <- paste0("Check ", match_file, ".") 
+    
+    if (nrow(base) > 0 && length(matches$base_rows) == 0) {
+      warning(paste0("No matching entries found for dimension ", dimension, 
+                     ".\n", advice))
+    } else if (length(missing) > 0) {
+        warning(paste0("No matching entries found for dimension ", dimension,
+                       ":\n",
+                       paste(paste(base$Key[missing], 
+                                   paste0("\"", base$Title[missing], "\""), 
+                                   sep = " - "),
+                             collapse = "\n"),
+                       ".\n", advice))
+                
+    } else if (nrow(imperfect_match) > 0) {
+      warning(paste0("Imperfect matches found for dimension ", dimension, 
+                     ".\n", advice))
+    }
+   
+    #
+    # write a match report
+    #
+ 
+    if (!dir.exists(match_dir)) {
+      dir.create(match_dir)
+    }
+   
     wb <- createWorkbook()
     
     sheet <- "perfect match"

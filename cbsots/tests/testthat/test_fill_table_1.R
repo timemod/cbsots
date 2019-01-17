@@ -16,10 +16,20 @@ ts_code <- readRDS(ts_code_file_old)
 
 test_that("fill 83935NED from 81974NED", {
   
-  tscodes_new <- fill_tables_from_table(ts_code, ids = "83935NED", 
-                                        base_id = "81974NED")
-
+  warnings <- capture_warnings(
+    tscodes_new <- fill_tables_from_table(ts_code, ids = "83935NED", 
+                                          base_id = "81974NED")
+  )
+  
   expect_known_value(tscodes_new, "expected_output/fill_table_1.rds")
+  
+  expected_warnings <- c(
+    paste0("Imperfect matches found for dimension AfzetInvoerEnVerbruik.\n",
+           "Check match_reports/81974NED_83935NED_AfzetInvoerEnVerbruik.xlsx."),
+    paste0("Imperfect matches found for dimension ProductenPRODCOM.\n",
+           "Check match_reports/81974NED_83935NED_ProductenPRODCOM.xlsx."))
+  
+  expect_identical(warnings, expected_warnings)
   
   # tscodes_old <- readRDS("expected_output/fill_table_1.rds")
   # tscodes_old <- cbsots:::convert_ts_code(tscodes_old)
