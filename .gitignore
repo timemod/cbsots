@@ -10,4 +10,5 @@ cbsots*tar.gz
 tmp/
 cbsots/tests/testthat/match_reports/
 examples/match_reports/
+archive
 

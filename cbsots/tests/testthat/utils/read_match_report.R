@@ -1,12 +1,19 @@
 read_match_report <- function(ts_code, table_id, base_id = table_id) {
   
   code_tab <- ts_code$table_code[[table_id]]
-  dimensions <-  names(code_tab$codes)
+ 
   
-  prefix <- if (base_id == table_id) {
+  if (base_id == table_id) {
+    dimensions <-  names(code_tab$codes)
+  } else {
+    base_tab <- ts_code$table_code[[base_id]]
+    dimensions <- intersect(names(code_tab$codes), names(base_tab$codes))
+  }
+ 
+   prefix <- if (base_id == table_id) {
     table_id
   } else {
-    paste(base_id, "_",  table_id)
+    paste0(base_id, "_",  table_id)
   }
   
   filenames <- paste0(prefix, "_", dimensions, ".xlsx")

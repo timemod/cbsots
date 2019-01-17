@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("update_tables")
 
+source("utils/read_match_report.R")
+
 options(encoding = "native.enc") 
 
 id <- "83028NED"
@@ -20,6 +22,10 @@ test_that(paste("update", id),  {
   tscode_new <- update_tables(ts_code, ids = id)
 
   expect_known_value(tscode_new, "expected_output/update_table_2.rds")
+  
+  expect_known_value(read_match_report(tscode_new, id),
+                     file = file.path("expected_output", 
+                                      paste0(id, "_match_report.rds")))
   
   if (FALSE) {
 

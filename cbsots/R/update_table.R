@@ -91,6 +91,7 @@ update_table <- function(table, old_table, table_id, old_table_id) {
 
     no_match <- data.frame(base_key = base$Key[missing], 
                            base_title = base$Title[missing],
+                           code = base$Code[missing],
                            stringsAsFactors = FALSE)
      
     wb <- createWorkbook()
@@ -115,7 +116,7 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     addWorksheet(wb, sheet)
     if (nrow(no_match) > 0) {
       writeData(wb, sheet, no_match, rowNames = FALSE)
-      setColWidths(wb, sheet, 1:4, widths = "auto")
+      setColWidths(wb, sheet, 1:3, widths = "auto")
       freezePane(wb, sheet, 2, 1)
     }
     
