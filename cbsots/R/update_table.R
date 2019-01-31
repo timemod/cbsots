@@ -188,14 +188,9 @@ match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
   base_keys <- tolower(base$Key)
   base_all_keys <- tolower(base_all_keys)
   
-  convert_title <- function(x) {
-    x <- tolower(x)
-    return(gsub("[  ,;.:]", "", x))
-  }
-  
-  code_titles <- convert_title(code$Title)
-  base_titles <- convert_title(base$Title)
-  base_all_titles <- convert_title(base_all_titles)
+  code_titles <- code$Title
+  base_titles <- base$Title
+  base_all_titles <- base_all_titles
   
   if (isTRUE(all.equal(sort(code_keys), sort(base_all_keys)))) {
   
@@ -291,14 +286,16 @@ match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
   }
   
   if (length(missing_code_rows) > 0) {
-    # Check if the titles are the same, ignoring leading numbers
-    code_titles <- sub("^\\d+", "", code_titles[missing_code_rows])
-    base_titles <- sub("^\\d+", "", base_titles[missing_base_rows])
     
-    match_title <- amatch_unique(code_titles, base_titles, method = "jw", 
-                                 maxDist = 0.2)
-    title_code_rows <- which(!is.na(match_title))
-    title_base_rows <- match_title[!is.na(match_title)]
+    # no try to match titles. 
+    title_matches <- match_titles(base_all_titles, code_titles)
+    
+    title_matches <- title_matches[missing_base_rows]
+    
+    # TODO: check if titles_matches contain matches in code_rows
+    
+    title_base_rows <- which(!is.na(title_matches))
+    title_code_rows <- title_matches[!is.na(title_matches)]
     
     # calculate indices with respect to data frames code and base
     title_code_rows <- missing_code_rows[title_code_rows]
