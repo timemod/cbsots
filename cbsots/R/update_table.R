@@ -1,7 +1,7 @@
 # Internal function: fill in Select and Code from an old table into table.
 # Use common dimension names and Keys or Titles.
 update_table <- function(table, old_table, table_id, old_table_id) {
-
+  
   update_code <- function(dimension) {
     
     code <- table$codes[[dimension]]
@@ -31,7 +31,7 @@ update_table <- function(table, old_table, table_id, old_table_id) {
                                                 code_select)
     code[matches$code_rows, "Code"] <- ifelse(is.na(base_code) | base_code == "", 
                                               code_code, base_code)
-
+    
     check_matches(matches, code, base, dimension)
     
     if (!cbs_order) {
@@ -88,27 +88,27 @@ update_table <- function(table, old_table, table_id, old_table_id) {
       warning(paste0("No matching entries found for dimension ", dimension, 
                      ".\n", advice))
     } else if (length(missing) > 0) {
-        warning(paste0("No matching entries found for dimension ", dimension,
-                       ":\n",
-                       paste(paste(base$Key[missing], 
-                                   paste0("\"", base$Title[missing], "\""), 
-                                   sep = " - "),
-                             collapse = "\n"),
-                       ".\n", advice))
-                
+      warning(paste0("No matching entries found for dimension ", dimension,
+                     ":\n",
+                     paste(paste(base$Key[missing], 
+                                 paste0("\"", base$Title[missing], "\""), 
+                                 sep = " - "),
+                           collapse = "\n"),
+                     ".\n", advice))
+      
     } else if (nrow(imperfect_match) > 0) {
       warning(paste0("Imperfect matches found for dimension ", dimension, 
                      ".\n", advice))
     }
-   
+    
     #
     # write a match report
     #
- 
+    
     if (!dir.exists(match_dir)) {
       dir.create(match_dir)
     }
-   
+    
     wb <- createWorkbook()
     
     sheet <- "perfect match"
@@ -141,7 +141,7 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     saveWorkbook(wb, match_file, overwrite = TRUE)
     
     options("openxlsx.minWidth" = minWidth_old)
-        
+    
     return()
   }
   
@@ -157,7 +157,7 @@ update_table <- function(table, old_table, table_id, old_table_id) {
   
   # update cbs_key_order
   table$cbs_key_order[common_dimensions] <- 
-                   old_table$cbs_key_order[common_dimensions]
+    old_table$cbs_key_order[common_dimensions]
   
   return(table)
 }
@@ -193,7 +193,7 @@ match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
   base_all_titles <- base_all_titles
   
   if (isTRUE(all.equal(sort(code_keys), sort(base_all_keys)))) {
-  
+    
     # All keys are identical (apart from the ordering). Simply match the keys 
     # and return. Note that we compare with base_all_keys and not with 
     # base_keys, because some keys have a running number
@@ -208,17 +208,17 @@ match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
     return(list(code_rows = code_rows, base_rows = base_rows))
     
   } else if (!anyDuplicated(code_titles) && !anyDuplicated(base_titles) &&
-            all(base_titles %in% code_titles)) {
-  
+             all(base_titles %in% code_titles)) {
+    
     # All selected titles have a perfect match with code_titles, which are 
     # unique. Match by title.
-
+    
     match_title <- match(code_titles, base_titles)
     code_rows <- which(!is.na(match_title))
     base_rows <- match_title[!is.na(match_title)]
- 
+    
     return(list(code_rows = code_rows, base_rows = base_rows))
-  
+    
   } else {
     
     # 
@@ -290,16 +290,63 @@ match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
     # no try to match titles. 
     title_matches <- match_titles(base_all_titles, code_titles)
     
-    title_matches <- title_matches[missing_base_rows]
+    if (debug_match_keys_titles) {
+      cat("base_titles\n")
+      print(base_titles)
+      cat("base_all_titles\n")
+      print(base_all_titles)
+      
+      cat("code_titles\n")
+      print(code_titles)
+      
+      cat("base_rows\n")
+      print(base_rows)
+      cat("code_rows\n")
+      print(code_rows)
+      cat("missing_base_rows\n")
+      print(missing_base_rows)
+      cat("missing_code_rows\n")
+      print(missing_code_rows)
+      
+      View(cbind(base_all_titles, code_titles[title_matches]))
+    }
     
-    # TODO: check if titles_matches contain matches in code_rows
+    title_matches <- title_matches[match(base_titles, base_all_titles)]
+    
+    
+    if (debug_match_keys_titles) {
+      View(cbind(base_titles, code_titles[title_matches]))
+    }
+    
+    title_matches <- title_matches[missing_base_rows]
+    # remove matches with code_titles that already have been matches by key.
+    title_matches[title_matches %in% code_rows] <- NA
+    
+    if (debug_match_keys_titles) {
+      View(cbind(base_titles[missing_base_rows], code_titles[title_matches]))
+      
+      cat("title_matches\n")
+      print(title_matches)
+    }
     
     title_base_rows <- which(!is.na(title_matches))
     title_code_rows <- title_matches[!is.na(title_matches)]
     
-    # calculate indices with respect to data frames code and base
-    title_code_rows <- missing_code_rows[title_code_rows]
+    if (debug_match_keys_titles) {
+      cat("title_base_rows(relative to missing...\n")
+      print(title_base_rows)
+      print(title_code_rows)
+    }
+    
+    # title_base_rows are the row indices within missing_base_rows,
+    # therefore convert to indices within respect to base
     title_base_rows <- missing_base_rows[title_base_rows]
+    
+    if (debug_match_keys_titles) {
+      cat("title_base_rows (absolute)...\n")
+      print(title_base_rows)
+      print(title_code_rows)
+    }
     
     if (debug_match_keys_titles) {
       cat("matching titles\n")

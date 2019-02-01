@@ -1,28 +1,34 @@
+# This function tries to find matches between base_titles and code_titles.
+# The function returns an integer vector with the same length as base_titles,
+# where each element is the index of a matching titles in code title, or NA
+# if there is no match.
 #' @importFrom stringdist stringdist
 match_titles <- function(base_titles, code_titles) {
-  
+ 
   convert_title <- function(x) {
     x <- tolower(x)
-    return(gsub("[  ,;.:]", "_", x))
+    x <- trimws(x)
+    # replace one or more whitespaces with a single "_"
+    x <- gsub("\\s+", "_", x)
+    # replace punctuation characters with a "_"
+    return(gsub("[,;.:]", "_", x))
   }
   
-
   base_titles <- convert_title(base_titles)
   code_titles <- convert_title(code_titles)
   
- 
   dfun <- function(x) {
     return(stringdist(x, code_titles, method = "jw"))
   }
   
-  ret <- lapply(base_titles, FUN = dfun)
-  distmat <- do.call(rbind, ret)
+  distlist <- lapply(base_titles, FUN = dfun)
+  distmat <- do.call(rbind, distlist)
   
   nr <- nrow(distmat)
   nc <- ncol(distmat)
   matdim <- dim(distmat)
   
-  c_matches <- numeric(nr)
+  c_matches <- integer(nr)
   dist <- numeric(nr)
   
   wmat <- distmat
@@ -35,11 +41,6 @@ match_titles <- function(base_titles, code_titles) {
     # Sometimes cbs keys Totaal-Middelen
     contained_in <- which(grepl(paste0("_-_", base_titles[i]), code_titles) |
                            base_titles[i] == code_titles)
-    # if (length(contained_in) > 1) {
-    #   cat("probleem\n")
-    #   print(base_titles[i])
-    #   print(code_titles[contained_in])
-    # }
     if (length(contained_in) == 1) {
       r_idx <- i
       c_idx <- contained_in
@@ -79,11 +80,6 @@ match_titles <- function(base_titles, code_titles) {
     wmat[ , c_idx] <- Inf
   }
 
-  
-  # ma <- data.frame(base = base_titles, 
-  #                  code = code_titles[c_matches],
-  #                  dist = dist)
-  # View(ma)
   
   return(c_matches)
 }
