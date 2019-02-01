@@ -39,7 +39,8 @@ match_titles <- function(base_titles, code_titles) {
   for (i in seq_len(nr)) {
     
     # Sometimes cbs keys Totaal-Middelen
-    contained_in <- which(grepl(paste0("_-_", base_titles[i]), code_titles) |
+    contained_in <- which(grepl(paste0("_-_", base_titles[i]), code_titles,
+                                fixed = TRUE) |
                            base_titles[i] == code_titles)
     if (length(contained_in) == 1) {
       r_idx <- i
