@@ -31,24 +31,33 @@ match_titles <- function(base_titles, code_titles) {
   c_matches <- integer(nr)
   dist <- numeric(nr)
   
-  wmat <- distmat
+  distmat_work <- distmat
 
   #
-  # step 1: find titles in base_titles that occur in code_titles
+  # Step 1: find titles in base titles that are sub-titles of code_titles.
+  # 
+  # Sometimes a base title is a sub-string of a code title. Example:
   #
+  #   base title                              code title
+  #   Output - Totaal                         Middelen - Output - Totaal
+  #
+  # If the base title is a subtitle of a single code title, than we can 
+  # safely match the titles.
   for (i in seq_len(nr)) {
     
-    # Sometimes cbs keys Totaal-Middelen
-    contained_in <- which(grepl(paste0("_-_", base_titles[i]), code_titles,
-                                fixed = TRUE) |
-                           base_titles[i] == code_titles)
+    contained_in <- grep(paste0("_-_", base_titles[i]), code_titles,
+                         fixed = TRUE) 
+    
     if (length(contained_in) == 1) {
       r_idx <- i
       c_idx <- contained_in
       c_matches[i] <- c_idx
       dist[i] <- distmat[r_idx, c_idx]
-      wmat[r_idx, ] <- Inf
-      wmat[ , c_idx] <- Inf
+      # we have a match. Set the corresponding row and column
+      # of distmat_work to Inf, so that the elements will not be matched
+      # in Step 2 (see the code below).
+      distmat_work[r_idx, ] <- Inf
+      distmat_work[ , c_idx] <- Inf
     } else {
       c_matches[i] <- NA
       dist[i] <- NA
@@ -57,12 +66,14 @@ match_titles <- function(base_titles, code_titles) {
   
   
   #
-  # next step: from remaining items, try to find the closest match
+  # Step 2: for each of the remaining unmatched base titles, find 
+  # the closest code title. If the string distance is less than
+  # 0.2 and if there is a unique match for each row, then we accept the match.
   #
   
   for (i in seq_len(length(which(is.na(c_matches))))) {
 
-    idx <- which.min(wmat)
+    idx <- which.min(distmat_work)
     rc_idx <- arrayInd(idx, matdim)
     r_idx <- rc_idx[1, 1]
     c_idx <- rc_idx[1, 2]
@@ -74,11 +85,10 @@ match_titles <- function(base_titles, code_titles) {
       dist[r_idx] <- NA
     }
 
-
     c_matches[r_idx] <- c_idx
 
-    wmat[r_idx, ] <- Inf
-    wmat[ , c_idx] <- Inf
+    distmat_work[r_idx, ] <- Inf
+    distmat_work[ , c_idx] <- Inf
   }
 
   
