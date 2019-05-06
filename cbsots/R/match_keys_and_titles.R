@@ -9,6 +9,7 @@
 #   base_all_titles all titles in the origin base table
 #' @importFrom stringdist amatch
 #' @importFrom stringr str_match
+#' @importFrom utils View
 match_keys_and_titles <- function(code, base, base_all_keys, base_all_titles) {
   
   # 

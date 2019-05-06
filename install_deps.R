@@ -3,4 +3,4 @@
 if (!require(devtools)) {
     stop('devtools not installed')
 }
-#devtools::install_deps('cbsopents')
+devtools::install_deps('cbsots')
