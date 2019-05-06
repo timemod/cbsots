@@ -53,6 +53,7 @@ HTMLWidgets.widget({
                 }
                 Shiny.onInputChange(el.id, hot.getData());
             },
+	    licenseKey: "non-commercial-and-evaluation"
          });
 
          function search_call_back(instance, row, col, value, result) {
@@ -232,7 +233,6 @@ HTMLWidgets.widget({
 
       resize: function(width, height) {
       }
-
     };
   }
 });
