@@ -4,7 +4,7 @@
 \alias{edit_ts_code}
 \title{Edit timeseries codes}
 \usage{
-edit_ts_code(ts_code_file, use_browser = TRUE, debug = FALSE,
+edit_ts_code(ts_code_file, use_browser = TRUE, browser, debug = FALSE,
   base_url = NULL)
 }
 \arguments{
@@ -12,8 +12,18 @@ edit_ts_code(ts_code_file, use_browser = TRUE, debug = FALSE,
 stored.  This file does not have to exist yet. If it does exist, then it 
 should be an \code{rds} file containing a \code{ts_code} object.}
 
-\item{use_browser}{if \code{TRUE}, then display the graphical user interface
+\item{use_browser}{if \code{TRUE} (the default), then display the graphical user interface
 in the browser. Otherwise the RStudio viewer is used.}
+
+\item{browser}{a character vector specifying the path of the browser. Specify
+\code{"default"} to use the default browser. The approach used when this
+argument is not specified depends on the operating system. For non-Windows 
+operating systems, the default browser is also used if argument 
+\code{browser} has not been specified. For Windows, a different approach is 
+used because the Shiny app does not work well in the Internet Explorer. 
+Therefore, if argument \code{browser} was not used the function tries to 
+find the location of the Chrome. An error is issued when this browser was not
+found. In that case, specify the path of Chrome or FirefFox.}
 
 \item{debug}{a logical. If \code{TRUE}, then use the debugging mode
 (only for developpers)}

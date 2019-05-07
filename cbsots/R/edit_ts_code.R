@@ -3,8 +3,17 @@
 #' @param ts_code_file the name of a file where the timeseries coding is
 #' stored.  This file does not have to exist yet. If it does exist, then it 
 #' should be an \code{rds} file containing a \code{ts_code} object.
-#' @param use_browser if \code{TRUE}, then display the graphical user interface
+#' @param use_browser if \code{TRUE} (the default), then display the graphical user interface
 #'  in the browser. Otherwise the RStudio viewer is used.
+#' @param browser a character vector specifying the path of the browser. Specify
+#' \code{"default"} to use the default browser. The approach used when this
+#' argument is not specified depends on the operating system. For non-Windows 
+#' operating systems, the default browser is also used if argument 
+#' \code{browser} has not been specified. For Windows, a different approach is 
+#' used because the Shiny app does not work well in the Internet Explorer. 
+#' Therefore, if argument \code{browser} was not used the function tries to 
+#' find the location of the Chrome. An error is issued when this browser was not
+#' found. In that case, specify the path of Chrome or FirefFox.
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
 #'  (only for developpers)
 #' @param base_url optionally specify a different server. Useful for third party
@@ -16,7 +25,7 @@
 #' @importFrom shinyalert shinyalert
 #' @importFrom shinyalert useShinyalert
 #' @export
-edit_ts_code <- function(ts_code_file, use_browser = TRUE, 
+edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                          debug = FALSE, base_url = NULL) {
   
   if (file.exists(ts_code_file)) {
@@ -479,11 +488,58 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE,
   
   app_list <- list(ui = ui, server = server)
   
+  
   if (use_browser) {
-    runApp(app_list, launch.browser = TRUE)
+    old_browser <- options("browser")
+    tryCatch({
+      options(browser = find_browser(browser))
+      runApp(app_list, launch.browser = TRUE)
+    }, finally = {
+      options(browser = old_browser$browser)
+    })
   } else {
     runApp(app_list)
   }
   
+  
   return(invisible(NULL))
+}
+
+
+find_browser <- function(browser) {
+  
+  if (!missing(browser)) {
+    if (browser == "default") {
+      return(options("browser"))
+    } else if (!file.exists(browser)) {
+      stop(sprintf("Executable %s does not exist.\n", browser))
+    }
+  }
+    
+  if (.Platform$OS.type != "windows") {
+    return(options("browser"))
+  } else {
+    paths <- c("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+               "C:/progs/Google/Chrome/Application/chrome.exe")
+    for (path in paths) {
+      if (file.exists(path)) {
+        # rem init Google Chrome
+        user_data_dir <- file.path(Sys.getenv("LOCALAPPDATA"), "Google",
+                                    "Chrome", "User Data")
+        first_run_file <- file.path(user_data_dir, "First Run")
+        if (!file.exists(first_run_file)) {
+          if (!dir.exists(user_data_dir)) {
+            ok <- dir.create(user_data_dir, recursive = TRUE)
+            if (!ok) stop(sprintf("Unable to create directory", user_data_dir))
+          }
+          ok <- file.create(first_run_file)
+          if (!ok) stop(sprintf("Unable to create file", user_data_dir))
+        }
+        return(path)
+      }
+    }
+    stop(paste("Unable to find Chrome browser on Windows.",
+               "Use argument use_browser = FALSE or specify the path of the",
+               "Browser"))
+  }
 }
