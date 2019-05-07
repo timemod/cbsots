@@ -510,14 +510,14 @@ find_browser <- function(browser) {
   
   if (!missing(browser)) {
     if (browser == "default") {
-      return(options("browser"))
+      return(options("browser")$browser)
     } else if (!file.exists(browser)) {
       stop(sprintf("Executable %s does not exist.\n", browser))
     }
   }
     
   if (.Platform$OS.type != "windows") {
-    return(options("browser"))
+    return(options("browser")$browser)
   } else {
     paths <- c("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
                "C:/progs/Google/Chrome/Application/chrome.exe")
