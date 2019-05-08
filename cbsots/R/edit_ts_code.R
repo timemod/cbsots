@@ -205,6 +205,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         
         values$new_table <- create_new_table(new_table_id, base_url)
         values$new_table_id <- new_table_id
+        values$new_table_desc <- new_table_desc
   
         base_table_desc <-  input$new_table_base_desc
         if (base_table_desc != "") {
@@ -216,11 +217,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
           if (length(ret$warnings) > 0) {
             showWarningsDialog(ret$warnings, "filled_table_ok")
           } else {
-            insert_new_table(new_table_id, new_table_desc)
+            insert_new_table()
             removeModal()
           }
         } else {
-          insert_new_table(new_table_id, new_table_desc)
+          insert_new_table()
           removeModal()
         }
       }, error = function(e) {
@@ -232,18 +233,18 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       })
     })
     
-    insert_new_table <- function(new_table_id, new_table_desc) {
+    insert_new_table <- function() {
       
       if (debug) {
         cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
                     values$new_table_id))
       }
       
-      values$table_ids <- c(values$table_ids, new_table_id)
-      values$table_descs[new_table_id] <- new_table_desc
-      values$tables[[new_table_id]]  <- values$new_table
+      values$table_ids <- c(values$table_ids, values$new_table_id)
+      values$table_descs[values$new_table_id] <- values$new_table_desc
+      values$tables[[values$new_table_id]]  <- values$new_table
      
-      # reorder the tables alphabetically
+      # reorder the tables alphabetically 
       ord <- order(values$table_ids)
       values$tables <- values$tables[ord]
       values$table_ids <- values$table_ids[ord]
@@ -251,7 +252,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       updateSelectInput(session, inputId = "table_desc",
                         choices = create_table_choices(values$table_descs), 
-                        selected = new_table_desc)
+                        selected = values$new_table_desc)
     }
     
     observeEvent(input$filled_table_ok, {
