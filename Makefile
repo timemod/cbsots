@@ -5,21 +5,13 @@
 PKGDIR=cbsots
 INSTALL_FLAGS=--no-multiarch --with-keep.source
 RCHECKARG=--no-multiarch
-R_HOME=$(shell R RHOME)
 
 # Package name, Version and date from DESCIPTION
 PKG=$(shell grep 'Package:' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2)
 PKGTAR=$(PKG)_$(shell grep 'Version' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2).tar.gz
 PKGDATE=$(shell grep 'Date' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2)
 TODAY=$(shell date "+%Y-%m-%d")
-
-OSNAME := $(shell uname | tr A-Z a-z)
-ifeq ($(findstring windows, $(OSNAME)), windows)
-    OSTYPE = windows
-else
-    # Linux or MAC OSX
-    OSTYPE = unix
-endif
+OSTYPE=$(shell Rscript -e "cat(.Platform[['OS.type']])")
 
 help:
 	@echo
@@ -38,13 +30,12 @@ help:
 	@echo "   flags     - display R config flags and some macros"
 
 flags:
-	@echo "R_HOME=$(R_HOME)"
 	@echo "OSTYPE=$(OSTYPE)"
-	@echo "SHELL=$(SHELL)"
 	@echo "PKGDIR=$(PKGDIR)"
 	@echo "PKG=$(PKG)"
 	@echo "PKGTAR=$(PKGTAR)"
 	@echo "PKGDATE=$(PKGDATE)"
+	@echo "libPaths:"
 	@R --no-save --quiet --slave -e '.libPaths()'
 
 test:
@@ -64,7 +55,7 @@ check: cleanx
 	@echo ""
 
 cleanx:
-ifneq ($(findstring windows, $(OSNAME)), windows)
+ifneq ($(OSTYPE), windows) 
 # Apple Finder rubbish
 	@find . -name '.DS_Store' -delete
 	@rm -f $(PKGTAR)
