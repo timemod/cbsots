@@ -3,17 +3,16 @@
 #' @param ts_code_file the name of a file where the timeseries coding is
 #' stored.  This file does not have to exist yet. If it does exist, then it 
 #' should be an \code{rds} file containing a \code{ts_code} object.
-#' @param use_browser if \code{TRUE} (the default), then display the graphical user interface
-#'  in the browser. Otherwise the RStudio viewer is used.
+#' @param use_browser if \code{TRUE} (the default), then display the graphical 
+#' user interface in the browser. Otherwise the RStudio viewer is used.
 #' @param browser a character vector specifying the path of the browser. Specify
 #' \code{"default"} to use the default browser. The approach used when this
-#' argument is not specified depends on the operating system. For non-Windows 
+#' argument has not been specified depends on the operating system. For non-Windows 
 #' operating systems, the default browser is also used if argument 
 #' \code{browser} has not been specified. For Windows, a different approach is 
 #' used because the Shiny app does not work well in the Internet Explorer. 
-#' Therefore, if argument \code{browser} was not used the function tries to 
-#' find the location of the Chrome. An error is issued when this browser was not
-#' found. In that case, specify the path of Chrome or FirefFox.
+#' The function tries to find the location of Chrome or FireFox and if the search
+#' is succesful then this browser is used. Otherwise an error is issued.
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
 #'  (only for developpers)
 #' @param base_url optionally specify a different server. Useful for third party
@@ -521,26 +520,16 @@ find_browser <- function(browser) {
     return(options("browser")$browser)
   } else {
     paths <- c("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
-               "C:/progs/Google/Chrome/Application/chrome.exe")
+               "C:/progs/Google/Chrome/Application/chrome.exe",
+               "c:/Program Files/Mozilla Firefox/firefox.exe")
+               
     for (path in paths) {
       if (file.exists(path)) {
-        # rem init Google Chrome
-        user_data_dir <- file.path(Sys.getenv("LOCALAPPDATA"), "Google",
-                                    "Chrome", "User Data")
-        first_run_file <- file.path(user_data_dir, "First Run")
-        if (!file.exists(first_run_file)) {
-          if (!dir.exists(user_data_dir)) {
-            ok <- dir.create(user_data_dir, recursive = TRUE)
-            if (!ok) stop(sprintf("Unable to create directory", user_data_dir))
-          }
-          ok <- file.create(first_run_file)
-          if (!ok) stop(sprintf("Unable to create file", user_data_dir))
-        }
         return(path)
       }
     }
-    stop(paste("Unable to find Chrome browser on Windows.",
+    stop(paste("Unable to find Chrome or FireFox on Windows.\n",
                "Use argument use_browser = FALSE or specify the path of the",
-               "Browser"))
+               "browser with argument browser."))
   }
 }
