@@ -82,7 +82,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     stop("Argument ts_code is not a ts_code object")
   }
   
-  table_ids <- names(ts_code$table_code)
+  table_ids <- names(ts_code)
   table_ids_lower <- tolower(table_ids)
   id_lower <- tolower(id)
   
@@ -93,8 +93,8 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   idx <- match(id_lower, table_ids_lower)
   id <- table_ids[idx]
   
-  table_code <- ts_code$table_code[[id]]
-  dimensions <- setdiff(names(table_code$codes), "Topic")
+  table <- ts_code[[id]]
+  dimensions <- setdiff(names(table$codes), "Topic")
   
   data_dir <- file.path(raw_cbs_dir, id)
   
@@ -103,18 +103,18 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   `.` <- NULL; Select <- NULL; Code <- NULL; Perioden <- NULL
   
   select_code <- function(name) {
-    code <- table_code$codes[[name]]
+    code <- table$codes[[name]]
     return(code[Select == TRUE, ])
   }
   
   # Select all rows with Select = TRUE. The ordering of the 
-  # dimensionswill be equal to table_code$order, this ordering is important
+  # dimensionswill be equal to table$order, this ordering is important
   # because it determines how the timeseries names are created.
-  selected_code <- sapply(table_code$order, FUN = select_code, simplify = FALSE)
+  selected_code <- sapply(table$order, FUN = select_code, simplify = FALSE)
   
   
   if (!refresh) {
-    read_result <- read_table(id, data_dir, code = table_code$codes, 
+    read_result <- read_table(id, data_dir, code = table$codes, 
                               selected_code = selected_code, 
                               min_year = min_year, frequencies = frequencies)
     if (is.null(read_result) && !missing(download) && !download) {
@@ -124,11 +124,11 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   }
   
   if (refresh || is.null(read_result)) {
-    download_table(id, raw_cbs_dir = raw_cbs_dir, code = table_code$codes, 
+    download_table(id, raw_cbs_dir = raw_cbs_dir, code = table$codes, 
                    selected_code = selected_code, min_year = min_year, 
                    frequencies = frequencies, base_url = base_url, 
                    download_all_keys = download_all_keys)
-    read_result <- read_table(id, data_dir, code = table_code$codes, 
+    read_result <- read_table(id, data_dir, code = table$codes, 
                               selected_code = selected_code, 
                               min_year = min_year, frequencies = frequencies,
                               read_downloaded_data = TRUE)

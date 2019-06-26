@@ -1,7 +1,7 @@
 Package: cbsots
 Type: Package
 Title: CBS Open Timeseries
-Version: 1.1
+Version: 1.2
 Authors@R: c(
  person("Rob", "van Harrevelt", email = "rvanharrevelt@gmail.com", role = c("aut", "cre"))
  )
@@ -16,7 +16,6 @@ Depends:
 Imports:
     cbsodataR (>= 0.2.5),
     data.table,
-    readxl,
     openxlsx,
     shiny,
     shinyjqui (>= 0.2.9001),

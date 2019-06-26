@@ -32,26 +32,25 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     ts_code <- readRDS(ts_code_file)
     ts_code <- convert_ts_code(ts_code)
     
-    if (!inherits(ts_code, "ts_code")) {
+    if (is.null(ts_code)) {
       stop(paste("File", ts_code_file, "does not contain a ts_code object"))
     }
     
     
   } else {
     
-    ts_code <-  structure(list(package_version = packageVersion("cbsots"),
-                               table_code = list()), class = "ts_code")
+    ts_code <- structure(list(), class = "ts_code",
+                         package_version = packageVersion("cbsots"))
   }
-  
-  tables <- ts_code$table_code
+
   
   CBS_ORDER <- "Original CBS order"
   SELECTED_FIRST_ORDER <- "Selected first"
   
   # create a vector with table ids and a named vector with table descriptions
-  if (length(tables) > 0) {
-    table_ids <- names(tables)
-    short_titles <- sapply(tables, FUN = function(x) return(x$short_title))
+  if (length(ts_code) > 0) {
+    table_ids <- names(ts_code)
+    short_titles <- sapply(ts_code, FUN = function(x) return(x$short_title))
     table_descs <- get_table_description(table_ids, short_titles)
   } else {
     table_ids <- character(0)
@@ -116,7 +115,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     session$onSessionEnded(shiny::stopApp)
     
     # register reactive values
-    values <- reactiveValues(tables = tables, table_id = NA_character_,
+    values <- reactiveValues(tables = ts_code, table_id = NA_character_,
                              table_desc = NA_character_,
                              table_ids = table_ids,
                              table_descs = table_descs,
@@ -474,11 +473,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       # save ordering    
       values$tables[[values$table_id]]$order <- input$order_input_order
       
-      ts_code <-  structure(list(package_version = packageVersion("cbsots"),
-                                 table_code = values$tables),
-                            class = "ts_code")
+      ts_code <-  structure(values$tables, class = "ts_code", 
+                            package_version = packageVersion("cbsots"))
       if (debug) {
-        cat("saving table_codes\n")
+        cat("saving ts_code\n")
         print(ts_code)
       }
       

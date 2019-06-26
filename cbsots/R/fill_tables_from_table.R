@@ -12,7 +12,7 @@
 #' This function is still experimental and you should always check the 
 #' results carefully.
 #' 
-#' @param tscodes a \code{ts_code} object. This object can be created
+#' @param ts_code a \code{ts_code} object. This object can be created
 #' and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
 #' app
 #' @param ids ids of tables to be filled from the base tabel
@@ -20,18 +20,18 @@
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
 #' @export
-fill_tables_from_table <- function(tscodes, ids,  base_id, base_url = NULL) {
+fill_tables_from_table <- function(ts_code, ids,  base_id, base_url = NULL) {
   
-  tscodes <- convert_ts_code(tscodes)
+  ts_code <- convert_ts_code(ts_code)
  
-  base_table <- tscodes$table_code[[base_id]]
+  base_table <- ts_code[[base_id]]
   
   new_table_created <- FALSE
   
   for (id in  ids) {
     
-    if (id %in% names(tscodes$table_code)) {
-      table <- tscodes$table_code[[id]]
+    if (id %in% names(ts_code)) {
+      table <- ts_code[[id]]
     } else {
       table <- create_new_table(id, base_url)
       new_table_created <- TRUE
@@ -39,13 +39,14 @@ fill_tables_from_table <- function(tscodes, ids,  base_id, base_url = NULL) {
     
     table <- update_table(table, base_table, id, base_id)
   
-    tscodes$table_code[[id]] <- table
+    ts_code[[id]] <- table
     
   }
   
   if (new_table_created) {
-    tscodes$table_code <- tscodes$table_code[order(names(tscodes$table_code))]
+    # order tables alphabetically
+    ts_code[] <- ts_code[order(names(ts_code))]
   }
   
-  return(tscodes)
+  return(ts_code)
 }
