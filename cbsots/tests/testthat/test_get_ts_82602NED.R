@@ -39,7 +39,7 @@ test_that(id, {
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
   
-  expect_known_value(read_match_report(ts_code, id),
+  expect_known_value(read_match_report(ts_code_new, id),
                      file = file.path("expected_output", 
                                       paste0(id, "_match_report.rds")))
 })

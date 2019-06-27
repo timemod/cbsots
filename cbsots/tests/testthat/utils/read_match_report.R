@@ -1,13 +1,12 @@
 read_match_report <- function(ts_code, table_id, base_id = table_id) {
   
-  code_tab <- ts_code$table_code[[table_id]]
+  table <- ts_code[[table_id]]
  
-  
   if (base_id == table_id) {
-    dimensions <-  names(code_tab$codes)
+    dimensions <-  names(table$codes)
   } else {
-    base_tab <- ts_code$table_code[[base_id]]
-    dimensions <- intersect(names(code_tab$codes), names(base_tab$codes))
+    base_tab <- ts_code[[base_id]]
+    dimensions <- intersect(names(table$codes), names(base_tab$codes))
   }
  
    prefix <- if (base_id == table_id) {

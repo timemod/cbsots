@@ -4,10 +4,10 @@
 \alias{update_tables}
 \title{Update tables}
 \usage{
-update_tables(tscodes, ids, base_url = NULL)
+update_tables(ts_code, ids, base_url = NULL)
 }
 \arguments{
-\item{tscodes}{a \code{ts_code} object. This object can be created
+\item{ts_code}{a \code{ts_code} object. This object can be created
 and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
 app}
 
@@ -17,7 +17,7 @@ app}
 data services implementing the same protocol.}
 }
 \description{
-This function updates one or more tables in a table_code object.
+This function updates one or more tables in a \code{ts_code} object.
 The function downloads the latest meta data from the CBS website
 and tries to find  matching keys or titles in the old and new table. The 
 function creates a match report in directory \code{match_reoport} 

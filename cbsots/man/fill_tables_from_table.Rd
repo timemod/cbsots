@@ -4,10 +4,10 @@
 \alias{fill_tables_from_table}
 \title{Fill tables with values from another table.}
 \usage{
-fill_tables_from_table(tscodes, ids, base_id, base_url = NULL)
+fill_tables_from_table(ts_code, ids, base_id, base_url = NULL)
 }
 \arguments{
-\item{tscodes}{a \code{ts_code} object. This object can be created
+\item{ts_code}{a \code{ts_code} object. This object can be created
 and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
 app}
 

@@ -1,11 +1,11 @@
 #' @export
 print.ts_code <- function(x, ...) {
   cat("ts_code object\n")
-  cat(sprintf("package version = : %s\n", x$package_version))
-  for (i in seq_along(x$table_code)) {
-    cat(sprintf("Table id : %s\n", names(x$table_code))[i])
-    tab <- x$table_code[[i]]
-    print(tab)
+  cat(sprintf("package version = : %s\n", attr(x, "package_version")))
+  table_ids <- names(x)
+  for (i in seq_along(x)) {
+    cat(sprintf("Table id : %s\n", table_ids[i]))
+    print(x[[i]])
   }
 }
 
