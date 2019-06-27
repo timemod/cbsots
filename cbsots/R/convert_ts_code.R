@@ -17,12 +17,11 @@ convert_ts_code <- function(ts_code) {
     # package_version. In earlier versions ts_code was a list of length
     # 2, with element package_version and element table_code.
     
-    package_version <- ts_code$package_version
+    old_package_version <- ts_code$package_version
+  
+    ts_code <- create_ts_code(ts_code$table_code)
     
-    ts_code <- structure(ts_code$table_code, class = "ts_code", 
-                         package_version = package_version)
-    
-    if (package_version < "0.4") {
+    if (old_package_version < "0.4") {
       
       # In versions prior to 0.4 each table had a last_modified attribute.
       # This is not used any more, so remove it.
@@ -34,7 +33,7 @@ convert_ts_code <- function(ts_code) {
       ts_code[] <- lapply(ts_code, FUN = remove_last_modified) 
     }
     
-    if (package_version < "0.5") {
+    if (old_package_version < "0.5") {
       
       # Versions prior to version 0.5 did not have a cbs_key_order attribute
       # Therefore create it based on the comparison of the Key and OrigKeyOrder
@@ -64,13 +63,13 @@ convert_ts_code <- function(ts_code) {
       ts_code[] <- lapply(ts_code, FUN = create_cbs_key_order) 
     }
     
-  }
+  } else {
 
+    # ts_code has now been updated to new package version, so modify
+    # the package_version attribute
   
-  # ts_code has now been updated to new package version, so modify
-  # the package_version attribute
+    attr(ts_code, "package_version") <- packageVersion("cbsots")
   
-  attr(ts_code, "package_version") <- packageVersion("cbsots")
-  
+  }
   return(ts_code)
 }

@@ -1,5 +1,5 @@
-# This function open a new table. All information about the table is contained in
-# argument values
+# This function open a new table. All information about the table is contained 
+# in argument values.
 open_table <- function(values, input, output, selected_tab = NULL, debug) {
   
   if (debug) {
@@ -21,7 +21,7 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
                 }
   
   hot_id <- get_hot_id(table_id, tab_names[tab_index])
-  tab <- values$tables[[table_id]]$codes[[tab_index]]
+  tab <- values$ts_code[[table_id]]$codes[[tab_index]]
   output[[hot_id]] <- renderCodetable(codetable(tab))
   
   # create empty tables for the other dimensions, the real tables will
@@ -47,11 +47,11 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
         if (!is.null(df_input)) {
           if (debug) {
             cat("old values\n")
-            print(head(values$tables[[values$table_id]]$codes[[name]][, 1:3]))
+            print(head(values$ts_code[[values$table_id]]$codes[[name]][, 1:3]))
             cat("current values\n")
             print(head(df_input[, 1:3]))
           }
-          values$tables[[values$table_id]]$codes[[name]][, 1:4] <- df_input
+          values$ts_code[[values$table_id]]$codes[[name]][, 1:4] <- df_input
         } else if (debug) {
           cat(paste0("Something is wrong with input$", hot_id, ", 
                      check warnings\n"))
@@ -75,14 +75,14 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
   
   output$table_pane <- renderUI({
     # add isolate, otherwise the table_pane will be redrawn every time that
-    # values$tables changes
+    # values$ts_code changes
     isolate({
       myTabs <- lapply(tab_names, make_panel)
       ret <- list(h3(paste("Tabel", values$table_desc)), br(),
                   p(), 
                   h5("Order used to create names"),
                   orderInput(inputId = "order_input", label = NULL, 
-                             items = values$tables[[table_id]]$order),
+                             items = values$ts_code[[table_id]]$order),
                   p(),p(),
                   tags$div(
                     HTML("&#128270;"),

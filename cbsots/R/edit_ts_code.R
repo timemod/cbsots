@@ -39,8 +39,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
   } else {
     
-    ts_code <- structure(list(), class = "ts_code",
-                         package_version = packageVersion("cbsots"))
+    ts_code <- create_ts_code()
+    
   }
 
   
@@ -115,7 +115,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     session$onSessionEnded(shiny::stopApp)
     
     # register reactive values
-    values <- reactiveValues(tables = ts_code, table_id = NA_character_,
+    values <- reactiveValues(ts_code = ts_code, table_id = NA_character_,
                              table_desc = NA_character_,
                              table_ids = table_ids,
                              table_descs = table_descs,
@@ -125,7 +125,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     #
     
     get_order_type <- function(dimension) {
-      has_cbs_order <- values$tables[[values$table_id]]$cbs_key_order[[dimension]]
+      has_cbs_order <- values$ts_code[[values$table_id]]$cbs_key_order[[dimension]]
       if (has_cbs_order) {
         return(CBS_ORDER)
       } else {
@@ -143,7 +143,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         return()
       }
       
-      if (length(values$tables) == 0) {
+      if (length(values$ts_code) == 0) {
         output$table_pane <- renderUI({return(NULL)})
         return(invisible(NULL))
       }
@@ -163,12 +163,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (!is.na(values$table_id)) {
         # save ordering current table
-        values$tables[[values$table_id]]$order <- input$order_input_order
+        values$ts_code[[values$table_id]]$order <- input$order_input_order
       }
       
       values$table_id <- new_table_id
       values$table_desc <- values$table_descs[new_table_id]
-      values$tab_names <- names(values$tables[[new_table_id]]$codes)
+      values$tab_names <- names(values$ts_code[[new_table_id]]$codes)
    
       open_table(values, input, output, debug = debug)
       
@@ -208,7 +208,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         base_table_desc <-  input$new_table_base_desc
         if (base_table_desc != "") {
           base_table_id <- get_table_id(base_table_desc)
-          base_table <- values$tables[[base_table_id]]
+          base_table <- values$ts_code[[base_table_id]]
           ret <- call_update_table(values$new_table, base_table, new_table_id,
                                    base_table_id)
           values$new_table <- ret$new_table
@@ -240,11 +240,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       values$table_ids <- c(values$table_ids, values$new_table_id)
       values$table_descs[values$new_table_id] <- values$new_table_desc
-      values$tables[[values$new_table_id]]  <- values$new_table
+      values$ts_code[[values$new_table_id]]  <- values$new_table
      
       # reorder the tables alphabetically 
       ord <- order(values$table_ids)
-      values$tables <- values$tables[ord]
+      values$ts_code <- values$ts_code[ord]
       values$table_ids <- values$table_ids[ord]
       values$table_descs <- values$table_descs[values$table_ids]
       
@@ -260,7 +260,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$delete_table, {
       
-      if (length(values$tables) == 0) {
+      if (length(values$ts_code) == 0) {
         showModal(modalDialog(
           title = "No tables to delete", "There are no tables to delete",
           easyClose = TRUE)) 
@@ -295,7 +295,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$delete_table_confirmed, {
       
-      values$tables[[values$delete_table_id]] <- NULL
+      values$ts_code[[values$delete_table_id]] <- NULL
       
       # update table_ids
       idx <- pmatch(values$delete_table_id, values$table_ids)
@@ -339,7 +339,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       id <- values$table_id
       if (!is.na(id)) {
         new_table <- create_new_table(id, base_url)
-        ret <- call_update_table(new_table, values$tables[[id]], id, id)
+        ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
         values$new_table <- ret$new_table
         if (length(ret$warnings) > 0) {
           showWarningsDialog(ret$warnings, "update_table_ok")
@@ -354,7 +354,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (debug) cat("in insert_update_table\n")
       
-      values$tables[[values$table_id]] <- values$new_table
+      values$ts_code[[values$table_id]] <- values$new_table
       
       open_table(values, input, output, selected_tab = input$tabsetpanel, 
                  debug = debug)
@@ -401,7 +401,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       # If current_type == SELECTED_ORDER, then the tables have already been 
       # re-rendered by function reorder_table() (see code above).
       if (current_type != SELECTED_FIRST_ORDER) {
-        tab <- values$tables[[values$table_id]]$codes[[name]]
+        tab <- values$ts_code[[values$table_id]]$codes[[name]]
         hot_id <- get_hot_id(values$table_id, name)
         output[[hot_id]] <- renderCodetable(codetable(tab))
       }
@@ -423,9 +423,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         # selection may have changed. This is not necessary for CBS_ORDER.
         hot_id <- get_hot_id(values$table_id, name)        
         if (debug) cat(sprintf("Reordering table %s.\n", hot_id))
-        tab <- values$tables[[values$table_id]]$codes[[name]]
+        tab <- values$ts_code[[values$table_id]]$codes[[name]]
         tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
-        values$tables[[values$table_id]]$codes[[name]] <- tab
+        values$ts_code[[values$table_id]]$codes[[name]] <- tab
         output[[hot_id]] <- renderCodetable(codetable(tab))
       }
       
@@ -448,12 +448,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       reorder_table()
       
       # and then update cbs_key_order
-      values$tables[[values$table_id]]$cbs_key_order[[name]] <- 
+      values$ts_code[[values$table_id]]$cbs_key_order[[name]] <- 
                                              input$order_table == CBS_ORDER
       
       if (debug) {
         cat("Updating cbs_key_order, new value = \n")
-        print(values$tables[[values$table_id]]$cbs_key_order)
+        print(values$ts_code[[values$table_id]]$cbs_key_order)
       }
 
     })
@@ -471,16 +471,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       reorder_table()
       
       # save ordering    
-      values$tables[[values$table_id]]$order <- input$order_input_order
+      values$ts_code[[values$table_id]]$order <- input$order_input_order
       
-      ts_code <-  structure(values$tables, class = "ts_code", 
-                            package_version = packageVersion("cbsots"))
       if (debug) {
         cat("saving ts_code\n")
-        print(ts_code)
+        print(values$ts_code)
       }
       
-      saveRDS(ts_code, file = ts_code_file)
+      saveRDS(values$ts_code, file = ts_code_file)
     })
   }
   

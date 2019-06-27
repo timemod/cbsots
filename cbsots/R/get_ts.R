@@ -35,8 +35,6 @@
 #' timeseries coding. To prevent that, use argument \code{download_all_keys = TRUE},
 #' then all keys are downloaded for each dimension. 
 #' @return a list with class \code{table_ts}, with the following components
-#' #' @param base_url optionally specify a different server. Useful for third party
-#' data services implementing the same protocol.
 #'  \item{Y}{Yearly timeseries (if present)}
 #'  \item{Q}{Quarterly timeseries (if present)}
 #'  \item{M}{Monthly timeseries (if present)}

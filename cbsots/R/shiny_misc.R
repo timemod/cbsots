@@ -35,7 +35,7 @@ get_table_id <- function(table_desc) {
 }
 
 check_duplicates <- function(session, values) {
-  ts_code <-  values$tables[[values$table_id]]$codes
+  ts_code <-  values$ts_code[[values$table_id]]$codes
   for (name in values$tab_names) {
     tab <- ts_code[[name]]
     codes <- tab$Code[tab$Select]

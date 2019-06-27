@@ -46,10 +46,7 @@ fill_tables_from_table <- function(ts_code, ids,  base_id, base_url = NULL) {
   if (new_table_created) {
     # order tables alphabetically while keeping the class and package
     # version 
-    # TODO: create a function that generates a ts_code object from a list.
-    ts_code <- structure(ts_code[order(names(ts_code))],
-                         class = "ts_code",
-                         package_version = packageVersion("cbsots"))
+    ts_code <- create_ts_code(ts_code[order(names(ts_code))])
   }
   
   return(ts_code)
