@@ -86,9 +86,9 @@ bin: install_deps
 	R CMD INSTALL $(INSTALL_FLAGS) -l ./tmp --build $(PKGTAR)
 
 document: install_deps
-	-@rm -f $(PKGDIR).pdf
+	-@rm -f cbsots.pdf
 	R -e "roxygen2::update_collate('"$(PKGDIR)"'); devtools::document('"$(PKGDIR)"')"
-	R CMD Rd2pdf --batch $(PKGDIR) 2>$(PKGDIR).log
+	R CMD Rd2pdf --batch $(PKGDIR) -o cbsots.pdf 2>cbsots.log
 
 install: install_deps
 	-@rm -rf tmp
