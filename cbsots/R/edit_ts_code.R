@@ -244,7 +244,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
      
       # reorder the tables alphabetically 
       ord <- order(values$table_ids)
-      values$ts_code <- values$ts_code[ord]
+      # use create_ts_code, because otherwise the attributes (class and 
+      # package version) are lost.
+      values$ts_code <- create_ts_code(values$ts_code[ord])
       values$table_ids <- values$table_ids[ord]
       values$table_descs <- values$table_descs[values$table_ids]
       
