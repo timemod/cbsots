@@ -22,9 +22,11 @@ raw_cbs_dir <- tempdir()
 
 test_that(id, {
   
+  
   result1 <- expect_warning(expect_output(get_ts(id, ts_code,  refresh = TRUE,
                                                  raw_cbs_dir = raw_cbs_dir,
-                                                 frequencies = "QM")), 
+                                                 frequencies = "QM", 
+                                                 min_year = 2008)), 
                             "Frequencies M not present in table")
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
@@ -32,7 +34,7 @@ test_that(id, {
   
   result2 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, 
                                   raw_cbs_dir = raw_cbs_dir,
-                                  frequencies = "Q"))
+                                  frequencies = "Q", min_year = 2008))
   expect_identical(result1, result2)
   
   result3 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, min_year = 2010,
@@ -61,7 +63,7 @@ test_that(id, {
   # the last download only downloaded data starting from 2010
   result5 <- expect_output(get_ts(id, ts_code, refresh = FALSE, 
                                   raw_cbs_dir = raw_cbs_dir,
-                                  frequencies = "Q"))
+                                  frequencies = "Q", min_year = 2008))
   expect_identical(result5, result1)
   
   # Now we want both annual and quarterly timeseries. 
