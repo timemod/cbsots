@@ -1,0 +1,23 @@
+
+# travis config
+
+sudo: required
+warnings_are_errors: false
+
+language: r
+cache: packages
+
+before_install:
+  - R -e "install.packages(c('devtools','roxygen2','testthat'))"
+  - R -e "devtools::install_deps('./pkg')"
+  - R -e "devtools::load_all('./pkg');devtools::document('./pkg')"
+  - cd ./pkg
+
+r_packages:
+  - rmarkdown
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always 
+

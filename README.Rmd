@@ -1,0 +1,141 @@
+
+---
+output: github_document
+---
+
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# cbsots
+
+[![Build Status](https://travis-ci.org/timemod/cbsots.svg?branch=master)](https://travis-ci.org/timemod/cbsots)
+
+
+Retrieve timeseries from the [CBS open data interface](http://www.cbs.nl/nl-NL/menu/cijfers/statline/open-data/default.htm)
+interface, employing package [cbsodataR](https://github.com/edwindj/cbsodataR)
+
+## Introduction
+
+Package [cbsodataR](https://github.com/edwindj/cbsodataR) can be used
+to retrieve data of CBS tables using R code. Most tables are complex multi-dimensional tables,
+and extracting timeseries with appropriate names will usually require 
+some further R programming. The purpose of `cbsots` is to take this programming off your hands.
+
+The packages provides the Shiny App "CBS Timeseries Coding" for specifying which portions
+of the table you want to retrieve and how the names of the individual timeseries
+should be constructed, and a separate function `get_ts` for actually creating the 
+timeseries based on the timeseries coding created with the Shiny App. The timeseries
+coding created in the Shiny App is stored in an rds file.
+
+## Installation
+
+```{r, eval = FALSE}
+# first install library drat if you have not installed that library yet:
+install.packages("drat")
+
+# now install cbsots with the timemod drat Repository
+drat::addRepo("timemod")
+install.packages("cbsots")
+```
+
+## The Shiny App "CBS Timeseries Coding`
+
+```{r include = FALSE}
+library(cbsots)
+file.copy("cbsots/vignettes/tscode_consumption.rds", "tscode.rds")
+```
+
+The Shiny application is started by calling the function `edit_ts_code`.
+For example, 
+```{r eval = FALSE}
+library(cbsots)
+edit_ts_code("tscode.rds")
+```
+
+The first argument (`"tscode.rds"`) specifies the name of the rds file were the 
+timeseries coding is stored. The file does not have to exist yet. If it does
+not exist, then the file is created when the timeseries coding is saved.
+
+More information about the Shiny App "CBS Timeseries Coding" will be provided in 
+a future Tutorial and a Manual, which unfortunately still have to be written.
+Here I only give a simple example for a table `70076NED` (consumption
+in the Netherlands). 
+
+The Shiny App looks like this:
+
+![70076NED_Topic](cbsots/vignettes/fig/70076NED_Topic.png)
+This table has two dimensions: "Topic" and "GoederenEnDiensten" (Goods and Services),
+besides of the time dimension (years, quarters etc.) that is disregarded in the Shiny App. 
+Every CBS table has a dimension called "Topic", and usually has one or more extra dimensions,
+such as "GoederenEnDiensten" for this table.
+For this particular table, the different Topics correspond to different types of 
+consumption  timeseries: volumemutaties (volume changes), waardemutaties (value changes),
+and indexcijfers (indices) for both volume and value.
+Each Topic has a *Key* (a short identifier)
+and a *Title* (a more detailed description). The Select and Code columns are the
+columns that can be modified. In this example, we are only interest in indices
+for both volume and value, so only the corresponding entries have been selected.
+The text in the *Code* column is used to create the timeseries
+names, as explained below.
+
+Let us now have a look at the tab `GoederenEnDiensten`:
+
+![70076NED_Topic](cbsots/vignettes/fig/70076NED_GoederenEnDiensten.png)
+
+Here we have selected "Consumptie binnenland" (domenstic consumption),
+"Goederen" (assets) and "Dientsten" (services).
+Function `get_ts` will create a timeseries for each  
+combination of selected "Topics" and "GoederenEnDiensten". The names of the timeseries
+are created by pasting the texts in the Code columns for each dimension.
+In this case, the codes for "Topic" become the suffixes and the
+codes for `GoederenEnDiesnten` become the prefixes. So the names of the timeseries
+are `c___vi`, `c_govi`, `c_divi`,  `c___wi`, `c_giwi`, `c_divi`. 
+Which dimension becomes the suffix and which dimension the prefix is
+determined by the ordering of the buttons `GoederenEnDiensten` and `Topic` 
+above the table of keys and title (see the selection of the Shiny App below).
+
+![70076NED_Topic](cbsots/vignettes/fig/70076NED_reorder.png)
+
+This order can be changed: mouse the mouse cursor to the button `GoederenEnDiensten`,
+then press the left mouse button and drag it to the right of button `Topic`. Now you can release
+the button. The result is that the `Topic` button appears first.
+the ordering of the Buttons is reversed. Then the timeseries names would become
+`vic___`, `vic_di `, etc.
+
+## Function get_ts
+
+To create the timseries, we first read the timeseries coding created by the 
+Shiny App:
+```{r}
+ts_code <- readRDS("tscode.rds")
+```
+
+Then function `get_ts` can be used to finally create the timeseries:
+
+```{r}
+# Return only yearly and quarterly series (skip monthly series) and 
+# starting from 2017
+data <- get_ts("70076NED", ts_code, frequencies = "yq",
+               min_year = "2017")
+```
+
+The result is a list with class `table_ts`, with com-ponents `"Y"` (annual timeseries)
+and `"Q"` (quarterly timeseries):
+```{r}
+data
+```
+
+```{r echo = FALSE}
+unlink("raw_cbs_data", recursive = TRUE)
+unlink("tscode.rds")
+```
+
+## Examples
+
+## Further Documentation
+
+[Reference manual](cbsots.pdf)
+
+<!--
+[Vignette](pkg/vignettes/cbsots.pdf)
+-->
