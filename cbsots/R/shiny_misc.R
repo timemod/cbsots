@@ -65,8 +65,7 @@ get_new_table_descs <- function(old_table_ids, base_url) {
     
     # select does not work anymore
     if (is.null(base_url)) {
-      #table_info <- cbs_get_toc(Language = "nl")
-      table_info <- cbs_get_toc()
+      table_info <- cbs_get_toc(Language = "nl")
     } else {
       table_info <- cbs_get_toc(Language = "nl", base_url = base_url)
     }

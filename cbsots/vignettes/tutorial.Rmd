@@ -1,0 +1,124 @@
+---
+title: "Tutorial for package cbsots"
+author: "Rob van Harrevelt"
+date: '`r Sys.Date()`'
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+linkcolor: blue    
+---
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Tutorial for package cbsots}
+-->
+
+# Introduction
+
+Package `cbsots` can be used to retrieve timeseries from the [CBS open data interface](http://www.cbs.nl/nl-NL/menu/cijfers/statline/open-data/default.htm)
+interface, employing package [cbsodataR](https://github.com/edwindj/cbsodataR).
+
+Package [cbsodataR](https://github.com/edwindj/cbsodataR) can be used
+to retrieve data of CBS tables using R code. Most tables are complex multi-dimensional tables,
+and extracting timeseries with appropriate names will usually require 
+some further R programming. The purpose of `cbsots` is to take this programming off your hands.
+
+The packages provides the Shiny App "CBS Timeseries Coding" for specifying which portions
+of the table you want to retrieve and how the names of the individual timeseries
+(the so-called "timeseries coding") should be constructed, and a separate 
+function `get_ts` for actually creating the timeseries based on the timeseries 
+coding created with the Shiny App.
+
+The workflow when using package `cbsots` to retrieve timeseries thus consists 
+of two separate steps:
+
+1. Create or modify the timeseries coding for one or more CBS tables with Shiny App 
+"CBS Timeseries Coding". The timeseries coding is stored in an rds file.
+2. Use function `get_ts` to retrieve the timeseries, using the timeseries coding
+read from the rds file created in step 1.
+
+Step 1 (using the Shiny App) is only necessary if you add a new table, or want 
+to modify the timeseries coding for an existing table.
+
+In this tutorial, an example of this approach is presented.
+You can follow this tutotial step by step. 
+
+# Table 70076ned: consumption households
+
+For this tutorial we will use CBS table `70076NED`, that contains the consumption
+of households in the Netherlands for different kinds of goods
+and services. The table contains different types of
+consumption timeseries, such as volume changes, value changes,
+volume indices and value indices. 
+
+The language of this table is Dutch.
+Package `cbsots` currently only supports Dutch tables. There are a few
+English table provided by the CBS open data portal, 
+but the overwhelming majority of the tables are only provided in Dutch. 
+In this tutorial, the timeseries names that we use will also be based
+on Dutch terminology, because most users of package `cbsots` are familiar with 
+naming conventions based on the Dutch terminology.
+
+The aim of this tutorial is to retrieve the following six timeseries:
+
+Name    | Dutch Description                          | English Desription
+----    | ------------------                         | -------------------
+`c___vi` | Totale consumptie, volume-indexcijfers  | Volume total consumption, volume indices
+`c_divi` | Consumptie diensten, volume-indexcijfers  | Volume consumption services, volume indices
+`c_govi` | Consumptie goederen, volume-indexcijfers  | Volume consumption goods, volume indices
+`c___wi` | Totale consumptie,   waarde-indexcijfers   | Total consumption, value indices
+`c_diwi` | Consumptie diensten, waarde-indexcijfers   | Consumption services, value indices
+`c_gowi` | Consumptie goederen, waarde-indexcijfers   | Consumption goods, value indices
+
+All indices have base year 2000, so the timeseries have the value 100 in 2000.
+
+# Opening a table in the Shiny App
+
+In the remaining part of this Tutotial, I will show how to obtain these timeseries
+using `cbosts`. You can follow all examples step by step. Because
+the examples will create an rds file with timeseries coding, I recommend you to
+run the R code from a clean working directory.
+
+We start with the Shiny application:
+```{r, eval = FALSE}
+library(cbsots)
+edit_ts_code("tscode.rds")
+```
+The first argument (`"tscode.rds"`) specifies the name of the rds file were the 
+timeseries coding is stored. The file should not exist yet at this point.
+
+![Empty Shiny App](fig/tutorial_empty.png)
+
+Since the file `"tscode.rds"` does not exist yet, the timeseries code
+is empty and there is not existing table yet.  To start, press the button   `New table`
+underneath the text `"Create new code table". After a while,
+a window titled "New table" (see the picture below) appears which allows you 
+to select from the list of available
+tables. There is some delay between the moment that you press the button and
+when the Windows appears, because it has to contact the CBS website to obtain
+the list of available tables.
+
+![Open new table](fig/tutorial_new_table.png)
+
+In the drop down list, you can enter a search query (words or parts of words occuring in the 
+table description). In this case, type for example  `"consumptie"`. A list
+with all tables containing the word   `"consumptie"` in the table
+description. In the search query, you could also have entered for example, `"70076"`.
+From that list, select  `"70076ned - Bestedingen; consumptie huishoudens"`
+ans press o.k. Leave the second text field empty and press O.K.
+
+
+![Open new table](fig/tutorial_new_table_ok.png)
+
+# Editing the timeseries coding
+
+TODO
+
+# Ordering of dimensions
+
+TODO
+
+# Retrieving timeseries with get_ts
+
+TODO
