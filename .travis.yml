@@ -9,7 +9,7 @@ cache: packages
 
 before_install:
   - R -e "install.packages(c('devtools','testthat'))"
-  - R -e "devtools::install_deps('./pkg')"
+  - R -e "devtools::install_deps('./cbsots')"
   - cd ./cbsots
 
 r_packages:
