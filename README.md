@@ -80,13 +80,21 @@ Let us now have a look at the tab `GoederenEnDiensten`:
 ![70076NED\_Topic](cbsots/vignettes/fig/70076NED_GoederenEnDiensten.png)
 
 Here we have selected “Consumptie binnenland” (domenstic consumption),
-“Goederen” (assets) and “Dientsten” (services). Function `get_ts` will
-create a timeseries for each  
+“Goederen” (assets) and “Dientsten” (services). Note that in this case
+all selected entries appear first, before the entries that have not been
+selected. That is because for this tab we have below “Order code table”
+(on the left side of the App) for “Selected First”. In this case this is
+useful, because the entry with Key 5000 is quite far appart from the
+other entries in the table.
+
+#### Timeseries names
+
+Function `get_ts` will create a timeseries for each  
 combination of selected “Topics” and “GoederenEnDiensten”. The names of
 the timeseries are created by pasting the texts in the Code columns for
-each dimension. In this case, the codes for “Topic” become the suffixes
-and the codes for `GoederenEnDiesnten` become the prefixes. So the names
-of the timeseries are `c___vi`, `c_govi`, `c_divi`, `c___wi`, `c_giwi`,
+each dimension. In this case, the codes for “Topic” are the suffixes and
+the codes for `GoederenEnDiensten` are the prefixes. So the names of the
+timeseries will be `c___vi`, `c_govi`, `c_divi`, `c___wi`, `c_giwi`,
 `c_divi`. Which dimension becomes the suffix and which dimension the
 prefix is determined by the ordering of the buttons `GoederenEnDiensten`
 and `Topic` above the table of keys and title (see the selection of the
@@ -94,12 +102,18 @@ Shiny App below).
 
 ![70076NED\_Topic](cbsots/vignettes/fig/70076NED_reorder.png)
 
-This order can be changed: mouse the mouse cursor to the button
-`GoederenEnDiensten`, then press the left mouse button and drag it to
-the right of button `Topic`. Now you can release the button. The result
-is that the `Topic` button appears first. the ordering of the Buttons is
-reversed. Then the timeseries names would become `vic___`, `vic_di`,
-etc.
+This ordering the these buttons can be changed: mouse the mouse cursor
+to the button `GoederenEnDiensten`, then press the left mouse button and
+drag it to the right of button `Topic`. Now you can release the button.
+The result is that the `Topic` button appears to left of de
+`GoederenEnDiensten` button. Then the timeseries names would become
+`vic___`, `vic_di`, etc.
+
+#### Saving changes
+
+A note: to save any changes made in the timeseries table, press the
+button “Save” to the left. The Shiny App does not automatically save
+changed.
 
 ## Function get\_ts
 

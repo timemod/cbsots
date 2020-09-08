@@ -8,7 +8,8 @@ language: r
 cache: packages
 
 before_install:
-  - R -e "install.packages(c('devtools','testthat'))"
+  - R -e "install.packages(c('devtools','testthat', 'drat'))"
+  - R -e "drat::addRepo('timemod');install.packages('regts')"
   - R -e "devtools::install_deps('./cbsots')"
   - cd ./cbsots
 
