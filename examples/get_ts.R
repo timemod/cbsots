@@ -6,17 +6,13 @@
 #  overizcht_xlsx  naam van xls-file met een overzicht van de CBS-tabellen die
 #                 gedownload en verwerkt moeten worden
 
-overzicht_xlsx <- "overzicht_opendata_fred.xlsx"
-output_dir <- "output/fred"
-code_file <- "tscode/tscode_fred.rds"
+overzicht_xlsx <- "overzicht_opendata.xlsx"
+output_dir <- "output"
+code_file <- "tscode/tscode.rds"
 
 library(cbsots)
 library(regts)
 library(readxl)
-
-suppressPackageStartupMessages(library("data.table"))
-
-options(java.parameters = "-Xmx8000m")
 
 overzicht <- read_excel(overzicht_xlsx, col_types = "text")
 
@@ -30,7 +26,7 @@ for (i in seq_len(nrow(overzicht))) {
       unlink(c(output_xlsx, output_rds))
       cat(paste0("\nInlezen van de ", naam_lang, "reeksen (CBS-tabel ",
                 id, ") ...\n"))
-      reeksen <- get_ts(id, table_codes, download = as.logical(download))
+      reeksen <- get_ts(id, table_codes, refresh = as.logical(refresh))
       write_table_ts_xlsx(reeksen, file = output_xlsx, 
                           rowwise = as.logical(output_rowwise))
       saveRDS(reeksen, output_rds)
