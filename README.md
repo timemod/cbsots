@@ -1,7 +1,7 @@
 cbsots
 ================
 Rob van Harrevelt
-2020-09-08
+2020-09-09
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -38,7 +38,7 @@ consists of two separate steps:
     timeseries coding read from the rds file created in step 1.
 
 Step 1 (using the Shiny App) is only necessary if you add a new table,
-or want to modify the timeseries coding for an existing table.
+or if you want to modify the timeseries coding for an existing table.
 
 # Installation
 
@@ -62,7 +62,7 @@ edit_ts_code("tscode.rds")
 ```
 
 The first argument (`"tscode.rds"`) specifies the name of the rds file
-were the timeseries coding is stored. The file does not have to exist
+where the timeseries coding is stored. The file does not have to exist
 yet. If it does not exist, then the file is created when the timeseries
 coding is saved.
 
@@ -97,12 +97,12 @@ example, we are only interest in indices for both volumes and values, so
 only the corresponding entries have been selected. The text in the Code
 column is used to create the timeseries names, as explained below.
 
-In the next figure the table for dimension “GoederenEnDiensten” (Goeds
+In the next figure the table for dimension “GoederenEnDiensten” (Goods
 and Services) is shown:
 
 ![](readme_data/CBS%20Timeseries%20Coding_GoederenEnDiensten.png)
 
-For this dimension I have select “Consumptie binnenland” (domestic
+For this dimension, I have selected “Consumptie binnenland” (domestic
 consumption), “Goederen” (Goods) and “Diensten” (Services).
 
 Function `get_ts` will create a timeseries for each combination of
@@ -125,8 +125,8 @@ release the button. As a result you would get:
 
 ![](readme_data/CBS%20Timeseries%20Coding_order_buttons_2.png)
 
-For this ordering the the timeseries names would become `vic___`,
-`vic_go`, etc.
+For this ordering, the timeseries names would become `vic___`, `vic_go`,
+etc.
 
 After making any changes to the timeseries coding, you should press the
 `Save codes` button on the lower left corner of the Shiny App. The Shiny
@@ -134,8 +134,8 @@ App does not automatically save changes.
 
 # Function get\_ts
 
-To create the timseries, first read the timeseries coding created by the
-Shiny App:
+To create the timeseries, first read the timeseries coding created by
+the Shiny App:
 
 ``` r
 ts_code <- readRDS("tscode.rds")
