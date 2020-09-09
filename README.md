@@ -71,7 +71,9 @@ provided in a future Tutorial and a Manual, which unfortunately still
 have to be written. In this README file the Shiny App will be presentled
 briefly to give you an idea about the basic functionality. Here is an
 example of the Shiny App with already specified timeseries coding for
-table `70076NED` (consumption in the Netherlands):
+table `70076NED` (consumption in the Netherlands) (some texts are quite
+small and may be difficult to read, but below I will zoom in on relevant
+parts of the Shiny App):
 
 ![The Shiny App](readme_data/CBS%20Timeseries%20Coding.png)
 
