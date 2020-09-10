@@ -1,3 +1,5 @@
+rm(list = ls())
+
 library(cbsots)
 
 ts_code_file <- "tscode/tscode_mlz.rds"
@@ -12,6 +14,6 @@ for (table_id in table_ids) {
   
   # store the timeseries in an Excel file
   write_table_ts_xlsx(data, 
-                      file.path("output", paste0("ts_", table_id, ".xlsx")), 
+                      file.path("output/mlz", paste0("ts_", table_id, ".xlsx")), 
                       rowwise = TRUE)
 }

@@ -1,13 +1,12 @@
 # R-script voor het downloaden van CBS-tabellen met behulp van pakket 
-# cbsodataR, en het omzetten van de CBS-data naar tijdreeksen volgens een 
-# bepaalde codering.
-#
-# PARAMETERS:
-#  overizcht_xlsx  naam van xls-file met een overzicht van de CBS-tabellen die
-#                 gedownload en verwerkt moeten worden
+# cbsots
 
+rm(list = ls())
+
+# naam van xls-file met een overzicht van de CBS-tabellen die gedownload en 
+# verwerkt moeten worden
 overzicht_xlsx <- "overzicht_opendata.xlsx"
-output_dir <- "output"
+output_dir <- "output/cbs"
 code_file <- "tscode/tscode.rds"
 
 library(cbsots)
