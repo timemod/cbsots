@@ -196,6 +196,4 @@ data
 
 [Reference manual](cbsots.pdf)
 
-<!--
-[Vignette](pkg/vignettes/cbsots.pdf)
--->
+[Vignette *cbsots Tutorial*](pkg/vignettes/cbsots_tutorial.pdf)

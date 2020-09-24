@@ -1,5 +1,5 @@
 ---
-title: "Tutorial for package cbsots"
+title: "cbsots Tutorial"
 author: "Rob van Harrevelt"
 date: '`r Sys.Date()`'
 output:
@@ -14,13 +14,15 @@ linkcolor: blue
 %\VignetteIndexEntry{Tutorial for package cbsots}
 -->
 
+```{r echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", prompt = TRUE)
+```
+
 # Introduction
 
-Package `cbsots` can be used to retrieve timeseries from the [CBS open data interface](http://www.cbs.nl/nl-NL/menu/cijfers/statline/open-data/default.htm)
-interface, employing package [cbsodataR](https://github.com/edwindj/cbsodataR).
-
 Package [cbsodataR](https://github.com/edwindj/cbsodataR) can be used
-to retrieve data of CBS tables using R code. Most tables are complex multi-dimensional tables,
+to retrieve data from the [CBS open data interface](http://www.cbs.nl/nl-NL/menu/cijfers/statline/open-data/default.htm)
+Most tables are complex multi-dimensional tables,
 and extracting timeseries with appropriate names will usually require 
 some further R programming. The purpose of `cbsots` is to take this programming off your hands.
 
@@ -42,7 +44,7 @@ Step 1 (using the Shiny App) is only necessary if you add a new table, or want
 to modify the timeseries coding for an existing table.
 
 In this tutorial, an example of this approach is presented.
-You can follow this tutotial step by step. 
+You can follow this tutorial step by step. 
 
 # Table 70076ned: consumption households \label{sec:table_70076ned}
 
@@ -92,7 +94,7 @@ The first argument (`"tscode.rds"`) specifies the name of the rds file were the
 timeseries coding is stored. The file should not exist yet at this point. 
 The Shiny App should now open in your internet browser:
 
-![The initial state of the Shiny App](fig/tutorial_empty.png)
+![](fig/tutorial_empty.png)
 
 # Creating a new table in the the Shiny App
 
@@ -127,7 +129,7 @@ Now information about table '"70076ned"` will be displayed in the Shiny App
 (some texts are quite small and may be difficult to read,
 but below I will zoom in on relevant parts of the Shiny App):
 
-![The Shiny App after opening table 70076ned](fig/tutorial_empty_table.png)
+![](fig/tutorial_empty_table.png)
 
 The right panel shows, among others, two tabs containing a table. Let us have 
 a closer look at the table in the selected tab:
@@ -240,4 +242,54 @@ Changes are not saved automatically. See the figure below):
 
 # Retrieving timeseries with get_ts
 
-TODO
+To create the timeseries, first read the timeseries coding created by the
+Shiny App:
+
+```{r include = FALSE}
+library(cbsots)
+file.copy("tutorial_data/tscode_final.rds", "tscode.rds")
+```
+
+```{r}
+ts_code <- readRDS("tscode.rds")
+```
+
+Then function `get_ts` can be used to finally create the timeseries:
+
+```{r}
+data <- get_ts("70076NED", ts_code)
+```
+
+The result is a list with class `table_ts`, with components `"Y"` (annual timeseries),
+`"Q"` (quarterly timeseries) and `"M"` (monthly timeseries):
+
+```{r}
+data
+```
+
+If you are only interested in, for example, annual timeseries, you can specify
+argument `frequencies = "Y"`. It is also possible to specify the mininum
+year (argument `min_year`). More details are provided in the description of
+function `get_ts`.
+
+By default, `get_ts` stores all data downloaded from the CBS in directory
+`raw_cbs_data`. The name of the directory can be specified with
+argument `raw_cbs_dir`. If you run `get_ts` a second time, you may notice
+that the result is much faster, because now the data in direcotry `raw_cbs_data`
+is read:
+```{r}
+data <- get_ts("70076NED", ts_code)
+```
+By default, `get_ts` only downloads data from the CBS is there is no
+data in directory `raw_cbs_data`, or if you 
+have selected a new key in a dimension for the timeseries coding. 
+This behaviour can be changed by specifying argument `refresh = TRUE`. In that
+casr data are always downloaded  from the CBS website, so that the 
+data returned by `get_ts` are always the actual values of the CBS data.
+There is also argument `download`: if `FALSE`, `get_ts` will never download data.
+For details, check the documentation of function `get_ts`.
+
+```{r echo = FALSE}
+unlink("raw_cbs_data", recursive = TRUE)
+unlink("tscode.rds")
+```
