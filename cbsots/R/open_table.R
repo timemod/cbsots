@@ -79,9 +79,8 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
     isolate({
       myTabs <- lapply(tab_names, make_panel)
       ret <- list(h3(paste("Tabel", values$table_desc)), br(),
-                  p(), 
-                  h5("Order used to create names"),
-                  orderInput(inputId = "order_input", label = NULL, 
+                  orderInput(inputId = "order_input", 
+                             label = "Order of dimensions used to create names:", 
                              items = values$ts_code[[table_id]]$order),
                   p(),p(),
                   tags$div(
