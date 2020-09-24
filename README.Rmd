@@ -111,8 +111,9 @@ For this dimension, I have selected  "Consumptie binnenland" (domestic consumpti
 "Goederen" (Goods) and "Diensten" (Services).
 
 Function `get_ts` will create a timeseries for each   combination of selected 
-"Topic" and "GoederenEnDiensten". The names of the timeseries
-are created by pasting the texts in the Code columns for each dimension.
+"Topic" and "GoederenEnDiensten".
+The names of the timeseries are created by pasting the texts in the Code columns 
+for each combination of "Topic" and "GoederenEnDiensten".
 In this case, the codes for "Topic" are the suffixes and the
 codes for "GoederenEnDiensten" are the prefixes. So the names of the timeseries
 will be `c___vi`, `c_govi`, `c_divi`,  `c___wi`, `c_gowi`, `c_divi`. 

@@ -3,14 +3,14 @@ title: "Tutorial for package cbsots"
 author: "Rob van Harrevelt"
 date: '`r Sys.Date()`'
 output:
-  rmarkdown::html_vignette:
+  pdf_document:
     toc: true
     toc_depth: 3
     number_sections: true
 linkcolor: blue    
 ---
 <!--
-%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEngine{knitr::bookdown}
 %\VignetteIndexEntry{Tutorial for package cbsots}
 -->
 
@@ -44,9 +44,10 @@ to modify the timeseries coding for an existing table.
 In this tutorial, an example of this approach is presented.
 You can follow this tutotial step by step. 
 
-# Table 70076ned: consumption households
+# Table 70076ned: consumption households \label{sec:table_70076ned}
 
-For this tutorial we will use CBS table `70076NED`, that contains the consumption
+
+For this tutorial we will use CBS table `70076ned`, that contains the consumption
 of households in the Netherlands for different kinds of goods
 and services. The table contains different types of
 consumption timeseries, such as volume changes, value changes,
@@ -64,60 +65,178 @@ The aim of this tutorial is to retrieve the following six timeseries:
 
 Name    | Dutch Description                          | English Desription
 ----    | ------------------                         | -------------------
-`c___vi` | Totale consumptie, volume-indexcijfers  | Volume total consumption, volume indices
-`c_divi` | Consumptie diensten, volume-indexcijfers  | Volume consumption services, volume indices
-`c_govi` | Consumptie goederen, volume-indexcijfers  | Volume consumption goods, volume indices
+`c___vi` | Totale consumptie, volume-indexcijfers    | Total consumption, volume indices
+`c_divi` | Consumptie diensten, volume-indexcijfers  | Consumption of services, volume indices
+`c_govi` | Consumptie goederen, volume-indexcijfers  | Consumption of goods, volume indices
 `c___wi` | Totale consumptie,   waarde-indexcijfers   | Total consumption, value indices
-`c_diwi` | Consumptie diensten, waarde-indexcijfers   | Consumption services, value indices
-`c_gowi` | Consumptie goederen, waarde-indexcijfers   | Consumption goods, value indices
+`c_diwi` | Consumptie diensten, waarde-indexcijfers   | Consumption of services, value indices
+`c_gowi` | Consumptie goederen, waarde-indexcijfers   | Consumption of goods, value indices
+
+Table: Table 1: Names of the timeseries that we want to retrieve from table `70076ned`
 
 All indices have base year 2000, so the timeseries have the value 100 in 2000.
 
-# Opening a table in the Shiny App
+# Starting the the Shiny App
 
-In the remaining part of this Tutotial, I will show how to obtain these timeseries
+In the remaining part of this Tutorial, I will show how to obtain these timeseries
 using `cbosts`. You can follow all examples step by step. Because
 the examples will create an rds file with timeseries coding, I recommend you to
 run the R code from a clean working directory.
 
-We start with the Shiny application:
+The first step is to start the Shiny app with function `edit_ts_code`:
 ```{r, eval = FALSE}
 library(cbsots)
 edit_ts_code("tscode.rds")
 ```
 The first argument (`"tscode.rds"`) specifies the name of the rds file were the 
-timeseries coding is stored. The file should not exist yet at this point.
+timeseries coding is stored. The file should not exist yet at this point. 
+The Shiny App should now open in your internet browser:
 
-![Empty Shiny App](fig/tutorial_empty.png)
+![The initial state of the Shiny App](fig/tutorial_empty.png)
 
-Since the file `"tscode.rds"` does not exist yet, the timeseries code
-is empty and there is not existing table yet.  To start, press the button   `New table`
-underneath the text `"Create new code table". After a while,
+# Creating a new table in the the Shiny App
+
+Since the file `"tscode.rds"` does not exist yet, there are no existing code 
+tables yet. To create the timseries coding for table `7006ned`,
+press the `New table` button
+underneath the text "Create new code table". After a while,
 a window titled "New table" (see the picture below) appears which allows you 
 to select from the list of available
 tables. There is some delay between the moment that you press the button and
-when the Windows appears, because it has to contact the CBS website to obtain
-the list of available tables.
+when the Windows appears, because a list of available tables has to be downloaded
+from the CBS website.
 
-![Open new table](fig/tutorial_new_table.png)
+![](fig/tutorial_new_table.png)
 
-In the drop down list, you can enter a search query (words or parts of words occuring in the 
-table description). In this case, type for example  `"consumptie"`. A list
-with all tables containing the word   `"consumptie"` in the table
-description. In the search query, you could also have entered for example, `"70076"`.
-From that list, select  `"70076ned - Bestedingen; consumptie huishoudens"`
-ans press o.k. Leave the second text field empty and press O.K.
+In the drop down list, you can enter a search query, for 
+example  `"consumptie"` (see the picture above). Now a list 
+of table titles containing the word `"consumptie"` appears. 
+Alternative, you could also have entered the search query `"70076"` to obtain
+a list of tables containing "70076" in the title (there is only one such table).
+From the list, select  `"70076ned - Bestedingen; consumptie huishoudens"`.
+Do not specify the base table^[The use of the base table will be described in 
+vignette "The CBS Timeseries Coding Shiny App", which unfortunately still has 
+to be written] in the second drop down list, and press the 
+`OK` button (see below):
+
+![](fig/tutorial_new_table_ok.png)
 
 
-![Open new table](fig/tutorial_new_table_ok.png)
 
-# Editing the timeseries coding
+Now information about table '"70076ned"` will be displayed in the Shiny App 
+(some texts are quite small and may be difficult to read,
+but below I will zoom in on relevant parts of the Shiny App):
 
-TODO
+![The Shiny App after opening table 70076ned](fig/tutorial_empty_table.png)
 
-# Ordering of dimensions
+The right panel shows, among others, two tabs containing a table. Let us have 
+a closer look at the table in the selected tab:
 
-TODO
+
+![](fig/tutorial_topic_empty.png)
+
+CBS table `70076ned`  contains two dimensions: "Topic" and "GoederenEnDiensten" (Goods and Services),
+besides the time dimension (years, quarters etc.) that is disregarded in the Shiny App. 
+Every CBS table has a dimension called "Topic", and usually has one or more extra dimensions,
+such as "GoederenEnDiensten" for this table.
+
+For this particular table, the different "Topics" correspond to different types of 
+consumption timeseries, for example volumemutaties (volume changes), waardemutaties (value changes),
+and indexcijfers (indices) for both volume and value.
+Each Topic has a *Key* (a short identifier)
+and a *Title* (a more detailed description). The *Select* and *Code* columns are the
+columns that can be modified.
+
+In the next figure upper part of the table for dimension "GoederenEnDiensten" (Goods and Services)
+is shown. This table is quite long (there are 38 rows), but only the first seven
+rows are shown. Here find entries for among others,  "Consumptie binnenland" (domestic consumption),
+"Goederen" (Goods), "Voedingsmiddelen" (nourishment), and "Aardappelen, groenten, en fruit" 
+(potatoes, vegatables and fruit).
+
+![](fig/tutorial_goederenendiensten_empty.png)
+
+# Selecting dimension keys
+
+This table contains 7 Topic and 38 entries for dimensions "GoederenEnDiensten",
+so there are 266 timeseries available for this table. 
+As explained in section \ref{sec:table_70076ned}, we are only interested in a 
+subset of 6 timeseries. The Select columns in the tables for "Topic" and
+"GoederenEnDiensten" determine which timeseries are downloaded.
+
+We are only interested in volume and value indices, so we start by selecting
+the corresponding Topics (move the mouse to the square and press the left mouse
+button):
+
+![](fig/tutorial_topic_selected.png)
+
+For the dimension "GoederenEnDiensten", select 
+the rows with titles `8000 - Binnenlandse consumtpie` (domestic consumption).
+`4005 - Goederen` (Goods)  and `5000 - Diensten` (Services). To select the last 
+row, scroll down the table.
+
+Because the selected rows are quite far apart in the table, we cannot see 
+at one glance which rows have been selected. It is possible to change 
+the order of the row so that selected rows appear first. On the left panel 
+of the Shiny App, underneath the text "Order code table", you can select
+the ordering type: "Original CBS order" (original order of selected table)
+or "Selected first" (selected rows appear first). See figure below:
+
+![](fig/tutorial_select_order.png)
+
+After changing the order from "Original CBS order" to "Selected first", the result is:
+
+![](fig/tutorial_goederenendiensten_selected.png)
+
+If you select another row, for example the row with Title "2000 - Genotmiddelen",
+then the ordering does not change immediately. Press the button `Reorder` to
+reorder the table again, so that all selected rows appear first in the table.
+
+# Specifying the Code 
+
+The next step is to fill in data  for the Code columns. The text in the
+Code columns are used to create timeseries names. 
+The names of the timeseries are created by pasting the texts in the Code columns 
+for each combination of "Topic" and "GoederenEnDiensten".
+
+As explained in Section \ref{sec:table_70076ned}, the names of the timeseries
+that we want to create should have a prefix based on the type of 
+"GoederenEnDiensten" (Goods and Services):  `c___ `   (total consumption), 
+`c_go` (goods), and `c_di ` (services). We also want suffix `vi` for volume indices
+and `wi` for value indices.
+
+However, by default the text in the code column for "Topic" are the 
+prefixes, and code for the second dimension (here "GoederenEnDiensten")
+the suffixes.^[If a table has more than two dimension, the code for the
+intermediate dimensions are used as infixes]. Which dimension is used for the 
+prefixes and which dimension for the suffixes is determined by the ordering of 
+the buttons above the
+tabs with dimension table, above the Search text field. 
+See the selection of the Shiny App below:
+
+![](fig/tutorial_order_buttons_default.png)
+
+The ordering the these buttons can be changed in the Shiny App: 
+move the mouse cursor to the button `Topic`,
+then press the left mouse button and drag it to the right of button `Topic`. 
+Now you can release
+the button. As a result you will get:
+
+![](fig/tutorial_order_buttons_fixed.png)
+
+Now fill in the Code columns for selected rows:
+
+![](fig/tutorial_topic_final.png)
+
+![](fig/tutorial_goederenendiensten_final.png)
+
+# Saving the timeseries coding
+
+
+The final step is to save the timeseries coding to a file `"tscode.rds"`:
+press the `Save codes` buttons on the lower left side of the Shiny App.
+Changes are not saved automatically. See the figure below):
+
+![](fig/tutorial_save.png)
 
 # Retrieving timeseries with get_ts
 

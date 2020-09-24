@@ -1,7 +1,7 @@
 cbsots
 ================
 Rob van Harrevelt
-2020-09-09
+2020-09-24
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -109,14 +109,15 @@ consumption), “Goederen” (Goods) and “Diensten” (Services).
 
 Function `get_ts` will create a timeseries for each combination of
 selected “Topic” and “GoederenEnDiensten”. The names of the timeseries
-are created by pasting the texts in the Code columns for each dimension.
-In this case, the codes for “Topic” are the suffixes and the codes for
-“GoederenEnDiensten” are the prefixes. So the names of the timeseries
-will be `c___vi`, `c_govi`, `c_divi`, `c___wi`, `c_gowi`, `c_divi`.
-Which dimension is used for the prefixes and which dimension for the
-suffixes of the timeseries names is determined by the ordering of the
-buttons above the tabs with dimension table, above the Search text
-field. See the selection of the Shiny App below:
+are created by pasting the texts in the Code columns for each
+combination of “Topic” and “GoederenEnDiensten”. In this case, the codes
+for “Topic” are the suffixes and the codes for “GoederenEnDiensten” are
+the prefixes. So the names of the timeseries will be `c___vi`, `c_govi`,
+`c_divi`, `c___wi`, `c_gowi`, `c_divi`. Which dimension is used for the
+prefixes and which dimension for the suffixes of the timeseries names is
+determined by the ordering of the buttons above the tabs with dimension
+table, above the Search text field. See the selection of the Shiny App
+below:
 
 ![](readme_data/CBS%20Timeseries%20Coding_order_buttons.png)
 
@@ -165,6 +166,7 @@ data <- get_ts("70076NED", ts_code, frequencies = "yq",
 
     ## http://opendata.cbs.nl/ODataFeed/odata/70076ned/TypedDataSet?$format=json&$filter=(Perioden%20eq%20'2017KW01'%20or%20Perioden%20eq%20'2017KW02'%20or%20Perioden%20eq%20'2017KW03'%20or%20Perioden%20eq%20'2017KW04'%20or%20Perioden%20eq%20'2017JJ00'%20or%20Perioden%20eq%20'2018KW01'%20or%20Perioden%20eq%20'2018KW02'%20or%20Perioden%20eq%20'2018KW03'%20or%20Perioden%20eq%20'2018KW04'%20or%20Perioden%20eq%20'2018JJ00'%20or%20Perioden%20eq%20'2019KW01'%20or%20Perioden%20eq%20'2019KW02')%20and%20(GoederenEnDiensten%20eq%20'%20%20%20%20%20%208000'%20or%20GoederenEnDiensten%20eq%20'%20%20%20%20%20%204005'%20or%20GoederenEnDiensten%20eq%20'%20%20%20%20%20%205000')
 
+    ## 
     ## Done!
 
 The result is a list with class `table_ts`, with components `"Y"`
