@@ -72,8 +72,8 @@ timeseries coding is stored. The file does not have to exist yet. If it does
 not exist, then the file is created when the timeseries coding is saved.
 
 More information about the Shiny App "CBS Timeseries Coding" will be provided in 
-a future Tutorial and a Manual, which unfortunately still have to be written.
-In this README file the Shiny App will be presentled briefly to give you
+the  ([*cbsots Tutorial*](pkg/vignettes/cbsots_tutorial.pdf)).
+In this README file the Shiny App will be presented briefly to give you
 an idea about the basic functionality. Here is an example of the Shiny App with already 
 specified timeseries coding for table `70076NED` (consumption
 in the Netherlands) (some texts are quite small and may be difficult to read,

@@ -1,7 +1,7 @@
 cbsots
 ================
 Rob van Harrevelt
-2020-09-24
+2020-09-29
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -67,13 +67,13 @@ yet. If it does not exist, then the file is created when the timeseries
 coding is saved.
 
 More information about the Shiny App “CBS Timeseries Coding” will be
-provided in a future Tutorial and a Manual, which unfortunately still
-have to be written. In this README file the Shiny App will be presentled
-briefly to give you an idea about the basic functionality. Here is an
-example of the Shiny App with already specified timeseries coding for
-table `70076NED` (consumption in the Netherlands) (some texts are quite
-small and may be difficult to read, but below I will zoom in on relevant
-parts of the Shiny App):
+provided in the ([*cbsots
+Tutorial*](pkg/vignettes/cbsots_tutorial.pdf)). In this README file the
+Shiny App will be presented briefly to give you an idea about the basic
+functionality. Here is an example of the Shiny App with already
+specified timeseries coding for table `70076NED` (consumption in the
+Netherlands) (some texts are quite small and may be difficult to read,
+but below I will zoom in on relevant parts of the Shiny App):
 
 ![The Shiny App](readme_data/CBS%20Timeseries%20Coding.png)
 
