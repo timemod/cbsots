@@ -83,23 +83,26 @@ All indices have base year 2000, so the timeseries have the value 100 in 2000.
 In the remaining part of this Tutorial, I will show how to obtain these timeseries
 using `cbosts`. You can follow all examples step by step. Because
 the examples will create an rds file with timeseries coding, I recommend you to
-run the R code from a clean working directory.
+run the R code from a clean working directory and 
+set the working directory to this new directory, 
+for example using R command `setwd`.
 
 The first step is to start the Shiny App with function `edit_ts_code`:
 ```{r, eval = FALSE}
 library(cbsots)
 edit_ts_code("tscode.rds")
 ```
-The first argument (`"tscode.rds"`) specifies the name of the rds file were the 
-timeseries coding is stored. The file should not exist yet at this point. 
+The first argument (`"tscode.rds"`) specifies the name of the rds file in the
+current working directory in which the timeseries coding is stored. 
+The file should not exist yet at this point. 
 The Shiny App should now open in your internet browser:
 
 ![](fig/tutorial_empty.png)
 
-# Creating a new table in the the Shiny App
+# Creating a new table in the Shiny App
 
 Since the file `"tscode.rds"` does not exist yet, there are no existing code 
-tables yet. To create the timseries coding for table `7006ned`,
+tables yet. To create the timeseries coding for table `70076ned`,
 press the `New table` button
 underneath the text "Create new code table". After a while,
 a window titled "New table" (see the picture below) appears, which allows you 
@@ -125,7 +128,7 @@ to be written] in the second drop down list, and press the
 
 
 
-Now information about table '"70076ned"` will be displayed in the Shiny App 
+Now information about table `"70076ned"` will be displayed in the Shiny App 
 (some texts are quite small and may be difficult to read,
 but below I will zoom in on relevant parts of the Shiny App):
 
@@ -231,14 +234,31 @@ Now fill in the Code columns for selected rows:
 
 ![](fig/tutorial_goederenendiensten_final.png)
 
+
 # Saving the timeseries coding
 
-
-The final step is to save the timeseries coding to a file `"tscode.rds"`:
+The final step is to save the timeseries coding:
 press the `Save codes` buttons on the lower left side of the Shiny App.
 Changes are not saved automatically. See the figure below:
 
 ![](fig/tutorial_save.png)
+
+The timeseries coding is saved to file `"tscode.rds"` in the current
+working directory.
+
+# The code tables \label{sec:tables}
+
+We are now finished with the timeseries coding for
+table `70076ned`. If you select the drop-downlist underneath the
+text `Open existing code table`, you will find this table: 
+
+![](fig/tutorial_tables.png)
+
+The timeseries coding written to `"tscode.rds"` now contains the timeseries
+coding for one table.
+We can add another table by pressing the button `New table`. 
+In typical applications of `cbsots`, the timeseries coding managed by the 
+Shiny App contains about 10-20 tables.
 
 # Retrieving timeseries with get_ts
 
@@ -254,14 +274,21 @@ file.copy("tutorial_data/tscode_final.rds", "tscode.rds")
 ts_code <- readRDS("tscode.rds")
 ```
 
-Then function `get_ts` can be used to finally create the timeseries:
-
+Then function `get_ts` can be used to finally create the timeseries
+for table `"20076ned"`. 
 ```{r}
-data <- get_ts("70076NED", ts_code)
+data <- get_ts("70076ned", ts_code)
 ```
 
-The result is a list with class `table_ts`, with components `"Y"` (annual timeseries),
-`"Q"` (quarterly timeseries) and `"M"` (monthly timeseries):
+Note that the first argument passed to `get_ts` is the identity
+of the table (`"70076ned"`). In this example this may seem superfluous,
+because the `tscode` contain the timeseries coding for just this table.
+However, as explained in Section \ref{sec:tables}, there are typically
+multiple tables stored in the timeseries coding object.
+
+The result of `get_ts` is a list with class `table_ts`, with components 
+`"Y"` (annual timeseries), `"Q"` (quarterly timeseries) and 
+`"M"` (monthly timeseries):
 
 ```{r}
 data
@@ -273,14 +300,15 @@ year (argument `min_year`). More details are provided in the description of
 function `get_ts`.
 
 By default, `get_ts` stores all data downloaded from the CBS in directory
-`raw_cbs_data`. The name of thus directory can be specified with
+`raw_cbs_data` in the current working directory.
+The name of this directory can be specified with
 argument `raw_cbs_dir`. If you run `get_ts` a second time, you may notice
 that the result appears much faster, because now the data in directory `raw_cbs_data`
 is read:
 ```{r}
 data <- get_ts("70076NED", ts_code)
 ```
-By default, `get_ts` only downloads data from the CBS is there is no
+By default, `get_ts` only downloads data from the CBS if there is no
 data in directory `raw_cbs_data`, or if you 
 have modified the timeseries coding with the Shiny App and have selected a key 
 that was previously not selected. 
@@ -288,7 +316,6 @@ Otherwise, `get_ts` just reads the previously downloaded data.
 This behaviour can be changed by specifying argument `refresh = TRUE`. In that
 case, data are always downloaded from the CBS website, so that the 
 data returned by `get_ts` always contain the most recent values.
-For details, check the documentation of function `get_ts`.
 
 ```{r echo = FALSE}
 unlink("raw_cbs_data", recursive = TRUE)
