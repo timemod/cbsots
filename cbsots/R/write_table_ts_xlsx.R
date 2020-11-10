@@ -87,10 +87,13 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
   
   minWidth_old <- options("openxlsx.minWidth")[[1]]
   options("openxlsx.minWidth" = 8.43)
+  tryCatch({
+    result <- saveWorkbook(wb, file, overwrite = TRUE, returnValue = TRUE)
+    if (!isTRUE(result)) stop(result$message, call. = FALSE)
+  }, finally = {
+    options("openxlsx.minWidth" = minWidth_old)
+  })
   
-  saveWorkbook(wb, file, overwrite = TRUE)
-  
-  options("openxlsx.minWidth" = minWidth_old)
   
   return(invisible(NULL))
 }
