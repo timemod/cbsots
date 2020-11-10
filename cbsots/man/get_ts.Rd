@@ -5,8 +5,8 @@
 \title{Return CBS timeseries}
 \usage{
 get_ts(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-  include_meta = FALSE, min_year = NULL, frequencies = NULL,
-  download, base_url = NULL, download_all_keys = FALSE)
+  include_meta = FALSE, min_year = NULL, frequencies = NULL, download,
+  base_url = NULL, download_all_keys = FALSE)
 }
 \arguments{
 \item{id}{table id}
@@ -16,50 +16,50 @@ and modified with function \code{\link{edit_ts_code}}, which starts a Shiny
 app.}
 
 \item{refresh}{should the data in directory \code{raw_cbs_dir} be refreshed?
-If \code{TRUE}, the data are always downloaded from the 
-CBS website. Otherwise  the data will only be downloaded if the 
-correspondings files in directory \code{raw_cbs_dir} are missing or not 
+If \code{TRUE}, the data are always downloaded from the
+CBS website. Otherwise  the data will only be downloaded if the
+correspondings files in directory \code{raw_cbs_dir} are missing or not
 complete (missing dimension keys). The default is \code{FALSE}.
-Note that data may also be downloaded when new keys are selected 
+Note that data may also be downloaded when new keys are selected
 in the timeseries coding.}
 
 \item{raw_cbs_dir}{directory where the raw downloaded data are stored.}
 
 \item{include_meta}{include meta data}
 
-\item{min_year}{the minimum year of the returned timeseries. Data 
+\item{min_year}{the minimum year of the returned timeseries. Data
 for years before \code{min_year} are disregarded. Specify \code{NULL}
 or \code{NA} to not impose a minimum year}
 
-\item{frequencies}{a character specifying the frequencies of the 
+\item{frequencies}{a character specifying the frequencies of the
 required timeseries. For example, specify \code{"Q"} for quarterly series only,
-\code{"YQ"} for both yearly and quarterly series, and \code{"M"} for 
+\code{"YQ"} for both yearly and quarterly series, and \code{"M"} for
 monthly series only.}
 
 \item{download}{This argument overrules argument \code{refresh}. If \code{FALSE},
 then data all never downloaded again. You will get an error if the files in
-directory \code{raw_cbs_dir} are missing or not 
-complete (missing dimension keys). If \code{TRUE} then data are always 
+directory \code{raw_cbs_dir} are missing or not
+complete (missing dimension keys). If \code{TRUE} then data are always
 downloaded.}
 
 \item{base_url}{optionally specify a different server. Useful for third party
 data services implementing the same protocol.}
 
 \item{download_all_keys}{This option specifies how to download data. By default,
-for each table dimension (excluding the topic) only the selected keys in the 
-timeseries coding are downloaded.  Although this can significantly reduce 
-downloading  time, this approach has the disadvantage that it is necessary to 
-download the data again when a new dimension key is selected in the 
+for each table dimension (excluding the topic) only the selected keys in the
+timeseries coding are downloaded.  Although this can significantly reduce
+downloading  time, this approach has the disadvantage that it is necessary to
+download the data again when a new dimension key is selected in the
 timeseries coding. To prevent that, use argument \code{download_all_keys = TRUE},
 then all keys are downloaded for each dimension.}
 }
 \value{
 a list with class \code{table_ts}, with the following components
- \item{Y}{Yearly timeseries (if present)}
- \item{Q}{Quarterly timeseries (if present)}
- \item{M}{Monthly timeseries (if present)}
- \item{ts_names}{A data frame with an overview of the timeseries names}
- \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
+\item{Y}{Yearly timeseries (if present)}
+\item{Q}{Quarterly timeseries (if present)}
+\item{M}{Monthly timeseries (if present)}
+\item{ts_names}{A data frame with an overview of the timeseries names}
+\item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
 }
 \description{
 Return CBS timeseries

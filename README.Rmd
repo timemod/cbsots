@@ -168,6 +168,6 @@ unlink("tscode.rds")
 
 # Further Documentation
 
-[Reference manual](cbsots.pdf)
+[Reference manual](cbsots/vignettes/cbsots_refman.pdf)
 
-[Vignette *cbsots Tutorial*](pkg/vignettes/cbsots_tutorial.pdf)
+[Vignette *cbsots Tutorial*](cbsots/vignettes/cbsots_tutorial.pdf)

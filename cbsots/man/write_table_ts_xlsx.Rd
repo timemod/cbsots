@@ -14,7 +14,7 @@ write_table_ts_xlsx(x, file, rowwise = TRUE, ...)
 
 \item{rowwise}{a logical value: should the timeseries be written rowwise?}
 
-\item{...}{other arguments passed to 
+\item{...}{other arguments passed to
 \code{\link[regts:write_ts_xlsx-slash-write_ts_sheet]{write_ts_xlsx}}}
 }
 \description{

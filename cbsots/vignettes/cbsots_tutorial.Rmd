@@ -316,6 +316,7 @@ Otherwise, `get_ts` just reads the previously downloaded data.
 This behaviour can be changed by specifying argument `refresh = TRUE`. In that
 case, data are always downloaded from the CBS website, so that the 
 data returned by `get_ts` always contain the most recent values.
+For more details, consult the [_Reference Manual_](cbsots_refman.pdf).
 
 ```{r echo = FALSE}
 unlink("raw_cbs_data", recursive = TRUE)

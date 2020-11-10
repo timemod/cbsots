@@ -1,7 +1,7 @@
 cbsots
 ================
 Rob van Harrevelt
-2020-09-29
+2020-11-10
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -194,6 +194,6 @@ data
 
 # Further Documentation
 
-[Reference manual](cbsots.pdf)
+[Reference manual](cbsots/vignettes/cbsots_refman.pdf)
 
-[Vignette *cbsots Tutorial*](pkg/vignettes/cbsots_tutorial.pdf)
+[Vignette *cbsots Tutorial*](cbsots/vignettes/cbsots_tutorial.pdf)

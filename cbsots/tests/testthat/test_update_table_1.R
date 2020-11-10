@@ -13,7 +13,7 @@ id <- "83028NED"
 ts_code_file_old <- paste0("tscode/tscode_", id, "_old.rds") 
 ts_code <- readRDS(ts_code_file_old)
 
-#edit_ts_code(ts_code_file = ts_code_file_old)
+edit_ts_code(ts_code_file = ts_code_file_old)
 
 test_that(paste("update", id),  {
   

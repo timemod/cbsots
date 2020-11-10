@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 cbsots/inst/doc
-cbsots.log
+refman.log
 cbsots.Rcheck
 cbsots*zip
 cbsots*tar.gz
