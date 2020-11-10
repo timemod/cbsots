@@ -58,7 +58,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   }
   
   ui <- fluidPage(
-    
+
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
     
     useShinyalert(),  # Set up shinyalert
@@ -211,6 +211,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
           base_table <- values$ts_code[[base_table_id]]
           ret <- call_update_table(values$new_table, base_table, new_table_id,
                                    base_table_id)
+          if (is.null(ret)) return()
           values$new_table <- ret$new_table
           if (length(ret$warnings) > 0) {
             showWarningsDialog(ret$warnings, "filled_table_ok")
@@ -342,6 +343,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       if (!is.na(id)) {
         new_table <- create_new_table(id, base_url)
         ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
+        if (is.null(ret)) return() # something went wrong
         values$new_table <- ret$new_table
         if (length(ret$warnings) > 0) {
           showWarningsDialog(ret$warnings, "update_table_ok")
