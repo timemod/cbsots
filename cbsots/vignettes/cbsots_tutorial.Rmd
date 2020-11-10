@@ -8,11 +8,11 @@ output:
     toc_depth: 3
     number_sections: true
 linkcolor: blue    
+vignette: |
+  %\VignetteIndexEntry{cbsots Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-<!--
-%\VignetteEngine{knitr::bookdown}
-%\VignetteIndexEntry{Tutorial for package cbsots}
--->
 
 ```{r echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = FALSE, comment = "", prompt = TRUE)
