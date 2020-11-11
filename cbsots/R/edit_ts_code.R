@@ -519,8 +519,9 @@ find_browser <- function(browser) {
   if (.Platform$OS.type != "windows") {
     return(options("browser")$browser)
   } else {
-    paths <- c("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
-               "C:/progs/Google/Chrome/Application/chrome.exe",
+    paths <- c("C:/progs/Google/Chrome/Application/chrome.exe",
+               "D:/progs/Google/Chrome/Application/chrome.exe",
+               "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
                "c:/Program Files/Mozilla Firefox/firefox.exe")
                
     for (path in paths) {
@@ -528,8 +529,8 @@ find_browser <- function(browser) {
         return(path)
       }
     }
-    stop(paste("Unable to find Chrome or FireFox on Windows.\n",
-               "Use argument use_browser = FALSE or specify the path of the",
-               "browser with argument browser."))
+    stop("Unable to find Chrome or FireFox on Windows.\n",
+         "Use argument use_browser = FALSE or specify the path of the",
+         " browser with argument browser.")
   }
 }
