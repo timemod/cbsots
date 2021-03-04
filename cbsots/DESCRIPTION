@@ -20,7 +20,7 @@ Imports:
     data.table,
     openxlsx (>= 4.2.2),
     shiny,
-    shinyjqui (>= 0.2.9001),
+    shinyjqui (>= 0.4.0),
     htmlwidgets,
     jsonlite,
     shinyalert,

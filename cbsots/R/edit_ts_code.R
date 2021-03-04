@@ -163,7 +163,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (!is.na(values$table_id)) {
         # save ordering current table
-        values$ts_code[[values$table_id]]$order <- input$order_input_order
+        values$ts_code[[values$table_id]]$order <- input$order_input
       }
       
       values$table_id <- new_table_id
@@ -474,9 +474,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       # reorder the table in the current tab
       reorder_table()
       
-      # save ordering    
-      values$ts_code[[values$table_id]]$order <- input$order_input_order
-      
+      # save ordering  
+      values$ts_code[[values$table_id]]$order <- input$order_input
       if (debug) {
         cat("saving ts_code\n")
         print(values$ts_code)
