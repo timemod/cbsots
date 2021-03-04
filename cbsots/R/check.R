@@ -34,7 +34,7 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
     cbs <- cbs_code[[name]]
     
     # check that all non-empty codes are unique
-    codes <- tscode$Code
+    codes <- selected_tscode$Code
     codes <- codes[nchar(codes) > 0]
     if (anyDuplicated(codes)) {
       duplicates <- unique(codes[duplicated(codes)])
