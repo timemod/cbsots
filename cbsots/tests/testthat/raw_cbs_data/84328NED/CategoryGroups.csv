@@ -1,0 +1,79 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"BedrijfstakkenEnSectoren","SBI 2008","De Nederlandse hiërarchische indeling van economische activiteiten die door het CBS wordt gebruikt om bedrijfseenheden in te delen naar hun hoofdactiviteit. De SBI 2008 is de versie die vanaf 2008 gebruikt wordt.
+
+""Bedrijfstak"" of ""branche"" zijn gangbare termen voor groepen van bedrijven met dezelfde hoofdactiviteit.",
+1,"BedrijfstakkenEnSectoren","Totaal",,0
+2,"BedrijfstakkenEnSectoren","A-U Alle economische activiteiten",,1
+3,"BedrijfstakkenEnSectoren","A-U Alle economische activiteiten",,2
+4,"BedrijfstakkenEnSectoren","Bedrijfstakken 1e digit","De Nederlandse hiërarchische indeling van economische activiteiten die door het CBS wordt gebruikt om bedrijfseenheden in te delen naar hun hoofdactiviteit. De SBI 2008 is de versie die vanaf 2008 gebruikt wordt.
+
+""Bedrijfstak"" of ""branche"" zijn gangbare termen voor groepen van bedrijven met dezelfde hoofdactivite",0
+5,"BedrijfstakkenEnSectoren","Bedrijfstakken 1e digit","De Nederlandse hiërarchische indeling van economische activiteiten die door het CBS wordt gebruikt om bedrijfseenheden in te delen naar hun hoofdactiviteit. De SBI 2008 is de versie die vanaf 2008 gebruikt wordt.
+
+""Bedrijfstak"" of ""branche"" zijn gangbare termen voor groepen van bedrijven met dezelfde hoofdactiviteit.",4
+6,"BedrijfstakkenEnSectoren","Bedrijfstakken 1e digit","",5
+7,"BedrijfstakkenEnSectoren","Samentellingen bedrijfstakken 1e digit","",5
+8,"BedrijfstakkenEnSectoren","Bedrijfstakken 2e digit, naar 1e digit","De Nederlandse hiërarchische indeling van economische activiteiten die door het CBS wordt gebruikt om bedrijfseenheden in te delen naar hun hoofdactiviteit. De SBI 2008 is de versie die vanaf 2008 gebruikt wordt.
+
+""Bedrijfstak"" of ""branche"" zijn gangbare termen voor groepen van bedrijven met dezelfde hoofdactiviteit.",0
+9,"BedrijfstakkenEnSectoren","C Industrie","Deze sectie omvat:
+
+- de mechanische, fysische of chemische verwerking van materialen, stoffen of onderdelen tot nieuwe producten. De verwerkte materialen, stoffen of onderdelen zijn grondstoffen uit de landbouw, bosbouw, visserij en mijnbouw, alsmede (half)fabricaten uit de industrie.
+
+- reparatie en installatie van machines, apparatuur en andere benodigdheden voor bedrijven (geen consumentengoederen).
+
+Bij de eenheden in deze sectie gaat het vaak om fabrieken waar gewoonlijk machines en apparaten worden gebruikt. Eenheden waar materialen of stoffen met de hand of in de eigen woning tot nieuwe producten worden verwerkt en die producten op de plaats waar deze zijn gemaakt, zelf verkopen, zoals bakkerijen en kleermakerijen, vallen echter ook onder deze sectie.
+
+Industriële eenheden kunnen materialen zelf verwerken of dit aan andere eenheden uitbesteden.  In beide gevallen valt dit onder de sectie Industrie.
+
+Reparatie van huishoudelijke apparaten en consumptiegoederen wordt ingedeeld in afdeling 95; de reparatie van (bedrijfs-)auto's en motoren in afdeling 45: de autobranche.
+
+De vervaardiging van specifieke componenten en onderdelen, toebehoren en hulpstukken voor machines en apparaten wordt gewoonlijk ingedeeld in dezelfde klasse als de vervaardiging van de desbetreffende machines en apparaten.
+
+De vervaardiging van niet-specifieke componenten en onderdelen voor machines en apparatuur, zoals motoren, zuigers, elektromotoren, elektroinstallatiemateriaal, kleppen, kogellagers, rollagers, worden in de passende klasse van de sectie industrie ingedeeld.
+
+De sectie omvat niet:
+
+- activiteiten die niet leiden tot een nieuw product, maar tot een gewijzigde versie van hetzelfde product:
+
+* het opsplitsen van partijen stukgoederen in kleinere partijen, inclusief het verpakken, herverpakken;
+
+* het bottelen van producten als alcoholhoudende dranken of chemicaliën;
+
+* de montage van computers volgens de specifieke wensen van een klant;
+
+* het mengen van verf;
+
+Deze activiteiten worden ingedeeld in sectie G (groothandel en
+
+detailhandel).",8
+10,"BedrijfstakkenEnSectoren","J Informatie en communicatie","Deze sectie omvat:
+
+- de productie en distributie van informatie, de voorziening van de infrastructuur om die informatie door te geven, alsmede activiteiten op het gebied van data- en communicatie-informatietechnologie en het bewerken van data en andere informatie.
+
+De belangrijkste activiteiten die hier ingedeeld worden zijn het uitgeven (afdeling 58, incl. het uitgeven van software), productie van films en geluidsopnamen (afdeling 59) radio en TV (afdeling 60), telecommunicatie (afdeling 61), informatietechnologie (afdeling 62) en andere dienstverlening op het gebied van informatie (afdeling 63).
+
+Uitgeven omvat ook het verkrijgen van de copyrights voor de content (informatieproducten) en het toegankelijk maken hiervan voor een breed publiek.
+
+Alle mogelijke vormen van uitgeven vallen onder deze sectie (in drukvorm, elektronisch of audio, op het internet, als multimediaproduct enzovoorts).",8
+11,"BedrijfstakkenEnSectoren","M Specialistische zakelijke diensten","Deze sectie omvat:
+
+- gespecialiseerde professionele wetenschappelijke en technische activiteiten. Deze activiteiten vereisen een hoge opleiding en stellen specifieke kennis ter beschikking.",8
+12,"BedrijfstakkenEnSectoren","Q Gezondheids- en welzijnszorg","Deze sectie omvat:
+
+- behandeling in algemene en gespecialiseerde ziekenhuizen;
+
+- geestelijke gezondheidszorg en verslavingszorg, eventueel in combinatie met overnachting;
+
+- behandeling door medische en paramedische praktijken;
+
+- ondersteunende activiteiten voor de gezondheidszorg, door bijvoorbeeld laboratoria en ambulancediensten;
+
+- verpleging, verzorging of begeleiding met huisvesting door bijvoorbeeld verpleeg- en verzorgingshuizen of via begeleid wonen;
+
+- welzijnszorg, zoals thuiszorg, lokaal welzijnswerk en hulp aan gehandicapten en ouderen;
+
+- kinderopvang.",8
+13,"BedrijfstakkenEnSectoren","Samentellingen Bedrijfstakken 2e digit","",8
+14,"BedrijfstakkenEnSectoren","Sectoren","Institutionele sectoren volgens het Europees systeem van rekeningen 2010.",0
+15,"BedrijfstakkenEnSectoren","Sectoren",,14

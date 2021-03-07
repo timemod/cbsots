@@ -1,0 +1,271 @@
+"Key","Title","Description","CategoryGroupID"
+"T001081","A-U Alle economische activiteiten","Alle economische activiteiten 
+Deze categorie is een samentelling van categorieën: 
+A Landbouw, bosbouw en visserij 
+B Winning van delfstoffen 
+C Industrie 
+D Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht 
+E Winning en distributie van water; afval- en afvalwaterbeheer en sanering 
+F Bouwnijverheid 
+G Groot- en detailhandel; reparatie van auto's 
+H Vervoer en opslag 
+I Logies-, maaltijd- en drankverstrekking 
+J Informatie en communicatie 
+K Financiële instellingen 
+L Verhuur van en handel in onroerend goed 
+M Advisering, onderzoek en overige specialistische zakelijke dienstverlening 
+N Verhuur van roerende goederen en overige zakelijke dienstverlening 
+O Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen 
+P Onderwijs 
+Q Gezondheids- en welzijnszorg 
+R Cultuur, sport en recreatie 
+S Overige dienstverlening 
+T Huishoudens als werkgever; niet-gedifferentieerde productie van goederen en diensten door huishoudens voor eigen gebruik 
+U Extraterritoriale organisaties en lichamen",3
+"A044924","Totale binnenlandse sectoren",,15
+"A044925","Niet-financiële vennootschappen","De sector niet-financiële vennootschappen bevat alle vennootschappen met als hoofdfunctie het produceren van goederen en verhandelbare niet-financiële diensten. ",15
+"A044926","Financiële instellingen","De sector financiële instellingen bevat alle (quasi-)vennootschappen met als hoofdfunctie financiële intermediatie, dat wil zeggen het aantrekken, transformeren en distribueren van financiële middelen of het verlenen van financiële hulpdiensten. Ook vennootschappen die financiële diensten verstrekken en die het merendeel van hetzij hun activa hetzij hun passiva niet op open markten verhandelen behoren tot de sector financiële instellingen.",15
+"A044938","Overheid","De overheid bestaat ten eerste uit eenheden die uitvoerende, wetgevende en rechterlijke bevoegdheden op nationaal of regionaal niveau hebben. Zij hebben daarmee de bevoegdheid belastingen en andere verplichte heffingen op te leggen en wetten vast te stellen die het gedrag van economische eenheden beïnvloeden. Het gaat hierbij in Nederland om de Rijksoverheid, gemeenten, provincies, waterschappen en dergelijke. Daarnaast worden die instellingen tot de overheid gerekend die gecontroleerd worden door de eerder genoemde eenheden, én daarbij niet voor de markt produceren. 
+De sector overheid bestaat uit drie subsectoren: centrale overheid, lokale overheid en socialezekerheidsfondsen.",15
+"A044945","Huishoudens incl. IZW's t.b.v. huish.","Huishoudens inclusief Instellingen zonder winstoogmerk ten behoeve van de huishoudens (IZWh). 
+ 
+Tot de sector huishoudens behoren alle natuurlijke personen die langer dan een jaar in Nederland verblijven, ongeacht hun nationaliteit. Omgekeerd worden Nederlanders die langer dan een jaar in het buitenland verblijven niet tot de Nederlandse huishoudens gerekend. 
+Huishoudens omvatten niet alleen op zichzelf of in gezinsverband wonende personen, maar ook personen in verpleeginrichtingen, bejaardentehuizen, gevangenissen en internaten. 
+Indien de tot de huishoudens gerekende personen een eigen bedrijf hebben, wordt dit bedrijf ook tot de huishoudens gerekend. Dit is het geval bij de zelfstandigen (eenmanszaken). Grote, zelfstandig opererende ondernemingen zonder rechtspersoonlijkheid (quasi-vennootschappen) behoren echter tot de (niet-financiële of financiële) vennootschappen. 
+ 
+Tot de sector instellingen zonder winstoogmerk ten behoeve van de huishouden (IZW huishoudens) behoren stichtingen en verenigingen waarvan de middelen voor het merendeel afkomstig zijn uit vrijwillige bijdragen van huishoudens en uit inkomen uit vermogen. Voorbeelden zijn religieuze instellingen, liefdadigheidsinstellingen, politieke partijen, vakbonden en verenigingen op het gebied van cultuur, sport en recreatie.",15
+"A044946","Huishoudens","Tot de sector huishoudens behoren alle natuurlijke personen die langer dan een jaar in Nederland verblijven, ongeacht hun nationaliteit. Omgekeerd worden Nederlanders die langer dan een jaar in het buitenland verblijven niet tot de Nederlandse huishoudens gerekend. 
+Huishoudens omvatten niet alleen op zichzelf of in gezinsverband wonende personen, maar ook personen in verpleeginrichtingen, bejaardentehuizen, gevangenissen en internaten. 
+Indien de tot de huishoudens gerekende personen een eigen bedrijf hebben, wordt dit bedrijf ook tot de huishoudens gerekend. Dit is het geval bij de zelfstandigen (eenmanszaken). Grote, zelfstandig opererende ondernemingen zonder rechtspersoonlijkheid (quasi-vennootschappen) behoren echter tot de (niet-financiële of financiële) vennootschappen.",15
+"A044947","IZW's t.b.v. huishoudens","Tot de sector instellingen zonder winstoogmerk ten behoeve van de huishouden (IZW huishoudens) behoren stichtingen en verenigingen waarvan de middelen voor het merendeel afkomstig zijn uit vrijwillige bijdragen van huishoudens en uit inkomen uit vermogen. Voorbeelden zijn religieuze instellingen, liefdadigheidsinstellingen, politieke partijen, vakbonden en verenigingen op het gebied van cultuur, sport en recreatie.",15
+"301000 ","A Landbouw, bosbouw en visserij","Landbouw, bosbouw en visserij 
+Deze sectie omvat: 
+- de exploitatie van natuurlijke plantaardige en dierlijke hulpbronnen: 
+ w.o. de akkerbouw, veeteelt en de productie van overige planten en dieren op een agrarisch bedrijf of in het natuurlijke leefgebied; 
+ w.o. bosbouw, houtteelt en jacht; 
+ w.o. specifieke loondiensten met betrekking tot het productieproces landbouw, jacht en bosbouw worden eveneens in deze sectie ingedeeld; 
+ w.o. visserij: de vangst of het kweken van vis, schaaldieren en weekdieren.",6
+"305700 ","B Delfstoffenwinning","Winning van delfstoffen 
+Deze sectie omvat: 
+- de winning van in de natuur voorkomende mineralen in vaste vorm (steenkool, turf en erts), in vloeibare vorm (aardolie) of in de vorm van een gas (aardgas). Winning vindt plaats door middel van ondergrondse mijnbouw, dagbouw of boringen. 
+Deze sectie omvat voorts bijkomende bewerkingen die voor het vervoer en de afzet van de minerale producten noodzakelijk zijn, bijvoorbeeld het vergruizen, malen, wassen, drogen, sorteren of concentreren van ertsen, het vloeibaar maken van aardgas en het briketteren van vaste brandstoffen. 
+Deze werkzaamheden worden vaak door de eenheden die de delfstoffen winnen zelf uitgeoefend en/of door andere eenheden in de buurt van de winplaats. 
+Deze sectie omvat ook: 
+- de vervaardiging van steenkool- en bruinkoolbriketten, het sinteren van ertsen; 
+- het vergruizen, malen of op andere wijze behandelen van bepaalde soorten aarde, steen en mineralen. 
+Deze sectie omvat niet: 
+- de verwerking van delfstoffen (sectie C); 
+- de productie aan de bron van natuurlijk bron- of mineraalwater (1107); 
+- de winning, zuivering en distributie van water (3600).",6
+"300002 ","B-E Nijverheid (geen bouw) en energie","Nijverheid (geen bouw) en energie 
+Deze categorie is een samentelling van categorieën: 
+B Winning van delfstoffen 
+C Industrie 
+D Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht 
+E Winning en distributie van water; afval- en afvalwaterbeheer en sanering",7
+"307500 ","C Industrie","Industrie 
+Deze sectie omvat: 
+- de mechanische, fysische of chemische verwerking van materialen, stoffen of onderdelen tot nieuwe producten. De verwerkte materialen, stoffen of onderdelen zijn grondstoffen uit de landbouw, bosbouw, visserij en mijnbouw, alsmede (half)fabricaten uit de industrie. 
+- reparatie en installatie van machines, apparatuur en andere benodigdheden voor bedrijven (geen consumentengoederen). 
+Bij de eenheden in deze sectie gaat het vaak om fabrieken waar gewoonlijk machines en apparaten worden gebruikt. Eenheden waar materialen of stoffen met de hand of in de eigen woning tot nieuwe producten worden verwerkt en die producten op de plaats waar deze zijn gemaakt, zelf verkopen, zoals bakkerijen en kleermakerijen, vallen echter ook onder deze sectie. 
+Industriële eenheden kunnen materialen zelf verwerken of dit aan andere eenheden uitbesteden. In beide gevallen valt dit onder de sectie Industrie. 
+Reparatie van huishoudelijke apparaten en consumptiegoederen wordt ingedeeld in afdeling 95; 
+de reparatie van (bedrijfs-)auto's en motoren in afdeling 45: de autobranche. 
+De vervaardiging van specifieke componenten en onderdelen, toebehoren en hulpstukken voor machines en apparaten wordt gewoonlijk ingedeeld in dezelfde klasse als de vervaardiging van de desbetreffende machines en apparaten. 
+De vervaardiging van niet-specifieke componenten en onderdelen voor machines en apparatuur, zoals motoren, zuigers, elektromotoren, 
+elektra-installatiemateriaal, kleppen, kogellagers, rollagers, worden in de passende klasse van de sectie industrie ingedeeld. 
+De sectie omvat niet: 
+- activiteiten die niet leiden tot een nieuw product, maar tot een gewijzigde versie van hetzelfde product: 
+* het opsplitsen van partijen stukgoederen in kleinere partijen, inclusief het verpakken, herverpakken; 
+* het bottelen van producten als alcoholhoudende dranken of chemicaliën; 
+* de montage van computers volgens de specifieke wensen van een klant; 
+* het mengen van verf; 
+Deze activiteiten worden ingedeeld in sectie G (groothandel en detailhandel).",6
+"307610 ","10-12 Voedings-, genotmiddelenindustrie","Vervaardiging van voedingsmiddelen, dranken en tabaksproducten 
+Deze categorie is een samentelling van categorieën: 
+10 Vervaardiging van voedingsmiddelen 
+11 Vervaardiging van dranken 
+12 Vervaardiging van tabaksproducten",13
+"312505 ","13-15 Textiel-, kleding-, lederindustrie","Vervaardiging van textiel, kleding en lederwaren 
+Deze categorie is een samentelling van categorieën: 
+13 Vervaardiging van textiel 
+14 Vervaardiging van kleding 
+15 Vervaardiging van leer, lederwaren en schoenen",13
+"315810 ","16-18 Hout-, papier-, grafische industr.","Vervaardiging van artikelen van hout, papier en karton; drukkerijen 
+Deze categorie is een samentelling van categorieën: 
+16 Primaire houtbewerking en vervaardiging van artikelen van hout, kurk, riet en vlechtwerk (geen meubels) 
+17 Vervaardiging van papier, karton en papier- en kartonwaren 
+18 Drukkerijen, reproductie van opgenomen media",13
+"320000 ","19 Aardolie-industrie","Vervaardiging van cokesovenproducten en aardolieverwerking",9
+"320700 ","20 Chemische industrie","Vervaardiging van chemische producten",9
+"323200 ","21 Farmaceutische industrie","Vervaardiging van farmaceutische grondstoffen en producten",9
+"323705 ","22-23 Kunststof- en bouwmateriaalindustr","Vervaardiging van producten van rubber en kunststof en van bouwmaterialen 
+Deze categorie is een samentelling van categorieën: 
+22 Vervaardiging van producten van rubber en kunststof 
+23 Vervaardiging van overige niet- metaalhoudende minerale producten",13
+"328105 ","24-25 Basismetaal, metaalprod.-industrie","Vervaardiging van metalen in primaire vorm en van metaalproducten (geen machines en apparaten) 
+Deze categorie is een samentelling van categorieën: 
+24 Vervaardiging van metalen in primaire vorm 
+25 Vervaardiging van producten van metaal (geen machines en apparaten)",13
+"332900 ","26 Elektrotechnische industrie","Vervaardiging van computers en van elektronische en optische apparatuur.",9
+"334800 ","27 Elektrische apparatenindustrie","Vervaardiging van elektrische apparatuur",9
+"336500 ","28 Machine-industrie","Vervaardiging van overige machines en apparaten",9
+"339205 ","29-30 Transportmiddelenindustrie","Vervaardiging van transportmiddelen 
+Deze categorie is een samentelling van categorieën: 
+29 Vervaardiging van auto's, aanhangwagens en opleggers 
+30 Vervaardiging van overige transportmiddelen",13
+"300023 ","31-33 Overige industrie en reparatie","Vervaardiging van meubels en overige goederen; reparatie en installatie van machines en apparaten 
+Deze categorie is een samentelling van categorieën: 
+31 Vervaardiging van meubels 
+32 Vervaardiging van overige goederen 
+33 Reparatie en installatie van machines en apparaten",13
+"346600 ","D Energievoorziening","Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht 
+Deze sectie omvat: 
+- productie en distributie van en handel in elektriciteit, aardgas en warm water.",6
+"348000 ","E Waterbedrijven en afvalbeheer","Winning en distributie van water; afval- en afvalwaterbeheer en sanering 
+Deze sectie omvat: 
+- winning en distributie van water; 
+- afvalbehandeling en recycling.",6
+"350000 ","F Bouwnijverheid","Bouwnijverheid 
+Deze sectie omvat: 
+- algemene en gespecialiseerde bouwkundige en civieltechnische werken, de bouwinstallatie en de afwerking van gebouwen. 
+Zij omvat ook nieuwbouw, reparatie, aan- en verbouwwerkzaamheden, het optrekken van geprefabriceerde gebouwen of constructies ter plaatse en van tijdelijke bouwwerken. 
+Onder algemene bouw valt de bouw van woningen, kantoren, winkels en andere vormen van burgerlijke- en utiliteitsbouw enzovoort of de bouw of aanleg van zware constructies als autowegen, straten, bruggen, tunnels, spoorwegen, vliegvelden, havens en andere waterbouwkundige projecten, irrigatiesystemen, rioleringen, industriële installaties, pijpleidingen en elektriciteitsleidingen, sportvoorzieningen enzovoort. Deze werkzaamheden kunnen voor eigen rekening of voor een vast bedrag of op contractbasis worden uitgevoerd. Een deel van de werkzaamheden of soms zelfs alle uitvoerende werkzaamheden kunnen worden uitbesteed aan onderaannemers. 
+Gespecialiseerde bouw omvat de bouw of aanleg van een gedeelte van bouwwerken en van civieltechnische werken of de hiervoor vereiste voorbereidende werkzaamheden. Er is gewoonlijk sprake van gespecialiseerde werkzaamheden ten behoeve van diverse bouwwerken, waarvoor specifieke ervaring of een speciale uitrusting nodig is. Het heien, leggen van funderingen, boren van waterputten, de cascobouw, het storten van beton, metselen, zetten van natuursteen, de bouw van steigers, dakbedekking enzovoort worden hiertoe gerekend. Gespecialiseerde bouwkundige werkzaamheden worden meestal aan onderaannemers uitbesteed, maar vooral reparaties worden in de bouw rechtstreeks voor de eigenaar van het onroerend goed uitgevoerd. 
+De bouwinstallatie omvat de installatie van alle voorzieningen waardoor een bouwwerk als zodanig zijn functie kan vervullen. Deze werkzaamheden worden meestal op de bouwplaats zelf verricht, hoewel bepaalde gedeelten ervan in een werkplaats kunnen worden uitgevoerd. Inbegrepen zijn loodgieterswerk, de installatie van verwarmings- en klimaatregelingssystemen, alarmsystemen en andere elektrische apparatuur, sprinklerinstallaties, liften en roltrappen enzovoort. Ook vallen hieronder isolatiewerkzaamheden (vochtwering, warmte- en geluidsisolatie), het aanbrengen van metalen beplating, de installatie van commerciële koelapparatuur, verlichtings- en signaleringssystemen voor wegen, spoorwegen, luchthavens, havens enzovoort. Het uitvoeren van reparaties in verband met deze activiteiten is ook inbegrepen. 
+De afwerking van gebouwen omvat werkzaamheden die zijn gericht op de afwerking of voltooiing van een bouwwerk, zoals glaszetten, stukadoorswerk, schilderen, sauzen, het aanbrengen van vloer- of wandtegels of van andere bekleding of bedekking zoals parket, tapijt, behang enzovoort, schuren van vloeren, aftimmeren, geluidstechnische werkzaamheden enzovoort. Het uitvoeren van reparaties in verband met deze activiteiten is ook inbegrepen. 
+Deze sectie omvat niet: 
+- de bouw of installatie van industriële apparatuur en machines (bijvoorbeeld de installatie van industriële ovens, turbines enzovoort) 
+(sectie C); 
+- het optrekken van volledige geprefabriceerde gebouwen of bouwwerken van zelf vervaardigde onderdelen wordt ingedeeld bij de toepasselijke rubriek van de sectie Industrie, afhankelijk van het materiaal waaruit deze voornamelijk bestaan. Indien dit echter beton is, wordt deze activiteit in deze afdeling ingedeeld.",6
+"300006 ","G-I Handel, vervoer en horeca","Handel, vervoer en horeca 
+Deze categorie is een samentelling van categorieën: 
+G Groot- en detailhandel; reparatie van auto's 
+H Vervoer en opslag 
+I Logies-, maaltijd- en drankverstrekking",7
+"354200 ","G Handel","Groot- en detailhandel; reparatie van auto's 
+Deze sectie omvat: 
+- de groot- en detailhandel (verkoop zonder aanbrengen van veranderingen) in alle soorten goederen en de diensten die bij de verkoop van goederen worden verleend; 
+- tussenhandel/handelsbemiddeling; 
+- reparatie van auto's en motoren. 
+De verkoop zonder bewerking omvat de in de handel gebruikelijke handelingen, bijvoorbeeld sorteren, samenvoegen en combineren van goederen, mengen (versnijden) van goederen (bijvoorbeeld wijn of zand), bottelen (met of zonder reiniging van de fles vooraf), verpakken, opsplitsen en anders verpakken van partijen stukgoederen voor distributie in kleinere hoeveelheden, opslag (al dan niet bevroren of gekoeld), schoonmaken en drogen van landbouwproducten, snijden van houtvezel- of metalen platen voor eigen rekening. 
+Groothandel is de wederverkoop (verkoop zonder aanbrengen van veranderingen) van nieuwe en gebruikte goederen aan de detailhandel, aan industriële en andere bedrijfsmatige gebruikers, of aan andere groothandelaren, alsmede de handelsbemiddeling bij de aankoop van goederen voor of de verkoop van goederen aan dergelijke personen of bedrijven. De belangrijkste soort van groothandel is de groothandel in goederen, dat wil zeggen groothandelaren die goederen verkopen die zij in eigendom hebben zoals grossiers, dealers, exporteurs, importeurs en coöperatieve inkooporganisaties, verkooporganisaties en verkoopkantoren (detailhandelsbedrijven uitgezonderd) van industriële ondernemingen, die tot taak hebben de producten ervan op de markt te brengen. 
+Tussenhandel/handelsbemiddeling is het samenbrengen van koper en verkoper of het uitvoeren van transacties voor rekening van derden. Inbegrepen zijn makelaars op goederenbeurzen, commissionairs, en andere op commissiebasis werkzame tussenpersonen. 
+Detailhandel is de wederverkoop (verkoop zonder aanbrengen van veranderingen) van nieuwe en gebruikte goederen hoofdzakelijk aan het publiek voor persoonlijk of huishoudelijk ge- of verbruik, op de markt of door winkels, warenhuizen, postorderbedrijven, straathandelaren, consumentencoöperaties, veilinghuizen enzovoort. De meeste detailhandelaren zijn eigenaar van de goederen die zij verkopen, maar sommigen werken als tussenpersoon voor een opdrachtgever en verkopen in consignatie dan wel op commissiebasis.",6
+"383100 ","H Vervoer en opslag","Vervoer en opslag 
+Deze sectie omvat: 
+- het vervoer van personen of goederen, al dan niet volgens een dienstregeling, per spoor, via een pijpleiding, over de weg, over water of door de lucht; 
+- de ondersteunende activiteiten als terminal- en parkeerfaciliteiten, vrachtbehandeling, opslag enz.; 
+- de posterijen; 
+- de verhuur van transportmiddelen met bestuurder of bedienend personeel. 
+Deze sectie omvat niet: 
+- het onderhoud en de reparatie van auto's (45).",6
+"389100 ","I Horeca","Logies-, maaltijd- en drankverstrekking 
+Deze sectie omvat: 
+- het aan gasten verschaffen van logies en/of bereide maaltijden, snacks en dranken voor onmiddellijke consumptie. 
+De verschillende activiteiten in sectie I overlappen elkaar in zekere mate, omdat bijvoorbeeld de verkoop van dranken een activiteit op zich is, maar ook deel uitmaakt van de activiteiten van een restaurant (waar bij de 
+maaltijden dranken worden verstrekt) en dan met de verkoop van maaltijden bij 56.1 (Restaurants) wordt ingedeeld. Evenzo vormt de exploitatie van een restaurant een aparte activiteit, maar kan zij ook deel uitmaken van een bedrijf dat logies verschaft. 
+Logiesverschaffende eenheden bieden reizigers, vakantiegangers en anderen accommodatie voor kortstondig verblijf (korter dan 3 maanden) aan. Er zijn vele verschillende eenheden. Sommige verschaffen alleen logies, terwijl andere naast logies ook maaltijden en recreatieve faciliteiten aanbieden. Het soort aanvullende dienstverlening kan van eenheid tot eenheid verschillen. 
+Restaurants verstrekken volledige, voor onmiddellijke consumptie geschikte maaltijden, ongeacht of het traditionele restaurants, zelfbedienings- of afhaalrestaurants, dan wel permanente of tijdelijke viskramen en 
+dergelijke met of zonder zitplaatsen zijn. Bepalend is het feit dat er voor onmiddellijke consumptie geschikte maaltijden worden aangeboden, niet het soort gelegenheid dat deze maaltijden verstrekt. 
+Deze sectie omvat niet: 
+- de productie van maaltijden niet voor onmiddellijke consumptie geschikt of maaltijden of bereid voedsel dat niet als maaltijd wordt beschouwd (SBI 10: voedingsmiddelenindustrie); 
+- de verkoop van niet zelf vervaardigd voedsel dat niet als maaltijd wordt beschouwd of van niet voor onmiddellijke consumptie geschikte maaltijden (SBI 46 groothandel of SBI 47 detailhandel afhankelijk van de afnemerscategorie).",6
+"391600 ","J Informatie en communicatie","Informatie en communicatie 
+Deze sectie omvat: 
+- de productie en distributie van informatie, de voorziening van de infrastructuur om die informatie door te geven, alsmede activiteiten op het gebied van data- en communicatie-informatietechnologie en het bewerken van data en andere informatie. 
+De belangrijkste activiteiten die hier ingedeeld worden zijn het uitgeven (afdeling 58, incl. het uitgeven van software), productie van films en geluidsopnamen (afdeling 59) radio en TV (afdeling 60), telecommunicatie (afdeling 61), informatietechnologie (afdeling 62) en andere dienstverlening op het gebied van informatie (afdeling 63). Uitgeven omvat ook het verkrijgen van de copyrights voor de content (informatieproducten) en het toegankelijk maken hiervan voor een breed publiek. Alle mogelijke vormen van uitgeven vallen onder deze sectie (in drukvorm, elektronisch of audio, op het internet, als multimediaproduct enzovoorts).",6
+"391705 ","58-60 Uitgeverijen, film,radio en t.v.","Uitgeverijen, film, radio en televisie 
+Deze categorie is een samentelling van categorieën: 
+58 Uitgeverijen 
+59 Productie en distributie van films en televisieprogramma's; maken en uitgeven van geluidsopnamen 
+60 Verzorgen en uitzenden van radio- en televisieprogramma's",13
+"394100 ","61 Telecommunicatie","Telecommunicatie 
+Deze afdeling omvat: 
+- exploitatie, onderhoud en bieden van toegang tot het overbrengen van gesproken woord, data, tekst, geluid en beelden via eigen draadgebonden telecommunicatie-infrastructuur: 
+ w.o. exploitatie en onderhoud van schakel- en zendstations; 
+ w.o. aanbieden van vaste telefonie; 
+ w.o. kabelexploitatie (voor TV, data etc.); 
+ w.o. verlenen van internettoegang via ADSL of kabel (eventueel in combinatie met aanvullende diensten als email-/webpagina servers, en spam-/virusscan); 
+ w.o. Centrale Antenne Inrichtingen (CAI's); 
+- exploitatie, onderhoud en bieden van toegang tot het overbrengen van gesproken woord, data, tekst, geluid en beelden via eigen draadloze telecommunicatie-infrastructuur, zoals het aanbieden van draadloos internet via eigen infrastructuur en exploitatie van mobiele netwerken; 
+- exploitatie, onderhoud en bieden van toegang tot het overbrengen van gesproken woord, data, tekst, geluid en beelden via satelliet; 
+- belwinkels en belhuizen; 
+- internetcafés; 
+- internetproviders (zonder eigen infrastructuur); 
+- voicing services (technisch functioneren als telefooncentrale van een bedrijf, dus geen callcenters); 
+- aanbieden van VoIP (bellen over internet).",10
+"395005 ","62-63 IT- en informatiedienstverlening","Dienstverlenende activiteiten op het gebied van IT en informatie 
+Deze categorie is een samentelling van categorieën: 
+62 Dienstverlenende activiteiten op het gebied van informatietechnologie 
+63 Dienstverlenende activiteiten op het gebied van informatie",13
+"396300 ","K Financiële dienstverlening","Financiële instellingen 
+Deze sectie omvat: 
+- financiële instellingen; 
+- verzekeringswezen en pensioenfondsen (geen verplichte sociale verzekeringen); 
+- financiële beurzen, effectenmakelaars, assurantietussenpersonen, administratiekantoren voor aandelen, waarborgfondsen en dergelijke.",6
+"402000 ","L Verhuur en handel van onroerend goed","Verhuur van en handel in onroerend goed 
+Deze sectie omvat: 
+- verhuur van onroerend goed; 
+- bemiddeling in en beheer van onroerend goed.",6
+"300010 ","M-N Zakelijke dienstverlening","Zakelijke dienstverlening 
+Deze categorie is een samentelling van categorieën: 
+M Advisering, onderzoek en overige specialistische zakelijke dienstverlening 
+N Verhuur van roerende goederen en overige zakelijke dienstverlening",7
+"403405 ","69-71 Management- en technisch advies","Juridische en managementadvisering, accountancy, architecten en ingenieurs 
+Deze categorie is een samentelling van categorieën: 
+69 Rechtskundige dienstverlening, accountancy, belastingadvisering en administratie 
+70 Holdings (geen financiële), concerndiensten binnen eigen concern en managementadvisering 
+71 Architecten en ingenieurs",13
+"406800 ","72 Research","Speur- en ontwikkelingswerk",11
+"408105 ","73-75 Reclame, design, overige diensten","Overige specialistische zakelijke dienstverlening 
+Deze categorie is een samentelling van categorieën: 
+73 Reclame en marktonderzoek 
+74 Industrieel ontwerp en vormgeving, fotografie, vertaling en overige consultancy 
+75 Veterinaire dienstverlening",13
+"410200 ","N Verhuur en overige zakelijke diensten","Verhuur van roerende goederen en overige zakelijke dienstverlening 
+Deze sectie omvat: 
+- activiteiten die zakelijke gebruikers ondersteunen bij de bedrijfsvoering. Het verschil van deze activiteiten met die uit sectie M is dat de activiteiten uit deze sectie niet primair gericht zijn op het overbrengen van expertise en kennis.",6
+"300012 ","O-Q Overheid en zorg","Overheid en zorg 
+Deze categorie is een samentelling van categorieën: 
+O Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen 
+P Onderwijs 
+Q Gezondheids- en welzijnszorg",7
+"417400 ","O Openbaar bestuur en overheidsdiensten","Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen 
+Deze sectie omvat: 
+- eenheden die deel uitmaken van de lagere of centrale overheid en die tot een goede werking van het bestuur van de samenleving bijdragen en ook het beheer van de verplichte sociale verzekeringsregelingen; 
+- defensie, justitie, politie, buitenlandse zaken enzovoort; 
+- het algemeen openbaar bestuur (bijvoorbeeld uitvoerende, wetgevende, financiële taken enzovoort op alle bestuursniveaus) en het toezicht op het economische en sociale leven; 
+- provincies en gemeentes; 
+- het beheer van de verplichte socialeverzekeringsregelingen. 
+Activiteiten die elders in de SBI zijn geclassificeerd vallen niet onder afdeling 75, ook al worden zij door overheidinstanties uitgevoerd. Enkele voorbeelden: 
+- het beheer van het onderwijsstelsel (d.w.z. regelgeving, inspecties, onderwijsprogramma's) valt onder deze sectie O, maar het onderwijs zelf valt onder afdeling 85 ""Onderwijs""; 
+- militaire en penitentiaire ziekenhuizen worden ingedeeld bij afdeling 86 ""Gezondheidszorg""; 
+- inzameling en verwerking van afvalwater en afval valt onder afdeling 38 ""Milieudienstverlening"".",6
+"419000 ","P Onderwijs","Onderwijs 
+Deze sectie omvat: 
+- alle vormen van openbaar en particulier onderwijs, op elk niveau en voor elk beroep, zowel mondeling en schriftelijk als via radio en televisie; zowel het onderwijs door de instellingen op de verschillende niveaus van het normale schoolstelsel als volwasseneneducatie, alfabetiseringsprogramma's e.d. 
+Volwasseneneducatie waarvan de inhoud vergelijkbaar is met die van het onderwijs op een specifiek niveau wordt bij dat niveau ingedeeld. Op ieder niveau van het initiële onderwijs omvatten de klassen het speciale onderwijs aan lichamelijk of geestelijk gehandicapte leerlingen. 
+Deze sectie omvat ook: 
+- het overige onderwijs, zoals autorijscholen. 
+Deze sectie omvat niet: 
+- hoofdzakelijk op ontspanning gericht onderwijs, zoals bridge- en golflessen, dansonderwijs (93 of 94).",6
+"422500 ","86 Gezondheidszorg","Gezondheidszorg 
+Deze afdeling omvat de groepen: 
+861 Ziekenhuizen 
+862 Medische en tandheelkundige praktijken 
+869 Paramedische praktijken en overige ambulante gezondheidszorg",12
+"425305 ","87-88 Verzorging en welzijn","Verpleging en verzorging met overnachting; welzijnszorg 
+Deze categorie is een samentelling van categorieën: 
+87 Verpleging, verzorging en begeleiding met overnachting 
+88 Maatschappelijke dienstverlening zonder overnachting",13
+"300014 ","R-U Cultuur, recreatie, overige diensten","Cultuur, recreatie, overige diensten 
+Deze categorie is een samentelling van categorieën: 
+R Cultuur, sport en recreatie 
+S Overige dienstverlening 
+T Huishoudens als werkgever; niet- gedifferentieerde productie van goederen en diensten door huishoudens voor eigen gebruik 
+U Extraterritoriale organisaties en lichamen",7
+"428100 ","R Cultuur, sport en recreatie","Cultuur, sport en recreatie 
+Deze sectie omvat een wijde range aan activiteiten op het gebied van cultuur en recreatie, zoals culturele voorstellingen, musea, sport en recreatieve evenementen.",6
+"435500 ","S Overige dienstverlening","Overige dienstverlening 
+Deze sectie omvat (als restcategorie) de activiteiten van belangenverenigingen, reparatie van computers en consumentenartikelen en veel andere activiteiten op het gebied van persoonlijke dienstverlening die niet elders zijn ingedeeld.",6
