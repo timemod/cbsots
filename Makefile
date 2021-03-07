@@ -9,8 +9,6 @@ RCHECKARG=--no-multiarch
 # Package name, Version and date from DESCIPTION
 PKG=$(shell grep 'Package:' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2)
 PKGTAR=$(PKG)_$(shell grep 'Version' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2).tar.gz
-PKGDATE=$(shell grep 'Date' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2)
-TODAY=$(shell date "+%Y-%m-%d")
 OSTYPE=$(shell Rscript -e "cat(.Platform[['OS.type']])")
 
 help:
@@ -30,15 +28,14 @@ help:
 	@echo "   flags     - display R config flags and some macros"
 
 flags:
-	@echo "OSTYPE=$(OSTYPE)"
-	@echo "PKGDIR=$(PKGDIR)"
-	@echo "PKG=$(PKG)"
-	@echo "PKGTAR=$(PKGTAR)"
-	@echo "PKGDATE=$(PKGDATE)"
-	@echo "libPaths:"
+	@echo OSTYPE=$(OSTYPE)
+	@echo PKGDIR=$(PKGDIR)
+	@echo PKG=$(PKG)
+	@echo PKGTAR=$(PKGTAR)
+	@echo libPaths:
 	@R --no-save --quiet --slave -e '.libPaths()'
 
-test:
+test: install_deps
 	Rscript test.R
 
 test_covr:
@@ -49,17 +46,13 @@ check: cleanx
 	R CMD build $(PKGDIR)
 	R CMD check $(RCHECKARG) $(PKGTAR)
 	@rm -f  $(PKGTAR)
-	@echo "Today                           : $(TODAY)"
-	@echo "Checked package description date: $(PKGDATE)"
-# 	@Rscript -e 'cat("Installed version date          :",packageDescription("nleqslv", fields="Date"))'
-	@echo ""
 
 cleanx:
+	@rm -f $(PKGTAR)
+	@rm -fr $(PKG).Rcheck
 ifneq ($(OSTYPE), windows) 
 # Apple Finder rubbish
 	@find . -name '.DS_Store' -delete
-	@rm -f $(PKGTAR)
-	@rm -fr $(PKG).Rcheck
 endif
 
 # build date of package must be at least today
@@ -72,10 +65,6 @@ else
 	R CMD build $(PKGDIR)
 	R CMD check --as-cran $(RCHECKARG) $(PKGTAR)
 	@cp -nv $(PKGTAR) archive
-	@echo "Today                           : $(TODAY)"
-	@echo "Checked package description date: $(PKGDATE)"
-# 	@Rscript -e 'cat("Installed version date          :",packageDescription("nleqslv", fields="Date"))'
-	@echo ""
 	./drat.sh --pkg=$(PKGTAR)
 endif
 
