@@ -34,7 +34,7 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
     cbs <- cbs_code[[name]]
     
     # check that all non-empty codes are unique
-    codes <- tscode$Code
+    codes <- selected_tscode$Code
     codes <- codes[nchar(codes) > 0]
     if (anyDuplicated(codes)) {
       duplicates <- unique(codes[duplicated(codes)])
@@ -47,7 +47,26 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
       stop(paste0("No single key selected for ", name, "."))
     }
     
-    # check if the keys have changed
+    # check for duplicate Keys in selected_tscode 
+    # (this should be an error)
+    if (anyDuplicated(selected_tscode$Key)) {
+      dupl_keys <- cbs$Key[duplicated(selected_tscode$Key)]
+      dupl_keys <- paste0("'", dupl_keys, "'")
+      stop("Duplicate keys selected in timeseries coding for dimension ", name, 
+              " in table ", id,  ":\n", paste(dupl_keys, collapse = ", "),
+              ".")
+    }
+    
+    # check for duplicate cbs Keys (this is just a warning)
+    if (anyDuplicated(cbs$Key)) {
+      dupl_keys <- cbs$Key[duplicated(cbs$Key)]
+      dupl_keys <- paste0("'", dupl_keys, "'")
+      warning("Duplicate keys in cbs meta data for dimension ", name, 
+             " in table ", id,  ":\n", paste(dupl_keys, collapse = ", "),
+               ".")
+    }
+    
+    # check if the keys are different
     if (nrow(tscode) != nrow(cbs) || 
         !identical(sort(tscode$Key), sort(cbs$Key))) {
       
@@ -89,12 +108,12 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
       
     } else {
       
-      
-      # The keys are identical. Maybe the titles have changed
-      code_titles <- tscode$Title
-      cbs_titles <- cbs$Title
-      code_titles <- code_titles[match(cbs$Key, tscode$Key)]
-      
+      # The keys are identical. Check if the titles have changed.
+      # Since the Keys are identical, we can order the titles using the
+      # alphabetic ordering of the keys each data frame.
+      code_titles <- tscode$Title[order(tscode$Key)]
+      cbs_titles <- cbs$Title[order(cbs$Key)]
+    
       if (downloaded) {
         key_source <- "CBS keys"
         advice <-  paste("Update the table coding with the shiny application",
@@ -124,7 +143,6 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
 
 # This function checks for keys in code that are not in cbs_code
 check_unknown_keys <- function(id, code, cbs_code) {
-  
   
   check <- function(name) {
     

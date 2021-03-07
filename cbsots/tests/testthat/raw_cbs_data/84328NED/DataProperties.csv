@@ -1,0 +1,24 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","BedrijfstakkenEnSectoren","Bedrijfstakken en sectoren","",,,,,
+"Cbs.OData.Dimension",1,1,,"Dimension","TypeKapitaalgoederen","Type kapitaalgoederen","",,,,,
+"Cbs.OData.TimeDimension",2,2,,"TimeDimension","Perioden","Perioden","",TRUE,,,,
+"Cbs.OData.TopicGroup",3,,,"TopicGroup","","Kapitaalgoederenvoorraad","De kapitaalgoederenvoorraad is de waarde van de kapitaalgoederen in een bedrijfstak of sector. Kapitaalgoederen zijn geproduceerde materiële of immateriële activa die langer dan een jaar in het productieproces worden gebruikt. Voorbeelden zijn gebouwen, machines, vervoermiddelen, computers, software en dergelijke.",,,,,
+"Cbs.OData.Topic",4,3,3,"Topic","KapitaalgoederenvoorraadEindbalans_1","Kapitaalgoederenvoorraad eindbalans","De eindbalans is de balans per 31 december van het verslagjaar. De eindbalans is gelijk aan de beginbalans van het volgende verslagjaar.
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",5,4,3,"Topic","VolumeIndexcijfers2015100_2","Volume-indexcijfers 2015=100",,,"Double","2015 = 100",1,"Impossible"
+"Cbs.OData.TopicGroup",6,,,"TopicGroup","","Veranderingen kapitaalgoederenvoorraad",,,,,,
+"Cbs.OData.Topic",7,5,6,"Topic","KapitaalgoederenvoorraadBeginbalans_3","Kapitaalgoederenvoorraad beginbalans","De beginbalans is de balans per 1 januari van het verslagjaar. De beginbalans is gelijk aan de eindbalans van het voorgaande jaar.
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",8,6,6,"Topic","Herwaardering_4","Herwaardering","De verandering in de waarde van een kapitaalgoed door veranderende prijzen. De herwaardering wordt bepaald door de netto kapitaalgoederenvoorraad te vermenigvuldigen met de prijsverandering ten opzichte van het voorgaande jaar.
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",9,7,6,"Topic","InvestInVasteActivaProdEnInvoer_5","Invest. in vaste activa prod. en invoer","Investeringen in vaste activa uit productie en invoer betreft het totaal van de investeringen in vaste activa (bruto) exclusief het saldo verkoop van gebruikte vaste activa.
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",10,8,6,"Topic","Afschrijvingen_6","Afschrijvingen","De waardevermindering van de kapitaalgoederenvoorraad die het gevolg is van voorzienbare technische en economische veroudering en verzekerbare schade (zoals brand en diefstal). Kapitaalgoederen zijn bijvoorbeeld machines, gebouwen, vervoermiddelen en software.
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",11,9,6,"Topic","HandelEnOverigeMutaties_7","Handel en overige mutaties","Handel en overige volumemutaties bestaat uit de handel in tweedehands kapitaalgoederen, de waardevermindering van vee door veroudering en overige volumemutaties.
+Onder handel valt de aan- en verkoop van tweedehands kapitaalgoederen tussen Nederlandse bedrijven, de aan- en verkoop van tweedehands kapitaalgoederen tussen bedrijven en consumenten en de verkoop van tweedehands kapitaalgoederen door bedrijven aan het buitenland. Import van tweedehands kapitaalgoederen door bedrijven valt niet onder de handel maar onder investeringen uit productie en invoer. De overige volumemutaties omvatten de gevolgen van uitzonderlijke, onverwachte gebeurtenissen op kapitaalgoederen. Hierbij kan worden gedacht waardevermindering of zelf vernietiging van kapitaalgoederen door overstromingen of oorlogsschade.
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",12,10,6,"Topic","StatistischVerschil_8","Statistisch verschil","Een statistisch verschil ontstaat wanneer de eindbalans van de kapitaalgoederenvoorraad niet aansluit op de beginvoorraad plus de mutaties in de kapitaalgoederenvoorraad. Statistische verschillen treden op wanneer de veranderingen in de kapitaalgoederenvoorraad op een ander moment worden bepaald dan de kapitaalgoederenvoorraad zelf. Hierdoor is het niet mogelijk de statistieken onderling consistent te maken. 
+",,"Double","mln euro",0,"Zero"
+"Cbs.OData.Topic",13,3,6,"Topic","KapitaalgoederenvoorraadEindbalans_1","Kapitaalgoederenvoorraad eindbalans","De eindbalans is de balans per 31 december van het verslagjaar. De eindbalans is gelijk aan de beginbalans van het volgende verslagjaar.
+",,"Double","mln euro",0,"Zero"

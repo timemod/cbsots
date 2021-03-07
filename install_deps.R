@@ -2,6 +2,6 @@
 if (!require(devtools)) {
   stop('devtools not installed')
 }
-devtools::install_deps('cbsots')
+devtools::install_deps('cbsots', dependencies = TRUE)
 
 

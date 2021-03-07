@@ -38,6 +38,20 @@ check_duplicates <- function(session, values) {
   ts_code <-  values$ts_code[[values$table_id]]$codes
   for (name in values$tab_names) {
     tab <- ts_code[[name]]
+    # first check for duplicate keys in the selected entries\
+    keys <- tab$Key[tab$Select]
+    if (anyDuplicated(keys)) {
+      dupl <- keys[duplicated(keys)]
+      showModal(modalDialog(
+        title = "Duplicates in selected keys",
+        HTML(paste0("Duplicates in selected keys of ", name,
+                    "<br>Duplicate keys:\n", paste(dupl, collapse = ", "),
+                    "<br>Correct before proceeding by deselecting duplicate keys.")),
+        easyClose = TRUE
+      ))
+      return(TRUE)
+    }
+    # check for duplicate codes for selected entries
     codes <- tab$Code[tab$Select]
     codes <- codes[nchar(codes) > 0]
     if (anyDuplicated(codes)) {
@@ -45,11 +59,10 @@ check_duplicates <- function(session, values) {
       showModal(modalDialog(
         title = "Duplicates in code",
         HTML(paste0("Duplicate code for the selected keys of ", name,
-                    "<br>Duplicatecodes:\n", paste(dupl, collapse = ", "),
-                    "<br>Please correct before proceding.")),
+                    "<br>Duplicate codes:\n", paste(dupl, collapse = ", "),
+                    "<br>Correct before proceeding.")),
         easyClose = TRUE
       ))
-      
       return(TRUE)
     }
   }

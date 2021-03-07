@@ -116,12 +116,23 @@ read_data_file <- function(dir, topic_keys) {
     
     data <- fread(data_file, drop = "ID", na.strings = c(".", ""))
     
+    if (anyDuplicated(colnames(data))) {
+      stop("Duplicate columns in downloaded data.",
+           " Something is wrong with this table.")
+    }
+    
+
     #
     # fix character columns, character columns typically arise when 
     # the data contains old style NA strings 
     #
     
     data_cols <- match(topic_keys, colnames(data))
+    
+    # In weird cases (e.g. table 84328NED), there are duplicate keys in
+    # the meta data. As long as there a no duplicate columns in data 
+    # (see the test above), we can skip the duplicate columns
+    data_cols <- unique(data_cols)
     
     data_col_classes <- data[ , sapply(.SD, class), .SD = data_cols]
   
