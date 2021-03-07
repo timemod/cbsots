@@ -1,14 +1,15 @@
 # This is a gnu makefile with several commands to build, document and test
 # the package.  The actual building and installation of the package is achieved
-# with the standard R commands R CMD BUOLD and R CMD INSTALL.
+# with the standard R commands R CMD BUILD and R CMD INSTALL.
 
 PKGDIR=cbsots
 INSTALL_FLAGS=--no-multiarch --with-keep.source
 RCHECKARG=--no-multiarch
 
 # Package name, Version and date from DESCIPTION
-PKG=$(shell grep 'Package:' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2)
-PKGTAR=$(PKG)_$(shell grep 'Version' $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2).tar.gz
+PKG=$(shell grep Package: $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2)
+PKGTAR=$(PKG)_$(shell grep Version $(PKGDIR)/DESCRIPTION  | cut -d " " -f 2).tar.gz
+
 OSTYPE=$(shell Rscript -e "cat(.Platform[['OS.type']])")
 
 help:
