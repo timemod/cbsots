@@ -16,6 +16,8 @@ source("utils/read_match_report.R")
 
 raw_cbs_dir <- "raw_cbs_data"
 
+os_type <- .Platform$OS.type
+
 test_that(id, {
   msg <- paste("Duplicate keys in cbs meta data for dimension Topic in",
                "table 84328NED:\n'KapitaalgoederenvoorraadEindbalans_1'\\.")
@@ -44,7 +46,8 @@ test_that(paste(id, "errors"), {
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
   expect_known_value(ts_labels(result1$Y),
-                     file.path("expected_output", paste0(id, "_1_labels.rds")))
+                     file.path("expected_output", paste0(id, "_1_labels_",
+                                                         os_type, ".rds")))
   
   ts_code_err$`84328NED`$codes$Topic[7, "Select"] <- TRUE
   msg <- "Duplicate codes found for Topic:\nwnd\n."
@@ -60,6 +63,7 @@ test_that(paste(id,  "alt"), {
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
   expect_known_value(ts_labels(result1$Y),
-                     file.path("expected_output", paste0(id, "_2_labels.rds")))
+                     file.path("expected_output", paste0(id, "_2_labels_", 
+                                                         os_type, ".rds")))
 })
 
