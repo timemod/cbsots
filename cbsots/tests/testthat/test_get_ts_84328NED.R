@@ -43,8 +43,23 @@ test_that(paste(id, "errors"), {
   expect_warning(result1 <- get_ts(id, ts_code_err, download = FALSE))
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
+  expect_known_value(ts_labels(result1$Y),
+                     file.path("expected_output", paste0(id, "_1_labels.rds")))
   
   ts_code_err$`84328NED`$codes$Topic[7, "Select"] <- TRUE
   msg <- "Duplicate codes found for Topic:\nwnd\n."
   expect_error(get_ts(id, ts_code_err, download = FALSE), msg)
 })
+
+test_that(paste(id,  "alt"), {
+  ts_code <- readRDS(sprintf("tscode/tscode_%s_2.rds",id))
+  msg <- paste("Duplicate keys in cbs meta data for dimension Topic in",
+               "table 84328NED:\n'KapitaalgoederenvoorraadEindbalans_1'\\.")
+  expect_warning(result1 <- get_ts(id, ts_code, download = FALSE),
+                 msg)
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+  expect_true(check)
+  expect_known_value(ts_labels(result1$Y),
+                     file.path("expected_output", paste0(id, "_2_labels.rds")))
+})
+
