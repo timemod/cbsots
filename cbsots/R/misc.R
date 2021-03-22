@@ -3,7 +3,7 @@ get_period_keys <- function(meta, min_year, frequencies) {
   
   period_keys <- meta$Perioden$Key
 
-  freq_table <- c(JJ = "Y", KW = "Q", MM = "M")
+  freq_table <- c(JJ = "Y", HJ = "H", KW = "Q", MM = "M")
   
   # check frequencies
   if (!is.null(frequencies)) {
