@@ -1,0 +1,26 @@
+"Key","Title","Description","CategoryGroupID"
+"T001024","Totaal","Het totaal aantal cliënten kan kleiner zijn dan de som van de aantallen cliënten bij de verschillende types. 
+Dit komt omdat cliënten zorg uit meerdere categorieën kunnen ontvangen en zij dan bij het totaal slechts één keer meetellen.",
+"A048188","Totaal exclusief verblijf en opvang","",
+"A019506","Ondersteuning thuis, totaal","Deze groep bevat de volgende productcategorieën uit de iWmo-standaarden:
+02 Begeleiding
+03 Persoonlijke verzorging
+04 Kortdurend Verblijf
+06 Overige ondersteuning gericht op het individu of huishouden/gezin
+07 Dagbesteding
+09 Overige groepsgerichte ondersteuning
+10 Overige maatwerkarrangementen",
+"A019507","Hulp bij het huishouden","Deze groep bevat de volgende productcategorie uit de iWmo-standaarden:
+01 Hulp bij het huishouden",
+"A019508","Verblijf en opvang, totaal","Deze groep bevat de volgende productcategorieën uit de iWmo-standaarden:
+15 Beschermd wonen
+16 Opvang
+17 Spoedopvang
+18 Overige beschermd wonen en opvang",
+"A019509","Hulpmiddelen en diensten, totaal","Deze groep bevat de volgende productcategorieën uit de iWmo-standaarden:
+05 Woondiensten
+08 Vervoersdiensten
+11 Rolstoelen
+12 Vervoervoorzieningen
+13 Woonvoorzieningen
+14 Overige hulpmiddelen",

@@ -1,0 +1,28 @@
+"Key","Title","Description","CategoryGroupID"
+"T009002","Totaal personen","",1
+"1012600","Migratieachtergrond: Nederland","Persoon met een Nederlandse achtergrond
+
+Persoon van wie de beide ouders in Nederland zijn geboren.",2
+"2012655","Migratieachtergrond: westers","Persoon met een westerse migratieachtergrond
+
+Persoon met als migratieachtergrond een van de landen in Europa (exclusief Turkije), Noord-Amerika en Oceanië, en Indonesië en Japan. 
+Op grond van hun sociaal- economische en sociaal-culturele positie worden personen met een migratieachtergrond uit Indonesië en Japan tot de westerse migratieachtergrond gerekend. Het gaat vooral om mensen die in het voormalig Nederlands-Indië zijn geboren en werknemers van Japanse bedrijven met hun gezin.",2
+"2012657","Migratieachtergrond: niet-westers","Persoon met een niet-westerse migratieachtergrond
+
+Persoon met als migratieachtergrond een van de landen in Afrika, Latijns-Amerika en Azië (exclusief Indonesië en Japan) of Turkije. Op grond van hun sociaal-economische en sociaal-culturele positie worden personen met een migratieachtergrond uit Indonesië en Japan tot de westerse migratieachtergrond gerekend. Het gaat vooral om mensen die in het voormalig Nederlands-Indië zijn geboren en werknemers van Japanse bedrijven met hun gezin.",2
+"41625  ","Leeftijd: Jonger dan 30 jaar","",3
+"53630  ","Leeftijd: 30 tot 45 jaar","",3
+"80201  ","Leeftijd: 45 tot 60 jaar","",3
+"80202  ","Leeftijd: 60 tot 75 jaar",,3
+"53975  ","Leeftijd: 75 tot 85 jaar","",3
+"21600  ","Leeftijd: 75 jaar of ouder","",3
+"21800  ","Leeftijd: 85 jaar of ouder","",3
+"A045701","Inkomen onbekend",,4
+"A028632","Minder dan 10 000 euro",,4
+"A045583","10 000 tot 15 000 euro",,4
+"A045584","15 000 tot 20 000 euro",,4
+"A028634","20 000 tot 30 000 euro",,4
+"A028635","30 000 tot 40 000 euro",,4
+"A028636","40 000 tot 50 000 euro",,4
+"A043958","50 000 tot 100 000 euro",,4
+"A028663","100 000 euro of meer",,4

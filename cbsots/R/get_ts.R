@@ -66,7 +66,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       stop("Argument frequencies should be a character of length 1 (e.g. \"yq\")")
     }
     frequencies <- toupper(unique(unlist(strsplit(frequencies, ""))))
-    freqs_error <- ! frequencies %in% c("Y", "Q", "M")
+    freqs_error <- ! frequencies %in% c("Y", "H", "Q", "M")
     if (any(freqs_error)) {
       stop(paste("Unknown frequencies", 
                  paste(frequencies[freqs_error], collapse = " "),

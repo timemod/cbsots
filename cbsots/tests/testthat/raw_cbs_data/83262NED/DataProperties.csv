@@ -1,0 +1,8 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","MapYear","ReleasePolicy","Datatype","Unit","Decimals","Default","PresentationType"
+"Cbs.OData.Dimension",0,0,,"Dimension","Geslacht","Geslacht","",,,,,,,
+"Cbs.OData.Dimension",1,1,,"Dimension","KenmerkenVanPersonen","Kenmerken van personen","",,,,,,,
+"Cbs.OData.Dimension",2,2,,"Dimension","TypeMaatwerkarrangement","Type maatwerkarrangement","Een maatwerkarrangement is ondersteuning binnen het kader van de Wet maatschappelijke ondersteuning (Wmo2015) geleverd in de vorm van een product of dienst die is afgestemd op de wensen, persoonskenmerken, mogelijkheden en behoeften van een individu.",,,,,,,
+"Cbs.OData.GeoDimension",3,3,,"GeoDimension","RegioS","Regio's","",,,,,,,
+"Cbs.OData.TimeDimension",4,4,,"TimeDimension","Perioden","Perioden","",,TRUE,,,,,
+"Cbs.OData.Topic",5,5,,"Topic","WmoClienten_1","Wmo-cliënten","Aantal personen dat ten minste één maatwerkarrangement in het kader van de Wet maatschappelijke ondersteuning (Wmo) heeft gehad.",,,"Long","aantal",0,"Missing","Absolute"
+"Cbs.OData.Topic",6,6,,"Topic","WmoClientenPer1000Inwoners_2","Wmo-cliënten per 1 000 inwoners","Aantal personen dat ten minste één maatwerkarrangement in het kader van de Wet maatschappelijke ondersteuning (Wmo) heeft gehad, uitgedrukt per 1.000 inwoners van de betreffende bevolkingsgroep.",,,"Long","per 1 000 inwoners",0,"Missing","Relative"
