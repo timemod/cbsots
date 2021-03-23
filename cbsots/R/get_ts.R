@@ -262,7 +262,7 @@ create_timeseries <- function(data, labels) {
   freq_numbers <- freq_number_table[frequencies_cbs]
  
   # Create a timeseries for a specific frequency. 
-  # cbs_freq is the frequency as specific in the CBS data, e.g. JJ 
+  # cbs_freq is the frequency as specified in the CBS data, e.g. JJ 
   # (yearly series) or KW (quarterly series).
   # freq_number is the frequency as a number (e.g. 4 for quartely series)
   create_timeseries_freq <- function(freq_cbs, freq_number) {
