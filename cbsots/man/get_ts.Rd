@@ -31,10 +31,13 @@ in the timeseries coding.}
 for years before \code{min_year} are disregarded. Specify \code{NULL}
 or \code{NA} to not impose a minimum year}
 
-\item{frequencies}{a character specifying the frequencies of the
-required timeseries. For example, specify \code{"Q"} for quarterly series only,
-\code{"YQ"} for both yearly and quarterly series, and \code{"M"} for
-monthly series only.}
+\item{frequencies}{a character string specifying the frequencies of the
+returned timeseries. Specify \code{"Y"}, \code{"H"}, \code{"Q"} or \code{"M"} for annual,
+semi-annual, quarterly or monthly series, respectively. It is possible to specify a
+combination of these characters, e.g. \code{"YQ"} for annual and quarterly series.
+Another example: to retrieve annual, quarterly and monthly series simultaneously,
+specify \code{"YQM"}. The function returns a list with a component for each
+specified frequency.}
 
 \item{download}{This argument overrules argument \code{refresh}. If \code{FALSE},
 then data all never downloaded again. You will get an error if the files in
@@ -55,7 +58,8 @@ then all keys are downloaded for each dimension.}
 }
 \value{
 a list with class \code{table_ts}, with the following components
-\item{Y}{Yearly timeseries (if present)}
+\item{Y}{Annual timeseries (if present)}
+\item{H}{Semi-annual timeseries (if present)}
 \item{Q}{Quarterly timeseries (if present)}
 \item{M}{Monthly timeseries (if present)}
 \item{ts_names}{A data frame with an overview of the timeseries names}

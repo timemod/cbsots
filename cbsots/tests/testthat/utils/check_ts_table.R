@@ -64,15 +64,11 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
   
   # split data in frequencies
   
-  
   # conversietabel regts-frequenties <-> cbs-frequenties
-  freq_table <- c(Y = "JJ", Q = "KW", M = "MM")
+  freq_table <- c(Y = "JJ", H = "HJ", Q = "KW", M = "MM")
   
   select_freq <- function(freq) {
-    
     cbs_freq <- freq_table[freq]
-    cbs_data <- cbs_data[grepl(cbs_freq, Perioden)]
-  
     freq_data <- cbs_data[grepl(cbs_freq, Perioden)]
     
     pattern <- if (freq == "M") cbs_freq else paste0(cbs_freq, "0*") 

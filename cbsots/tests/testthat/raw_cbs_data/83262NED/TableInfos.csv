@@ -1,0 +1,110 @@
+"ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
+0,"Wmo-cliënten; type maatwerkarrangement, regio","Wmo-cliënten; type arrangement, regio","83262NED","Wmo-cliënten, maatwerkarrangementen (hulp in huishouden, hulpmiddelen, 
+verblijf, ondersteuning); leeftijd, geslacht, migratie, inkomen, gemeente","2020-11-26T02:00:00","Actualisering","","nl","CBS","Perhalfjaar","2015-2020","
+In deze tabel wordt het aantal cliënten met een maatwerkarrangement in het kader van de Wet maatschappelijke ondersteuning (Wmo) getoond. De cijfers zijn per gemeente beschikbaar en kunnen worden uitgesplitst naar type arrangement, leeftijd, huishoudinkomen, herkomst en geslacht.
+Deze tabel is samengesteld op basis van gegevens die gemeenten aan CBS hebben geleverd in het kader van de Gemeentelijke Monitor Sociaal Domein.
+
+Gegevens beschikbaar vanaf: 2015
+
+Status van de cijfers: 
+De cijfers over het eerste halfjaar van 2020 zijn voorlopig, de overige cijfers zijn definitief
+
+Wijzigingen per 26 november 2020:
+- De voorlopige cijfers over het 1e halfjaar van 2020 zijn toegevoegd.
+- De cijfers over 2019 zijn definitief gemaakt.
+
+Wijzigingen per 16 oktober 2020:
+- Een deel van de personen met een onbekend inkomen kreeg ten onrechte niet het label 'inkomen onbekend', maar werden per abuis in het geheel niet meegeteld in de uitsplitsing van het aantal cliënten naar inkomen. De uitsplitsing van het aantal cliënten naar inkomen telde dan ook niet op tot het totale aantal unieke cliënten. Dit is voor 2018 en 2019 gecorrigeerd, zodat alle personen met een onbekend inkomen weer meetellen in de groep 'inkomen onbekend'.
+- Er is een kleine correctie doorgevoerd in de landelijke schattingen van het aantal Wmo-cliënten (totaal en per type maatwerkarrangement) in 2018.
+- De cijfers over 2017 zijn vooralsnog niet gecorrigeerd. Het juiste aantal personen met een onbekend inkomen is af te leiden uit de tabel door het aantal personen in de wel bekende inkomensgroepen af te trekken van het totale aantal personen.
+
+Wijzigingen per 13 mei 2020:
+Het aantal Wmo-cliënten per 1 000 inwoners in de leeftijdsgroep 75+ is toegevoegd voor de perioden 1e halfjaar 2019, 2e halfjaar 2019 en heel 2019. Bij de actualisatie van 7 mei waren deze per abuis leeg gebleven.
+
+Wanneer komen er nieuwe cijfers?
+De voorlopige cijfers over het tweede halfjaar van 2020 worden in mei 2021 gepubliceerd.
+","INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie 
+
+1. TOELICHTING
+
+In deze tabel wordt het aantal cliënten met een maatwerkarrangement in het kader van de Wet maatschappelijke ondersteuning (Wmo) getoond. De cijfers zijn per gemeente beschikbaar en kunnen worden uitgesplitst naar type arrangement, leeftijd, huishoudinkomen, herkomst en geslacht.
+Deze tabel is samengesteld op basis van gegevens die gemeenten aan CBS hebben geleverd in het kader van de Gemeentelijke Monitor Sociaal Domein.
+
+Gegevens beschikbaar vanaf: 2015
+
+Status van de cijfers: 
+De cijfers over het eerste halfjaar van 2020 zijn voorlopig, de overige cijfers zijn definitief
+
+Wijzigingen per 26 november 2020:
+- De voorlopige cijfers over het 1e halfjaar van 2020 zijn toegevoegd.
+- De cijfers over 2019 zijn definitief gemaakt.
+
+Wijzigingen per 16 oktober 2020:
+- Een deel van de personen met een onbekend inkomen kreeg ten onrechte niet het label 'inkomen onbekend', maar werden per abuis in het geheel niet meegeteld in de uitsplitsing van het aantal cliënten naar inkomen. De uitsplitsing van het aantal cliënten naar inkomen telde dan ook niet op tot het totale aantal unieke cliënten. Dit is voor 2018 en 2019 gecorrigeerd, zodat alle personen met een onbekend inkomen weer meetellen in de groep 'inkomen onbekend'.
+- Er is een kleine correctie doorgevoerd in de landelijke schattingen van het aantal Wmo-cliënten (totaal en per type maatwerkarrangement) in 2018.
+- De cijfers over 2017 zijn vooralsnog niet gecorrigeerd. Het juiste aantal personen met een onbekend inkomen is af te leiden uit de tabel door het aantal personen in de wel bekende inkomensgroepen af te trekken van het totale aantal personen.
+
+Wijzigingen per 13 mei 2020:
+Het aantal Wmo-cliënten per 1 000 inwoners in de leeftijdsgroep 75+ is toegevoegd voor de perioden 1e halfjaar 2019, 2e halfjaar 2019 en heel 2019. Bij de actualisatie van 7 mei waren deze per abuis leeg gebleven.
+
+Wanneer komen er nieuwe cijfers?
+De voorlopige cijfers over het tweede halfjaar van 2020 worden in mei 2021 gepubliceerd.
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Definities:
+
+Maatwerkarrangement
+Ondersteuning binnen het kader van de Wmo2015 geleverd in de vorm van een product of dienst die is afgestemd op de wensen, persoonskenmerken, mogelijkheden en behoeften van een individu.
+
+Wmo2015
+Wet maatschappelijke ondersteuning zoals ingegaan op 1 januari 2015. Deze wet stelt gemeenten verantwoordelijk voor het ondersteunen van de zelfredzaamheid en participatie van mensen met een beperking, chronische psychische of psychosociale problemen. 
+
+Migratieachtergrond
+Kenmerk dat weergeeft met welk land een persoon verbonden is op basis van het geboorteland van de ouders of van zichzelf.
+
+Huishoudinkomen
+Het belastbaar inkomen uit box 1, 2 en 3 gesommeerd over alle leden van het huishouden. Het huishoudinkomen wordt vastgesteld op 1 januari in het jaar t-2, oftewel twee jaar voor het verslagjaar. 
+
+Persoonskenmerken
+Soms wordt Wmo-zorg verleend aan personen die niet ingeschreven staan in de BasisRegistratiePersonen (BRP). Van deze personen is geen informatie beschikbaar betreffende geslacht, leeftijd, huishoudinkomen en migratieachtergrond. Zij tellen wel mee bij het totaal aantal cliënten in een gemeente. Hierdoor kan het voorkomen dat de som van de detailgegevens afwijkt van het totaal.
+
+Regio
+Alleen de gegevens van gemeenten die aangeleverd hebben en die toestemming hebben gegeven voor publicatie worden gepubliceerd. Gemeenten kunnen daarbij apart toestemming geven voor de basisvariabelen Wmo en de facultatieve variabelen Wmo. Als gemeenten herleveringen doen over eerdere verslagperioden, is de toestemming voor publicatie zoals die bij de herlevering is gegeven, leidend.
+
+Verklaring van symbolen:
+
+niets (blanco)	: het cijfer kan op logische gronden niet voorkomen
+. 		: het cijfer is onbekend, onvoldoende betrouwbaar of geheim
+*		: voorlopige cijfers
+**		: nader voorlopige cijfers
+
+De cijfers zijn afgerond op vijftallen. Om het risico op onthulling van individuen te voorkomen zijn de waarden 0 tot en met 7 weergegeven als geheim. Hierdoor kan het voorkomen, dat de som van de detailgegevens afwijkt van het totaal.
+
+3. KOPPELINGEN NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Relevante tabellen:
+
+<a href=""https://opendata.cbs.nl/statline/#/CBS/nl/navigatieScherm/thema?themaNr=84581"">Tabellen Wmo</a>
+
+Relevante artikelen:
+
+Meer informatie is te vinden op de themapagina <a href='https://www.cbs.nl/nl-nl/maatschappij/gezondheid-en-welzijn'>Gezondheid en welzijn</a>.
+
+4. BRONNEN EN METHODEN
+
+De onderzoeksmethode van deze tabel is te vinden in de onderzoeksbeschrijving <a href =""https://www.cbs.nl/nl-nl/onze-diensten/methoden/onderzoeksomschrijvingen/korte-onderzoeksbeschrijvingen/gemeentelijke-monitor-sociaal-domein-wet-maatschappelijke-ondersteuning"">Gemeentelijke monitor sociaal domein, Wmo</a>.
+
+5. MEER INFORMATIE
+
+<a href='https://www.cbs.nl/nl-nl/over-ons/contact/infoservice'>Infoservice</a>
+
+Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen 
+Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.
+","ts=1606217503380&graphtype=Table&r=RegioS,KenmerkenVanPersonen&k=Topics,TypeMaatwerkarrangement&t=Geslacht,Perioden&_gu=NL","$filter=((Geslacht eq 'T001038')) and ((KenmerkenVanPersonen eq '1012600') or (KenmerkenVanPersonen eq '2012655') or (KenmerkenVanPersonen eq '2012657') or (KenmerkenVanPersonen eq 'T009002') or (KenmerkenVanPersonen eq '41625  ') or (KenmerkenVanPersonen eq '53630  ') or (KenmerkenVanPersonen eq '80201  ') or (KenmerkenVanPersonen eq '80202  ') or (KenmerkenVanPersonen eq '53975  ') or (KenmerkenVanPersonen eq '21600  ') or (KenmerkenVanPersonen eq '21800  ') or (KenmerkenVanPersonen eq 'A045701') or (KenmerkenVanPersonen eq 'A028632') or (KenmerkenVanPersonen eq 'A045583') or (KenmerkenVanPersonen eq 'A045584') or (KenmerkenVanPersonen eq 'A028634') or (KenmerkenVanPersonen eq 'A028635') or (KenmerkenVanPersonen eq 'A028636') or (KenmerkenVanPersonen eq 'A043958') or (KenmerkenVanPersonen eq 'A028663')) and ((TypeMaatwerkarrangement eq 'T001024') or (TypeMaatwerkarrangement eq 'A019506') or (TypeMaatwerkarrangement eq 'A019507') or (TypeMaatwerkarrangement eq 'A019508') or (TypeMaatwerkarrangement eq 'A019509')) and ((Perioden eq '2020HJ01')) and ((RegioS eq 'GM0200') or (substringof('NL',RegioS)))","Table,Bar,Map","Regulier","CBS.","2020-11-26T02:00:00","2"

@@ -21,10 +21,13 @@
 #' @param min_year  the minimum year of the returned timeseries. Data 
 #' for years before \code{min_year} are disregarded. Specify \code{NULL}
 #' or \code{NA} to not impose a minimum year
-#' @param frequencies a character specifying the frequencies of the 
-#' required timeseries. For example, specify \code{"Q"} for quarterly series only,
-#' \code{"YQ"} for both yearly and quarterly series, and \code{"M"} for 
-#' monthly series only. 
+#' @param frequencies a character string specifying the frequencies of the 
+#' returned timeseries. Specify `"Y"`, `"H"`, `"Q"` or `"M"` for annual, 
+#' semi-annual, quarterly or monthly series, respectively. It is possible to specify a 
+#' combination of these characters, e.g. `"YQ"` for annual and quarterly series.
+#' Another example: to retrieve annual, quarterly and monthly series simultaneously,
+#' specify `"YQM"`. The function returns a list with a component for each 
+#' specified frequency.
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
 #' @param download_all_keys This option specifies how to download data. By default,
@@ -35,7 +38,8 @@
 #' timeseries coding. To prevent that, use argument \code{download_all_keys = TRUE},
 #' then all keys are downloaded for each dimension. 
 #' @return a list with class \code{table_ts}, with the following components
-#'  \item{Y}{Yearly timeseries (if present)}
+#'  \item{Y}{Annual timeseries (if present)}
+#'  \item{H}{Semi-annual timeseries (if present)}
 #'  \item{Q}{Quarterly timeseries (if present)}
 #'  \item{M}{Monthly timeseries (if present)}
 #'  \item{ts_names}{A data frame with an overview of the timeseries names}
@@ -62,7 +66,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       stop("Argument frequencies should be a character of length 1 (e.g. \"yq\")")
     }
     frequencies <- toupper(unique(unlist(strsplit(frequencies, ""))))
-    freqs_error <- ! frequencies %in% c("Y", "Q", "M")
+    freqs_error <- ! frequencies %in% c("Y", "H", "Q", "M")
     if (any(freqs_error)) {
       stop(paste("Unknown frequencies", 
                  paste(frequencies[freqs_error], collapse = " "),
@@ -203,7 +207,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
 
   ts_names_en_labels <- maak_ts_names_en_labels(code)
 
-  ts_ts <- maak_tijdreeksen(data, ts_names_en_labels$labels)
+  ts_ts <- create_timeseries(data, ts_names_en_labels$labels)
 
   ret <- c(ts_ts, list(ts_names = ts_names_en_labels$ts_names))
   
@@ -242,48 +246,58 @@ maak_ts_names_en_labels <- function(code) {
   return(list(ts_names = ts_names, labels = labels))
 }
 
-maak_tijdreeksen <- function(data, labels) {
+create_timeseries <- function(data, labels) {
 
-  # conversietabel cbs-frequenties <-> regts-frequenties
-  freq_table <- c(JJ = "Y", KW = "Q", MM = "M")
- 
-  cbs_frequenties <- unique(sub("\\d+(.+?)\\d+", "\\1", data$Perioden))
-  missing <- setdiff(cbs_frequenties, names(freq_table))
-  if (length(missing) > 0) {
-    stop(paste("Onbekende frequenties", paste(missing, collapse = " "), 
-               "gevonden"))
-  }
-  frequenties <- freq_table[cbs_frequenties]
-
-  maak_tijdreeksen_freq <- function(i) {
-    # maak tijdreeksen aan voor de frequentie met index i
+  # conversion table CBS-frequencies <-> cbsots-frequencies
+  freq_name_table <-   c(JJ = "Y", HJ = "H", KW = "Q", MM = "M")
+  freq_number_table <- c(JJ = 1,   HJ = 2,   KW = 4,   MM = 12 )
   
+  frequencies_cbs <- unique(sub("\\d+(.+?)\\d+", "\\1", data$Perioden))
+  missing <- setdiff(frequencies_cbs, names(freq_name_table))
+  if (length(missing) > 0) {
+    stop(paste("Unknown frequencies", paste(missing, collapse = " "), 
+               "in CBS data"))
+  }
+  freq_names   <- freq_name_table[frequencies_cbs]
+  freq_numbers <- freq_number_table[frequencies_cbs]
+ 
+  # Create a timeseries for a specific frequency. 
+  # cbs_freq is the frequency as specified in the CBS data, e.g. JJ 
+  # (yearly series) or KW (quarterly series).
+  # freq_number is the frequency as a number (e.g. 4 for quartely series)
+  create_timeseries_freq <- function(freq_cbs, freq_number) {
+   
     # prevent notes from R CMD check about no visible binding for global
     Perioden <- NULL
     
-    # verzamel data
-    freq <- frequenties[i]
-    cbs_freq <- cbs_frequenties[i]
-    data_freq <- data[grepl(cbs_freq, Perioden)]
-    pattern <- paste0(cbs_freq, "0*") # voeg 0* toe vanwege JJ00 in cbs-data
-    data_freq$Perioden <- sub(pattern, freq, data_freq$Perioden)
+    data_freq <- data[grepl(freq_cbs, Perioden)]
     
-    # converteer data frame naar tijdreeks
-    ts_freq <- as.regts(data_freq, time_column = "Perioden") 
+    # Replace CBS frequency indicators, including trailing zeros,
+    # witg generic regts frequency separator ("-"), or nothing (yearly series)
+    # Note: for yearly series, the indicator is sometimes JJ00 
+    # (e.g. 20020JJ00).
+    pattern <- paste0(freq_cbs, "0*") 
+    replacement <- if (freq_number == 1) "" else "_"
+    data_freq$Perioden <- sub(pattern, replacement, data_freq$Perioden)
+    
+    # convert data to timeseries
+    ts_freq <- as.regts(data_freq, time_column = "Perioden", 
+                        frequency = freq_number) 
   
-    # voeg labels to
+    # add labels
     ts_freq  <- update_ts_labels(ts_freq, labels)
   
-    # sorteer kolommen alfabetisch
+    # sort columns alphabetically
     ts_freq <- ts_freq[, order(colnames(ts_freq)), drop = FALSE]
   
     return(ts_freq)
   }
   
-  reeksen <- lapply(seq_along(frequenties), FUN = maak_tijdreeksen_freq)
-  names(reeksen) <- frequenties
+  tseries <- mapply(create_timeseries_freq, frequencies_cbs, freq_numbers,
+                    SIMPLIFY = FALSE, USE.NAMES = FALSE)
+  names(tseries) <- freq_names
   
-  return(reeksen)
+  return(tseries)
 }
 
 # Remove entries in the meta data that are not used to create the tables.
