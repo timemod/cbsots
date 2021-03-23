@@ -37,6 +37,15 @@ test_that(id, {
   
   expect_error(get_ts(id, ts_code, download = FALSE, frequencies = "Z"),
                "Unknown frequencies Z specified")
+  
+  # now try with downloading
+  raw_cbs_dir_2 <- tempdir()
+  expect_output(result4 <- get_ts(id, ts_code, download = TRUE, 
+                                  frequencies = "H", raw_cbs_dir = raw_cbs_dir_2))
+  check <- check_ts_table(result4, id, raw_cbs_dir = raw_cbs_dir_2)
+  expect_true(check)
+  expect_equal(colnames(result2$H), colnames(result4$H))
 })
+
 
 
