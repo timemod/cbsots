@@ -44,7 +44,8 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
     stop("Argument x is not a table_ts object")
   }
   
-  freq_sheet_names <- c(Y = "annual", Q = "quarterly", M = "monthly")
+  freq_sheet_names <- c(Y = "annual", H = "semi-annual",
+                        Q = "quarterly", M = "monthly")
   
   frequencies <- intersect(names(x), names(freq_sheet_names))
   
