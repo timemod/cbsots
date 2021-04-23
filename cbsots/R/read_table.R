@@ -60,8 +60,8 @@ read_meta_data <- function(dir) {
       # empty file
       return(NULL)
     } else {
-      return(read.csv(filename, stringsAsFactors = FALSE, 
-                      colClasses = "character"))
+      return(as.data.table(read.csv(filename, stringsAsFactors = FALSE, 
+                           colClasses = "character")))
     }
   }
   
@@ -75,17 +75,15 @@ read_meta_data <- function(dir) {
     ret$DataProperties$Position <- as.numeric(ret$DataProperties$Position)
     ret$DataProperties$ParentID <- as.numeric(ret$DataProperties$ParentID)
     
-    dp <- as.data.table(ret$DataProperties)
-    
     # prevent notes from R CMD check about no visible binding for global
     Type <- NULL
     
-    dimensions <- dp[endsWith(Type, "Dimension")]$Key
+    dimensions <- ret$DataProperties[endsWith(Type, "Dimension")]$Key
     
     dimension_data <- sapply(dimensions, FUN = read_meta_csv, 
                              simplify = FALSE)
     
-    return(structure(c(ret, dimension_data), class = "cbs_table"))
+    return(c(ret, dimension_data))
   },
   warning = function(e) {
     warning(e)
