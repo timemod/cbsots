@@ -26,7 +26,8 @@ Imports:
     shinyalert,
     stringdist,
     utils,
-    stringr
+    stringr,
+    stats
 Suggests:
     testthat,
     knitr,

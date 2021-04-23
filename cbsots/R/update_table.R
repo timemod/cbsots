@@ -149,7 +149,7 @@ update_table <- function(table, old_table, table_id, old_table_id) {
   
   common_dimensions <- intersect(names(table$codes), names(old_table$codes))
   new_codes <- sapply(common_dimensions, FUN = update_code, simplify = FALSE)
-  table$codes <- modifyList(table$codes, new_codes)
+  table$codes <- utils::modifyList(table$codes, new_codes)
   
   # also adapt the ordering of the dimensions
   ord <- match(old_table$order, table$order)

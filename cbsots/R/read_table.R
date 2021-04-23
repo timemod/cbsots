@@ -3,8 +3,8 @@
 # If read_downloaded_data == FALSE, thenn the file was downloaded in a previous
 # call of get_ts.
 #
-read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
-                       read_downloaded_data = FALSE) {
+read_table <- function(id, data_dir, code, selected_code, dimensions,
+                       min_year, frequencies, read_downloaded_data = FALSE) {
   
   read_ok <- FALSE
   
@@ -18,7 +18,7 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
     check_language(meta)
     cbs_code <- get_cbs_code(meta)
     check_unknown_keys(id, selected_code, cbs_code)
-    data <- read_data_file(data_dir, cbs_code$Topic$Key)
+    data <- read_data_file(data_dir, cbs_code$Topic$Key, dimensions)
     if (!is.null(data)) {
       period_keys <- get_period_keys(meta, min_year, frequencies)
       read_ok <- check_read_data(data, selected_code, period_keys = period_keys)
@@ -102,7 +102,7 @@ read_meta_data <- function(dir) {
 
 # Read raw cbs data from  the csv file
 # RETURN  the data as data.table, or NULL if a read error occurred
-read_data_file <- function(dir, topic_keys) {
+read_data_file <- function(dir, topic_keys, dimensions) {
   
   if (!dir.exists(dir)) {
     return(NULL)
@@ -121,7 +121,11 @@ read_data_file <- function(dir, topic_keys) {
            " Something is wrong with this table.")
     }
     
-
+    # convert dimensions columns to character
+    if (length(dimensions) > 0) {
+      data[, (dimensions) := lapply(.SD, as.character), .SDcols = dimensions]
+    }
+    
     #
     # fix character columns, character columns typically arise when 
     # the data contains old style NA strings 
