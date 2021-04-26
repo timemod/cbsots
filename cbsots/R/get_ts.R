@@ -292,6 +292,10 @@ create_timeseries <- function(data, ts_name_info) {
 # Remove entries in the meta data that are not used to create the tables.
 convert_meta_data <- function(meta_data, code, cbs_code, dimensions) {
   
+  # prevent notes from R CMD check about no visible binding for global
+  # or no visible global function
+  Type <- NULL; Key <- NULL
+  
   convert_meta <- function(name) {
     return(meta_data[[name]][match(code[[name]]$Key, Key), ])
   }

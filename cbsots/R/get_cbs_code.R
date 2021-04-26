@@ -1,35 +1,16 @@
-# Returns the cbs code based on a cbs_table object
+# Get the CBS code for the Topics and dimensions from the CBS meta data
 get_cbs_code <- function(meta_data) {
   
-  data_properties <- as.data.table(meta_data$DataProperties)
-  dimensions_and_topics <- get_dimensions_and_topics(data_properties)
- 
-  # prevent notes from R CMD check about no visible binding for global
-  # or no visible global function
-  `.` <- NULL; Key <- NULL; Title <- NULL
+  data_prop <- meta_data$DataProperties
   
-  get_code <- function(x) {
-    df <- as.data.table(meta_data[[x]])
-    df <- df[, .(Key, Title)]
-    return(df)
-  }
-  code <- sapply(dimensions_and_topics$dimensions, FUN = get_code, 
-                 simplify = FALSE)
-  code$Topic <- dimensions_and_topics$topics
-  
-  code <- code[c("Topic", dimensions_and_topics$dimensions)]
-  return(code)
-}
+  #############################################################################
+  # get list of dimensions
+  #############################################################################
 
-# Haal de dimensions, topics en bijbehorende omschrijvingen uit
-# de data_properties data frame zoals ingelezen / gedownload van het CBS.
-get_dimensions_and_topics <- function(data_properties) {
-  
-  dimensions <- data_properties[endsWith(Type, "Dimension") & 
-                                 Type != "TimeDimension"]$Key
-  
+  dimensions <- data_prop[endsWith(Type, "Dimension") & 
+                          Type != "TimeDimension"]$Key
   if ("Perioden" %in% dimensions) {
-    if ("TimeDimension" %in% data_properties$Type) {
+    if ("TimeDimension" %in% data_prop$Type) {
       stop(paste("PROBLEEM: dimensie met naam \"Perioden\" gevonden naast een",
                  "\"TimeDimension\""))
     } else {
@@ -38,31 +19,41 @@ get_dimensions_and_topics <- function(data_properties) {
       dimensions <- setdiff(dimensions, "Perioden")
     }
   }
-
-  if (any(data_properties$Type == "TopicGroup")) {
   
+  #############################################################################
+  # handle topics
+  #############################################################################
+  
+  if (any(data_prop$Type == "TopicGroup")) {
+    
     # Combine the Title of the TopicGroup(s) with the Title of the Topic,
     # so that we have a complete description for each Topic.
-    
-    for (i in seq_len(nrow(data_properties))) {
-      title <- data_properties$Title[i]
-      parent_id <- data_properties$ParentID[i]
+    for (i in seq_len(nrow(data_prop))) {
+      title <- data_prop$Title[i]
+      parent_id <- data_prop$ParentID[i]
       if (!is.na(parent_id)) {
-        rownr <- match(parent_id, data_properties$ID)
-        prev_title <- data_properties$Title[rownr]
+        rownr <- match(parent_id, data_prop$ID)
+        prev_title <- data_prop$Title[rownr]
         if (prev_title != title) {
-          data_properties$Title[i] <- paste(data_properties$Title[rownr], "-", 
-                                            title)
+          data_prop$Title[i] <- paste(data_prop$Title[rownr], "-", title)
         }
       }
     }
   }
-    
+  
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
   `.` <- NULL; Type <- NULL; Key <- NULL; Title <- NULL
   
-  topics <- data_properties[Type == "Topic", .(Key, Title)]
-  
-  return(list(dimensions = dimensions, topics = topics))
+  topics <- data_prop[Type == "Topic", .(Key, Title)]
+
+  ##############################################################################
+  # create output list  
+  ##############################################################################
+  code <- list(Topic = topics)
+  get_dimension_code <- function(dim) {
+    return(meta_data[[dim]][, .(Key, Title)])
+  }
+  code[dimensions] <- lapply(dimensions, FUN = get_dimension_code)
+  return(code)
 }

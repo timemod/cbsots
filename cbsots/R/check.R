@@ -1,7 +1,7 @@
 # check if the table is a dutch table
 check_language <- function(meta) {
   if (meta$TableInfos$Language != "nl") {
-    stop("Function get_ts can currently only handle dutch tables")
+    stop("Package cbsots can currently only handle dutch tables")
   }
   return()
 }

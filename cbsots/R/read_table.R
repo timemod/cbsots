@@ -1,8 +1,7 @@
 # This function reads a downloaded table from a file. 
 # If read_downloaded_data == TRUE, then the  file has just been downloaded.
-# If read_downloaded_data == FALSE, thenn the file was downloaded in a previous
+# If read_downloaded_data == FALSE, then the file was downloaded in a previous
 # call of get_ts.
-#
 read_table <- function(id, data_dir, code, selected_code, dimensions,
                        min_year, frequencies, read_downloaded_data = FALSE) {
   
