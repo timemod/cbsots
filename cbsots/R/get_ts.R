@@ -295,18 +295,14 @@ convert_meta_data <- function(meta_data, code, cbs_code, dimensions) {
   convert_meta <- function(name) {
     return(meta_data[[name]][match(code[[name]]$Key, Key), ])
   }
-  dimension_meta <- sapply(dimensions, FUN = convert_meta, simplify = FALSE)
-  for (name in names(dimension_meta)) {
-    meta_data[[name]] <- dimension_meta[[name]]
-  }
-  
+  meta_data[dimensions] <- lapply(dimensions, FUN = convert_meta)
+
   # now convert DataProperies. First remove all Topics that are not used.
-  remove_keys <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
   dp <- meta_data$DataProperties
-  dp <- dp[!Key %in% remove_keys, ]
+  dp <- dp[Type != "Topic" | Key %in% code$Topic$Key, ]
   
   # Next, remove all TopicGroups that have no children Topics any more.
-  # First assume that all TopicGroups are not used, then move backwards trough
+  # First assume that all TopicGroups are not used, then move backwards through
   # the data properties and register all used TopicGroups.
   used <- dp$Type != "TopicGroup"
   for (i in nrow(dp):1) {
@@ -324,6 +320,7 @@ convert_meta_data <- function(meta_data, code, cbs_code, dimensions) {
   
   meta_data$DataProperties <- dp[used, drop = FALSE]
   
+  # convert all meta data to a normal data frame
   meta_data[] <- lapply(meta_data, FUN = as.data.frame)
 
   return(structure(meta_data, class = "cbs_table"))
