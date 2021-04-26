@@ -5,6 +5,8 @@ rm(list = ls())
 
 context("get_ts: compare expected output")
 
+dum <- Sys.setlocale("LC_COLLATE", "C")
+
 # Use UTF-8 encoding, because the Titles contains diacritical characters 
 # and the data files have been created with UTF-8 encoding.
 options(encoding = "UTF-8")
@@ -28,6 +30,10 @@ test_that(id, {
   # present in directory raw_cbs_data
   result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, min_year = 2015,
                                   include_meta = TRUE))
+  
+  expect_equal(class(result1$ts_names), "data.frame")
+  expect_equal(unname(sapply(result1$meta, FUN = class, USE.NAMES = FALSE)), 
+               rep("data.frame", length(result1$meta)))
 
   # the result of sort is platform dependent (it is actually also dependend on
   # the locale)
@@ -36,8 +42,7 @@ test_that(id, {
   expect_known_value(result1, file = expected_value_file)
 
   expected_output_file <- file.path("expected_output",
-                                    paste0(id, "_print_result_", 
-                                           .Platform$OS.type, ".txt"))
+                                    paste0(id, "_print_result.txt"))
   expect_known_output(print(result1), expected_output_file)
 
   check <- check_ts_table(result1, id)

@@ -1,5 +1,3 @@
-#' @importFrom cbsodataR cbs_download_table
-#' @importFrom cbsodataR cbs_get_meta
 download_table <- function(id, raw_cbs_dir, code, selected_code, min_year, 
                            frequencies, base_url, download_all_keys) {
   
@@ -7,13 +5,10 @@ download_table <- function(id, raw_cbs_dir, code, selected_code, min_year,
   
   # first download the meta data, which is needed to create the filters
   # for downloading the table data
-  if (is.null(base_url)) {
-    meta <- cbs_get_meta(id, cache = TRUE)
-  } else {
-    meta <- cbs_get_meta(id, cache = TRUE, base_url = base_url)
-  }
-  check_language(meta)
+  meta <- download_meta(id, base_url = base_url)
+
   cbs_code <- get_cbs_code(meta)
+
   check_unknown_keys(id, selected_code, cbs_code)
   check_code(id, code, selected_code, cbs_code, downloaded = TRUE)
  
@@ -56,7 +51,7 @@ download_table <- function(id, raw_cbs_dir, code, selected_code, min_year,
     arguments <- c(arguments, list(base_url = base_url))
   }
   
-  data <- do.call(cbs_download_table, arguments)
+  data <- do.call(cbsodataR::cbs_download_table, arguments)
  
   return(invisible(NULL))
 }

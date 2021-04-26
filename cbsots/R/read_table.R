@@ -1,10 +1,9 @@
 # This function reads a downloaded table from a file. 
 # If read_downloaded_data == TRUE, then the  file has just been downloaded.
-# If read_downloaded_data == FALSE, thenn the file was downloaded in a previous
+# If read_downloaded_data == FALSE, then the file was downloaded in a previous
 # call of get_ts.
-#
-read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
-                       read_downloaded_data = FALSE) {
+read_table <- function(id, data_dir, code, selected_code, dimensions,
+                       min_year, frequencies, read_downloaded_data = FALSE) {
   
   read_ok <- FALSE
   
@@ -18,7 +17,7 @@ read_table <- function(id, data_dir, code, selected_code, min_year, frequencies,
     check_language(meta)
     cbs_code <- get_cbs_code(meta)
     check_unknown_keys(id, selected_code, cbs_code)
-    data <- read_data_file(data_dir, cbs_code$Topic$Key)
+    data <- read_data_file(data_dir, cbs_code$Topic$Key, dimensions)
     if (!is.null(data)) {
       period_keys <- get_period_keys(meta, min_year, frequencies)
       read_ok <- check_read_data(data, selected_code, period_keys = period_keys)
@@ -60,8 +59,8 @@ read_meta_data <- function(dir) {
       # empty file
       return(NULL)
     } else {
-      return(read.csv(filename, stringsAsFactors = FALSE, 
-                      colClasses = "character"))
+      return(as.data.table(read.csv(filename, stringsAsFactors = FALSE, 
+                           colClasses = "character")))
     }
   }
   
@@ -75,17 +74,15 @@ read_meta_data <- function(dir) {
     ret$DataProperties$Position <- as.numeric(ret$DataProperties$Position)
     ret$DataProperties$ParentID <- as.numeric(ret$DataProperties$ParentID)
     
-    dp <- as.data.table(ret$DataProperties)
-    
     # prevent notes from R CMD check about no visible binding for global
     Type <- NULL
     
-    dimensions <- dp[endsWith(Type, "Dimension")]$Key
+    dimensions <- ret$DataProperties[endsWith(Type, "Dimension")]$Key
     
     dimension_data <- sapply(dimensions, FUN = read_meta_csv, 
                              simplify = FALSE)
     
-    return(structure(c(ret, dimension_data), class = "cbs_table"))
+    return(c(ret, dimension_data))
   },
   warning = function(e) {
     warning(e)
@@ -102,7 +99,7 @@ read_meta_data <- function(dir) {
 
 # Read raw cbs data from  the csv file
 # RETURN  the data as data.table, or NULL if a read error occurred
-read_data_file <- function(dir, topic_keys) {
+read_data_file <- function(dir, topic_keys, dimensions) {
   
   if (!dir.exists(dir)) {
     return(NULL)
@@ -121,7 +118,11 @@ read_data_file <- function(dir, topic_keys) {
            " Something is wrong with this table.")
     }
     
-
+    # convert dimensions columns to character
+    if (length(dimensions) > 0) {
+      data[, (dimensions) := lapply(.SD, as.character), .SDcols = dimensions]
+    }
+    
     #
     # fix character columns, character columns typically arise when 
     # the data contains old style NA strings 

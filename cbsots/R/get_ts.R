@@ -44,11 +44,6 @@
 #'  \item{M}{Monthly timeseries (if present)}
 #'  \item{ts_names}{A data frame with an overview of the timeseries names}
 #'  \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
-#'
-#' @importFrom regts as.regts
-#' @importFrom regts update_ts_labels
-#' @importFrom stats as.formula
-#' @importFrom utils modifyList
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
                    include_meta = FALSE, min_year = NULL, frequencies = NULL,
@@ -118,6 +113,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   if (!refresh) {
     read_result <- read_table(id, data_dir, code = table$codes, 
                               selected_code = selected_code, 
+                              dimensions = dimensions,
                               min_year = min_year, frequencies = frequencies)
     if (is.null(read_result) && !missing(download) && !download) {
       stop(paste("The files in directory", file.path(raw_cbs_dir, id), 
@@ -131,7 +127,8 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
                    frequencies = frequencies, base_url = base_url, 
                    download_all_keys = download_all_keys)
     read_result <- read_table(id, data_dir, code = table$codes, 
-                              selected_code = selected_code, 
+                              selected_code = selected_code,
+                              dimensions = dimensions, 
                               min_year = min_year, frequencies = frequencies,
                               read_downloaded_data = TRUE)
     if (is.null(read_result)) {
@@ -167,86 +164,78 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     data[, (unused_topics) := NULL]
   }
 
-  # Rename the topic names
-  setnames(data, old = code$Topic$Key, new = code$Topic$Code)
-
-  # rename the dimension keys with the code
-  for (dimension in dimensions) {
-    
-    keys  <- code[[dimension]]$Key
-    codes <- code[[dimension]]$Code
-
-    # select rows
-    data <- data[get(dimension) %in% keys]
-    
-    # rename dimensions
-    dim_index <- match(data[[dimension]], keys)
-    data[[dimension]] <- codes[dim_index]
-  }
-  
-  if (!"Perioden" %in% colnames(data)) {
+  # check if Data contains a column names 'Perioden'
+  if (is.null(data$Perioden)) {
     stop(paste("Table", id, "does not contain timeseries"))
   }
   
-
-  # In data frame data zijn de tijdreeksen voor hetzelfde onderwerp maar
-  # met verschillende dimensions gestapeld in een enkel kolom.
-  # Daarom gebruiken we functie dcast (to "cast" betekent "gieten")
-  # om het data frame in de juiste vorm te gieten, namelijk voor elke
-  # tijdreeks een aparte kolom
+  # Rename the topic keys with the CPB code
+  setnames(data, old = code$Topic$Key, new = code$Topic$Code)
+  
   if (length(dimensions) > 0) {
     
-    melted <- melt(data, id.vars = c("Perioden", dimensions),
-                   measure.vars = code$Topic$Code, variable.name = "Topic")
+    # rename the dimension keys with the CPB code
+    for (dimension in dimensions) {
+      data <- merge.data.table(data, code[[dimension]][, c("Key", "Code")], 
+                               by.x = dimension, by.y = "Key")
+      data[, (dimension) := Code]
+      data[, Code := NULL]
+    }
     
-    formula <- as.formula(paste("Perioden ~", 
-                          paste(names(code), collapse = " + ")))
-    
-    data <- dcast(melted, formula = formula, sep = "") 
+    # First melt the data and then cast to appropriate form.
+    # This ensures that variable names are correctly created 
+    # from the Code of Topic and the dimensions.
+    melted <- melt.data.table(data, 
+                              id.vars = c("Perioden", dimensions),
+                              measure.vars = code$Topic$Code, 
+                              variable.name = "Topic")
+    formula <- stats::as.formula(paste("Perioden ~", 
+                                 paste(names(code), collapse = " + ")))
+    data <- dcast(melted, formula = formula, sep = "")
   }
 
-  ts_names_en_labels <- maak_ts_names_en_labels(code)
+  ts_name_info <- get_ts_name_info(code)
 
-  ts_ts <- create_timeseries(data, ts_names_en_labels$labels)
+  ts_ts <- create_timeseries(data, ts_name_info)
 
-  ret <- c(ts_ts, list(ts_names = ts_names_en_labels$ts_names))
+  ret <- c(ts_ts, list(ts_names = ts_name_info))
   
   if (include_meta) {
-    ret$meta <- clean_meta_data(meta, code, cbs_code, dimensions)
+    ret$meta <- convert_meta_data(meta, code, cbs_code, dimensions)
   }
            
   return(structure(ret, class = "table_ts"))
 }
 
-maak_ts_names_en_labels <- function(code) {
-  # Bereken de ts-namen en de bijbehorende labels door het uitproduct
-  # van alle keys (topic-keys en dimensie-keys) te berekenen.
-  # Hiervoor wordt functie CJ van het data.table pakket gebruikt.
-  
+# collect all information about the timeseries names
+get_ts_name_info <- function(code) {
+
   keys <- lapply(code, FUN = function(x) {x$Key})
-  keys <- do.call(CJ, c(keys, sorted = FALSE))
+  keys <- do.call(data.table::CJ, c(keys, sorted = FALSE))
 
   codes <- lapply(code, FUN = function(x) {x$Code})
   codes <- do.call(CJ, c(codes, sorted = FALSE))
-  namen <- do.call(paste0, codes)
+  names <- do.call(paste0, codes)
 
-  main_labels <- list(code[[1]]$Title)  
+  main_labels <- code[[1]]$Title  
   extra_labels <- lapply(code[-1], 
      FUN = function(x) {ifelse(x$Title == "", "", paste0("(", x$Title, ")"))})
-  labels <- c(main_labels, extra_labels)
+  labels <- c(list(main_labels), extra_labels)
   labels <- do.call(CJ, c(labels, sorted = FALSE))
   labels <- do.call(paste, labels)
-  names(labels) <- namen
 
-  ts_names <- cbind(name = namen, keys, labels = labels)
- 
-  # sorteer ts namen
-  ts_names <- as.data.frame(ts_names[order(namen), ])
+  ts_names <- cbind(name = names, keys, labels = labels)
+  
+  # sort by name and convert to data frame:
+  ts_names <- as.data.frame(ts_names[order(names), ])
 
-  return(list(ts_names = ts_names, labels = labels))
+  return(ts_names)
 }
 
-create_timeseries <- function(data, labels) {
+create_timeseries <- function(data, ts_name_info) {
+  
+  labels <- ts_name_info$label
+  names(labels) <- ts_name_info$name
 
   # conversion table CBS-frequencies <-> cbsots-frequencies
   freq_name_table <-   c(JJ = "Y", HJ = "H", KW = "Q", MM = "M")
@@ -281,11 +270,11 @@ create_timeseries <- function(data, labels) {
     data_freq$Perioden <- sub(pattern, replacement, data_freq$Perioden)
     
     # convert data to timeseries
-    ts_freq <- as.regts(data_freq, time_column = "Perioden", 
-                        frequency = freq_number) 
+    ts_freq <- regts::as.regts(data_freq, time_column = "Perioden", 
+                               frequency = freq_number) 
   
     # add labels
-    ts_freq  <- update_ts_labels(ts_freq, labels)
+    ts_freq  <- regts::update_ts_labels(ts_freq, labels)
   
     # sort columns alphabetically
     ts_freq <- ts_freq[, order(colnames(ts_freq)), drop = FALSE]
@@ -301,25 +290,23 @@ create_timeseries <- function(data, labels) {
 }
 
 # Remove entries in the meta data that are not used to create the tables.
-clean_meta_data <- function(meta_data, code, cbs_code, dimensions) {
+convert_meta_data <- function(meta_data, code, cbs_code, dimensions) {
+  
+  # prevent notes from R CMD check about no visible binding for global
+  # or no visible global function
+  Type <- NULL; Key <- NULL
   
   convert_meta <- function(name) {
-    sel <- match(code[[name]]$Key, meta_data[[name]]$Key)
-    return(meta_data[[name]][sel,  , drop = FALSE])
+    return(meta_data[[name]][match(code[[name]]$Key, Key), ])
   }
-  dimension_meta <- sapply(dimensions, FUN = convert_meta, simplify = FALSE)
-  for (name in names(dimension_meta)) {
-    meta_data[[name]] <- dimension_meta[[name]]
-  }
+  meta_data[dimensions] <- lapply(dimensions, FUN = convert_meta)
 
   # now convert DataProperies. First remove all Topics that are not used.
-  dp <- as.data.table(meta_data$DataProperties)
-  
-  remove_keys <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
-  dp <- dp[!dp$Key %in% remove_keys, ]
+  dp <- meta_data$DataProperties
+  dp <- dp[Type != "Topic" | Key %in% code$Topic$Key, ]
   
   # Next, remove all TopicGroups that have no children Topics any more.
-  # First assume that all TopicGroups are not used, then move backwards trough
+  # First assume that all TopicGroups are not used, then move backwards through
   # the data properties and register all used TopicGroups.
   used <- dp$Type != "TopicGroup"
   for (i in nrow(dp):1) {
@@ -336,5 +323,9 @@ clean_meta_data <- function(meta_data, code, cbs_code, dimensions) {
   }
   
   meta_data$DataProperties <- dp[used, drop = FALSE]
-  return(meta_data)
+  
+  # convert all meta data to a normal data frame
+  meta_data[] <- lapply(meta_data, FUN = as.data.frame)
+
+  return(structure(meta_data, class = "cbs_table"))
 }
