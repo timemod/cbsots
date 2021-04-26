@@ -42,8 +42,7 @@ test_that(id, {
   expect_known_value(result1, file = expected_value_file)
 
   expected_output_file <- file.path("expected_output",
-                                    paste0(id, "_print_result_", 
-                                           .Platform$OS.type, ".txt"))
+                                    paste0(id, "_print_result.txt"))
   expect_known_output(print(result1), expected_output_file)
 
   check <- check_ts_table(result1, id)
