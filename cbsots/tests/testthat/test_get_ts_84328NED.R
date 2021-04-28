@@ -5,7 +5,11 @@ rm(list = ls())
 
 id <- "84328NED"
 
+context(paste("get_ts", id))
+
 update_expected <- FALSE
+
+dum <- Sys.setlocale("LC_COLLATE", "C")
 
 # Use UTF-8 encoding, because the Titles contains diacritical characters 
 # and the data files have been created with UTF-8 encoding.
@@ -26,12 +30,9 @@ test_that(id, {
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
 
-  expected_file <- file.path("expected_output", 
-                              paste0(id, "_1_labels_.rds"))
-  if (update_expected) saveRDS(ts_labels(result1$Y), expected_file)
-  expected <- readRDS(expected_file)
-  expected <- expected[order(names(expected))]
-  expect_equal(ts_labels(result1$Y), expected)
+  expected_file <- file.path("expected_output", paste0(id, "_1_labels.rds"))
+  expect_known_value(ts_labels(result1$Y), expected_file,
+                     update = update_expected)
 })
 
 
@@ -44,7 +45,6 @@ test_that(paste(id, "errors"), {
                 "'KapitaalgoederenvoorraadBeginbalans_3', 'Afschrijvingen_6'",
                 ", 'KapitaalgoederenvoorraadEindbalans_1'\\.") 
   expect_error(get_ts(id, ts_code_err, download = FALSE), msg)
-  
   
   ts_code_err <- ts_code
   ts_code_err$`84328NED`$codes$Topic[7, "Code"] <- "wnd"
@@ -67,11 +67,8 @@ test_that(paste(id,  "alt"), {
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
 
-  expected_file <- file.path("expected_output", 
-                             paste0(id, "_2_labels_.rds"))
-  if (update_expected) saveRDS(ts_labels(result1$Y), expected_file)
-  expected <- readRDS(expected_file)
-  expected <- expected[order(names(expected))]
-  expect_equal(ts_labels(result1$Y), expected)
+  expected_file <- file.path("expected_output", paste0(id, "_2_labels.rds"))
+  expect_known_value(ts_labels(result1$Y), expected_file, 
+                     update = update_expected)
 })
 
