@@ -1,4 +1,4 @@
-# This function open a new table. All information about the table is contained 
+# This function opens a new table. All information about the table is contained 
 # in argument values.
 open_table <- function(values, input, output, selected_tab = NULL, debug) {
   

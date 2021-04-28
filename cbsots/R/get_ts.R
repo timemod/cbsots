@@ -109,7 +109,6 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   # because it determines how the timeseries names are created.
   selected_code <- sapply(table$order, FUN = select_code, simplify = FALSE)
   
-  
   if (!refresh) {
     read_result <- read_table(id, data_dir, code = table$codes, 
                               selected_code = selected_code, 
@@ -194,7 +193,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     data <- dcast(melted, formula = formula, sep = "")
   }
 
-  ts_name_info <- get_ts_name_info(code)
+  ts_name_info <- get_ts_name_info(code, cbs_code, dimensions)
 
   ts_ts <- create_timeseries(data, ts_name_info)
 
@@ -208,8 +207,43 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
 }
 
 # collect all information about the timeseries names
-get_ts_name_info <- function(code) {
-
+get_ts_name_info <- function(code, cbs_code, dimensions) {
+  
+  #
+  # Create the titles of the Topics:
+  #  1) Use the titles from cbs_code
+  #  2) Add the CBS unit if the Unit is not already part of the title
+  #
+  rows <- match(code$Topic$Key, cbs_code$Topic$Key)
+  units <-  cbs_code$Topic[rows, "Unit"][[1]]
+  titles <- cbs_code$Topic[rows, "Title"][[1]]
+  
+  # check which titles already contain a unit description:
+  titles_no_spaces <- gsub("\\s", "", titles)
+  units_no_spaces <- gsub("\\s", "", units)
+  check_add_unit <- function(title_no_spaces, unit_no_spaces) {
+    return(!grepl(unit_no_spaces, title_no_spaces, ignore.case = TRUE))
+  }
+  add_unit <- mapply(FUN = check_add_unit, titles_no_spaces, units_no_spaces)
+  
+  titles <- ifelse(add_unit, paste0(titles, " (", units, ")"), titles)
+  code$Topic$Title <- titles
+  
+  #
+  # Fix titles of dimesions: use the titles of cbs_code
+  #
+  fix_title <- function(dim) {
+    code_dim <- code[[dim]]
+    cbs_code_dim <- cbs_code[[dim]]
+    rows <- match(code_dim$Key, cbs_code_dim$Key)
+    code_dim$Title <- cbs_code_dim[rows, "Title"]
+    return(code_dim)
+  }
+  code[dimensions] <- lapply(dimensions, FUN = fix_title)
+  
+  #
+  # now create the labels of the timeseries
+  #
   keys <- lapply(code, FUN = function(x) {x$Key})
   keys <- do.call(data.table::CJ, c(keys, sorted = FALSE))
 
@@ -219,10 +253,10 @@ get_ts_name_info <- function(code) {
 
   main_labels <- code[[1]]$Title  
   extra_labels <- lapply(code[-1], 
-     FUN = function(x) {ifelse(x$Title == "", "", paste0("(", x$Title, ")"))})
+     FUN = function(x) {ifelse(x$Title == "", "", paste0("; ", x$Title))})
   labels <- c(list(main_labels), extra_labels)
   labels <- do.call(CJ, c(labels, sorted = FALSE))
-  labels <- do.call(paste, labels)
+  labels <- do.call(paste0, labels)
 
   ts_names <- cbind(name = names, keys, labels = labels)
   

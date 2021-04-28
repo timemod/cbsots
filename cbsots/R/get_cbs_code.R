@@ -45,7 +45,7 @@ get_cbs_code <- function(meta_data) {
   # or no visible global function
   `.` <- NULL; Type <- NULL; Key <- NULL; Title <- NULL
   
-  topics <- data_prop[Type == "Topic", .(Key, Title)]
+  topics <- data_prop[Type == "Topic", .(Key, Title, Unit)]
 
   ##############################################################################
   # create output list  

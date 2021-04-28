@@ -82,7 +82,12 @@ check_code <- function(id, code, selected_code, cbs_code, downloaded) {
                         "argument refresh or download.")
       }
       
-      # find problematic keys with a running number
+      # Find problematic keys with a running number
+      # If the keys without running numbers are not unique,
+      # and the keys are not identical, it could be case that
+      # a key corresponds to a different variables, so we should
+      # give an error in that case, which forces the user 
+      # to update the table.
       missing_keys_code <- setdiff(cbs$Key, tscode$Key)
       missing_keys_cbs  <- setdiff(tscode$Key, cbs$Key)
       problem_keys <- union(missing_keys_code, missing_keys_cbs)
