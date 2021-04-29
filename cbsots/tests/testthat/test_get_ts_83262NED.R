@@ -22,9 +22,31 @@ test_that(id, {
   expect_silent(result1 <- get_ts(id, ts_code, download = FALSE))
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
-  expected_output_file <- sprintf("expected_output/%s.rds", id)
-  expect_known_output(result1, expected_output_file)
   
+  expected_output_file <- file.path("expected_output", paste0(id, "_y.rds"))
+  result1_data_y <- result1$Y
+  ts_labels(result1_data_y) <- NULL
+  expect_known_value(result1_data_y, expected_output_file, 
+                     update = update_expected)
+  
+  expected_output_file <- file.path("expected_output", paste0(id, "_h.rds"))
+  result1_data_h <- result1$H
+  ts_labels(result1_data_h) <- NULL
+  expect_known_value(result1_data_h, expected_output_file, 
+                     update = update_expected)
+  
+  expected_ts_names_file <- file.path("expected_output", 
+                                      paste0(id, "_ts_names.rds"))
+  expect_known_value(result1$ts_names, expected_ts_names_file, 
+                     update = update_expected)
+  
+  expected_label_file <- file.path("expected_output", paste0(id, "_labels.rds"))
+  expect_known_value(ts_labels(result1$Y), expected_label_file, 
+                     update = update_expected)
+  expect_known_value(ts_labels(result1$H), expected_label_file, 
+                     update = update_expected)
+ 
+
   expect_silent(result2 <- get_ts(id, ts_code, download = FALSE,
                                   frequencies = "H"))
   expect_equal(result2$H, result1$H)
