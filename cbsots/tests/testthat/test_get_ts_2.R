@@ -3,6 +3,8 @@ library(testthat)
 
 rm(list = ls())
 
+id <- "7137shih"
+
 context("get_ts: compare expected output")
 
 dum <- Sys.setlocale("LC_COLLATE", "C")
@@ -10,6 +12,8 @@ dum <- Sys.setlocale("LC_COLLATE", "C")
 # Use UTF-8 encoding, because the Titles contains diacritical characters 
 # and the data files have been created with UTF-8 encoding.
 options(encoding = "UTF-8")
+
+update_expected <- FALSE
 
 # 
 # In this test we will compare the results with expected output, 
@@ -23,7 +27,7 @@ ts_code <- readRDS("tscode/tscode.rds")
 
 source("utils/check_ts_table.R")
 
-id <- "7137shih"
+
 test_that(id, {
 
   # we don't expect any output because refresh = FALSE and the data is
@@ -34,17 +38,38 @@ test_that(id, {
   expect_equal(class(result1$ts_names), "data.frame")
   expect_equal(unname(sapply(result1$meta, FUN = class, USE.NAMES = FALSE)), 
                rep("data.frame", length(result1$meta)))
-
-  # the result of sort is platform dependent (it is actually also dependend on
-  # the locale)
-  expected_value_file <- file.path("expected_output", paste0(id, "_result_", 
-                                   .Platform$OS.type, ".rds"))
-  expect_known_value(result1, file = expected_value_file)
-
+  
+  # 
+  # compare print resut
+  #
   expected_output_file <- file.path("expected_output",
                                     paste0(id, "_print_result.txt"))
   expect_known_output(print(result1), expected_output_file)
 
+  
+  expected_output_file <- file.path("expected_output", paste0(id, "_y.rds"))
+  result1_data_y <- result1$Y
+  ts_labels(result1_data_y) <- NULL
+  expect_known_value(result1_data_y, expected_output_file, 
+                     update = update_expected)
+  
+  expected_output_file <- file.path("expected_output", paste0(id, "_m.rds"))
+  result1_data_m <- result1$M
+  ts_labels(result1_data_m) <- NULL
+  expect_known_value(result1_data_m, expected_output_file, 
+                     update = update_expected)
+  
+  expected_ts_names_file <- file.path("expected_output", 
+                                      paste0(id, "_ts_names.rds"))
+  expect_known_value(result1$ts_names, expected_ts_names_file, 
+                     update = update_expected)
+  
+  expected_label_file <- file.path("expected_output", paste0(id, "_labels.rds"))
+  expect_known_value(ts_labels(result1$Y), expected_label_file, 
+                     update = update_expected)
+  expect_known_value(ts_labels(result1$M), expected_label_file, 
+                     update = update_expected)
+  
   check <- check_ts_table(result1, id)
   expect_true(check)
 })
