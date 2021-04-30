@@ -140,20 +140,22 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   cbs_code <- read_result$cbs_code
   
   select_code_rows <- function(name) {
-    # remove all rows with an empty Code, except if the select_code table has 1 row
+    # remove all rows with an empty Code, except if the select_code 
+    # table has 1 row
     table <- selected_code[[name]]
+    table$Code <- trimws(table$Code)
     if (nrow(table) > 1) {
-      table <- table[nchar(Code) > 0, ]
+      table <- table[!is.na(Code) & nchar(Code) > 0, ]
       if (nrow(table) == 0) {
         stop(paste("No single Code specified for", name))
       }
     } else {
-      # If the code is empty, then also make the title empty.
-      table[(is.na(Code) | trimws(Code) == ""), c("Title", "Code") := ""]
+      # replace NA code with an empty string
+      table[is.na(Code), "Code" := ""]
     }
     return(table)
   }
-  
+
   # Convert the code tables based on the code column. 
   code <- sapply(names(selected_code), FUN = select_code_rows, simplify = FALSE)
   
