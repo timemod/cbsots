@@ -232,7 +232,7 @@ get_ts_name_info <- function(code, cbs_code, dimensions) {
   code$Topic$Title <- titles
   
   #
-  # Fix titles of dimesions: use the titles of cbs_code
+  # Fix titles of dimensions: use the titles of cbs_code
   #
   fix_title <- function(dim) {
     code_dim <- code[[dim]]
@@ -243,24 +243,44 @@ get_ts_name_info <- function(code, cbs_code, dimensions) {
   }
   code[dimensions] <- lapply(dimensions, FUN = fix_title)
   
-  #
-  # now create the labels of the timeseries
-  #
-  keys <- lapply(code, FUN = function(x) {x$Key})
-  keys <- do.call(data.table::CJ, c(keys, sorted = FALSE))
-
-  codes <- lapply(code, FUN = function(x) {x$Code})
-  codes <- do.call(CJ, c(codes, sorted = FALSE))
-  names <- do.call(paste0, codes)
-
+  
+  
+  clean_title <- function(dim) {
+    code_dim <- code[[dim]]
+    if (nrow(code_dim) == 1 && code_dim$Code == "") {
+      # if a singe row has been selected and Code has not been specicied,
+      # then make title equal to an empty string, to that no label is created
+      code_dim$Title <- ""
+      return(code_dim)
+    } else {
+      return(code_dim)
+    }
+  }
+  code[dimensions] <- lapply(dimensions, FUN = clean_title)
+  
+  # create labels
   main_labels <- code[[1]]$Title  
   extra_labels <- lapply(code[-1], 
      FUN = function(x) {ifelse(x$Title == "", "", paste0("; ", x$Title))})
   labels <- c(list(main_labels), extra_labels)
   labels <- do.call(CJ, c(labels, sorted = FALSE))
   labels <- do.call(paste0, labels)
+  
+  # create keys
+  keys <- lapply(code, FUN = function(x) {x$Key})
+  keys <- do.call(data.table::CJ, c(keys, sorted = FALSE))
+  names(keys) <- paste0(names(keys), "_Key")
+  
+  # create title
+  titles <- lapply(code, FUN = function(x) {x$Title})
+  titles <- do.call(data.table::CJ, c(titles, sorted = FALSE))
+  
+  # create names
+  codes <- lapply(code, FUN = function(x) {x$Code})
+  codes <- do.call(CJ, c(codes, sorted = FALSE))
+  names <- do.call(paste0, codes)
 
-  ts_names <- cbind(name = names, keys, labels = labels)
+  ts_names <- cbind(name = names, titles, labels = labels, keys)
   
   # sort by name and convert to data frame:
   ts_names <- as.data.frame(ts_names[order(names), ])
