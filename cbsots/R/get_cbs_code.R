@@ -43,7 +43,7 @@ get_cbs_code <- function(meta_data) {
   
   # prevent notes from R CMD check about no visible binding for global
   # or no visible global function
-  `.` <- NULL; Type <- NULL; Key <- NULL; Title <- NULL
+  `.` <- NULL; Type <- NULL; Key <- NULL; Title <- NULL; Unit <- NULL
   
   topics <- data_prop[Type == "Topic", .(Key, Title, Unit)]
 

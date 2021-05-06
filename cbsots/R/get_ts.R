@@ -287,6 +287,10 @@ get_ts_name_info <- function(code, cbs_code, dimensions) {
   labels <- c(list(main_labels), extra_labels)
   labels <- do.call(CJ, c(labels, sorted = FALSE))
   labels <- do.call(paste0, labels)
+
+  # prevent notes from R CMD check about no visible binding for global
+  # variable
+  `..colnrs` <- NULL
   
   keys_and_titles <- cbind(keys, titles)  
   n <- length(keys)
