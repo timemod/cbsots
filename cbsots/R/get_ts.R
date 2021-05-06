@@ -232,56 +232,69 @@ get_ts_name_info <- function(code, cbs_code, dimensions) {
   code$Topic$Title <- titles
   
   #
-  # Fix titles of dimensions: use the titles of cbs_code
+  # Fix titles of dimensions: use the titles of CBS code and trim
+  # white space.
   #
   fix_title <- function(dim) {
     code_dim <- code[[dim]]
     cbs_code_dim <- cbs_code[[dim]]
     rows <- match(code_dim$Key, cbs_code_dim$Key)
     code_dim$Title <- cbs_code_dim[rows, "Title"]
+    code_dim$Title <- trimws(code_dim$Title)
     return(code_dim)
   }
   code[dimensions] <- lapply(dimensions, FUN = fix_title)
-  
-  
-  
-  clean_title <- function(dim) {
-    code_dim <- code[[dim]]
-    if (nrow(code_dim) == 1 && code_dim$Code == "") {
-      # if a singe row has been selected and Code has not been specicied,
-      # then make title equal to an empty string, to that no label is created
-      code_dim$Title <- ""
-      return(code_dim)
-    } else {
-      return(code_dim)
-    }
-  }
-  code[dimensions] <- lapply(dimensions, FUN = clean_title)
-  
-  # create labels
-  main_labels <- code[[1]]$Title  
-  extra_labels <- lapply(code[-1], 
-     FUN = function(x) {ifelse(x$Title == "", "", paste0("; ", x$Title))})
-  labels <- c(list(main_labels), extra_labels)
-  labels <- do.call(CJ, c(labels, sorted = FALSE))
-  labels <- do.call(paste0, labels)
   
   # create keys
   keys <- lapply(code, FUN = function(x) {x$Key})
   keys <- do.call(data.table::CJ, c(keys, sorted = FALSE))
   names(keys) <- paste0(names(keys), "_Key")
   
-  # create title
+  # create titles
   titles <- lapply(code, FUN = function(x) {x$Title})
   titles <- do.call(data.table::CJ, c(titles, sorted = FALSE))
+  names(titles) <- paste0(names(titles), "_Title")
   
   # create names
   codes <- lapply(code, FUN = function(x) {x$Code})
   codes <- do.call(CJ, c(codes, sorted = FALSE))
   names <- do.call(paste0, codes)
-
-  ts_names <- cbind(name = names, titles, labels = labels, keys)
   
+  #
+  # create labels
+  #
+  get_label_titles <- function(name) {
+    code_name <- code[[name]]
+    if (name != "Topic" && nrow(code_name) == 1 && code_name$Code == "") {
+      # We do not use the Titles of the dimensions (exlcluding Topic) if 
+      # only a single row has been selected and if Code has not bee
+      # specified.
+      return("")
+    } else {
+      return(code_name$Title)
+    }
+  }
+  
+  label_titles <- sapply(names(code), FUN = get_label_titles,
+                         simplify = FALSE)
+  
+  # create labels:
+  main_labels <- label_titles[[1]]  
+  extra_labels <- lapply(label_titles[-1], 
+                         FUN = function(title) {
+                                 ifelse(title == "", "", paste(";", title))
+                               })
+  labels <- c(list(main_labels), extra_labels)
+  labels <- do.call(CJ, c(labels, sorted = FALSE))
+  labels <- do.call(paste0, labels)
+  
+  keys_and_titles <- cbind(keys, titles)  
+  n <- length(keys)
+  colnrs <- as.vector(t(cbind(1:n, (n + 1) : (2 * n))))
+  keys_and_titles <- keys_and_titles[, ..colnrs]
+  
+  ts_names <- cbind(name = names, keys_and_titles, labels = labels)
+
   # sort by name and convert to data frame:
   ts_names <- as.data.frame(ts_names[order(names), ])
 
