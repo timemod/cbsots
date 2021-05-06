@@ -32,8 +32,8 @@ test_that(id, {
 
   # we don't expect any output because refresh = FALSE and the data is
   # present in directory raw_cbs_data
-  result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, min_year = 2015,
-                                  include_meta = TRUE))
+  result1 <- expect_silent(get_ts(id, ts_code, refresh = FALSE, 
+                                  min_year = 2015))
   
   expect_equal(class(result1$ts_names), "data.frame")
   expect_equal(unname(sapply(result1$meta, FUN = class, USE.NAMES = FALSE)), 

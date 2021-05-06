@@ -17,7 +17,7 @@
 #' directory \code{raw_cbs_dir} are missing or not 
 #' complete (missing dimension keys). If \code{TRUE} then data are always 
 #' downloaded.
-#' @param include_meta include meta data
+#' @param include_meta include meta data (the default is `TRUE`)
 #' @param min_year  the minimum year of the returned timeseries. Data 
 #' for years before \code{min_year} are disregarded. Specify \code{NULL}
 #' or \code{NA} to not impose a minimum year
@@ -46,7 +46,7 @@
 #'  \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE, min_year = NULL, frequencies = NULL,
+                   include_meta = TRUE, min_year = NULL, frequencies = NULL,
                    download, base_url = NULL, download_all_keys = FALSE) {
 
   if (!is.null(min_year) && is.na(min_year)) {
