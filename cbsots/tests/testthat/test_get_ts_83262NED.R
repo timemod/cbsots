@@ -48,12 +48,14 @@ test_that(id, {
  
 
   expect_silent(result2 <- get_ts(id, ts_code, download = FALSE,
-                                  frequencies = "H"))
+                                  frequencies = "H",
+                                  include_meta = FALSE))
   expect_equal(result2$H, result1$H)
   expect_equal(names(result2), c("H", "ts_names"))
   
   expect_warning(result3 <- get_ts(id, ts_code, download = FALSE,
-                                  frequencies = "hq"),
+                                  frequencies = "hq",
+                                  include_meta = FALSE),
                  "Frequencies Q not present in table")
   expect_equal(result2, result3)
   

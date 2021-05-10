@@ -17,7 +17,7 @@
 #' directory \code{raw_cbs_dir} are missing or not 
 #' complete (missing dimension keys). If \code{TRUE} then data are always 
 #' downloaded.
-#' @param include_meta include meta data
+#' @param include_meta include meta data (the default is `TRUE`)
 #' @param min_year  the minimum year of the returned timeseries. Data 
 #' for years before \code{min_year} are disregarded. Specify \code{NULL}
 #' or \code{NA} to not impose a minimum year
@@ -46,7 +46,7 @@
 #'  \item{meta}{Meta data, only if argument \code{include_meta} is \code{TRUE}}
 #' @export
 get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
-                   include_meta = FALSE, min_year = NULL, frequencies = NULL,
+                   include_meta = TRUE, min_year = NULL, frequencies = NULL,
                    download, base_url = NULL, download_all_keys = FALSE) {
 
   if (!is.null(min_year) && is.na(min_year)) {
@@ -109,7 +109,6 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   # because it determines how the timeseries names are created.
   selected_code <- sapply(table$order, FUN = select_code, simplify = FALSE)
   
-  
   if (!refresh) {
     read_result <- read_table(id, data_dir, code = table$codes, 
                               selected_code = selected_code, 
@@ -141,20 +140,22 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   cbs_code <- read_result$cbs_code
   
   select_code_rows <- function(name) {
-    # remove all rows with an empty Code, except if the select_code table has 1 row
+    # remove all rows with an empty Code, except if the select_code 
+    # table has 1 row
     table <- selected_code[[name]]
+    table$Code <- trimws(table$Code)
     if (nrow(table) > 1) {
-      table <- table[nchar(Code) > 0, ]
+      table <- table[!is.na(Code) & nchar(Code) > 0, ]
       if (nrow(table) == 0) {
         stop(paste("No single Code specified for", name))
       }
     } else {
-      # If the code is empty, then also make the title empty.
-      table[(is.na(Code) | trimws(Code) == ""), c("Title", "Code") := ""]
+      # replace NA code with an empty string
+      table[is.na(Code), "Code" := ""]
     }
     return(table)
   }
-  
+
   # Convert the code tables based on the code column. 
   code <- sapply(names(selected_code), FUN = select_code_rows, simplify = FALSE)
   
@@ -194,7 +195,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
     data <- dcast(melted, formula = formula, sep = "")
   }
 
-  ts_name_info <- get_ts_name_info(code)
+  ts_name_info <- get_ts_name_info(code, cbs_code, dimensions)
 
   ts_ts <- create_timeseries(data, ts_name_info)
 
@@ -208,24 +209,92 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
 }
 
 # collect all information about the timeseries names
-get_ts_name_info <- function(code) {
-
+get_ts_name_info <- function(code, cbs_code, dimensions) {
+  
+  #
+  # Create the titles of the Topics:
+  #  1) Use the titles from cbs_code
+  #  2) Add the CBS unit if the Unit is not already part of the title
+  #
+  rows <- match(code$Topic$Key, cbs_code$Topic$Key)
+  units <-  trimws(cbs_code$Topic[rows, "Unit"][[1]])
+  titles <- trimws(cbs_code$Topic[rows, "Title"][[1]])
+  
+  # check which titles already contain a unit description:
+  titles_no_spaces <- gsub("\\s", "", titles)
+  units_no_spaces <- gsub("\\s", "", units)
+  check_add_unit <- function(title_no_spaces, unit_no_spaces) {
+    return(!grepl(unit_no_spaces, title_no_spaces, ignore.case = TRUE))
+  }
+  add_unit <- mapply(FUN = check_add_unit, titles_no_spaces, units_no_spaces)
+  
+  titles <- ifelse(add_unit, paste0(titles, " (", units, ")"), titles)
+  code$Topic$Title <- titles
+  
+  #
+  # Fix titles of dimensions: use the titles of CBS code and trim
+  # white space.
+  #
+  fix_title <- function(dim) {
+    code_dim <- code[[dim]]
+    cbs_code_dim <- cbs_code[[dim]]
+    rows <- match(code_dim$Key, cbs_code_dim$Key)
+    code_dim$Title <- cbs_code_dim[rows, "Title"]
+    code_dim$Title <- trimws(code_dim$Title)
+    return(code_dim)
+  }
+  code[dimensions] <- lapply(dimensions, FUN = fix_title)
+  
+  # create keys
   keys <- lapply(code, FUN = function(x) {x$Key})
   keys <- do.call(data.table::CJ, c(keys, sorted = FALSE))
-
+  names(keys) <- paste0(names(keys), "_Key")
+  
+  # create titles
+  titles <- lapply(code, FUN = function(x) {x$Title})
+  titles <- do.call(data.table::CJ, c(titles, sorted = FALSE))
+  names(titles) <- paste0(names(titles), "_Title")
+  
+  # create names
   codes <- lapply(code, FUN = function(x) {x$Code})
   codes <- do.call(CJ, c(codes, sorted = FALSE))
   names <- do.call(paste0, codes)
-
-  main_labels <- code[[1]]$Title  
-  extra_labels <- lapply(code[-1], 
-     FUN = function(x) {ifelse(x$Title == "", "", paste0("(", x$Title, ")"))})
+  
+  #
+  # create labels
+  #
+  get_label_titles <- function(name) {
+    code_name <- code[[name]]
+    if (name != "Topic" && nrow(code_name) == 1 && code_name$Code == "") {
+      # We do not use the Titles of the dimensions (exlcluding Topic) if 
+      # only a single row has been selected and if Code has not bee
+      # specified.
+      return("")
+    } else {
+      return(code_name$Title)
+    }
+  }
+  
+  label_titles <- sapply(names(code), FUN = get_label_titles,
+                         simplify = FALSE)
+  
+  # create labels:
+  main_labels <- label_titles[[1]]  
+  extra_labels <- lapply(label_titles[-1], 
+                         FUN = function(title) {
+                                 ifelse(title == "", "", paste(";", title))
+                               })
   labels <- c(list(main_labels), extra_labels)
   labels <- do.call(CJ, c(labels, sorted = FALSE))
-  labels <- do.call(paste, labels)
+  labels <- do.call(paste0, labels)
 
-  ts_names <- cbind(name = names, keys, labels = labels)
+  keys_and_titles <- cbind(keys, titles)  
+  n <- length(keys)
+  colnrs <- as.vector(t(cbind(1:n, (n + 1) : (2 * n))))
+  keys_and_titles <- keys_and_titles[, colnrs, with = FALSE]
   
+  ts_names <- cbind(name = names, keys_and_titles, labels = labels)
+
   # sort by name and convert to data frame:
   ts_names <- as.data.frame(ts_names[order(names), ])
 

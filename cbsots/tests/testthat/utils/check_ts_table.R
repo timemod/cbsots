@@ -49,11 +49,13 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
   cbs_data <- as.data.table(lapply(cbs_data, FUN = check_na_strings))
   
   ts_names <- as.data.table(x$ts_names)
-  dimensions <- setdiff(colnames(ts_names)[2:(ncol(ts_names) - 1)], "Topic")
+  key_columns <- grep("_Key$", colnames(ts_names)[2:ncol(ts_names) - 1], 
+                      value = TRUE)
+  dimensions <- setdiff(sub("_Key$", "", key_columns), "Topic")
   frequencies <-  setdiff(names(x), c("ts_names", "meta"))
   
   # select topic columns 
-  cbs_data <- cbs_data[ , c(dimensions, "Perioden", ts_names$Topic), 
+  cbs_data <- cbs_data[ , c(dimensions, "Perioden", ts_names$Topic_Key), 
                         with = FALSE]
   
   if (!missing(min_year)) {
@@ -97,10 +99,10 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
     equal <- TRUE
   
     tsname <- tsname_info[1]
-    topic <- tsname_info["Topic"]
+    topic <- tsname_info["Topic_Key"]
     
     if (length(dimensions) > 0) {
-      dim_key <- paste(tsname_info[dimensions], collapse = ".")
+      dim_key <- paste(tsname_info[paste0(dimensions, "_Key")], collapse = ".")
     } else {
       dim_key <- 1
     }
