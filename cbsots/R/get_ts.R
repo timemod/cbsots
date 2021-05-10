@@ -217,8 +217,8 @@ get_ts_name_info <- function(code, cbs_code, dimensions) {
   #  2) Add the CBS unit if the Unit is not already part of the title
   #
   rows <- match(code$Topic$Key, cbs_code$Topic$Key)
-  units <-  cbs_code$Topic[rows, "Unit"][[1]]
-  titles <- cbs_code$Topic[rows, "Title"][[1]]
+  units <-  trimws(cbs_code$Topic[rows, "Unit"][[1]])
+  titles <- trimws(cbs_code$Topic[rows, "Title"][[1]])
   
   # check which titles already contain a unit description:
   titles_no_spaces <- gsub("\\s", "", titles)
@@ -291,7 +291,7 @@ get_ts_name_info <- function(code, cbs_code, dimensions) {
   keys_and_titles <- cbind(keys, titles)  
   n <- length(keys)
   colnrs <- as.vector(t(cbind(1:n, (n + 1) : (2 * n))))
-  keys_and_titles <- keys_and_titles[, ..colnrs]
+  keys_and_titles <- keys_and_titles[, colnrs, with = FALSE]
   
   ts_names <- cbind(name = names, keys_and_titles, labels = labels)
 
