@@ -72,4 +72,33 @@ test_that(id, {
   
   check <- check_ts_table(result1, id)
   expect_true(check)
+  
+  xlsx_file <- "output/get_ts_2.xlsx"
+  write_table_ts_xlsx(result1, xlsx_file)
+  
+  
+  data_y <- read_ts_xlsx(xlsx_file, sheet = "annual")
+  data_m <- read_ts_xlsx(xlsx_file, sheet = "monthly")
+  expect_equal(result1$Y, data_y)
+  expect_equal(result1$M, data_m)
+  
+  meta <- result1$meta
+  for (name in names(meta)) {
+    meta_data <- meta[[name]]
+    meta_data[] <- lapply(meta_data, FUN = as.character)
+    meta_data[] <- lapply(meta_data, 
+                          FUN = function(x) ifelse(is.na(x) | x == "", 
+                                                   NA_character_, x))
+    sheet_name <- paste0("meta_data_", name)
+    if (nchar(sheet_name) > 31) {
+      sheet_name <- substr(sheet_name, 1, 31)
+    }
+    meta_data_sheet <- readxl::read_excel(xlsx_file, sheet = sheet_name,
+                                          trim_ws = FALSE, 
+                                          col_types = "text")
+    meta_data_sheet <- as.data.frame(meta_data_sheet)
+    meta_data_sheet[] <- lapply(meta_data_sheet, 
+                                FUN = function(x) gsub("\r", "", x))
+    expect_equal(meta_data_sheet, meta_data)
+  }
 })

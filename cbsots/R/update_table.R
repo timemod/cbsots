@@ -138,8 +138,16 @@ update_table <- function(table, old_table, table_id, old_table_id) {
     minWidth_old <- options("openxlsx.minWidth")[[1]]
     options("openxlsx.minWidth" = 8.43)
     tryCatch({
-      result <- saveWorkbook(wb, match_file, overwrite = TRUE, returnValue = TRUE)
-      if (!isTRUE(result)) stop(result$message, call. = FALSE)
+      result <- saveWorkbook(wb, match_file, overwrite = TRUE, 
+                             returnValue = TRUE)
+      if (!isTRUE(result)) {
+        if (packageVersion("openxlsx") > "4.2.4") {
+          stop("Failed to save workbook to file '", match_file, 
+               "'. Check warnings.")
+        } else {
+          stop(result$message, call. = FALSE)
+        }
+      }
     }, finally = {
       options("openxlsx.minWidth" = minWidth_old)
     })

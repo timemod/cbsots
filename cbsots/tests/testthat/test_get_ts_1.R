@@ -88,4 +88,16 @@ test_that(id, {
   result6_Q <- result6
   result6_Q$Y <- NULL
   expect_identical(result6_Q, expected_result_2010)
+  
+  xlsx_file <- "output/get_ts_1.xlsx"
+  write_table_ts_xlsx(result6, xlsx_file)
+  
+  data_y <- read_ts_xlsx(xlsx_file, sheet = "annual")
+  data_q <- read_ts_xlsx(xlsx_file, sheet = "quarterly")
+  expect_equal(result6$Y, data_y)
+  expect_equal(result6$Q, data_q)
+  ts_names <- as.data.frame(readxl::read_excel(xlsx_file, sheet = "ts_names",
+                                               trim_ws = FALSE, 
+                                               col_types = "text"))
+  expect_equal(result6$ts_names, ts_names)
 })
