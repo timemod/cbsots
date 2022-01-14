@@ -1,26 +1,3 @@
-# Functie output_tijdreeksen schrijft de tijdreeksen naar een rds-
-# en naar een Excel-file.
-#
-# INPUT
-#   reeksen         de return-waarde van functie cbs2ts (een lijst met 
-#                   tijdreeksnamen en tijdreeksen). 
-#   naam_kort       Korte omschrijving van de tabel, deze bepaalt de 
-#                   naam van de outputfile.
-#   naam_lang       Uitgebreidere omschrijving van de tabel, wordt gebruikt voor
-#                   boodschappen naar het scherm.
-#   output_dir      Naam van de map waarin de bestanden worden weggeschreven
-#                   geschreven (standaard is dit "ruwe_cbs_data")
-#   rowwise         Een logical die aangeeft of de tijdreeksdata rijgewijs
-#                   moet worden weggeschreven
-#   write_xlsx      Een logical die aangeeft of de tijdreeksen naar een 
-#                   Excel-file moeten worden weggeschreven.
-#
-# RETURN:  NULL
-#
-# De tijdreeksen worden geschreven naar rds-file <output_dir>/<naam_kort>.rds
-# en Excel file <output_dir>/<naam_kort>.xlsx.
-#
-
 #' Writes the timeseries returned by function \code{\link{get_ts}} to
 #' an Excel file.
 #' 
@@ -90,7 +67,13 @@ write_table_ts_xlsx  <- function(x, file, rowwise = TRUE, ...) {
   options("openxlsx.minWidth" = 8.43)
   tryCatch({
     result <- saveWorkbook(wb, file, overwrite = TRUE, returnValue = TRUE)
-    if (!isTRUE(result)) stop(result$message, call. = FALSE)
+    if (!isTRUE(result)) {
+      if (packageVersion("openxlsx") > "4.2.4") {
+        stop("Failed to save workbook to file '", file, "'. Check warnings.")
+      } else {
+        stop(result$message, call. = FALSE)
+      }
+    }
   }, finally = {
     options("openxlsx.minWidth" = minWidth_old)
   })
