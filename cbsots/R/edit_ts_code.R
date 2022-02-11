@@ -22,7 +22,6 @@
 #' @importFrom utils packageVersion
 #' @importFrom utils packageName
 #' @importFrom shinyalert shinyalert
-#' @importFrom shinyalert useShinyalert
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                          debug = FALSE, base_url = NULL) {
@@ -60,8 +59,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   ui <- fluidPage(
 
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
-    
-    useShinyalert(),  # Set up shinyalert
     
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(
