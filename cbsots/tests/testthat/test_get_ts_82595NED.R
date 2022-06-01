@@ -228,35 +228,19 @@ test_that("corrupt data (1)", {
   ok <- copy_corrupt_data_file("corrupt1")
   expect_true(ok)
   
-  error_msg <- paste("The files in directory", data_dir, "are",
-                    "incomplete or corrupt. Please download the data again.")
-  error_msg <- gsub("[\\]", "\\\\\\\\", error_msg)
-  warning_msgs <- c("NAs introduced by coercion", 
-                   paste0("Error reading file ", data_file, "."))
-                   
-  warnings <- capture_warnings(
-    expect_error(
+  error_msg <- "Topic 'Totaal_1' contains text data:\n'piet'."
+  expect_error(
       result1 <- get_ts(id, ts_code_1, download = FALSE, 
                           min_year = 2017, 
                           raw_cbs_dir = raw_cbs_dir),
       error_msg)
-  )
-  
-  expect_identical(warnings, warning_msgs)
-  
   
   # now with refresh = FALSE
-  warnings <- capture_warnings(
-    expect_output(
+  expect_error(
       result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir)
-    )
+                        raw_cbs_dir = raw_cbs_dir),
+      error_msg
   )
-  
-  expect_identical(warnings, warning_msgs)
-  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
-  expect_true(check)
-  expect_equal(ncol(result1$Y), 2)
 })
 
 test_that("corrupt data (2)", {

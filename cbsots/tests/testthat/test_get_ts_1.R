@@ -22,7 +22,6 @@ raw_cbs_dir <- tempdir()
 
 test_that(id, {
   
-  
   result1 <- expect_warning(expect_output(get_ts(id, ts_code,  refresh = TRUE,
                                                  raw_cbs_dir = raw_cbs_dir,
                                                  frequencies = "QM", 

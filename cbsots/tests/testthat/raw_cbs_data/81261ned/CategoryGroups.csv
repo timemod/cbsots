@@ -1,0 +1,20 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"MineraleBrandstoffenEnChemie","V Minerale producten","",
+1,"MineraleBrandstoffenEnChemie","25 Zout; zwavel; aarde en steen; gips...","Zout; zwavel; aarde en steen; gips, kalk en cement",0
+2,"MineraleBrandstoffenEnChemie","26 Ertsen, slakken en assen","",0
+3,"MineraleBrandstoffenEnChemie","27 Minerale brandstoffen, aardolie en...","Minerale brandstoffen, aardolie en distillatieproducten daarvan; bitumineuze stoffen; minerale was",0
+4,"MineraleBrandstoffenEnChemie","VI Producten van de chemische en van...","Producten van de chemische en van de aanverwante industrieën",
+5,"MineraleBrandstoffenEnChemie","28 Anorganische chemische producten; ...","Anorganische chemische producten; anorganische of organische verbindingen van edele metalen, van radioactieve elementen, van zeldzame aardmetalen en van isotopen",4
+6,"MineraleBrandstoffenEnChemie","29 Organische chemische producten","",4
+7,"MineraleBrandstoffenEnChemie","30 Farmaceutische producten","",4
+8,"MineraleBrandstoffenEnChemie","31 Meststoffen","",4
+9,"MineraleBrandstoffenEnChemie","32 Looi- en verfextracten; looizuur (...","Looi- en verfextracten; looizuur (tannine) en derivaten daarvan; pigmenten en andere kleur- en verfstoffen; verf en vernis; mastiek; inkt",4
+10,"MineraleBrandstoffenEnChemie","33 Etherische oliën en harsaroma's; p...","Etherische oliën en harsaroma's; parfumerieën, toiletartikelen en kosmetische producten",4
+11,"MineraleBrandstoffenEnChemie","34 Zeep, organische tensio-actieve pr...","Zeep, organische tensio-actieve producten; was-, en smeermiddelen, kunst- en bereide was, poets- en onderhoudsmiddelen, kaarsen en dergelijke, modelleerpasta's, tandtechnische waspreparaten en tandtechnische preparaten o.b.v. gebrande gips",4
+12,"MineraleBrandstoffenEnChemie","35 Eiwitstoffen; gewijzigd zetmeel; l...","Eiwitstoffen; gewijzigd zetmeel; lijm; enzymen",4
+13,"MineraleBrandstoffenEnChemie","36 Kruit en springstoffen; pyrotechni...","Kruit en springstoffen; pyrotechnische artikelen; lucifers; vonkende legeringen; ontvlambare stoffen",4
+14,"MineraleBrandstoffenEnChemie","37 Producten voor fotografie en cinem...","Producten voor fotografie en cinematografie",4
+15,"MineraleBrandstoffenEnChemie","38 Diverse producten van de chemische...","Diverse producten van de chemische industrie",4
+16,"MineraleBrandstoffenEnChemie","VII Kunststof en werken daarvan; rub...","Kunststof en werken daarvan; rubber en werken daarvan",
+17,"MineraleBrandstoffenEnChemie","39 Kunststof en werken daarvan","",16
+18,"MineraleBrandstoffenEnChemie","40 Rubber en werken daarvan","",16

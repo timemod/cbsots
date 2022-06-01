@@ -1,0 +1,25 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.Dimension",0,0,,"Dimension","MineraleBrandstoffenEnChemie","Minerale brandstoffen en chemie",,,,,,
+"Cbs.OData.Dimension",1,1,,"Dimension","WereldEUEnNietEU","Wereld, EU en niet-EU",,,,,,
+"Cbs.OData.TimeDimension",2,2,,"TimeDimension","Perioden","Perioden",,TRUE,,,,
+"Cbs.OData.Topic",3,3,,"Topic","Invoerwaarde_1","Invoerwaarde","De waarde van door het buitenland aan ingezetenen geleverde goederen volgens de statistieken van de internationale handel. Bij invoer uit EU-landen is dit de waarde van de goederen inclusief vracht- en verzekeringskosten tot aan de Nederlandse grens. Bij invoer uit niet-EU-landen is dit de waarde inclusief vracht- en verzekeringskosten tot aan de buitengrens van de Europese Unie.
+
+Toelichting:
+De invoer van goederen betreft alle goederen die voor gebruik of verbruik in het economisch vrije verkeer van Nederland zijn gebracht. Dit is het geval wanneer de invoerheffingen en nationale belastingen zijn voldaan. 
+Tot de invoer van goederen behoren ook:
+-  tijdelijk ingevoerde goederen die in ons land, in opdracht van een niet-ingezetene, een behandeling ondergaan (actieve loonveredeling);
+- goederen uit niet-EU-landen die via een entrepot in het economisch vrije verkeer van Nederland komen;
+- ingevoerde goederen die, zonder enige bewerking te hebben ondergaan, weer zijn uitgevoerd (wederuitvoer).",,"Double","1 000 euro",0,"Missing"
+"Cbs.OData.Topic",4,4,,"Topic","Invoerhoeveelheid_2","Invoerhoeveelheid","Door het detailniveau van deze tabellen (ca. 9.500 goederensoorten x 250 landen x 12 maanden x hoeveelheden en waarden) kunnen er op het allerlaagste detailniveau inconsistenties voorkomen.  Dit geldt vooral voor de in- en uitvoerhoeveelheden (en daarmee ook voor de prijzen die op basis van waarde en hoeveelheid kunnen worden afgeleid).
+
+De hoeveelheid wordt uitgedrukt in de relevante eenheid. Meestal is dit 'kilogram', maar er worden nog 33 andere eenheden gebruikt die voor desbetreffend product relevant zijn. Voorbeelden zijn: stuks, m3, liters, kWh.
+Let op! Selecteer bij dit onderwerp ook altijd het onderwerp eenheid van goederensoort.",,"Double","zie eenheid van goederensoort",0,"Missing"
+"Cbs.OData.Topic",5,5,,"Topic","Uitvoerwaarde_3","Uitvoerwaarde","De waarde van de door ingezetenen aan het buitenland geleverde goederen volgens de statistieken van de internationale handel. Dit is de waarde, inclusief vracht- en verzekeringskosten tot aan de Nederlandse grens.
+
+Toelichting
+Hierbij kan sprake zijn van goederen die in Nederland zijn voortgebracht of vervaardigd, maar ook van aanvankelijk ingevoerde goederen. Tot de uitvoer behoren ook tijdelijk uitgevoerde goederen die in opdracht van een ingezetene in het buitenland een behandeling ondergaan (passieve loonveredeling).",,"Double","1 000 euro",0,"Missing"
+"Cbs.OData.Topic",6,6,,"Topic","Uitvoerhoeveelheid_4","Uitvoerhoeveelheid","Door het detailniveau van deze tabellen (ca. 9.500 goederensoorten x 250 landen x 12 maanden x hoeveelheden en waarden) kunnen er op het allerlaagste detailniveau inconsistenties voorkomen.  Dit geldt vooral voor de in- en uitvoerhoeveelheden (en daarmee ook voor de prijzen die op basis van waarde en hoeveelheid kunnen worden afgeleid).
+
+De hoeveelheid wordt uitgedrukt in de relevante eenheid. Meestal is dit 'kilogram', maar er worden nog 33 andere eenheden gebruikt die voor desbetreffend product relevant zijn. Voorbeelden zijn: stuks, m3, liters, kWh.
+Let op! Selecteer bij dit onderwerp ook altijd het onderwerp eenheid van goederensoort.",,"Double","zie eenheid van goederensoort",0,"Missing"
+"Cbs.OData.Topic",7,7,,"Topic","EenheidVanGoederensoort_5","Eenheid van goederensoort","De hoeveelheid wordt uitgedrukt in de eenheid die bij de specifieke goederensoort hoort. Meestal worden de hoeveelheden van de goederensoorten uitgedrukt in termen van 'kilogram', maar er zijn nog 33 andere eenheden die gebruikt worden. Voorbeelden zijn: stuks, m3, liters en kWh.",,"String","",0,"Missing"
