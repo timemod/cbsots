@@ -234,7 +234,7 @@ test_that("corrupt data (1)", {
   warning_msgs <- c("NAs introduced by coercion", 
                    paste0("Error reading file ", data_file, "."))
   
-  wmsg <- "Topic 'Totaal_1' contains text data:\n'piet'."
+  wmsg <- "Topic 'Totaal_1' contains text data:\n\"piet\"."
   expect_warning(
     result1 <- get_ts(id, ts_code_1, download = FALSE, 
                           min_year = 2017, 

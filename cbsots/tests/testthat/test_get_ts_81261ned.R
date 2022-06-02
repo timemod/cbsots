@@ -39,7 +39,8 @@ test_that(id, {
 test_that(paste(id, "- errrors"), {
   
   ts_code <- readRDS(sprintf("tscode/tscode_%s_err.rds",id))
-  msg <- "Topic 'EenheidVanGoederensoort_5' contains text data:\n'kg', 'TJ', '', '1000 kWh'."
+  msg <- paste("Topic 'EenheidVanGoederensoort_5' contains text data:\n\"kg\",",
+               "\"TJ\", \"1000 kWh\".")
   expect_warning(result2 <- get_ts(id, ts_code, download = FALSE),
                msg, fixed = TRUE)
   

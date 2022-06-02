@@ -101,11 +101,7 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
   data_file <- file.path(dir, "data.csv")
 
   tryCatch({
-    # NOTE: if the csv file contains a field "" (for example, ,"", the ""
-    # is not treated as a space. The data sometimes contains a "" between 
-    # columns, fread cannot treat that as NA
-    data <- fread(data_file, drop = "ID", na.strings = c(".", ""),
-                  integer64 = "numeric")
+    data <- fread(data_file, drop = "ID", integer64 = "numeric")
   },
   warning = function(e) {
     warning(e)
@@ -191,50 +187,51 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
   
   #
   # Fix character columns for topics
-  # Character columns typically arise when the data contains old style NA 
-  # strings.
+  # Character columns typically arise when the csv file contains quoted strings
+  # that represents an NA. Note that for these string, argument na.strings
+  # of function fread cannot be used, because fread never treats a quoted
+  # field in a csv file an an NA. For example,  in ,"", the "" is always
+  # treated an an empty string (a string of length 0), and never as an NA.
+  # strings. These ttype of quoted string typically occur in old data files
+
+  quoted_na_strings <- c("", ".",  "-")
+  fix_quoted_na_string <- function(x) {
+    return(ifelse(trimws(x) %in% quoted_na_strings, NA_character_, x))
+  }
   
-  # NA-string used in older versions of cbsodataR (see code below)
-  na_strings_old <- c("       .",  "       -")
-  na_strings_empty <- ""  # fread cannot handle na.strings == ""
-  na_strings_weird <- c(na_strings_empty, na_strings_old)
-  
-  data_col_is_character <- data_col_classes == "character"
-
-  if (any(data_col_is_character)) {
-    for (colname in data_cols[data_col_is_character]) {
-
-      col_data <- data[[colname]]
-
-      # convert numeric columns to numeric
-
-      # The raw cbs data downloaded with older versions of cbsots /cbsodataR
-      # contained strings such as "       ." for NA values. 
-      # Also more recent data sometimes contain a field with "", fread cannot
-      # treat these fields as NA. 
-      # Therefore replace all of these characters with NA_character_. 
-      # Note that it was not possible to use argument
-      # na.strings of function fread, because fread does not support NA
-      # strings with spaces.
-      col_data <- ifelse(col_data %in% na_strings_weird, NA_character_, 
-                         col_data)
+  col_sel <- data_col_classes == "character"
+  if (any(col_sel)) {
+    cols <- data_cols[col_sel]
     
-      col_data_new <- suppressWarnings(as.numeric(col_data))
-      data[, (colname) := col_data_new]
-      
-      problem_sel <- is.na(col_data_new) & !is.na(col_data)
-      if (any(problem_sel)) {
+    # fix quoted na strings
+    data[ , (cols) := lapply(.SD, fix_quoted_na_string), .SDcols = cols]
+    
+    char_cols_before <- data[, cols, with = FALSE]
+
+    # now convert character data to numeric
+    suppressWarnings(
+      data[ , (cols) := lapply(.SD, as.numeric), .SDcols = cols]
+    )
+  
+    # now check for problematic texts in the data columns
+    problem_sel <- is.na(data[, cols, with = FALSE]) & !is.na(char_cols_before)
+    if (any(problem_sel)) {
+      problem_sel <- which(problem_sel, arr.ind = TRUE)
+      problem_list <- split(problem_sel[, "row"], problem_sel[, "col"])
+      for (colnr in as.numeric(names(problem_list))) {
+        colname <- cols[colnr]
+        row_sel <- problem_list[[as.character(colnr)]]
+        problem_texts <- unique(char_cols_before[row_sel, colnr, 
+                                                        with = FALSE][[1]])
+        problem_texts <- trimws(problem_texts)
         header_line <- paste0("Topic '", colname, "' contains text data:\n")
-        next_lines <- paste(paste0("'", unique(trimws(col_data[problem_sel])), 
-                                   "'"),
-                           collapse = ", ")
-        next_lines <- strwrap(next_lines, width = 80, exdent = 2)
-        msg <-  paste0(header_line, next_lines, ".")
-        warning(msg)
+        next_lines <- paste(paste0("\"", problem_texts, "\""), 
+                            collapse = ", ")
+        warning(paste0(header_line, next_lines, "."))
       }
     }
   }
-
+  
   #
   # convert integer and logical columns to numeric
   #
