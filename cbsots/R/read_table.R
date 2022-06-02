@@ -108,7 +108,6 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
                   integer64 = "numeric")
   },
   warning = function(e) {
-    # if a warning occurs, we do not accept the result and data is set to NULL
     warning(e)
     warning(paste0("Error reading file ", data_file, "."))
     return(NULL)
@@ -120,17 +119,16 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
   })
   
   if (anyDuplicated(colnames(data))) {
-    warning("Duplicate columns in downloaded data for table ", id,
-            " Something is wrong with this table.")
-    return(NULL)
+    stop("Duplicate columns in downloaded data for table '", id,
+         "'. Something is wrong with this table.")
   }
   
   dimensions <- setdiff(names(selected_code), "Topic")
   topic_keys <- selected_code$Topic$Key
   
   # In weird cases (e.g. table 84328NED), there are duplicate keys in
-  # the meta data. As long as there a no duplicate columns in the data read,
-  # we can skip the duplicate columns
+  # the meta data. As long as there a no duplicate columns in data (see the 
+  # test above), we can skip the duplicate columns
   topic_keys <- unique(topic_keys)
   
   # check if all dimensions are present 
@@ -158,7 +156,6 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
     }
   }
 
-  
   # check if data contains a column 'Perioden'
   if (!"Perioden" %in% colnames(data)) {
     stop("Table ", id, " does not contain timeseries")
@@ -186,8 +183,7 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
   weird_col_classes <- ! data_col_classes %in% c("numeric", "integer", 
                                                  "character", "logical")
   if (any(weird_col_classes)) {
-    # TODO:  improve error message: specify the names of the columns
-    stop(paste("Column with illegal classes",
+    stop(paste("Columns with illegal classes",
                paste(unique(data_col_classes[weird_col_classes]), 
                      collapse = ","),
                "found"))
@@ -215,65 +211,38 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
       # The raw cbs data downloaded with older versions of cbsots /cbsodataR
       # contained strings such as "       ." for NA values. 
       # Also more recent data sometimes contain a field with "", fread cannot
-      # treat these fiels as NA. 
+      # treat these fields as NA. 
       # Therefore replace all of these characters with NA_character_. 
       # Note that it was not possible to use argument
       # na.strings of function fread, because fread does not support NA
       # strings with spaces.
       col_data <- ifelse(col_data %in% na_strings_weird, NA_character_, 
-                          col_data)
-      
-      na_sel_before <- is.na(col_data)
+                         col_data)
+    
       col_data_new <- suppressWarnings(as.numeric(col_data))
-      na_sel_after <- is.na(col_data_new)
-      problem_sel <- na_sel_after & !na_sel_before
-
+      data[, (colname) := col_data_new]
+      
+      problem_sel <- is.na(col_data_new) & !is.na(col_data)
       if (any(problem_sel)) {
         header_line <- paste0("Topic '", colname, "' contains text data:\n")
-        next_lines <- paste(paste0("'", unique(trimws(col_data[problem_sel])), "'"),
+        next_lines <- paste(paste0("'", unique(trimws(col_data[problem_sel])), 
+                                   "'"),
                            collapse = ", ")
         next_lines <- strwrap(next_lines, width = 80, exdent = 2)
         msg <-  paste0(header_line, next_lines, ".")
-        stop(msg)
+        warning(msg)
       }
-
-      data[, (colname) := col_data_new]
     }
   }
 
   #
-  # convert integer columns to numeric
+  # convert integer and logical columns to numeric
   #
-  data_col_is_integer <- data_col_classes == "integer"
-  if (any(data_col_is_integer)) {
-    cols <- data_cols[data_col_is_integer]
+  col_sel <- data_col_classes %in% c("integer", "logical")
+  if (any(col_sel)) {
+    cols <- data_cols[col_sel]
     data[ , (cols) := lapply(.SD, as.numeric), .SDcols = cols]
   }
-  
-  #
-  # Fix logical data columns. Logical columns arise when a column is 
-  # completely empty.
-  # TODO: betere foutmelding net als bij controle op character-kolommen
-  data_col_is_logical <- data_col_classes == "logical"
-  
-  if (any(data_col_is_logical)) {
-    
-    fix_logical_col <- function(x) {
-      
-      # Logical columns may arise if a column is completely
-      # empty. In that case replace the result with NA_real_.
-      # Otherwise give an error
-      
-      if (all(is.na(x))) {
-        return(rep(NA_real_, length(x)))
-      } else {
-        stop("Error reading data ... found logical data columns")
-      }
-    }
-    
-    cols <- data_cols[data_col_is_logical]
-    data[, (cols) := lapply(.SD, fix_logical_col), .SDcols = cols]
-  }  
   
   return(data)
 }

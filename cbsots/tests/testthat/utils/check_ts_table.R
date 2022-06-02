@@ -110,7 +110,7 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
     check_ts_freq <- function(freq) {
       
       ts_data_cbs <- freq_data_split[[freq]][[dim_key]][, topic, with = FALSE]
-      ts_data_cbs <- as.numeric(ts_data_cbs[[1]])
+      ts_data_cbs <- suppressWarnings(as.numeric(ts_data_cbs[[1]]))
       
       ts_data_get_ts <- as.numeric(x[[freq]][ , tsname])
       if (!identical(ts_data_cbs, ts_data_get_ts)) {

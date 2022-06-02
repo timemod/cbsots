@@ -228,35 +228,48 @@ test_that("corrupt data (1)", {
   ok <- copy_corrupt_data_file("corrupt1")
   expect_true(ok)
   
-  error_msg <- "Topic 'Totaal_1' contains text data:\n'piet'."
-  expect_error(
-      result1 <- get_ts(id, ts_code_1, download = FALSE, 
+  error_msg <- paste("The files in directory", data_dir, "are",
+                    "incomplete or corrupt. Please download the data again.")
+  error_msg <- gsub("[\\]", "\\\\\\\\", error_msg)
+  warning_msgs <- c("NAs introduced by coercion", 
+                   paste0("Error reading file ", data_file, "."))
+  
+  wmsg <- "Topic 'Totaal_1' contains text data:\n'piet'."
+  expect_warning(
+    result1 <- get_ts(id, ts_code_1, download = FALSE, 
                           min_year = 2017, 
                           raw_cbs_dir = raw_cbs_dir),
-      error_msg)
+    wmsg, fixed = TRUE)
   
-  # now with refresh = FALSE
-  expect_error(
-      result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir),
-      error_msg
-  )
+    # now with refresh = FALSE
+  expect_warning(
+    result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
+                      raw_cbs_dir = raw_cbs_dir),
+    wmsg, fixed = TRUE)
+  
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+  expect_true(check)
+  expect_equal(ncol(result1$Y), 2)
 })
 
-test_that("corrupt data (2)", {
-  
-  # corrupt file 1 (logical column)
+test_that("data with logical column", {
   
   ok <- copy_corrupt_data_file("corrupt2")
   expect_true(ok)
   
-  error_msg <- "Error reading data ... found logical data columns"
- 
-  expect_error(
+  expect_silent(
     result1 <- get_ts(id, ts_code_1, download = FALSE, 
                         min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir),
-    error_msg)
+                        raw_cbs_dir = raw_cbs_dir))
+  
+  tot1_s01_q <- result1$Q$tot1_s01
+  tot1_s01_y <- result1$Y$tot1_s01
+  expect_equal(tot1_s01_q, 
+               regts(c(1, 0, NA, NA), start = "2017Q1"),
+               check.attributes = FALSE)
+  expect_equal(tot1_s01_y, 
+               regts(0, start = "2017"),
+               check.attributes = FALSE)
 })
 
 
