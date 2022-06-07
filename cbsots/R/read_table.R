@@ -227,12 +227,11 @@ read_data_file <- function(dir, selected_code, meta, min_year,
       problem_sel <- which(problem_sel, arr.ind = TRUE)
       problem_list <- split(problem_sel[, "row"], problem_sel[, "col"])
       for (colnr in as.numeric(names(problem_list))) {
-        colname <- cols[colnr]
         row_sel <- problem_list[[as.character(colnr)]]
         problem_texts <- unique(char_cols_before[row_sel, colnr, 
                                                         with = FALSE][[1]])
         problem_texts <- trimws(problem_texts)
-        header_line <- paste0("Topic '", colname, "' contains text data:\n")
+        header_line <- paste0("Topic '", cols[colnr], "' contains text data:\n")
         next_lines <- paste(paste0("\"", problem_texts, "\""), 
                             collapse = ", ")
         warning(paste0(header_line, next_lines, "."))
