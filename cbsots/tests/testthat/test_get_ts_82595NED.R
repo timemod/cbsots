@@ -227,13 +227,7 @@ test_that("corrupt data (1)", {
   
   ok <- copy_corrupt_data_file("corrupt1")
   expect_true(ok)
-  
-  error_msg <- paste("The files in directory", data_dir, "are",
-                    "incomplete or corrupt. Please download the data again.")
-  error_msg <- gsub("[\\]", "\\\\\\\\", error_msg)
-  warning_msgs <- c("NAs introduced by coercion", 
-                   paste0("Error reading file ", data_file, "."))
-  
+ 
   wmsg <- "Topic 'Totaal_1' contains text data:\n\"piet\"."
   expect_warning(
     result1 <- get_ts(id, ts_code_1, download = FALSE, 
@@ -246,6 +240,9 @@ test_that("corrupt data (1)", {
     result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
                       raw_cbs_dir = raw_cbs_dir),
     wmsg, fixed = TRUE)
+  
+  # save result in global environment for the test with corrupt3
+  result_corrupt1 <<- result1
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
@@ -270,6 +267,32 @@ test_that("data with logical column", {
   expect_equal(tot1_s01_y, 
                regts(0, start = "2017"),
                check.attributes = FALSE)
+})
+
+
+test_that("corrupt data (3)", {
+  
+  # corrupt file 3  (text instead of number in two columkns)
+  
+  ok <- copy_corrupt_data_file("corrupt3")
+  expect_true(ok)
+  
+  warnings <- capture_warnings(
+    result1 <- get_ts(id, ts_code_1, download = FALSE, 
+                      min_year = 2017, 
+                      raw_cbs_dir = raw_cbs_dir)
+  )
+    
+  
+  expected_warnings <- c("Topic 'Totaal_1' contains text data:\n\"piet\".",
+             "Topic 'Totaal_7' contains text data:\n\"jan\".")
+  expect_equal(warnings, expected_warnings)
+ 
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+  expect_true(check)
+  expect_equal(ncol(result1$Y), 2)
+  
+  expect_equal(result1, result_corrupt1)
 })
 
 
