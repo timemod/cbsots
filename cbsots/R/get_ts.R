@@ -139,6 +139,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   data <- read_result$data
   cbs_code <- read_result$cbs_code
   
+
   select_code_rows <- function(name) {
     # remove all rows with an empty Code, except if the select_code 
     # table has 1 row
@@ -159,17 +160,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
   # Convert the code tables based on the code column. 
   code <- sapply(names(selected_code), FUN = select_code_rows, simplify = FALSE)
   
-  # remove  topics that are not present in code
-  unused_topics <- setdiff(cbs_code$Topic$Key, code$Topic$Key)
-  if (length(unused_topics) > 0) {
-    data[, (unused_topics) := NULL]
-  }
-
-  # check if Data contains a column names 'Perioden'
-  if (is.null(data$Perioden)) {
-    stop(paste("Table", id, "does not contain timeseries"))
-  }
-  
+ 
   # Rename the topic keys with the CPB code
   setnames(data, old = code$Topic$Key, new = code$Topic$Code)
   

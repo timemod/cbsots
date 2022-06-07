@@ -194,17 +194,20 @@ test_that("unknown key", {
   ts_code <- ts_code_1
   ts_code$table_code$`82595NED`$codes$Topic <- topic
   
-  msg <- "Unknown keys in code for dimension Topic in table 82595NED:\nGoudimport\n."
-  
+  emsg <- paste("^The files in directory .+ are incomplete or corrupt\\.",
+                "Please download the data again\\.")
   expect_error(
     get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
            download = FALSE),
-    msg)
+    emsg)
   
-  expect_error(expect_output(
-    get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
-           download = TRUE)),
-    msg)
+  emsg <- "Unknown keys in code for dimension Topic in table 82595NED:\nGoudimport\n."
+  expect_output(
+    expect_error(
+      get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
+             download = TRUE),
+      emsg),
+  "Downloading table") 
 })
 
 
@@ -227,52 +230,72 @@ test_that("corrupt data (1)", {
   
   ok <- copy_corrupt_data_file("corrupt1")
   expect_true(ok)
-  
-  error_msg <- paste("The files in directory", data_dir, "are",
-                    "incomplete or corrupt. Please download the data again.")
-  error_msg <- gsub("[\\]", "\\\\\\\\", error_msg)
-  warning_msgs <- c("NAs introduced by coercion", 
-                   paste0("Error reading file ", data_file, "."))
-                   
-  warnings <- capture_warnings(
-    expect_error(
-      result1 <- get_ts(id, ts_code_1, download = FALSE, 
+ 
+  wmsg <- "Topic 'Totaal_1' contains text data:\n\"piet\"."
+  expect_warning(
+    result1 <- get_ts(id, ts_code_1, download = FALSE, 
                           min_year = 2017, 
                           raw_cbs_dir = raw_cbs_dir),
-      error_msg)
-  )
+    wmsg, fixed = TRUE)
   
-  expect_identical(warnings, warning_msgs)
+    # now with refresh = FALSE
+  expect_warning(
+    result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
+                      raw_cbs_dir = raw_cbs_dir),
+    wmsg, fixed = TRUE)
   
+  # save result in global environment for the test with corrupt3
+  result_corrupt1 <<- result1
   
-  # now with refresh = FALSE
-  warnings <- capture_warnings(
-    expect_output(
-      result1 <- get_ts(id, ts_code_1, refresh = FALSE,  min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir)
-    )
-  )
-  
-  expect_identical(warnings, warning_msgs)
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)
   expect_equal(ncol(result1$Y), 2)
 })
 
-test_that("corrupt data (2)", {
-  
-  # corrupt file 1 (logical column)
+test_that("data with logical column", {
   
   ok <- copy_corrupt_data_file("corrupt2")
   expect_true(ok)
   
-  error_msg <- "Error reading data ... found logical data columns"
- 
-  expect_error(
+  expect_silent(
     result1 <- get_ts(id, ts_code_1, download = FALSE, 
                         min_year = 2017, 
-                        raw_cbs_dir = raw_cbs_dir),
-    error_msg)
+                        raw_cbs_dir = raw_cbs_dir))
+  
+  tot1_s01_q <- result1$Q$tot1_s01
+  tot1_s01_y <- result1$Y$tot1_s01
+  expect_equal(tot1_s01_q, 
+               regts(c(1, 0, NA, NA), start = "2017Q1"),
+               check.attributes = FALSE)
+  expect_equal(tot1_s01_y, 
+               regts(0, start = "2017"),
+               check.attributes = FALSE)
+})
+
+
+test_that("corrupt data (3)", {
+  
+  # corrupt file 3  (text instead of number in two columkns)
+  
+  ok <- copy_corrupt_data_file("corrupt3")
+  expect_true(ok)
+  
+  warnings <- capture_warnings(
+    result1 <- get_ts(id, ts_code_1, download = FALSE, 
+                      min_year = 2017, 
+                      raw_cbs_dir = raw_cbs_dir)
+  )
+    
+  
+  expected_warnings <- c("Topic 'Totaal_1' contains text data:\n\"piet\".",
+             "Topic 'Totaal_7' contains text data:\n\"jan\".")
+  expect_equal(warnings, expected_warnings)
+ 
+  check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
+  expect_true(check)
+  expect_equal(ncol(result1$Y), 2)
+  
+  expect_equal(result1, result_corrupt1)
 })
 
 

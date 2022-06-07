@@ -9,7 +9,6 @@ Author: Rob van Harrevelt [aut, cre]
 Maintainer: Rob van Harrevelt <rvanharrevelt@gmail.com>
 Description: Tools from downloading timeseries using the cbsodataR package.
 License: GPL-3
-LazyData: TRUE
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
 Depends:
