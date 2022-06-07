@@ -194,17 +194,20 @@ test_that("unknown key", {
   ts_code <- ts_code_1
   ts_code$table_code$`82595NED`$codes$Topic <- topic
   
-  msg <- "Unknown keys in code for dimension Topic in table 82595NED:\nGoudimport\n."
-  
+  emsg <- paste("^The files in directory .+ are incomplete or corrupt\\.",
+                "Please download the data again\\.")
   expect_error(
     get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
            download = FALSE),
-    msg)
+    emsg)
   
-  expect_error(expect_output(
-    get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
-           download = TRUE)),
-    msg)
+  emsg <- "Unknown keys in code for dimension Topic in table 82595NED:\nGoudimport\n."
+  expect_output(
+    expect_error(
+      get_ts(id, ts_code, min_year = 2017, raw_cbs_dir = raw_cbs_dir,
+             download = TRUE),
+      emsg),
+  "Downloading table") 
 })
 
 

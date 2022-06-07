@@ -5,29 +5,34 @@
 read_table <- function(id, data_dir, code, selected_code, dimensions,
                        min_year, frequencies, read_downloaded_data = FALSE) {
   
-  read_ok <- FALSE
-  
   meta <- read_meta_data(data_dir)
   
   if (is.null(meta)) return(NULL)
   
-  check_language(meta)
-  cbs_code <- get_cbs_code(meta)
-  check_unknown_keys(id, selected_code, cbs_code)
-  
-  period_keys <- get_period_keys(meta, min_year, frequencies)
+  # check if this is a Dutch table (currently only Dutch tables are supported)
+  # If this is not a Dutch table, there is no column 'Perioden' but instead a 
+  # column 'Periods` or so.
+  if (!read_downloaded_data) check_language(meta)
 
+  
   data <- read_data_file(data_dir, 
                          selected_code = selected_code,
-                         period_keys = period_keys,
+                         meta = meta, min_year = min_year,
+                         frequencies = frequencies,
                          id = id)
-
+  
   if (is.null(data)) return(NULL)
   
+  cbs_code <- get_cbs_code(meta)
+
   if (!read_downloaded_data) {
+    # If the data has been succesfully read, we perform some additional
+    # test on the timeseries coding. If read_downloaded_data == TRUE, the 
+    # timeseries coding has already been checked in function download_table
+    check_unknown_keys(id, selected_code, cbs_code)
     check_code(id, code, selected_code, cbs_code, downloaded = FALSE)
   }
-  
+ 
   return(list(meta = meta, data = data, cbs_code = cbs_code))
 }
 
@@ -92,7 +97,8 @@ read_meta_data <- function(dir) {
 
 # Read raw cbs data from  the csv file
 # RETURN  the data as data.table, or NULL if a read error occurred
-read_data_file <- function(dir, selected_code, period_keys, id) {
+read_data_file <- function(dir, selected_code, meta, min_year,
+                           frequencies, id) {
   
   if (!dir.exists(dir)) {
     return(NULL)
@@ -150,6 +156,7 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
         return(NULL)
       }
     }
+  
   }
 
   # check if data contains a column 'Perioden'
@@ -157,6 +164,7 @@ read_data_file <- function(dir, selected_code, period_keys, id) {
     stop("Table ", id, " does not contain timeseries")
   }
   
+  period_keys <- get_period_keys(meta, min_year, frequencies)
   if (!all(period_keys %in% data$Perioden)) {
     return(NULL)
   }
