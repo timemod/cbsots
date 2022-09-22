@@ -44,7 +44,8 @@ test_that(id, {
   #
   expected_output_file <- file.path("expected_output",
                                     paste0(id, "_print_result.txt"))
-  expect_known_output(print(result1), expected_output_file)
+  expect_known_output(print(result1), expected_output_file,
+                      update = update_expected)
 
   
   expected_output_file <- file.path("expected_output", paste0(id, "_y.rds"))
