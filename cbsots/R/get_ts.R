@@ -301,7 +301,24 @@ create_timeseries <- function(data, ts_name_info) {
   freq_name_table <-   c(JJ = "Y", HJ = "H", KW = "Q", MM = "M")
   freq_number_table <- c(JJ = 1,   HJ = 2,   KW = 4,   MM = 12 )
   
-  frequencies_data <- sub("\\d+(.+?)\\d+", "\\1", data$Perioden)
+  perioden <- data$Perioden
+  
+  periode_pattern <- "^\\d+([a-zA-Z]+)\\d+$"
+
+  periode_errors <- !grepl(periode_pattern, perioden)
+  if (any(periode_errors)) {
+    if (all(periode_errors)) {
+      stop("All periods in CBS data have unnown format: ", 
+              paste(perioden[periode_errors], collapse = ", "))
+    } else {
+      warning("Periods with unknown format in CBS data: ", 
+              paste(perioden[periode_errors], collapse = ", "))
+      data <- data[!periode_errors, , drop = FALSE]
+    }
+  }
+  
+  
+  frequencies_data <- sub(periode_pattern, "\\1", data$Perioden)
   frequencies_cbs <- unique(frequencies_data)
   missing <- setdiff(frequencies_cbs, names(freq_name_table))
   if (length(missing) > 0) {
