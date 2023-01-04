@@ -27,7 +27,7 @@ test_that(id, {
                                                  frequencies = "QM", 
                                                  min_year = 2008,
                                                  include_meta = FALSE)), 
-                            "Frequencies M not present in table")
+                            "Frequencies M not present in CBS data")
   
   check <- check_ts_table(result1, id, raw_cbs_dir = raw_cbs_dir)
   expect_true(check)

@@ -19,7 +19,8 @@ read_table <- function(id, data_dir, code, selected_code, dimensions,
                          selected_code = selected_code,
                          meta = meta, min_year = min_year,
                          frequencies = frequencies,
-                         id = id)
+                         id = id,
+                         read_downloaded_data = read_downloaded_data)
   
   if (is.null(data)) return(NULL)
   
@@ -98,7 +99,7 @@ read_meta_data <- function(dir) {
 # Read raw cbs data from  the csv file
 # RETURN  the data as data.table, or NULL if a read error occurred
 read_data_file <- function(dir, selected_code, meta, min_year,
-                           frequencies, id) {
+                           frequencies, id, read_downloaded_data) {
   
   if (!dir.exists(dir)) {
     return(NULL)
@@ -164,7 +165,13 @@ read_data_file <- function(dir, selected_code, meta, min_year,
     stop("Table ", id, " does not contain timeseries")
   }
   
-  period_keys <- get_period_keys(meta, min_year, frequencies)
+  
+  if (!is.null(min_year) || !is.null(frequencies)) {
+    period_keys <- get_period_keys(meta, min_year, frequencies, 
+                                   warnings = !read_downloaded_data)
+  } else {
+    period_keys <- meta$Perioden$Key
+  }
   if (!all(period_keys %in% data$Perioden)) {
     return(NULL)
   }
