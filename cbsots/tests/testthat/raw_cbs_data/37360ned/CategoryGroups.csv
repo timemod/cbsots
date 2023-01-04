@@ -1,0 +1,16 @@
+"ID","DimensionKey","Title","Description","ParentID"
+0,"LeeftijdOp31December","Afzonderlijke leeftijden per 10 jaar","",
+1,"LeeftijdOp31December","0 tot 10 jaar","",0
+2,"LeeftijdOp31December","10 tot 20 jaar","",0
+3,"LeeftijdOp31December","20 tot 30 jaar","",0
+4,"LeeftijdOp31December","30 tot 40 jaar","",0
+5,"LeeftijdOp31December","40 tot 50 jaar","",0
+6,"LeeftijdOp31December","50 tot 60 jaar","",0
+7,"LeeftijdOp31December","60 tot 70 jaar","",0
+8,"LeeftijdOp31December","70 tot 80 jaar","",0
+9,"LeeftijdOp31December","80 tot 90 jaar","",0
+10,"LeeftijdOp31December","90 tot 100 jaar","",0
+11,"Perioden","Perioden van één jaar",,
+12,"Perioden","Alle perioden van één jaar",,11
+13,"Perioden","Perioden van vijf jaren","",
+14,"Perioden","Alle perioden van vijf jaren","",13
