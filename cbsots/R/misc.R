@@ -1,29 +1,57 @@
-# returns period keys for all periods with year >= min_year
-get_period_keys <- function(meta, min_year, frequencies) {
+# This function selects the period keys with the specified frequencies and with 
+# year >= min_year.  The function is used when the user has supplied argument 
+# 'frequencies' or 'min_year' of function get_ts.
+get_period_keys <- function(meta, min_year, frequencies, 
+                            warnings = TRUE) {
   
   period_keys <- meta$Perioden$Key
 
   freq_table <- c(JJ = "Y", HJ = "H", KW = "Q", MM = "M")
+  periode_pattern <- "^(\\d+)([a-zA-Z]+)(\\d+)$"
+
+  period_keys <-  grep(periode_pattern, period_keys, value = TRUE)
   
-  # check frequencies
-  if (!is.null(frequencies)) {
-    freqs_cbs <- sub("\\d+(.+?)\\d+", "\\1", period_keys)
-    freqs <- freq_table[freqs_cbs]
-    period_keys <- period_keys[freqs %in% frequencies]
-    freqs_present <- unique(freqs)
-    missing_frequencies <- setdiff(frequencies, freqs_present)
-    if (length(missing_frequencies) > 0) {
-      warning(paste("Frequencies", paste(missing_frequencies, collapse = ", "),
-                    "not present in table"))
+  period_key_freqs <- sub(periode_pattern, "\\2", period_keys)
+
+  # If frequencies not specified, give a warning about unknown
+  # frequencies in CBS meta data.
+  if (is.null(frequencies)) {
+    unknown_freqs <- setdiff(unique(period_key_freqs), names(freq_table)) 
+    if (warnings && length(unknown_freqs) > 0) {
+      warning("Unknown frequencies ", paste(unknown_freqs, collapse = ", "), 
+              " in CBS data")
     }
   }
   
-  if (is.null(min_year)) {
-    return(period_keys)
-  } else {
-    years <- as.integer(sub("(\\d+)(.+?)\\d+", "\\1", period_keys))
-    return(period_keys[years >= min_year])
+  sel <- period_key_freqs %in% names(freq_table)
+  period_keys <- period_keys[sel]
+  period_key_freqs <- period_key_freqs[sel]
+  
+  # check frequencies
+  if (!is.null(frequencies)) {
+    freqs <- freq_table[period_key_freqs]
+    period_keys <- period_keys[freqs %in% frequencies]
+    freqs_present <- unique(freqs)
+    missing_frequencies <- setdiff(frequencies, freqs_present)
+    if (warnings && length(missing_frequencies) > 0) {
+      warning(paste("Frequencies", paste(missing_frequencies, collapse = ", "),
+                    "not present in CBS data"))
+    }
+    if (length(period_keys) == 0) {
+      stop("None of the requested frequencies is present in the CBS data")
+    }
   }
+  
+  if (!is.null(min_year)) {
+    years <- as.integer(sub(periode_pattern, "\\1", period_keys))
+    period_keys <- period_keys[years >= min_year]
+    if (length(period_keys) == 0) {
+      stop("There is no data available for years >= ", min_year, 
+           ".\nThe last year with data is ", max(years), ".")
+    }
+  }
+  
+  return(period_keys)
 }
 
 order_code_rows <- function(code,  cbs_order) {
