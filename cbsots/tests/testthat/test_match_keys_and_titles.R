@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("match_keys_and_titles")
 
 options(encoding = "native.enc") 
 

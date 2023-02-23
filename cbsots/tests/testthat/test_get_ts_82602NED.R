@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts table 82602NED")
 
 # 
 # In this test we check the refresh and min_year arguments. Note that we cannot 

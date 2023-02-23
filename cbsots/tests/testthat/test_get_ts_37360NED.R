@@ -5,7 +5,6 @@ rm(list = ls())
 
 id <- "37360ned"
 
-context(paste("get_ts", id))
 
 update_expected <- FALSE
 

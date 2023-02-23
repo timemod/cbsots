@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts table 82595NED")
 
 options(encoding = "native.enc")
 

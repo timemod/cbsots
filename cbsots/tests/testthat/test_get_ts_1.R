@@ -8,7 +8,6 @@ rm(list = ls())
 # compare the results with expected results, because the table data is downloaded
 # from the CBS and the table may change over time.
 #
-context("get_ts: refresh and min_year")
 
 options(encoding = "native.enc")
 

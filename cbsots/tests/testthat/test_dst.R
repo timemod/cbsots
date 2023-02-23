@@ -7,7 +7,6 @@ id <- "80590ned"
 
 test_name <- "dst"
 
-context(test_name)
 
 update_expected <- TRUE
 

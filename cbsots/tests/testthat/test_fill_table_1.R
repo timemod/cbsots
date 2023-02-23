@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("fill_tables_from_table (1)")
 
 options(encoding = "native.enc")
 

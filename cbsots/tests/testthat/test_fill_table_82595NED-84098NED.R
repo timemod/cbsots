@@ -10,7 +10,6 @@ update_expected <- FALSE
 
 title <- paste0(base_id, "_", new_ids)
 
-context(paste0("fill_tables_from_table (", title, ")"))
 
 options(encoding = "native.enc")
 
