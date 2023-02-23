@@ -1,3 +1,3 @@
 library(cbsots)
 
-edit_ts_code(ts_code_file = "tscode/tscode_37360NED")
+edit_ts_code(ts_code_file = "tscode/tscode_37360ned.rds")

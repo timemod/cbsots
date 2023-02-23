@@ -3,7 +3,7 @@ library(testthat)
 
 rm(list = ls())
 
-id <- "37360NED"
+id <- "37360ned"
 
 context(paste("get_ts", id))
 
