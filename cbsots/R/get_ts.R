@@ -8,7 +8,7 @@
 #' @param refresh should the data in directory \code{raw_cbs_dir} be refreshed?
 #' If \code{TRUE}, the data are always downloaded from the 
 #' CBS website. Otherwise  the data will only be downloaded if the 
-#' correspondings files in directory \code{raw_cbs_dir} are missing or not 
+#' corresponding files in directory \code{raw_cbs_dir} are missing or not 
 #' complete (missing dimension keys). The default is \code{FALSE}.
 #' Note that data may also be downloaded when new keys are selected 
 #' in the timeseries coding.
@@ -61,7 +61,7 @@ get_ts <- function(id, ts_code, refresh = FALSE, raw_cbs_dir = "raw_cbs_data",
       stop("Argument frequencies should be a character of length 1 (e.g. \"yq\")")
     }
     frequencies <- toupper(unique(unlist(strsplit(frequencies, ""))))
-    freqs_error <- ! frequencies %in% c("Y", "H", "Q", "M")
+    freqs_error <- !frequencies %in% freq_table$freq
     if (any(freqs_error)) {
       stop(paste("Unknown frequencies", 
                  paste(frequencies[freqs_error], collapse = " "),
@@ -308,7 +308,7 @@ create_timeseries <- function(data, ts_name_info) {
   periode_errors <- !grepl(periode_pattern, perioden)
   if (any(periode_errors)) {
     if (all(periode_errors)) {
-      stop("All periods in CBS data have unnown format: ", 
+      stop("All periods in CBS data have unknown format: ", 
               paste(perioden[periode_errors], collapse = ", "))
     } else {
       warning("Periods with unknown format in CBS data: ", 

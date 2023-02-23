@@ -165,14 +165,14 @@ read_data_file <- function(dir, selected_code, meta, min_year,
     stop("Table ", id, " does not contain timeseries")
   }
   
-  
-  if (!is.null(min_year) || !is.null(frequencies)) {
-    period_keys <- get_period_keys(meta, min_year, frequencies, 
-                                   warnings = !read_downloaded_data)
-  } else {
-    period_keys <- meta$Perioden$Key
-  }
-  if (!all(period_keys %in% data$Perioden)) {
+  period_keys <- select_period_keys(meta$Perioden$Key, min_year = min_year, 
+                                    frequencies  = frequencies,
+                                    read_downloaded_data = read_downloaded_data)
+  if (!read_downloaded_data && !all(period_keys %in% data$Perioden)) {
+    # Periods are missing in the data, so we have to download again
+    # (this may happen if for this call of get_ts more frequencies are selected
+    # then in the previous call of get_ts, or min_year is smaller than 
+    # the previous value).
     return(NULL)
   }
   
@@ -256,4 +256,38 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   }
   
   return(data)
+}
+
+
+select_period_keys <- function(period_keys, min_year, frequencies, 
+                               read_downloaded_data) {
+  
+  period_key_info <- parse_period_keys(period_keys, warn_unknown_freqs = TRUE)
+  
+  # prevent warnings R CMD check
+  freq <- NULL
+  year <- NULL
+  
+  if (!is.null(frequencies)) {
+    if (!read_downloaded_data) {
+      # Check frequencies. This is not necessary if the data has just been 
+      # downloaded, because the checks below has already been taken care of 
+      # in that case.
+      frequencies <- check_frequencies(frequencies, 
+                                       period_key_info = period_key_info)
+    }
+    period_key_info <- subset(period_key_info, freq %in% frequencies)
+  }
+  
+  if (!is.null(min_year) && !is.na(min_year)) {
+    if (!read_downloaded_data) {
+      # Check if any year is available. This check is not necessary if the
+      # data has been downloaded, because the check below has already been 
+      # taken care of in that case.
+      check_min_year(min_year, period_key_info = period_key_info)
+    }
+    period_key_info <- subset(period_key_info, year >= min_year)
+  }
+  
+  return(period_key_info$key)
 }
