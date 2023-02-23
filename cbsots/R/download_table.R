@@ -75,7 +75,7 @@ get_period_filter <- function(period_keys, frequencies, min_year) {
   
   if (filter_years) {
     check_min_year(min_year, period_key_info = period_key_info)
-    filter_year <- min(available_years) < min_year
+    filter_years <- min(available_years) <= min_year
   }
   
   # prevent warnings R CMD check
