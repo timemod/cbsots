@@ -168,17 +168,21 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   period_keys <- select_period_keys(meta$Perioden$Key, min_year = min_year, 
                                     frequencies  = frequencies,
                                     read_downloaded_data = read_downloaded_data)
-  if (!read_downloaded_data && !all(period_keys %in% data$Perioden)) {
-    # Periods are missing in the data, so we have to download again
-    # (this may happen if for this call of get_ts more frequencies are selected
-    # then in the previous call of get_ts, or min_year is smaller than 
-    # the previous value).
-    return(NULL)
+  
+  if (!all(period_keys %in% data$Perioden)) {
+    if (read_downloaded_data) {
+      stop("Internal error: some periods are missing in the downloaded data")
+    } else {
+      # Periods are missing in the data, so we have to download again
+      # (this may happen if for this call of get_ts more frequencies are selected
+      # then in the previous call of get_ts, or min_year is smaller than 
+      # the previous value).
+      return(NULL)
+    }
   }
   
   # now select the columns that are actually needed
   data <- data[, c("Perioden", dimensions, topic_keys), with = FALSE]
-  
   
   # Prevent notes from R CMD check about no visible binding for global
   # or no visible global function:
@@ -186,6 +190,11 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   
   # select periods
   data <- data[Perioden %in% period_keys]
+  
+  if (nrow(data) == 0) {
+    stop("Internal error: selected period keys in meta data have no match in",
+         " data.")
+  }
   
   data_cols <- topic_keys
   data_col_classes <- data[ , sapply(.SD, class), .SD = data_cols]

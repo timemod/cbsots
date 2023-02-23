@@ -102,7 +102,7 @@ get_period_filter <- function(period_keys, frequencies, min_year) {
     }
   } else if (filter_freqs) {
     # only filter on frequencies
-    freqs_cbs <- subset(freq_table, freq %in% frequencies)$"freq_cbs"
+    freqs_cbs <- subset(freq_table, freq %in% frequencies)$freq_cbs
     period_filter <- list(Perioden = cbsodataR::has_substring(freqs_cbs))
   } else {
     period_filter <- NULL

@@ -3,18 +3,25 @@
 parse_period_keys <- function(period_keys, warn_unknown_freqs = FALSE) {
   period_pattern <- "^(\\d+)([a-zA-Z]+)(\\d*)$"
   period_key_info <- stringr::str_match(period_keys, period_pattern)
-  period_key_info <- as.data.frame(period_key_info)[, -4]
+  period_key_info <- as.data.table(period_key_info)[, -4]
   colnames(period_key_info) <- c("key", "year", "freq_cbs")
   period_key_info$year <- as.numeric(period_key_info$year)
+  
+  freqs_cbs <- unique(period_key_info$freq_cbs)
+  if (!any(freqs_cbs %in% freq_table$freq_cbs)) {
+    stop("The CBS data does not contain any known frequency")
+  }
   if (warn_unknown_freqs) {
-    unknown_freqs <- setdiff(unique(period_key_info$freq_cbs), 
-                             freq_table$freq_cbs)
+    unknown_freqs <- setdiff(freqs_cbs, freq_table$freq_cbs)
     if (length(unknown_freqs) > 0) {
       warning("Unknown frequencies ", paste(unknown_freqs, collapse = ", "), 
               " in CBS data")
     }
   }
-  period_key_info <- merge(period_key_info, freq_table, by = "freq_cbs")
+  
+  period_key_info <- merge(period_key_info, freq_table, by = "freq_cbs", 
+                           sort = FALSE)
+ 
   return(period_key_info)
 }
 

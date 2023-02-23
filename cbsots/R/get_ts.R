@@ -297,68 +297,29 @@ create_timeseries <- function(data, ts_name_info) {
   labels <- ts_name_info$label
   names(labels) <- ts_name_info$name
 
-  # conversion table CBS-frequencies <-> cbsots-frequencies
-  freq_name_table <-   c(JJ = "Y", HJ = "H", KW = "Q", MM = "M")
-  freq_number_table <- c(JJ = 1,   HJ = 2,   KW = 4,   MM = 12 )
+  period_info <- parse_period_keys(data$Perioden)
   
-  perioden <- data$Perioden
+  period_info_list <- split(period_info, by = "freq")
   
-  periode_pattern <- "^\\d+([a-zA-Z]+)\\d+$"
-
-  periode_errors <- !grepl(periode_pattern, perioden)
-  if (any(periode_errors)) {
-    if (all(periode_errors)) {
-      stop("All periods in CBS data have unknown format: ", 
-              paste(perioden[periode_errors], collapse = ", "))
-    } else {
-      warning("Periods with unknown format in CBS data: ", 
-              paste(perioden[periode_errors], collapse = ", "))
-      data <- data[!periode_errors, , drop = FALSE]
-    }
-  }
-  
-  
-  frequencies_data <- sub(periode_pattern, "\\1", data$Perioden)
-  frequencies_cbs <- unique(frequencies_data)
-  missing <- setdiff(frequencies_cbs, names(freq_name_table))
-  if (length(missing) > 0) {
-    warning("Unknown frequencies ", paste(missing, collapse = " "), 
-               " in CBS data")
-  }
-  
-  row_sel <- frequencies_data %in% names(freq_name_table)
-  if (!any(row_sel)){
-    stop("CBS data does not contain any known frequency")
-  }
-  data <- data[row_sel, , drop = FALSE]
-  frequencies_cbs <- unique(frequencies_data[row_sel])
-  
-
-  freq_names   <- freq_name_table[frequencies_cbs]
-  freq_numbers <- freq_number_table[frequencies_cbs]
- 
   # Create a timeseries for a specific frequency. 
-  # cbs_freq is the frequency as specified in the CBS data, e.g. JJ 
-  # (yearly series) or KW (quarterly series).
-  # freq_number is the frequency as a number (e.g. 4 for quartely series)
-  create_timeseries_freq <- function(freq_cbs, freq_number) {
-   
-    # prevent notes from R CMD check about no visible binding for global
+  create_timeseries_freq <- function(freq) {
+    
+    # prevent warnings from R CMD check
     Perioden <- NULL
     
-    data_freq <- data[grepl(freq_cbs, Perioden)]
-    
-    # Replace CBS frequency indicators, including trailing zeros,
-    # witg generic regts frequency separator ("-"), or nothing (yearly series)
-    # Note: for yearly series, the indicator is sometimes JJ00 
-    # (e.g. 20020JJ00).
-    pattern <- paste0(freq_cbs, "0*") 
-    replacement <- if (freq_number == 1) "" else "_"
-    data_freq$Perioden <- sub(pattern, replacement, data_freq$Perioden)
-    
+    period_info_freq <- period_info_list[[freq]]
+    data_freq <- data[Perioden %in% period_info_freq$key]
+  
+    # convert Perioden to a format recognized by regts:
+    freq_cbs <- period_info_freq[[1, "freq_cbs"]]
+    pattern <- if (freq == "Y") paste0(freq_cbs, "(00)?") else freq_cbs
+    repl <- if (freq == "Y") "" else "-"
+    data_freq[, Perioden := sub(pattern, repl, Perioden)]
+
     # convert data to timeseries
-    ts_freq <- regts::as.regts(data_freq, time_column = "Perioden", 
-                               frequency = freq_number) 
+    freq_num <- period_info_freq[[1, "freq_num"]]
+    ts_freq <- regts::as.regts(data_freq, time_column = "Perioden",
+                               frequency = freq_num)
   
     # add labels
     ts_freq  <- regts::update_ts_labels(ts_freq, labels)
@@ -369,11 +330,10 @@ create_timeseries <- function(data, ts_name_info) {
     return(ts_freq)
   }
   
-  tseries <- mapply(create_timeseries_freq, frequencies_cbs, freq_numbers,
-                    SIMPLIFY = FALSE, USE.NAMES = FALSE)
-  names(tseries) <- freq_names
-  
-  return(tseries)
+  tseries_list <- sapply(names(period_info_list), FUN = create_timeseries_freq,
+                         simplify = FALSE)
+
+  return(tseries_list)
 }
 
 # Remove entries in the meta data that are not used to create the tables.
