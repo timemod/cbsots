@@ -18,7 +18,7 @@ app.}
 \item{refresh}{should the data in directory \code{raw_cbs_dir} be refreshed?
 If \code{TRUE}, the data are always downloaded from the
 CBS website. Otherwise  the data will only be downloaded if the
-correspondings files in directory \code{raw_cbs_dir} are missing or not
+corresponding files in directory \code{raw_cbs_dir} are missing or not
 complete (missing dimension keys). The default is \code{FALSE}.
 Note that data may also be downloaded when new keys are selected
 in the timeseries coding.}
