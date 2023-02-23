@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts: test for dimension keys")
 
 options(encoding = "native.enc")
 

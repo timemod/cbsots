@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts table 82596NED")
 
 # Use UTF-8 endocing, because the Titles contains diacritical characters 
 # and the data files have been created with UTF-8 encoding 

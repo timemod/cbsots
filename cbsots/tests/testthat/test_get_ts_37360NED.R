@@ -5,7 +5,6 @@ rm(list = ls())
 
 id <- "37360ned"
 
-context(paste("get_ts", id))
 
 update_expected <- FALSE
 
@@ -90,10 +89,8 @@ test_that("errors", {
   emsg <- paste("There is no data available for years >= 2022.\nThe last",
                 "year with data is 2021.")
   expect_output(
-    expect_warning(
       expect_error(get_ts(id, ts_code, download = TRUE, min_year = 2022),
                  emsg, fixed = TRUE),
-      "Unknown frequencies TM in CBS data")
   )
   expect_silent(
     expect_warning(

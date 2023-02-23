@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("update_tables")
 
 source("utils/read_match_report.R")
 

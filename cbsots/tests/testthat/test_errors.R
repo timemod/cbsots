@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts: test_errors")
 
 ts_code <- readRDS("tscode/tscode.rds")
 

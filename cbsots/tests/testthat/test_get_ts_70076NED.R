@@ -6,7 +6,6 @@ rm(list = ls())
 
 id <- "70076ned"
 
-context(paste("get_ts", id))
 
 dum <- Sys.setlocale("LC_COLLATE", "C")
 

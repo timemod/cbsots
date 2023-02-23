@@ -5,7 +5,6 @@ rm(list = ls())
 
 id <- "7137shih"
 
-context("get_ts: compare expected output")
 
 dum <- Sys.setlocale("LC_COLLATE", "C")
 

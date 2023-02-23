@@ -3,7 +3,6 @@ library(testthat)
 
 rm(list = ls())
 
-context("get_ts: no refresh and no existing raw data file")
 
 options(encoding = "native.enc")
 
