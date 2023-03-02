@@ -30,7 +30,5 @@ Imports:
 Suggests:
     testthat,
     knitr,
-    rmarkdown,
-    R.rsp
-VignetteBuilder: knitr,
-                 R.rsp
+    rmarkdown
+VignetteBuilder: knitr

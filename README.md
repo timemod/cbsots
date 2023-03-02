@@ -191,9 +191,3 @@ data
     ## 2017Q4  115.6  153.8  122.5  171.8  108.7  136.2
     ## 2018Q1  111.8  151.5  120.4  174.5  103.2  129.3
     ## 2018Q2  114.2  153.5  123.7  178.8  104.4  128.8
-
-# Further Documentation
-
-[Reference manual](cbsots/vignettes/cbsots_refman.pdf)
-
-[Vignette *cbsots Tutorial*](cbsots/vignettes/cbsots_tutorial.pdf)

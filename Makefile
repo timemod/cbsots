@@ -76,9 +76,9 @@ bin: install_deps
 	R CMD INSTALL $(INSTALL_FLAGS) -l ./tmp --build $(PKGTAR)
 
 document: install_deps
-	-@rm -f $(PKGDIR)/vignettes/cbsots_refman.pdf
+	-@rm -f refman.pdf
 	R -e "roxygen2::update_collate('"$(PKGDIR)"'); devtools::document('"$(PKGDIR)"')"
-	R CMD Rd2pdf --batch $(PKGDIR) -o $(PKGDIR)/vignettes/cbsots_refman.pdf 2>&1 refman.log
+	R CMD Rd2pdf $(PKGDIR) --no-preview -o refman.pdf  2>&1 > refman.log
 
 install: install_deps
 	-@rm -rf tmp
