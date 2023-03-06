@@ -1,0 +1,1 @@
+(Perioden eq '2021MM04' or Perioden eq '2021MM05') and (Geslacht eq 'T001038') and (Leeftijd eq '52052   ')
