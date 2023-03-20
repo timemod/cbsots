@@ -1,6 +1,6 @@
 "ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
 0,"Arbeidsdeelname en werkloosheid per maand ","Arbeidsdeelname per maand ","80590ned","Werkzame, werkloze en niet beroepsbevolking volgens internationale 
-definitie naar geslacht en leeftijd","2023-02-16T06:30:00","Actualisering","","nl","CBS","Permaand","2003 januari – 2023 januari","
+definitie naar geslacht en leeftijd","2023-03-16T06:30:00","Actualisering","","nl","CBS","Permaand","2003 januari – 2023 februari","
 Deze tabel bevat maand-, kwartaal- en jaarcijfers over de arbeidsdeelname en werkloosheid in Nederland. De bevolking van 15 tot 75 jaar (exclusief de institutionele bevolking) wordt hiervoor ingedeeld in de werkzame, de werkloze en de niet-beroepsbevolking. De verschillende groepen worden verder onderscheiden naar geslacht en leeftijd. Naast de oorspronkelijke maandcijfers over de beroepsbevolking kunt u in de tabel ook maandcijfers vinden die zijn gecorrigeerd voor seizoensinvloeden.
 
 Gegevens beschikbaar vanaf: Januari 2003 
@@ -8,8 +8,8 @@ Gegevens beschikbaar vanaf: Januari 2003
 Status van de cijfers:
 De cijfers in deze tabel zijn definitief. 
 
-Wijzigingen per 16 februari 2023:
-De cijfers over de maand januari 2023 zijn toegevoegd.
+Wijzigingen per 16 maart 2023:
+De cijfers over de maand februari 2023 zijn toegevoegd.
 
 Wanneer komen er nieuwe cijfers?
 Deze tabel wordt iedere maand aangevuld met nieuwe cijfers.
@@ -30,8 +30,8 @@ Gegevens beschikbaar vanaf: Januari 2003
 Status van de cijfers:
 De cijfers in deze tabel zijn definitief. 
 
-Wijzigingen per 16 februari 2023:
-De cijfers over de maand januari 2023 zijn toegevoegd.
+Wijzigingen per 16 maart 2023:
+De cijfers over de maand februari 2023 zijn toegevoegd.
 
 Wanneer komen er nieuwe cijfers?
 Deze tabel wordt iedere maand aangevuld met nieuwe cijfers.
@@ -80,4 +80,4 @@ MEER INFORMATIE
 Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen 
 Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.
 
-","ts=1675941216760&graphtype=Table&r=Perioden&k=Topics&t=Geslacht,Leeftijd","$filter=((Geslacht eq 'T001038')) and ((Leeftijd eq '52052   ')) and ((Perioden eq '2022MM01') or (Perioden eq '2022MM02') or (Perioden eq '2022MM03') or (Perioden eq '2022MM04') or (Perioden eq '2022MM05') or (Perioden eq '2022MM06') or (Perioden eq '2022MM07') or (Perioden eq '2022MM08') or (Perioden eq '2022MM09') or (Perioden eq '2022MM10') or (Perioden eq '2022MM11') or (Perioden eq '2022MM12') or (Perioden eq '2023MM01'))&$select=Geslacht, Leeftijd, Perioden, Seizoengecorrigeerd_2, Seizoengecorrigeerd_4, Seizoengecorrigeerd_6, Seizoengecorrigeerd_8, Seizoengecorrigeerd_12, Seizoengecorrigeerd_14","Table,Bar,Line","Regulier","CBS.","2023-02-16T06:30:00","3"
+","graphtype=Table&r=Perioden&k=Topics&t=Geslacht,Leeftijd","$filter=((Geslacht eq 'T001038')) and ((Leeftijd eq '52052   ')) and ((Perioden eq '2022MM02') or (Perioden eq '2022MM03') or (Perioden eq '2022MM04') or (Perioden eq '2022MM05') or (Perioden eq '2022MM06') or (Perioden eq '2022MM07') or (Perioden eq '2022MM08') or (Perioden eq '2022MM09') or (Perioden eq '2022MM10') or (Perioden eq '2022MM11') or (Perioden eq '2022MM12') or (Perioden eq '2023MM01') or (Perioden eq '2023MM02'))&$select=Geslacht, Leeftijd, Perioden, Seizoengecorrigeerd_2, Seizoengecorrigeerd_4, Seizoengecorrigeerd_6, Seizoengecorrigeerd_8, Seizoengecorrigeerd_12, Seizoengecorrigeerd_14","Table,Bar,Line","Regulier","CBS.","2023-03-16T06:30:00","3"

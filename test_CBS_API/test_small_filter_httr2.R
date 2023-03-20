@@ -6,7 +6,7 @@ id <- "80590ned"
 filters <- readRDS("big_filter.rds")
 writeLines(filters$Perioden, "periode_filter.txt")
 
-filters$Perioden <- filters$Perioden[220:221]
+#filters$Perioden <- filters$Perioden[220:221]
 
 url_basis <- whisker::whisker.render("{{BASEURL}}/{{BULK}}/{{id}}/{{DATASET}}?$format=json"
                                , list( BASEURL = base_url
@@ -32,20 +32,18 @@ url <- paste0(url_basis, "&$filter=", filter)
 url <- utils::URLencode(url)
 #lines <- readLines(url, warn = FALSE)
 
-
-#data1 <- jsonlite::read_json(url, simplifyVector = TRUE)
-#print(data1)
+data1 <- jsonlite::read_json(url, simplifyVector = TRUE)
+print(data1)
 
 # Now try httrp package
 # 
 
-library(httr)
+library(httr2)
 
-response_get <- GET(url, verbose())
-data2 <- content(response_get, as = "text", encoding = "UTF-8")
+response1 <- request(url)  %>%
+  req_perform
+data2 <- content(response1, as = "text", encoding = "UTF-8")
 data2 <- jsonlite::fromJSON(data2)
-
-stop("aap")
 
 print(all.equal(data1, data2))
 
