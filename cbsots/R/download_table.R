@@ -25,8 +25,15 @@ download_table <- function(id, raw_cbs_dir, code, selected_code, min_year,
   if (!download_all_keys) {
     dimensions <- setdiff(names(code), "Topic")
     filters <- sapply(dimensions, FUN = get_dimension_filter, simplify = FALSE)
+    topic_filter <- get_dimension_filter("Topic")
+    if (!is.null(topic_filter)) {
+      select <- c("ID", dimensions, "Perioden", topic_filter)
+    } else {
+      select <- NULL
+    }
   } else {
     filters <- list()
+    select <- NULL
   }
   
   period_filter <- get_period_filter(meta$Perioden$Key, 
@@ -40,11 +47,12 @@ download_table <- function(id, raw_cbs_dir, code, selected_code, min_year,
     print(filters)
   }
   
-  # TODO: use argument select to select only the topics that we need?
-  # Problem: this may lead to a too long url. Therefore try to estimate the 
-  # length of the url and keep the length accordingly.
+  # TODO: if the length of the url is too long (more than 8000 characters pr so,
+  # drop the longest filter)
   arguments <- c(list(id = id,  dir = file.path(raw_cbs_dir, id)), filters,
-                 list(cache = TRUE, typed = TRUE))
+                 list(cache = TRUE, typed = TRUE, select = select))
+
+  
   if (!is.null(base_url)) {
     arguments <- c(arguments, list(base_url = base_url))
   }
