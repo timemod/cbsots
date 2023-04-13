@@ -24,33 +24,87 @@ download_table <- function(id, raw_cbs_dir, code, selected_code, min_year,
 
   if (!download_all_keys) {
     dimensions <- setdiff(names(code), "Topic")
-    filters <- sapply(dimensions, FUN = get_dimension_filter, simplify = FALSE)
+    dimension_filters <- sapply(dimensions, FUN = get_dimension_filter, simplify = FALSE)
     topic_filter <- get_dimension_filter("Topic")
     if (!is.null(topic_filter)) {
-      select <- c("ID", dimensions, "Perioden", topic_filter)
+      select_filter <- list(select = c("ID", dimensions, "Perioden", 
+                                       topic_filter))
     } else {
-      select <- NULL
+      select_filter <- NULL
     }
   } else {
     filters <- list()
-    select <- NULL
+    select_filter <- NULL
   }
   
   period_filter <- get_period_filter(meta$Perioden$Key, 
                                      frequencies = frequencies, 
                                      min_year = min_year)
-  filters <- c(period_filter, filters)
   
+  dimemsion_filters <- dimension_filters[!sapply(dimension_filters, 
+                                                 FUN = is.null)]
+  
+  filters <- c(period_filter, dimension_filters, select_filter)
+  
+  # remove null filters
   if (length(filters) > 0) {
     filters <- filters[sapply(filters, FUN = function(x) {!is.null(x)})]   
-    cat("Filters:\n")
-    print(filters)
+    # Do not print filters, only the filters that we will actually use:
+    #cat("Filters:\n")
+    #print(filters)
   }
   
-  # TODO: if the length of the url is too long (more than 8000 characters pr so,
-  # drop the longest filter)
-  arguments <- c(list(id = id,  dir = file.path(raw_cbs_dir, id)), filters,
-                 list(cache = TRUE, typed = TRUE, select = select))
+  # Now check
+  cat("filters\n")
+  print(filters)
+  cat("\n")
+  
+  if (missing(base_url) || is.null(base_url)) {
+    get_base_url <- utils::getFromNamespace("get_base_url", "cbsodataR")
+    base_url <- get_base_url()
+  }
+  
+  cat("base_url:\n")
+  print(base_url)
+  
+  get_query <- utils::getFromNamespace("get_query", "cbsodataR")
+  
+  url_part1 <- sprintf("%s/ODataFeed/odata/%s/TypedDataSet?$format=json",
+                 base_url, id)
+  
+  # it turns out that the maximum length of an URL is about 8000
+  # drop the longest filter
+  MAX_URL_LEN <- 8000
+  while (TRUE) {
+    filter_expressions <- sapply(names(filters),
+                                 FUN = function(x) do.call(get_query, filters[x]),
+                                 simplify = FALSE)
+    
+    cat("filter expressions\n")
+    print(filter_expressions)
+    cat("\n")
+    url <- paste0(url_part1, do.call(paste0, filter_expressions))
+    url <- URLencode(url)
+    print(nchar(url))
+    if (nchar(url) <= MAX_URL_LEN) {
+       break
+     }
+     filter_expr_lengths <- sapply(filter_expressions, FUN = nchar)
+     longest_filter <- names(filter_expressions)[which.max(filter_expr_lengths)]
+     if (longest_filter == "Perioden" && !is.null(frequencies) && 
+         !(is.null(min_year) || is.na(min_year))) {
+       min_year <- NA
+       filters$Perioden <- 
+         get_period_filter(meta$Perioden$Key, 
+                           frequencies = frequencies, 
+                           min_year = min_year)$Perioden
+    } else {
+       filters <- within(filters, rm(longest_filter))
+     }
+  }
+  
+  arguments <- c(list(id = id, dir = file.path(raw_cbs_dir, id)), filters,
+                 list(cache = TRUE, typed = TRUE))
 
   
   if (!is.null(base_url)) {
