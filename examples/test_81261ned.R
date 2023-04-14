@@ -16,7 +16,10 @@ ts_code$`81261ned`$codes$MineraleBrandstoffenEnChemie$Select <- TRUE
 ts_code$`81261ned`$codes$MineraleBrandstoffenEnChemie$Code <-  
   ts_code$`81261ned`$codes$MineraleBrandstoffenEnChemie$Key
 
-ts_code$`81261ned`$codes$MineraleBrandstoffenEnChemie$Select[1:2405] <- FALSE
+ts_code$`81261ned`$codes$MineraleBrandstoffenEnChemie$Select[1:2500] <- FALSE
+
+
+#ts_code$`81261ned`$codes$MineraleBrandstoffenEnChemie$Select[1:2500] <- FALSE
 
 # door gebruik te maken van dez e code kunnen we checken
 x <- get_ts(id, ts_code, frequencies = "Y", download = TRUE, min_year = 2022)

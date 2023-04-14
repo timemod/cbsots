@@ -1,0 +1,24 @@
+Downloading table 81261ned ...
+Filters:
+$Perioden
+[1] "2021JJ00" "2022JJ00"
+
+$MineraleBrandstoffenEnChemie
+ [1] "A034818" "A034819" "A034820" "A034821" "A034822" "A034823" "A034824"
+ [8] "A034825" "A034826" "A034827" "A034828" "A034829" "A034830" "A034831"
+[15] "A034832" "A034833" "A034834" "A034835" "A034836" "A034837" "A034838"
+[22] "A034839" "A034840" "A034841" "A034842" "A034843" "A034844" "A034845"
+[29] "A034846" "A034847" "A034848" "A034849" "A034850" "A034851" "A034852"
+[36] "A034853" "A051189" "A034854" "A051190" "A034855" "A034856" "A034857"
+[43] "A034858" "A034859" "A034860" "A034861" "A034862" "A034863" "A034864"
+[50] "A034865" "A034866" "A034867" "A034868" "A034869" "A034870" "A034871"
+[57] "A034872" "A034873"
+
+$select
+[1] "ID"                           "MineraleBrandstoffenEnChemie"
+[3] "WereldEUEnNietEU"             "Perioden"                    
+[5] "Invoerwaarde_1"               "Invoerhoeveelheid_2"         
+[7] "Uitvoerwaarde_3"              "Uitvoerhoeveelheid_4"        
+
+
+http://opendata.cbs.nl/ODataFeed/odata/81261ned/TypedDataSet?$format=json&$filter=(Perioden%20eq%20'2021JJ00'%20or%20Perioden%20eq%20'2022JJ00')%20and%20(MineraleBrandstoffenEnChemie%20eq%20'A034818'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034819'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034820'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034821'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034822'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034823'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034824'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034825'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034826'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034827'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034828'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034829'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034830'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034831'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034832'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034833'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034834'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034835'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034836'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034837'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034838'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034839'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034840'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034841'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034842'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034843'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034844'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034845'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034846'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034847'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034848'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034849'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034850'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034851'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034852'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034853'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A051189'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034854'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A051190'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034855'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034856'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034857'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034858'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034859'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034860'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034861'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034862'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034863'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034864'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034865'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034866'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034867'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034868'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034869'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034870'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034871'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034872'%20or%20MineraleBrandstoffenEnChemie%20eq%20'A034873')&$select=ID,MineraleBrandstoffenEnChemie,WereldEUEnNietEU,Perioden,Invoerwaarde_1,Invoerhoeveelheid_2,Uitvoerwaarde_3,Uitvoerhoeveelheid_4

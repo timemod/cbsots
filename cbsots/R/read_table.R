@@ -125,7 +125,7 @@ read_data_file <- function(dir, selected_code, meta, min_year,
     stop("Duplicate columns in downloaded data for table '", id,
          "'. Something is wrong with this table.")
   }
-  
+
   dimensions <- setdiff(names(selected_code), "Topic")
   topic_keys <- selected_code$Topic$Key
   
@@ -199,9 +199,12 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   data_cols <- topic_keys
   data_col_classes <- data[ , sapply(.SD, class), .SD = data_cols]
   
-  # check if there are data columns with stange types
-  weird_col_classes <- ! data_col_classes %in% c("numeric", "integer", 
-                                                 "character", "logical")
+  # Check if there are data columns with strange types.
+  # Note that data may contain integer64 columns, see the comments below
+  # about integer64 columns.
+  weird_col_classes <- ! data_col_classes %in% c("numeric", "integer",
+                                                 "integer64", "character", 
+                                                 "logical")
   if (any(weird_col_classes)) {
     stop(paste("Columns with illegal classes",
                paste(unique(data_col_classes[weird_col_classes]), 
@@ -256,9 +259,13 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   }
   
   #
-  # convert integer and logical columns to numeric
+  # Convert integer and logical columns to numeric.
+  # In some cases, 'data` may still contains integer64 columns,
+  # even though we have specified argument 'integer64 = numeric'
+  # in the call of function fread. This happens for exampl in test job
+  # test_get_ts_81261ned_integer64.
   #
-  col_sel <- data_col_classes %in% c("integer", "logical")
+  col_sel <- data_col_classes %in% c("integer", "integer64", "logical")
   if (any(col_sel)) {
     cols <- data_cols[col_sel]
     data[ , (cols) := lapply(.SD, as.numeric), .SDcols = cols]
