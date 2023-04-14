@@ -24,7 +24,8 @@ source("utils/check_titles_and_labels.R")
 
 test_that("no selections", {
   report1 <- capture_output(
-    result_complete <<- get_ts(id, ts_code, refresh = TRUE)
+    result_complete <<- get_ts(id, ts_code, refresh = TRUE,
+                               raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report1),  file.path("expected_output", 
                                                paste0(test_name, "_report_a1.txt")),
@@ -36,7 +37,8 @@ test_that("no selections", {
 
 test_that("argument frequencies specified", {
   report1 <- capture_output(
-    result1 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "M")
+    result1 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "M",
+                      raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report1),  file.path("expected_output", 
                                               paste0(test_name, "_report_b1.txt")),
@@ -50,7 +52,8 @@ test_that("argument frequencies specified", {
   
   expect_silent(
     expect_warning(
-      result2 <- get_ts(id, ts_code, refresh = FALSE, frequencies = "MH"),
+      result2 <- get_ts(id, ts_code, refresh = FALSE, frequencies = "MH",
+                        raw_cbs_dir = raw_cbs_dir),
       "Frequencies H not present in CBS data"
     )
   )
@@ -58,7 +61,8 @@ test_that("argument frequencies specified", {
   
   expect_output(
     expect_warning(
-      result3 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "MH"),
+      result3 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "MH",
+                        raw_cbs_dir = raw_cbs_dir),
       "Frequencies H not present in CBS data"
     )
   )
@@ -66,7 +70,8 @@ test_that("argument frequencies specified", {
   
   expect_warning(
     expect_error(
-      get_ts(id, ts_code, refresh = FALSE, frequencies = "H"),
+      get_ts(id, ts_code, refresh = FALSE, frequencies = "H",
+             raw_cbs_dir = raw_cbs_dir),
       "None of the requested frequencies is present in the CBS data"
     ),
     "Frequencies H not present in CBS data"
@@ -75,7 +80,8 @@ test_that("argument frequencies specified", {
 
 test_that("argument min_year specified", {
   report1 <- capture_output(
-    result1 <- get_ts(id, ts_code, refresh = TRUE, min_year = 2018)
+    result1 <- get_ts(id, ts_code, refresh = TRUE, min_year = 2018,
+                      raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report1), 
                       file.path("expected_output", 
@@ -92,7 +98,8 @@ test_that("argument min_year specified", {
   expect_identical(result1$Y, result_complete$Y["2018/"])
   
   report2 <- capture_output(
-    result2 <- get_ts(id, ts_code, refresh = FALSE, min_year = 2017)
+    result2 <- get_ts(id, ts_code, refresh = FALSE, min_year = 2017,
+                      raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report2), 
                       file.path("expected_output", 
@@ -103,7 +110,8 @@ test_that("argument min_year specified", {
   expect_equal(start_period(result2$Y), period("2017"))
   
   report3 <- capture_output(
-    result3 <- get_ts(id, ts_code, refresh = FALSE, min_year = 2000)
+    result3 <- get_ts(id, ts_code, refresh = FALSE, min_year = 2000,
+                      raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report3), 
                       file.path("expected_output", 
@@ -113,7 +121,8 @@ test_that("argument min_year specified", {
   
   expect_output(  
     expect_error(
-       get_ts(id, ts_code, refresh = TRUE, min_year = 2030),
+       get_ts(id, ts_code, refresh = TRUE, min_year = 2030,
+              raw_cbs_dir = raw_cbs_dir),
       "There is no data available for years >= 2030.\nThe last year with data is 2023.",
       fixed = TRUE
     )
@@ -121,7 +130,8 @@ test_that("argument min_year specified", {
   
   expect_silent(
     expect_error(
-      get_ts(id, ts_code, refresh = FALSE, min_year = 2030),
+      get_ts(id, ts_code, refresh = FALSE, min_year = 2030,
+             raw_cbs_dir = raw_cbs_dir),
       "There is no data available for years >= 2030.\nThe last year with data is 2023.",
       fixed = TRUE
     )
@@ -132,7 +142,7 @@ test_that("argument min_year specified", {
 test_that("argument frequencies AND min_year specified (1)", {
   report1 <- capture_output(
     result1 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "MY",
-                      min_year = 2019)
+                      min_year = 2019, raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report1), 
                       file.path("expected_output", 
@@ -144,7 +154,7 @@ test_that("argument frequencies AND min_year specified (1)", {
   
   report2 <- capture_output(
     result2 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "QY",
-                      min_year = 2019)
+                      min_year = 2019, raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report2), 
                       file.path("expected_output", 
@@ -156,14 +166,15 @@ test_that("argument frequencies AND min_year specified (1)", {
   
   expect_silent(
     result3 <- get_ts(id, ts_code, refresh = FALSE, frequencies = "Y",
-                      min_year = 2021)
+                      min_year = 2021, raw_cbs_dir = raw_cbs_dir)
   )
   expect_equal(names(result3), c("Y", "ts_names", "meta"))
   expect_identical(result3$Y, result_complete$Y["2021/"])
   
   expect_output(  
     expect_error(
-      get_ts(id, ts_code, refresh = TRUE, min_year = 2030, frequencies = "M"),
+      get_ts(id, ts_code, refresh = TRUE, min_year = 2030, frequencies = "M",
+             raw_cbs_dir = raw_cbs_dir),
       "There is no data available for years >= 2030.\nThe last year with data is 2023.",
       fixed = TRUE
     )
@@ -171,7 +182,8 @@ test_that("argument frequencies AND min_year specified (1)", {
   
   expect_silent(
     expect_error(
-      get_ts(id, ts_code, refresh = FALSE, min_year = 2030, frequencies = "M"),
+      get_ts(id, ts_code, refresh = FALSE, min_year = 2030, frequencies = "M",
+             raw_cbs_dir = raw_cbs_dir),
       "There is no data available for years >= 2030.\nThe last year with data is 2023.",
       fixed = TRUE
     )
@@ -181,7 +193,7 @@ test_that("argument frequencies AND min_year specified (1)", {
 test_that("argument frequencies AND min_year specified (2)", {
   report1 <- capture_output(
     result1 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "M",
-                      min_year = 2003)
+                      min_year = 2003,  raw_cbs_dir = raw_cbs_dir)
   )
   expect_known_output(cat(report1), 
                       file.path("expected_output", 

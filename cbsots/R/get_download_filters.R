@@ -33,7 +33,10 @@ get_download_filters <- function(id, selected_code, cbs_code, frequencies,
     frequencies = frequencies,
     min_year = min_year
   )
-  filters <- c(period_filter, filters)
+  
+  if (!is.null(period_filter)) {
+    filters <- c(list(Perioden = period_filter), filters)
+  }
   
   if (length(filters) == 0) {
     return(filters)
@@ -53,55 +56,50 @@ get_download_filters <- function(id, selected_code, cbs_code, frequencies,
     cat("\n")
   }
   
+ 
+  # Not check if the url for the chosen filters is not longer than MAX_URL_LEN.
+  # Drop filters is this is necessary
+ 
   get_query <- utils::getFromNamespace("get_query", "cbsodataR")
-  
   url_part1 <- sprintf("%s/ODataFeed/odata/%s/TypedDataSet?$format=json",
                        base_url, id)
-  
-  # it turns out that the maximum length of an URL is about 8000
-  # drop the longest filter
- 
-  while (TRUE) {
-    filter_expressions <- sapply(names(filters),
-                                 FUN = function(x) do.call(get_query, filters[x]),
-                                 simplify = FALSE)
-    
+  while (length(filters) > 0) {
+    queries <- sapply(names(filters),
+      FUN = function(x) do.call(get_query, filters[x]),
+      simplify = FALSE
+    )
     if (DEBUG) {
-      cat("filter expressions\n")
-      print(filter_expressions)
+      cat("queries:\n")
+      print(queries)
       cat("\n")
     }
-    
-    url <- paste0(url_part1, do.call(paste0, filter_expressions))
+    url <- paste0(url_part1, do.call(paste0, queries))
     url <- URLencode(url)
     if (nchar(url) <= MAX_URL_LEN) {
       break
     }
-    filter_expr_lengths <- sapply(filter_expressions, FUN = nchar)
-    longest_filter <- names(filter_expressions)[which.max(filter_expr_lengths)]
-    if (longest_filter == "Perioden" && !is.null(frequencies) && 
+    query_lengths <- sapply(queries, FUN = nchar)
+    longest_query <- names(which.max(query_lengths))
+    if (longest_query == "Perioden" && !is.null(frequencies) && 
         !(is.null(min_year) || is.na(min_year))) {
       min_year <- NA
-      filters$Perioden <- 
-        get_period_filter(period_keys,
-                          frequencies = frequencies, 
-                          min_year = min_year)$Perioden
+      filters$Perioden <- get_period_filter(period_keys,
+        frequencies = frequencies,
+        min_year = min_year
+      )
       cat("\nmin_year", paste0("(", min_year, ")"), 
           "not used to filter on Periods while downloading because the length",
           "\nof the URL would be too long.\n\n")
     } else {
-      filters <- within(filters, rm(longest_filter))
-      cat("\nDownload filter for dimension", longest_filter, "dropped because",
+      filters <- within(filters, rm(list = longest_query))
+      cat("\nDownload filter for dimension", longest_query, "dropped because",
           "the length of the URL would be\ntoo long.\n\n")
     }
   }
   
-
-  
   cat("Filters:\n")
   print(filters)
   cat("\n")
-  
   
   return(filters)
 }
@@ -138,25 +136,24 @@ get_period_filter <- function(period_keys, frequencies, min_year) {
   if (filter_years)  {
     if (filter_freqs) {
       # Both min_year and frequencies specified.
-      # WARNING: this approach may result in a url that is too long.
       period_keys <- subset(
         period_key_info,
         freq %in% frequencies & year >= min_year
       )$key
       if (length(period_keys) < nrow(period_key_info)) {
-        period_filter <- list(Perioden = period_keys)
+        period_filter <- period_keys
       } else {
         period_filter <- NULL
       }
     } else {
       # min_years used, but not frequencies
       years <- as.character(available_years[available_years >= min_year])
-      period_filter <- list(Perioden = cbsodataR::has_substring(years))
+      period_filter <- cbsodataR::has_substring(years)
     }
   } else if (filter_freqs) {
     # only filter on frequencies
     freqs_cbs <- subset(freq_table, freq %in% frequencies)$freq_cbs
-    period_filter <- list(Perioden = cbsodataR::has_substring(freqs_cbs))
+    period_filter <- cbsodataR::has_substring(freqs_cbs)
   } else {
     period_filter <- NULL
   }

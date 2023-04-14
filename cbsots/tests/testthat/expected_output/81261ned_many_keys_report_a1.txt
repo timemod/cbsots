@@ -1,0 +1,17 @@
+Downloading table 81261ned ...
+
+Download filter for dimension MineraleBrandstoffenEnChemie dropped because the length of the URL would be
+too long.
+
+Filters:
+$Perioden
+[1] "2021JJ00" "2022JJ00"
+
+$select
+[1] "ID"                           "MineraleBrandstoffenEnChemie"
+[3] "WereldEUEnNietEU"             "Perioden"                    
+[5] "Invoerwaarde_1"               "Invoerhoeveelheid_2"         
+[7] "Uitvoerwaarde_3"              "Uitvoerhoeveelheid_4"        
+
+
+http://opendata.cbs.nl/ODataFeed/odata/81261ned/TypedDataSet?$format=json&$filter=(Perioden%20eq%20'2021JJ00'%20or%20Perioden%20eq%20'2022JJ00')&$select=ID,MineraleBrandstoffenEnChemie,WereldEUEnNietEU,Perioden,Invoerwaarde_1,Invoerhoeveelheid_2,Uitvoerwaarde_3,Uitvoerhoeveelheid_4https://opendata.cbs.nl/ODataFeed/odata/81261ned/TypedDataSet?$format=json&$filter=%28Perioden%20eq%20%272021JJ00%27%20or%20Perioden%20eq%20%272022JJ00%27%29&$select=ID%2CMineraleBrandstoffenEnChemie%2CWereldEUEnNietEU%2CPerioden%2CInvoerwaarde_1%2CInvoerhoeveelheid_2%2CUitvoerwaarde_3%2CUitvoerhoeveelheid_4&$skip=10000
