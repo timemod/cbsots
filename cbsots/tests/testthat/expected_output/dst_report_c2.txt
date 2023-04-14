@@ -22,4 +22,9 @@ $Geslacht
 $Leeftijd
 [1] "52052   "
 
-http://opendata.cbs.nl/ODataFeed/odata/80590ned/TypedDataSet?$format=json&$filter=(substringof('2017',%20Perioden)%20or%20substringof('2018',%20Perioden)%20or%20substringof('2019',%20Perioden)%20or%20substringof('2020',%20Perioden)%20or%20substringof('2021',%20Perioden)%20or%20substringof('2022',%20Perioden)%20or%20substringof('2023',%20Perioden))%20and%20(Geslacht%20eq%20'T001038')%20and%20(Leeftijd%20eq%20'52052%20%20%20')
+$select
+[1] "ID"                    "Geslacht"              "Leeftijd"             
+[4] "Perioden"              "Seizoengecorrigeerd_2"
+
+
+http://opendata.cbs.nl/ODataFeed/odata/80590ned/TypedDataSet?$format=json&$filter=(substringof('2017',%20Perioden)%20or%20substringof('2018',%20Perioden)%20or%20substringof('2019',%20Perioden)%20or%20substringof('2020',%20Perioden)%20or%20substringof('2021',%20Perioden)%20or%20substringof('2022',%20Perioden)%20or%20substringof('2023',%20Perioden))%20and%20(Geslacht%20eq%20'T001038')%20and%20(Leeftijd%20eq%20'52052%20%20%20')&$select=ID,Geslacht,Leeftijd,Perioden,Seizoengecorrigeerd_2
