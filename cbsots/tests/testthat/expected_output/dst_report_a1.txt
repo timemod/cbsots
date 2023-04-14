@@ -6,4 +6,9 @@ $Geslacht
 $Leeftijd
 [1] "52052   "
 
+$select
+[1] "ID"                    "Geslacht"              "Leeftijd"             
+[4] "Perioden"              "Seizoengecorrigeerd_2"
+
+
 http://opendata.cbs.nl/ODataFeed/odata/80590ned/TypedDataSet?$format=json&$filter=(Geslacht%20eq%20'T001038')%20and%20(Leeftijd%20eq%20'52052%20%20%20')&$select=ID,Geslacht,Leeftijd,Perioden,Seizoengecorrigeerd_2

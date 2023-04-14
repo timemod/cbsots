@@ -7,7 +7,6 @@ id <- "80590ned"
 
 test_name <- "dst"
 
-
 update_expected <- FALSE
 
 dum <- Sys.setlocale("LC_COLLATE", "C")
@@ -130,7 +129,7 @@ test_that("argument min_year specified", {
 })
 
 
-test_that("argument frequencies AND min_year specified", {
+test_that("argument frequencies AND min_year specified (1)", {
   report1 <- capture_output(
     result1 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "MY",
                       min_year = 2019)
@@ -177,4 +176,18 @@ test_that("argument frequencies AND min_year specified", {
       fixed = TRUE
     )
   )
+})
+
+test_that("argument frequencies AND min_year specified (2)", {
+  report1 <- capture_output(
+    result1 <- get_ts(id, ts_code, refresh = TRUE, frequencies = "M",
+                      min_year = 2003)
+  )
+  expect_known_output(cat(report1), 
+                      file.path("expected_output", 
+                                paste0(test_name, "_report_e1.txt")),
+                      print = TRUE, update = update_expected)
+  expect_equal(names(result1), c("M", "ts_names", "meta"))
+  expect_identical(start_period(result1$M), period("2003M01"))
+  expect_identical(result1$M, result_complete$M["2003/"])
 })
