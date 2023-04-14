@@ -75,6 +75,11 @@ get_download_filters <- function(id, selected_code, cbs_code, frequencies,
     }
     url <- paste0(url_part1, do.call(paste0, queries))
     url <- URLencode(url)
+    if (DEBUG) {
+      cat("\nlenghte url\n")
+      print(nchar(url))
+      cat("\n")
+    }
     if (nchar(url) <= MAX_URL_LEN) {
       break
     }
