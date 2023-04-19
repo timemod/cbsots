@@ -22,6 +22,8 @@
 #' @importFrom utils packageVersion
 #' @importFrom utils packageName
 #' @importFrom shinyalert shinyalert
+#' @importFrom shinybusy show_modal_progress_line update_modal_progress 
+#' @importFrom shinybusy remove_modal_progress
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                          debug = FALSE, base_url = NULL) {
@@ -35,13 +37,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       stop(paste("File", ts_code_file, "does not contain a ts_code object"))
     }
     
-    
   } else {
     
     ts_code <- create_ts_code()
     
   }
-
   
   CBS_ORDER <- "Original CBS order"
   SELECTED_FIRST_ORDER <- "Selected first"
@@ -57,9 +57,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   }
   
   ui <- fluidPage(
-
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
-    
+    shinyjs::useShinyjs(),
     headerPanel('CBS Timeseries Coding'),
     sidebarPanel(
       # the following tag is a workaround for a problem with the actionButton:
@@ -89,14 +88,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       p(),
       fluidRow(
         column(5, selectInput("order_table", label = NULL,
-                              choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), width = "100%")),
+                              choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), 
+                              width = "100%")),
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),
-      h3("Update table"),
+      h3("Update table(s)"),
       "Updated Keys and Titles with recent information on the CBS website",
       p(),
-      actionButton("update_table", "Update"),
+      fluidRow(
+        column(5, actionButton("update_table", "Update This Table")),
+        column(1, actionButton("update_all_tables", "Update All Tables"), 
+                               offset = 1),
+      ),
       h3("Save code"), 
       paste("Save the code to file", ts_code_file),
       p(),
@@ -116,7 +120,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                              table_desc = NA_character_,
                              table_ids = table_ids,
                              table_descs = table_descs,
-                             table_desc_stack = character(0))
+                             table_desc_stack = character(0),
+                             table_open = FALSE,
+                             table_present = length(ts_code) > 0)
     #
     # local functions
     #
@@ -166,6 +172,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       values$table_id <- new_table_id
       values$table_desc <- values$table_descs[new_table_id]
       values$tab_names <- names(values$ts_code[[new_table_id]]$codes)
+      values$table_open <- TRUE
    
       open_table(values, input, output, debug = debug)
       
@@ -173,6 +180,31 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     })  # table_description_event
     
+    observeEvent(values$table_open, {
+      if (debug) cat("table_open modified. New value:", values$table_open, 
+                     "\n")
+      input_ids <- c("update_table", "update_all_tables", "order_table", 
+                       "reorder")
+      if (values$table_open) {
+        fun <- shinyjs::enable
+      } else {
+        fun <- shinyjs::disable
+      }
+      invisible(lapply(input_ids, FUN = fun))
+      return()
+    })
+    
+    observeEvent(values$table_present, {
+      if (debug) cat("table_present modified. New value:", values$table_present, 
+                     "\n")
+      input_id <- "delete_table"
+      if (values$table_present) {
+        shinyjs::enable(input_id)
+      } else {
+        shinyjs::disable(input_id)
+      }
+      return()
+    })
     
     observeEvent(input$new_table, {
       
@@ -247,6 +279,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       values$ts_code <- create_ts_code(values$ts_code[ord])
       values$table_ids <- values$table_ids[ord]
       values$table_descs <- values$table_descs[values$table_ids]
+      values$table_present <- TRUE
       
       updateSelectInput(session, inputId = "table_desc",
                         choices = create_table_choices(values$table_descs), 
@@ -308,6 +341,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         updateSelectInput(session, inputId = "table_desc", choices = choices)
         output$table_pane <- renderUI({return(NULL)})
         values$table_id <- NA_character_
+        values$table_open <- FALSE
         selected <- NULL
       } else {
         selected <- values$table_desc
@@ -315,7 +349,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       updateSelectInput(session, inputId = "table_desc", choices = choices,
                         selected = selected)
       
-      
+      values$table_present <- length(values$ts_code) > 0
       removeModal()
     })
     
@@ -334,37 +368,104 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         ))
       }
     })
-    
+  
     observeEvent(input$update_table_confirmed, {
+      removeModal()
       id <- values$table_id
       if (!is.na(id)) {
         new_table <- create_new_table(id, base_url)
         ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
         if (is.null(ret)) return() # something went wrong
-        values$new_table <- ret$new_table
         if (length(ret$warnings) > 0) {
+          values$update_table_result <- ret$new_table
           showWarningsDialog(ret$warnings, "update_table_ok")
         } else {
-          insert_updated_table()
-          removeModal()
+          update_table(ret$new_table)
         }
       }
     })
     
-    insert_updated_table <- function() {
-      
+    update_table <- function(update_table_result) {
       if (debug) cat("in insert_update_table\n")
-      
-      values$ts_code[[values$table_id]] <- values$new_table
-      
+      values$ts_code[[values$table_id]] <- update_table_result
       open_table(values, input, output, selected_tab = input$tabsetpanel, 
                  debug = debug)
     }
     
     observeEvent(input$update_table_ok, {
-      insert_updated_table()
       removeModal()
+      update_table(values$update_table_result)
     })
+    
+    observeEvent(input$update_all_tables, {
+      if (length(values$ts_code) > 0) {
+        showModal(modalDialog(
+          title = "Confirm",
+          HTML(paste0("Do you want to update all tables",
+                      "<br>with recent table information on the CBS website?")),
+          footer = tagList(
+            modalButton("No"),
+            actionButton("update_all_tables_confirmed", "Yes")
+          ),
+          easyClose = TRUE
+        ))
+      }
+    })
+    
+    observeEvent(input$update_all_tables_confirmed, {
+      if (debug) cat("Update all tables confirmed\n")
+      ids <- names(values$ts_code)
+      n_ids <- length(ids)
+      removeModal()
+      show_modal_progress_line(text = "Updating tables")
+      i <- 0
+      update_single_table <- function(id) {
+        if (debug) cat("updating table ..", id, "\n")
+        new_table <- create_new_table(id, base_url)
+        ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
+        ret$has_warning <- length(ret$warnings) > 0
+        ret$warnings <- NULL
+        i <<- i + 1
+        update_modal_progress(i / n_ids)
+        return(ret)
+      }
+      update_all_tables_result <- sapply(names(values$ts_code), 
+                                         FUN = update_single_table,
+                                         simplify = FALSE)
+      has_warning <- sapply(update_all_tables_result, 
+                            FUN = function(x) return(x$has_warning))
+      warning_ids <- names(has_warning[has_warning])
+      remove_modal_progress()
+      if (length(warning_ids) > 0) {
+        values$update_all_tables_result <- update_all_tables_result
+        wmsg <- paste("For tables", paste(warning_ids, collapse = ", "),
+                      "some old keys do not match perfectly with new keys.\n",
+                      "Check the match reports in directory 'match_reports'.")
+        wmsg <- strwrap(wmsg, width = 80)
+        wmsg <- paste(wmsg, collapse = "\n")
+        showWarningsDialog(wmsg, "update_all_tables_ok")
+      } else {
+        update_all_tables(update_all_tables_result)
+      }
+      return()
+    })
+    
+    observeEvent(input$update_all_tables_ok, {
+      if (debug) cat("Update all tables ok\n")
+      removeModal()
+      update_all_tables(values$update_all_tables_result)
+    })
+    
+    update_all_tables <- function(update_all_tables_result) {
+      new_ts_code <- sapply(update_all_tables_result,
+                            FUN = function(x) return(x$new_table),
+                            simplify = FALSE)
+      values$ts_code <- new_ts_code
+      if (!is.na(values$table_id)) {
+        # reopen the table which has been updated
+        open_table(values, input, output, debug = debug)
+      }
+    }
     
     observeEvent(input$tabsetpanel, {
       
