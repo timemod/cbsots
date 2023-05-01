@@ -1,0 +1,33 @@
+
+Download filter for dimension Dim1 dropped because the length of the URL would be
+too long.
+
+
+Download filter for dimension Dim2 dropped because the length of the URL would be
+too long.
+
+Filters:
+$Perioden
+$x
+ [1] "1995" "1996" "1997" "1998" "1999" "2000" "2001" "2002" "2003" "2004"
+[11] "2005" "2006" "2007" "2008" "2009" "2010" "2011" "2012" "2013" "2014"
+[21] "2015" "2016" "2017" "2018" "2019" "2020"
+
+$column
+NULL
+
+$cmd
+[1] "substringof"
+
+$size
+[1] 26
+
+attr(,"class")
+[1] "query"
+
+$select
+ [1] "ID"       "Dim1"     "Dim2"     "Perioden" "topic_2"  "topic_3" 
+ [7] "topic_4"  "topic_5"  "topic_6"  "topic_7"  "topic_8"  "topic_9" 
+[13] "topic_10"
+
+

@@ -1,0 +1,22 @@
+
+min_year (NA) not used to filter on Periods while downloading because the length 
+of the URL would be too long.
+
+Filters:
+$Perioden
+$x
+[1] "MM"
+
+$column
+NULL
+
+$cmd
+[1] "substringof"
+
+$size
+[1] 1
+
+attr(,"class")
+[1] "query"
+
+

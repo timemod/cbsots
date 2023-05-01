@@ -1,0 +1,65 @@
+
+Download filter for dimension Dim1 dropped because the length of the URL would be
+too long.
+
+Filters:
+$Perioden
+$x
+ [1] "1995" "1996" "1997" "1998" "1999" "2000" "2001" "2002" "2003" "2004"
+[11] "2005" "2006" "2007" "2008" "2009" "2010" "2011" "2012" "2013" "2014"
+[21] "2015" "2016" "2017" "2018" "2019" "2020"
+
+$column
+NULL
+
+$cmd
+[1] "substringof"
+
+$size
+[1] 26
+
+attr(,"class")
+[1] "query"
+
+$Dim2
+  [1] "dim2_2"   "dim2_3"   "dim2_4"   "dim2_5"   "dim2_6"   "dim2_7"  
+  [7] "dim2_8"   "dim2_9"   "dim2_10"  "dim2_11"  "dim2_12"  "dim2_13" 
+ [13] "dim2_14"  "dim2_15"  "dim2_16"  "dim2_17"  "dim2_18"  "dim2_19" 
+ [19] "dim2_20"  "dim2_21"  "dim2_22"  "dim2_23"  "dim2_24"  "dim2_25" 
+ [25] "dim2_26"  "dim2_27"  "dim2_28"  "dim2_29"  "dim2_30"  "dim2_31" 
+ [31] "dim2_32"  "dim2_33"  "dim2_34"  "dim2_35"  "dim2_36"  "dim2_37" 
+ [37] "dim2_38"  "dim2_39"  "dim2_40"  "dim2_41"  "dim2_42"  "dim2_43" 
+ [43] "dim2_44"  "dim2_45"  "dim2_46"  "dim2_47"  "dim2_48"  "dim2_49" 
+ [49] "dim2_50"  "dim2_51"  "dim2_52"  "dim2_53"  "dim2_54"  "dim2_55" 
+ [55] "dim2_56"  "dim2_57"  "dim2_58"  "dim2_59"  "dim2_60"  "dim2_61" 
+ [61] "dim2_62"  "dim2_63"  "dim2_64"  "dim2_65"  "dim2_66"  "dim2_67" 
+ [67] "dim2_68"  "dim2_69"  "dim2_70"  "dim2_71"  "dim2_72"  "dim2_73" 
+ [73] "dim2_74"  "dim2_75"  "dim2_76"  "dim2_77"  "dim2_78"  "dim2_79" 
+ [79] "dim2_80"  "dim2_81"  "dim2_82"  "dim2_83"  "dim2_84"  "dim2_85" 
+ [85] "dim2_86"  "dim2_87"  "dim2_88"  "dim2_89"  "dim2_90"  "dim2_91" 
+ [91] "dim2_92"  "dim2_93"  "dim2_94"  "dim2_95"  "dim2_96"  "dim2_97" 
+ [97] "dim2_98"  "dim2_99"  "dim2_100" "dim2_101" "dim2_102" "dim2_103"
+[103] "dim2_104" "dim2_105" "dim2_106" "dim2_107" "dim2_108" "dim2_109"
+[109] "dim2_110" "dim2_111" "dim2_112" "dim2_113" "dim2_114" "dim2_115"
+[115] "dim2_116" "dim2_117" "dim2_118" "dim2_119" "dim2_120" "dim2_121"
+[121] "dim2_122" "dim2_123" "dim2_124" "dim2_125" "dim2_126" "dim2_127"
+[127] "dim2_128" "dim2_129" "dim2_130" "dim2_131" "dim2_132" "dim2_133"
+[133] "dim2_134" "dim2_135" "dim2_136" "dim2_137" "dim2_138" "dim2_139"
+[139] "dim2_140" "dim2_141" "dim2_142" "dim2_143" "dim2_144" "dim2_145"
+[145] "dim2_146" "dim2_147" "dim2_148" "dim2_149" "dim2_150" "dim2_151"
+[151] "dim2_152" "dim2_153" "dim2_154" "dim2_155" "dim2_156" "dim2_157"
+[157] "dim2_158" "dim2_159" "dim2_160" "dim2_161" "dim2_162" "dim2_163"
+[163] "dim2_164" "dim2_165" "dim2_166" "dim2_167" "dim2_168" "dim2_169"
+[169] "dim2_170" "dim2_171" "dim2_172" "dim2_173" "dim2_174" "dim2_175"
+[175] "dim2_176" "dim2_177" "dim2_178" "dim2_179" "dim2_180" "dim2_181"
+[181] "dim2_182" "dim2_183" "dim2_184" "dim2_185" "dim2_186" "dim2_187"
+[187] "dim2_188" "dim2_189" "dim2_190" "dim2_191" "dim2_192" "dim2_193"
+[193] "dim2_194" "dim2_195" "dim2_196" "dim2_197" "dim2_198" "dim2_199"
+[199] "dim2_200"
+
+$select
+ [1] "ID"       "Dim1"     "Dim2"     "Perioden" "topic_2"  "topic_3" 
+ [7] "topic_4"  "topic_5"  "topic_6"  "topic_7"  "topic_8"  "topic_9" 
+[13] "topic_10"
+
+
