@@ -104,7 +104,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       h3("Save Code"), 
       paste("Save the Code to File", ts_code_file),
       p(),
-      actionButton("save", "Save codes")
+      actionButton("save", "Save Codes")
     ),
     mainPanel(
       uiOutput('table_pane')
@@ -460,7 +460,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       new_ts_code <- sapply(update_all_tables_result,
                             FUN = function(x) return(x$new_table),
                             simplify = FALSE)
-      values$ts_code <- new_ts_code
+      values$ts_code <- create_ts_code(new_ts_code)
       if (!is.na(values$table_id)) {
         # reopen the table which has been updated
         open_table(values, input, output, debug = debug)
