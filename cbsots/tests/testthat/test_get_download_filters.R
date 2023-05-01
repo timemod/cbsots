@@ -62,6 +62,20 @@ test_that("a - table without dimensions", {
     file = "expected_output/test_get_download_filters_a3.txt",
     update = update_expected
   )
+  
+  cbs_code <- create_cbs_code(Topic = 300)
+  selected_code <- cbs_code
+  selected_code$Topic <- selected_code$Topic[-1, , drop = FALSE]
+  
+  expect_known_output(
+    filters <- cbsots:::get_download_filters(id, selected_code, cbs_code, 
+                                             frequencies = c("M", "Y", "Q"),
+                                             min_year = NA,
+                                             period_keys = period_keys,
+                                             download_all_keys = FALSE),
+    file = "expected_output/test_get_download_filters_a4.txt",
+    update = update_expected
+  )
 })
 
 
@@ -123,3 +137,19 @@ test_that("b - table with 3 dimensions", {
 })
 
 
+test_that("warning about missing frequencies are not present", {
+  cbs_code <- create_cbs_code(Topic = 10)
+  selected_code <- cbs_code
+  period_keys <- create_period_keys(1990, 2020)
+  period_keys <- grep("JJ", period_keys, value = TRUE)
+  expect_warning(
+    filters <- cbsots:::get_download_filters(id, selected_code, cbs_code,
+                                             frequencies = c("Y", "Q", "M"),
+                                             min_year = NA,
+                                             period_keys = period_keys,
+                                             download_all_keys = FALSE),
+    "Frequencies Q, M not present in CBS data",
+    fixed = TRUE
+  )
+  expect_equal(unname(filters), list())
+})
