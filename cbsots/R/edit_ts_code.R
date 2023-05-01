@@ -68,7 +68,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
           $('.btn').on('click', function(){$(this).blur()});
         })
         ")),
-      h3("Open existing code table"),
+      h3("Open Existing Code Table"),
       "You can enter a search query in the text field below.",
       "When necessary, use Backspace to erase the text field.",
       p(),
@@ -79,10 +79,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       p(),
       actionButton("new_table", "New table"),
       p(),
-      h3("Delete code table"),
+      h3("Delete Code Table"),
       actionButton("delete_table", "Delete table"),
       p(),
-      h3("Order code table"),
+      h3("Order Code Table"),
       "Select an order type below",
       "Press reorder to reorder after changing the table",
       p(),
@@ -93,7 +93,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         column(1, actionButton("reorder", "Reorder"), offset = 1)
       ),
       p(),
-      h3("Update table(s)"),
+      h3("Update Table(s)"),
       "Updated Keys and Titles with recent information on the CBS website",
       p(),
       fluidRow(
@@ -101,8 +101,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         column(1, actionButton("update_all_tables", "Update All Tables"), 
                                offset = 1),
       ),
-      h3("Save code"), 
-      paste("Save the code to file", ts_code_file),
+      h3("Save Code"), 
+      paste("Save the Code to File", ts_code_file),
       p(),
       actionButton("save", "Save codes")
     ),
@@ -183,8 +183,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(values$table_open, {
       if (debug) cat("table_open modified. New value:", values$table_open, 
                      "\n")
-      input_ids <- c("update_table", "update_all_tables", "order_table", 
-                       "reorder")
+      input_ids <- c("update_table", "order_table", "reorder")
       if (values$table_open) {
         fun <- shinyjs::enable
       } else {
@@ -197,12 +196,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(values$table_present, {
       if (debug) cat("table_present modified. New value:", values$table_present, 
                      "\n")
-      input_id <- "delete_table"
+      input_ids <- c("update_all_tables", "delete_table")
       if (values$table_present) {
-        shinyjs::enable(input_id)
+        fun <- shinyjs::enable
       } else {
-        shinyjs::disable(input_id)
+        fun <- shinyjs::disable
       }
+      invisible(lapply(input_ids, FUN = fun))
       return()
     })
     
