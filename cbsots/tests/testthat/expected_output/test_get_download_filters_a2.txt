@@ -1,0 +1,22 @@
+Filters:
+$Perioden
+$x
+[1] "MM"
+
+$column
+NULL
+
+$cmd
+[1] "substringof"
+
+$size
+[1] 1
+
+attr(,"class")
+[1] "query"
+
+$select
+ [1] "ID"       "Perioden" "topic_2"  "topic_3"  "topic_4"  "topic_5" 
+ [7] "topic_6"  "topic_7"  "topic_8"  "topic_9"  "topic_10"
+
+
