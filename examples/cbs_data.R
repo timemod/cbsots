@@ -19,6 +19,8 @@ table_codes <- readRDS(code_file)
 
 for (i in seq_len(nrow(overzicht))) {
   with(overzicht[i, ], {
+    actie <- as.logical(as.numeric(actie))
+    refresh <- as.logical(as.numeric(refresh))
     if (actie) {
       output_xlsx <- file.path(output_dir, paste0(naam_kort, ".xlsx"))
       output_rds <- file.path(output_dir, paste0(naam_kort, ".rds"))
