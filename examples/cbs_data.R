@@ -15,12 +15,17 @@ library(readxl)
 
 overzicht <- read_excel(overzicht_xlsx, col_types = "text")
 
+if (is.character(overzicht$actie)) {
+  overzicht$actie <-  overzicht$actie %in% c("TRUE", "1")
+}
+if (is.character(overzicht$refresh)) {
+  overzicht$refresh <-  overzicht$refresh %in% c("TRUE", "1")
+}
+
 table_codes <- readRDS(code_file)
 
 for (i in seq_len(nrow(overzicht))) {
   with(overzicht[i, ], {
-    actie <- as.logical(as.numeric(actie))
-    refresh <- as.logical(as.numeric(refresh))
     if (actie) {
       output_xlsx <- file.path(output_dir, paste0(naam_kort, ".xlsx"))
       output_rds <- file.path(output_dir, paste0(naam_kort, ".rds"))
