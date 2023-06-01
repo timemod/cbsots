@@ -5,7 +5,7 @@
 read_table <- function(id, data_dir, code, selected_code, dimensions,
                        min_year, frequencies, read_downloaded_data = FALSE) {
   
-  meta <- read_meta_data(data_dir)
+  meta <- read_meta_data(data_dir, id)
   
   if (is.null(meta)) return(NULL)
   
@@ -41,7 +41,7 @@ read_table <- function(id, data_dir, code, selected_code, dimensions,
 #' @importFrom data.table fread
 #' @importFrom data.table as.data.table
 #' @importFrom utils read.csv
-read_meta_data <- function(dir) {
+read_meta_data <- function(dir, id) {
   
   if (!dir.exists(dir)) {
     return(NULL)
@@ -78,6 +78,11 @@ read_meta_data <- function(dir) {
     
     dimensions <- ret$DataProperties[endsWith(Type, "Dimension")]$Key
     
+    # Check if this table contains timeseries data
+    if (!"Perioden" %in% dimensions) {
+      stop("Table ", id, " does not contain timeseries")
+    }
+    
     dimension_data <- sapply(dimensions, FUN = read_meta_csv, 
                              simplify = FALSE)
     
@@ -104,11 +109,15 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   if (!dir.exists(dir)) {
     return(NULL)
   }
+  
+  dimensions <- setdiff(names(selected_code), "Topic")
 
   data_file <- file.path(dir, "data.csv")
-
+  
   tryCatch({
-    data <- fread(data_file, drop = "ID", integer64 = "numeric")
+    colClasses = list(character = c(dimensions, "Perioden"))
+    data <- fread(data_file, drop = "ID", integer64 = "numeric",
+                  colClasses = colClasses)
   },
   warning = function(e) {
     warning(e)
@@ -126,7 +135,7 @@ read_data_file <- function(dir, selected_code, meta, min_year,
          "'. Something is wrong with this table.")
   }
 
-  dimensions <- setdiff(names(selected_code), "Topic")
+ 
   topic_keys <- selected_code$Topic$Key
   
   # In weird cases (e.g. table 84328NED), there are duplicate keys in
@@ -160,10 +169,6 @@ read_data_file <- function(dir, selected_code, meta, min_year,
   
   }
 
-  # check if data contains a column 'Perioden'
-  if (!"Perioden" %in% colnames(data)) {
-    stop("Table ", id, " does not contain timeseries")
-  }
   
   period_keys <- select_period_keys(meta$Perioden$Key, min_year = min_year, 
                                     frequencies  = frequencies,

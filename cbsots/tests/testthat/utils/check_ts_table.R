@@ -30,7 +30,8 @@ check_ts_table <- function(x, id, raw_cbs_dir = "raw_cbs_data",
   
   cbs_data_file <- file.path(raw_cbs_dir, id, "data.csv")
   
-  cbs_data <- data.table::fread(cbs_data_file, drop = "ID")
+  cbs_data <- data.table::fread(cbs_data_file, drop = "ID",
+                                keepLeadingZeros = TRUE)
   
   # The raw cbs data downloaded with cbsodataR versions prior to 0.3 
   # contained strings such as "       ." for NA values. Therefore replace 
