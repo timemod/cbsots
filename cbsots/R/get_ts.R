@@ -319,7 +319,7 @@ create_timeseries <- function(data, ts_name_info) {
     # convert data to timeseries
     freq_num <- period_info_freq[[1, "freq_num"]]
     ts_freq <- regts::as.regts(data_freq, time_column = "Perioden",
-                               frequency = freq_num)
+                               frequency = freq_num, strict = FALSE)
   
     # add labels
     ts_freq  <- regts::update_ts_labels(ts_freq, labels)

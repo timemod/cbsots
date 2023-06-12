@@ -16,8 +16,6 @@ options(encoding = "UTF-8")
 ts_code <- readRDS(sprintf("tscode/tscode_%s.rds",id))
 
 source("utils/check_ts_table.R")
-source("utils/read_match_report.R")
-source("utils/check_titles_and_labels.R")
 
 raw_cbs_dir <- "raw_cbs_data"
 

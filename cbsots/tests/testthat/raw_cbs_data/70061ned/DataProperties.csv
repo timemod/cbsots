@@ -1,0 +1,23 @@
+"odata.type","ID","Position","ParentID","Type","Key","Title","Description","ReleasePolicy","Datatype","Unit","Decimals","Default"
+"Cbs.OData.TimeDimension",0,0,,"TimeDimension","Perioden","Perioden",,TRUE,,,,
+"Cbs.OData.Topic",1,1,,"Topic","TotaalLedenVakverenigingen_1","Totaal leden vakverenigingen","Een vakvereniging is een vereniging van werknemers die zich ten doel stelt de collectieve en/of individuele belangen van de leden te behartigen bij hun werkgevers of bij instanties die invloed op de arbeidsvoorwaarden uitoefenen.
+Leden van een vakvereniging kunnen personen in loondienst zijn, evenals niet meer of nog niet werkzame personen, zoals geregistreerde werklozen, overige niet werkzame personen behorend tot de beroepsbevolking, gepensioneerden, personen met een arbeidsongeschiktheidsuitkering en dergelijke.",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",2,2,,"Topic","FNV_2","FNV","Federatie Nederlandse Vakbeweging",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",3,3,,"Topic","NVV_3","NVV","Nederlandsch Verbond van Vakverenigingen
+In 1906 werd het Nederlandsch Verbond van Vakverenigingen opgericht.
+Per 1 januari 1982 zijn de vakcentrales NVV en NKV gefuseerd tot FNV.",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",4,4,,"Topic","NKV_4","NKV","Nederlands Katholiek Vakverbond
+In 1909 werd het Bureau voor de Rooms-Katholieke Vakorganisatie opgericht. Later werd dit het Rooms-Katholiek Werkliedenverbond (RKWV, 1925) en vervolgens de Katholieke Arbeidersbeweging-KAB. Vanaf 1964 werd de naam van deze vakcentrale NKV. Per 1 januari 1982 zijn de vakcentrales NVV en NKV gefuseerd tot FNV.",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",5,5,,"Topic","CNV_5","CNV","Christelijk Nationaal Vakverbond
+",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",6,6,,"Topic","VCP_6","VCP","Vakcentrale voor professionals, tot en met 2014 bekend als Vakcentrale voor middengroepen en hoger personeel (MHP).
+
+",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",7,7,,"Topic","EVC_7","EVC","Eenheids Vak Centrale
+De Eenheids Vak Centrale werd in 1945 opgericht en in 1964 opgeheven.
+Gegevens omtrent het aantal leden ontbreken vanaf 1953.",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",8,8,,"Topic","AVC_8","AVC","Algemene Vakcentrale
+De AVC is in 1993 opgericht. Leden van vakverenigingen aangesloten bij de AVC zijn in de daaraan voorafgaande jaren gerekend tot de groep 'Overige vakverenigingen'.
+Per 1 januari 1998 zijn de vakcentrales FNV en AVC gefuseerd. In de aanloop naar een fusie hebben deze vakcentrales in 1997 hun werkorganisaties samengevoegd in een federatief verband. Alleen de NOVON (Nederlandse Onafhankelijke Vakbond voor de Overheids- en Non-profitsector) was lid gebleven van de AVC. Per 1 januari 1998 is deze vakvereniging toegetreden tot de FNV. De overige bij de AVC aangesloten vakverenigingen hebben in 1997 hun lidmaatschap van de AVC beëindigd. Een van deze vakverenigingen - de Onafhankelijke Onderwijs Vakorganisatie NGL(21 duizend leden) - is in 1997 gefuseerd met de Onderwijsbond ABOP (FNV) onder de naam Algemene Onderwijs Bond AOB. Deze vakvereniging is lid van de FNV geworden. De overige twintig vakverenigingen die in 1996 bij de AVC waren aangesloten zijn met ingang van 1997 gerekend tot de groep 'Overige vakverenigingen'.
+Zij hadden samen ruim 65 duizend leden.",,"Long","x 1000",0,"Impossible"
+"Cbs.OData.Topic",9,9,,"Topic","OverigeVakverenigingen_9","Overige vakverenigingen","",,"Long","x 1000",0,"Impossible"

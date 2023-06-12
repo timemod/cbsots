@@ -1,0 +1,90 @@
+"ID","Title","ShortTitle","Identifier","Summary","Modified","ReasonDelivery","ExplanatoryText","Language","Catalog","Frequency","Period","ShortDescription","Description","DefaultPresentation","DefaultSelection","GraphTypes","OutputStatus","Source","MetaDataModified","SearchPriority"
+0,"Historie leden vakverenigingen","Historie leden vakverenigingen","70061ned","Historie leden vakverenigingen.
+Vakcentrales en Overige vakverenigingen","2021-11-03T02:00:00","Actualisering","","nl","CBS","Pertweejaar","1901 - 2021","
+De tabel is een tijdreeks over leden van vakverenigingen, aangesloten bij vakcentrales en overige vakverenigingen. 
+In de tabel zijn de gegevens uit te splitsen naar jaren.
+
+Gegevens beschikbaar vanaf 1901.
+
+Frequentie: sinds 2017 per twee jaar, hiervoor jaarlijks. Hierdoor zijn geen gegevens over 2018 en 2020 bekend. 
+
+Status van de cijfers: 1901 - 2019 definitief, 2021 voorlopig.
+
+Wijzigingen per 3 november 2021:
+Cijfers over 2021 zijn toegevoegd.
+De cijfers van 2019 zijn definitief geworden.
+
+Wanneer komen er nieuwe cijfers:
+In oktober 2023 worden de cijfers van 2023 toegevoegd. Cijfers over 2022 worden niet gemaakt. 
+","INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie
+
+1. TOELICHTING
+
+De tabel is een tijdreeks over leden van vakverenigingen, aangesloten bij vakcentrales en overige vakverenigingen. 
+In de tabel zijn de gegevens uit te splitsen naar jaren.
+
+Gegevens beschikbaar vanaf 1901.
+
+Frequentie: sinds 2017 per twee jaar, hiervoor jaarlijks. Hierdoor zijn geen gegevens over 2018 en 2020 bekend. 
+
+Status van de cijfers: 1901 - 2019 definitief, 2021 voorlopig.
+
+Wijzigingen per 3 november 2021:
+Cijfers over 2021 zijn toegevoegd.
+De cijfers van 2019 zijn definitief geworden.
+
+Wanneer komen er nieuwe cijfers:
+In oktober 2023 worden de cijfers van 2023 toegevoegd. Cijfers over 2022 worden niet gemaakt. 
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Vakvereniging
+Vereniging van werknemers die zich ten doel stelt de collectieve en/of individuele belangen van de leden te behartigen bij hun werkgevers of bij instanties die invloed op de arbeidsvoorwaarden uitoefenen. 
+
+Vakcentrale
+Een vakcentrale is een federatie van vakbonden, die de aangesloten vakbonden en hun leden vertegenwoordigt op overkoepelend niveau. De vakverenigingen voeren de loononderhandelingen met werkgevers(organisaties) en bieden hun leden individuele belangenbehartiging.
+De vakcentrale voert namens de aangesloten bonden op een hoger niveau het overleg met werkgeversorganisaties en de overheid en neemt deel aan adviesraden zoals de Sociaal-Economische Raad in Nederland.
+Er zijn in Nederland drie vakcentrales:
+·	Federatie Nederlandse Vakbeweging (FNV) 
+·	Christelijk Nationaal Vakverbond (CNV) 
+·	Vakcentrale voor Professionals (VCP).
+
+Vakbeweging
+Alle vakverenigingen samen.
+
+Lid van een vakvereniging
+Leden van een vakbond kunnen werknemers zijn, maar ook zelfstandigen, werklozen en personen die niet behoren tot de beroepsbevolking.
+
+Verklaring van symbolen:
+
+niets (blanco)	: het cijfer kan op logische gronden niet voorkomen
+. 		: het cijfer is onbekend, onvoldoende betrouwbaar of geheim
+*		: voorlopige cijfers
+**		: nader voorlopige cijfers
+
+3. KOPPELINGEN NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Gegevens over het aantal leden van vakverenigingen FNV, CNV, MHP en Overige vakverenigingen naar geslacht en leeftijd  in de periode 1999 - 2012 zijn te vinden in de StatLine tabel: <a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/80598NED'>Leden van vakverenigingen; geslacht en leeftijd</a>.
+
+Gegevens over het aantal werknemers met een baan van ten minste twaalf uur per week en hun organisatiegraad, dat wil zeggen het aandeel dat lid is van een vakorganisatie. De gegevens hebben betrekking op de periode 1995-2011. <a href='https://www.cbs.nl/nl-nl/maatwerk/2012/22/organisatiegraad-van-werknemers-1995-2011'>Organisatiegraad van werknemers 1995-2011</a>
+
+Gegevens over het aantal leden van vakverenigingen FNV, CNV, MHP en Overige vakverenigingen naar diverse kenmerken in de periode 1999 - 2009 zijn te vinden in de StatLine tabel: <a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/37183vb'>Leden van vakverenigingen; kenmerken vakvereniging, 1999 - 2009</a> (reeks is stopgezet).
+
+Gegevens over ledentallen van vakverenigingen aangesloten bij vakcentrales in de periode 1 januari 1999 - 1 oktober 2003 zijn te vinden in de StatLine tabel: <a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/37793'>Leden vakcentrales; vakvereniging, 1 januari 1999 - 1 oktober 2003</a> (reeks is stopgezet).
+
+4. Bronnen en methoden
+
+De onderzoeksmethode van deze tabel is te vinden in de onderzoeksbeschrijving <a href='https://www.cbs.nl/nl-nl/onze-diensten/methoden/onderzoeksomschrijvingen/korte-onderzoeksbeschrijvingen/vakbeweging'>Vakbeweging</a>.
+
+5. MEER INFORMATIE
+
+<a href='https://www.cbs.nl/nl-nl/over-ons/contact/infoservice'>Infoservice</a>
+
+Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen 
+Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.","ts=1635491744362&graphtype=Table&r=Perioden&k=Topics","$filter=((Perioden eq '1901JJ00') or (Perioden eq '1910JJ00') or (Perioden eq '1920JJ00') or (Perioden eq '1930JJ00') or (Perioden eq '1940JJ00') or (Perioden eq '1950JJ00') or (Perioden eq '1960JJ00') or (Perioden eq '1970JJ00') or (Perioden eq '1980JJ00') or (Perioden eq '1990JJ00') or (Perioden eq '2010JJ00') or (Perioden eq '2017JJ00') or (Perioden eq '2019JJ00') or (Perioden eq '2021JJ00'))&$select=Perioden, TotaalLedenVakverenigingen_1, FNV_2, NVV_3, NKV_4, CNV_5, VCP_6, EVC_7, AVC_8, OverigeVakverenigingen_9","Table,Bar,Line","Regulier","CBS.","2021-11-03T02:00:00","2"
