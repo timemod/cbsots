@@ -86,15 +86,15 @@ test_that("no download", {
 })
 
 test_that("errors", {
-  emsg <- paste("There is no data available for years >= 2022.\nThe last",
-                "year with data is 2021.")
+  emsg <- paste("There is no data available for years >= 2023.\nThe last",
+                "year with data is 2022.")
   expect_output(
-      expect_error(get_ts(id, ts_code, download = TRUE, min_year = 2022),
+      expect_error(get_ts(id, ts_code, download = TRUE, min_year = 2023),
                  emsg, fixed = TRUE),
   )
   expect_silent(
     expect_warning(
-      expect_error(get_ts(id, ts_code, download = FALSE, min_year = 2022),
+      expect_error(get_ts(id, ts_code, download = FALSE, min_year = 2023),
                    emsg, fixed = TRUE),
       "Unknown frequencies TM in CBS data")
   )
