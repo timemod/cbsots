@@ -121,8 +121,9 @@ convert_codetable <- function(table) {
   }
 }
 
-get_hot_id <- function(table_id, name) {
-  return(paste(table_id, name, sep = "_"))
+get_hot_id <- function(tab_name, tab_names) {
+  return("hot")
+  #return(paste0("hot_", tab_name))
 }
 
 #' @importFrom utils capture.output

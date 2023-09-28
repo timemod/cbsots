@@ -14,63 +14,72 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
   #
   
   # create the table for the first dimension (the Topic)
-  tab_index <- if (!is.null(selected_tab)) {
-                  match(selected_tab, tab_names)
-                } else {
-                  1
-                }
-  
-  hot_id <- get_hot_id(table_id, tab_names[tab_index])
-  tab <- values$ts_code[[table_id]]$codes[[tab_index]]
-  output[[hot_id]] <- renderCodetable(codetable(tab))
+  if (is.null(selected_tab)) selected_tab <- tab_names[1]
+
+  # create all handsontable objects for this table  
+  values$hot_tables <- sapply(tab_names, 
+                       FUN = \(x) codetable(values$ts_code[[table_id]]$codes[[x]]),
+                       simplify = FALSE)
+
+  hot_id <- get_hot_id(selected_tab, tab_names)
+  output[[hot_id]] <- renderCodetable(values$hot_tables[[selected_tab]])
+                                      
+  #outputOptions(output, hot_id, suspendWhenHidden = FALSE)
   
   # create empty tables for the other dimensions, the real tables will
   # actually be created when the tab selection changes.
-  if (length(tab_names) > 1) {
-    make_empty_table <- function(name) {
-      hot_id <- get_hot_id(table_id, name)
-      output[[hot_id]] <- NULL
-      return()
-    }
-    lapply(tab_names[-tab_index], FUN = make_empty_table)
-  }
+  # hot_ids <- grep("^hot_", names(outputOptions(output)), value = TRUE)
+  # print(hot_ids)
+  # 
+  # cat("\noutput names voor :\n")
+  # print(outputOptions(output))
+  # cat("\n")
+  # 
+  # to_remove <- setdiff(hot_ids, hot_id)
+  # if (length(to_remove) > 0) {
+  #   for (hot_id_delete in to_remove) {
+  #     output[[hot_id_delete]] <- NULL
+  #   }
+  # }
+  # cat("\noutput names na :\n")
+  # print(outputOptions(output))
+  # cat("\n")
 
   # 
   # observers for the tables
   #
-  make_observer <- function(name) {
-    hot_id <- get_hot_id(table_id, name)
-    observeEvent(input[[hot_id]], {
-      if (debug) cat(paste("Table", hot_id , "has changed\n"))
-      if (!is.null(input[[hot_id]])) {
-        df_input <- convert_codetable(input[[hot_id]])
-        if (!is.null(df_input)) {
-          if (debug) {
-            cat("old values\n")
-            print(head(values$ts_code[[values$table_id]]$codes[[name]][, 1:3]))
-            cat("current values\n")
-            print(head(df_input[, 1:3]))
-          }
-          values$ts_code[[values$table_id]]$codes[[name]][, 1:4] <- df_input
-        } else if (debug) {
-          cat(paste0("Something is wrong with input$", hot_id, ", 
-                     check warnings\n"))
-        }
-      } else if (debug) {
-        cat(paste0("input$", hot_id, " is NULL ...\n"))
-      }
-    })
-  }
-  
-  lapply(tab_names, make_observer)
+  # make_observer <- function(name) {
+  #   hot_id <- get_hot_id(table_id, name)
+  #   observeEvent(input[[hot_id]], {
+  #     if (debug) cat(paste("Table", hot_id , "has changed\n"))
+  #     if (!is.null(input[[hot_id]])) {
+  #       df_input <- convert_codetable(input[[hot_id]])
+  #       if (!is.null(df_input)) {
+  #         if (debug) {
+  #           cat("old values\n")
+  #           print(head(values$ts_code[[values$table_id]]$codes[[name]][, 1:3]))
+  #           cat("current values\n")
+  #           print(head(df_input[, 1:3]))
+  #         }
+  #         values$ts_code[[values$table_id]]$codes[[name]][, 1:4] <- df_input
+  #       } else if (debug) {
+  #         cat(paste0("Something is wrong with input$", hot_id, ", 
+  #                    check warnings\n"))
+  #       }
+  #     } else if (debug) {
+  #       cat(paste0("input$", hot_id, " is NULL ...\n"))
+  #     }
+  #   })
+  # }
+  # 
+  # lapply(tab_names, make_observer)
   
   # 
   # prepare tabbed pane
   #
   
-  make_panel <- function(name) {
-    hot_id <- get_hot_id(table_id, name)
-    return(tabPanel(name, codetableOutput(hot_id)))
+  make_panel <- function(tab_name) {
+    return(tabPanel(tab_name, NULL))
   }
   
   output$table_pane <- renderUI({
@@ -96,7 +105,9 @@ open_table <- function(values, input, output, selected_tab = NULL, debug) {
                   ),
                   p(),
                   do.call(tabsetPanel, c(list(id = "tabsetpanel", 
-                                            selected = selected_tab), myTabs)))
+                                            selected = selected_tab), myTabs)),
+                  br(),
+                  codetableOutput("hot"))
     })
     return(ret)
   })

@@ -176,6 +176,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
    
       open_table(values, input, output, debug = debug)
       
+      values$tab_name <- values$tab_names[1]
+      
       updateSelectInput(session, "order_table", selected = get_order_type(1))
     
     })  # table_description_event
@@ -468,15 +470,27 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     observeEvent(input$tabsetpanel, {
-      
+      cat("\ntabsetpanel event\n")
       # a new tab has been selected
     
       if (debug) cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
                          input$tabsetpanel))
+
+      name <- input$tabsetpanel
+      tab_id <- name
+      # het is noodzakelijk om 
+      
+      x <- codetable(values$ts_code[[values$table_id]]$codes[[name]])
+      print(x)
+      #output[["hot"]] <- renderPrint("piet") 
+      output[["hot"]] <- renderCodetable(x)
+    
+      return()
       
       # first clean all tabs, the table for the selected tab will be recreated.
       make_empty_table <- function(name) {
         hot_id <- get_hot_id(values$table_id, name)
+        
         output[[hot_id]] <- NULL
         return()
       }
@@ -500,6 +514,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       # When a new tab has been selected, we want to re-render the table, 
       # because sometimes handsontable does not render the table correctly when 
       # the tab selection changes. 
+      # This may be a problem with suspend, try this option.
       # If current_type == SELECTED_ORDER, then the tables have already been 
       # re-rendered by function reorder_table() (see code above).
       if (current_type != SELECTED_FIRST_ORDER) {
