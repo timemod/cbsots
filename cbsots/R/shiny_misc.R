@@ -36,9 +36,10 @@ get_table_id <- function(table_desc) {
 
 # TODO: should be also check for duplicates when the user selects another 
 # tab in the tabsetpanel?
-check_duplicates <- function(ts_code, table_id) {
+check_duplicates <- function(ts_code, table_id, dimension = NULL) {
   ts_code <- ts_code[[table_id]]$codes
-  for (name in names(ts_code)) {
+  dim_names <- if (missing(dimension)) names(ts_code) else dimension
+  for (name in dim_names) {
     tab <- ts_code[[name]]
     # first check for duplicate keys in the selected entries
     keys <- tab$Key[tab$Select]

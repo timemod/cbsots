@@ -163,10 +163,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     # internal function in the server function
     ############################################################################
     
-    render_hot_table <- function(dimension) {
-      tab_data <- values$ts_code[[values$table_id]]$codes[[dimension]]
+    render_hot_table <- function() {
+      tab_data <- values$ts_code[[values$table_id]]$codes[[values$dimension]]
       output$hot <- renderCodetable(codetable(tab_data))
-      values$dimension <- dimension
       return(invisible())
     }
     
@@ -179,13 +178,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
     }
    
+    # Open a table. This function is called when a new table has been selected,
+    # when the open table has been updated, or when all tables have been
+    # updated.
     open_table <- function(selected_dimension = NULL) {
       if (debug) {
         cat(sprintf("\nOpening table_id %s (function open_table()).\n", 
                     values$table_id))
       }
       
-      output$table_title <- renderUI(HTML("<h3>Tabel", values$table_desc, "</h3>"))
+      output$table_title <- renderUI(HTML("<h3>Tabel", values$table_desc, 
+                                          "</h3>"))
       
       updateOrderInput(
         session = getDefaultReactiveDomain(),
@@ -204,8 +207,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       output$dimension_tabsetpanel <- renderUI(tabset_panel)
       
       dimension <- selected_dimension
-      if (is.null(dimension)) dimension <- values$dimensions[1]
-      render_hot_table(dimension)   
+      if (is.null(dimension) || !dimension %in% values$dimensions) {
+        dimension <- values$dimensions[1]
+      }
+      values$dimension <- dimension
+      render_hot_table()   
       
       updateSelectInput(session, "table_order", 
                         selected = get_order_type(dimension))
@@ -227,9 +233,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     # Store the handsontable data in values$ts_code.
-    # If reorder = TRUE, then the data is also reordered for the order type
-    # SELECTED_FIRST_ORDER.
-    store_hot_data <- function(reorder = TRUE) {
+    store_hot_data <- function() {
       if (is.null(input$hot)) {
         return(invisible()) # this may happen at the very beginning
       }
@@ -264,25 +268,25 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       # Store hot data in values$ts_code
       values$ts_code[[table_id]]$codes[[dim]][, 1:4] <- hot_data[, 1:4]
-      
-      # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
-      # (for CBS_ORDER the table is already in the correct order).
-      if (reorder && input$table_order == SELECTED_FIRST_ORDER) {
-        order_ts_code()
-      }
+    
       if (debug) cat("ts_code has been updated\n\n")
       
+      return(invisible())
+    }
+    
+    # save dimension ordering:
+    store_dimension_order <- function() {
+      values$ts_code[[values$table_id]]$order <- input$dimension_order
       return(invisible())
     }
     
     # Reorder the table that is currently displayed.
     reorder_table <- function() {
       if (debug) cat("\nIn reorder_table\n\n")
-      store_hot_data(reorder = FALSE)
-      dimension <- values$dimension
+      store_hot_data()
       if (order_ts_code()) {
+        render_hot_table()
         if (debug) cat("The table has been reordered\n\n")
-        render_hot_table(dimension)
       } else {
         if (debug) cat("The table was already in correct ordering.\n\n")
       }
@@ -314,14 +318,29 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                         selected = values$new_table_desc)
     }
     
-    
+    # update the open table
     update_table <- function(update_table_result) {
       if (debug) cat("\nIn update_table\n")
       values$ts_code[[values$table_id]] <- update_table_result
-      # TODO: is het nodig om de hele tabel opnieuw te openen?
-      # Dit is alleen nodig als het aantal en de namen van de dimensies
-      # gewijzigd kan zijn. Is dit mogelijk?
-      open_table(selected_tab = input$dimension)
+      open_table(selected_dimension = values$dimension)
+      
+      # TODO: update table_descs and table_desc? These may have changed
+    }
+    
+    # update all tables
+    update_all_tables <- function(update_all_tables_result) {
+      new_ts_code <- sapply(update_all_tables_result,
+        FUN = function(x) {
+          return(x$new_table)
+        },
+        simplify = FALSE
+      )
+      values$ts_code <- create_ts_code(new_ts_code)
+      if (values$table_open) {
+        open_table(selected_dimension = values$dimension)
+      }
+      
+      # TODO: update table_descs and table_desc? These may have changed
     }
     
     ############################################################################
@@ -335,6 +354,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
 
       if (values$table_open) {
+        
+        store_hot_data()
+        
         if (check_duplicates(values$ts_code, values$table_id)) {
           # There are duplicates in the code of the current table, which 
           # the user must correct first. Select original table and return.
@@ -342,11 +364,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
           return()
         }
         
-        # update data in hot table
-        store_hot_data()
-      
-        # save ordering current table
-        values$ts_code[[values$table_id]]$order <- input$dimension_order
+        # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
+        # (for CBS_ORDER the table is already in the correct order).
+        if (input$table_order == SELECTED_FIRST_ORDER) {
+          order_ts_code()
+        }
+        
+        store_dimension_order()
       }
       
       new_table_id <- get_table_id(input$table_desc)
@@ -357,17 +381,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       dimensions <- names(values$ts_code[[new_table_id]]$codes)
       
-      
       values$table_id <- new_table_id
       values$table_desc <- values$table_descs[new_table_id]
       values$dimensions <- names(values$ts_code[[new_table_id]]$codes)
       values$table_open <- TRUE
    
       open_table()
-      
-      # table_order aanpassen aan de naam van de eerste dimensie
-      current_type <- get_order_type(values$dimension)
-      updateSelectInput(session, "table_order", selected = current_type)
+  
     }, ignoreInit = TRUE)  # table_description_event
     
     observeEvent(values$table_open, {
@@ -505,20 +525,20 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       values$table_ids <- values$table_ids[-idx]
       values$table_descs <- values$table_descs[values$table_ids]
       
-      choices <- create_table_choices(values$table_descs)                 
-      
-      if (is.na(values$table_id) || values$delete_table_id == values$table_id) {
-        updateSelectInput(session, inputId = "table_desc", choices = choices)
-        if (!is.na(values$table_id)) {
-          values$table_id <- NA_character_
-          values$table_desc <- NA_character_
-          values$dimension <- NA_character_
-          values$table_open <- FALSE
-        }
-      } else {
-        updateSelectInput(session, inputId = "table_desc", choices = choices,
-                          selected = values$table_desc)
+      if (values$table_open && values$delete_table_id == values$table_id) {
+        values$table_id <- NA_character_
+        values$table_desc <- NA_character_
+        values$dimension <- NA_character_
+        values$table_open <- FALSE
       }
+      
+      # update table  inputs
+      # TODO: create general function for this, also used for chaning
+      # table desc because of update_table?
+      choices <- create_table_choices(values$table_descs)                 
+      selected <- if (is.na(values$table_desc)) NULL else values$table_desc
+      updateSelectInput(session, inputId = "table_desc", choices = choices,
+                        selected = selected)
     
       values$table_present <- length(values$ts_code) > 0
       removeModal()
@@ -620,18 +640,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       update_all_tables(values$update_all_tables_result)
     })
     
-    update_all_tables <- function(update_all_tables_result) {
-      new_ts_code <- sapply(update_all_tables_result,
-                            FUN = function(x) return(x$new_table),
-                            simplify = FALSE)
-      values$ts_code <- create_ts_code(new_ts_code)
-      if (!is.na(values$table_id)) {
-        # reopen the table which has been updated
-        open_table(values, input, output, debug = debug)
-        # TODO: select the tab that has been selected previously
-      }
-    }
-    
     observeEvent(input$dimension, {
       if (debug) {
         cat(sprintf("\nSelected dimension changed, new dimension =  %s.\n", 
@@ -647,11 +655,29 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       } else {
         cat("\n")
       }
-
+      
+      # Store handsontabledata in values$ts_code
       store_hot_data()
-      render_hot_table(input$dimension)
-      current_type <- get_order_type(values$dimension)
-      updateSelectInput(session, "table_order", selected = current_type)
+      
+      if (check_duplicates(values$ts_code, values$table_id)) {
+        # There are duplicates in the code of the current table, which 
+        # the user must correct first. Select original tab and return
+        updateTabsetPanel(session, "dimension", selected = values$dimension)
+        return()
+      }
+      
+      # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
+      # (for CBS_ORDER the table is already in the correct order).
+      if (input$table_order == SELECTED_FIRST_ORDER) {
+        order_ts_code()
+      }
+      
+      # now open table for a new dimension
+      dimension <- input$dimension
+      values$dimension <- dimension
+      render_hot_table()
+      updateSelectInput(session, "table_order", 
+                        selected =  get_order_type(dimension))
     })
   
     observeEvent(input$table_order, {
@@ -669,7 +695,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       if (debug) {
         cat("Updating cbs_key_order, new value = \n")
         print(values$ts_code[[values$table_id]]$cbs_key_order)
-        cat("\n")
+        cat("\n\n")
       }
       
       # update reorder button
@@ -688,18 +714,21 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     })
     
     observeEvent(input$save, {
-      
-      # TODO: what happend when values$table_id is NA (not a single table open)?
-      if (check_duplicates(values$ts_code, values$table_id)) return()
-      
-      # reorder the table in the current tab
-      reorder_table()
-      
-      # save ordering  
-      values$ts_code[[values$table_id]]$order <- input$dimension_order
+      if (values$table_open) {
+        if (input$table_order == SELECTED_FIRST_ORDER) {
+          reorder_table()
+          # After reorder_table, hot and tscode are in sync, so it is not
+          # needed to call store_hot_data()
+        } else {
+          store_hot_data()
+        }
+        if (check_duplicates(values$ts_code, values$table_id)) return()
+      }
+    
       if (debug) {
         cat("saving ts_code\n")
         print(values$ts_code)
+        cat("\n")
       }
       
       saveRDS(values$ts_code, file = ts_code_file)
