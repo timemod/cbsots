@@ -34,11 +34,13 @@ get_table_id <- function(table_desc) {
   return(unlist(ret)[1])
 }
 
-check_duplicates <- function(session, values) {
-  ts_code <-  values$ts_code[[values$table_id]]$codes
-  for (name in values$tab_names) {
+# TODO: should be also check for duplicates when the user selects another 
+# tab in the tabsetpanel?
+check_duplicates <- function(ts_code, table_id) {
+  ts_code <- ts_code[[table_id]]$codes
+  for (name in names(ts_code)) {
     tab <- ts_code[[name]]
-    # first check for duplicate keys in the selected entries\
+    # first check for duplicate keys in the selected entries
     keys <- tab$Key[tab$Select]
     if (anyDuplicated(keys)) {
       dupl <- keys[duplicated(keys)]
@@ -119,11 +121,6 @@ convert_codetable <- function(table) {
     data$Select <- as.logical(data$Select)
     return(data)
   }
-}
-
-get_hot_id <- function(tab_name, tab_names) {
-  return("hot")
-  #return(paste0("hot_", tab_name))
 }
 
 #' @importFrom utils capture.output

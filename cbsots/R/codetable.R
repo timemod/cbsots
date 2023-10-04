@@ -1,5 +1,5 @@
 #' @import htmlwidgets
-codetable <- function(data, width = NULL, height = NULL) {
+codetable <- function(data, id = NULL, width = NULL, height = NULL) {
 
   if (is.null(data))  {
     data <- as.data.frame("Internal error: no data available")
@@ -21,11 +21,10 @@ codetable <- function(data, width = NULL, height = NULL) {
     data = jsonlite::toJSON(data, na = "string", rownames = FALSE)
   )
   
-
   # create widget
   htmlwidgets::createWidget(
     name = 'codetable', x, width = width, height = height, package = 'cbsots',
-    elementId = NULL)
+    elementId = id)
 }
 
 # Shiny bindings for code_table

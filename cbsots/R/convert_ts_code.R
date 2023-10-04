@@ -67,9 +67,12 @@ convert_ts_code <- function(ts_code) {
 
     # ts_code has now been updated to new package version, so modify
     # the package_version attribute
-  
+   
     attr(ts_code, "package_version") <- packageVersion("cbsots")
   
   }
+  
+  # TODO: order all tables using the specified ordering.
+  # This should not be necessary, but is a safety measure.
   return(ts_code)
 }

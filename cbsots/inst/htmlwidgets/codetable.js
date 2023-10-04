@@ -51,7 +51,7 @@ HTMLWidgets.widget({
             if (!changes) {
                 return;
             }
-            Shiny.onInputChange(el.id, hot.getData());
+            Shiny.setInputValue(el.id, hot.getData());
         },
         licenseKey: "non-commercial-and-evaluation"
     });
@@ -152,9 +152,14 @@ HTMLWidgets.widget({
     return {
 
       renderValue: function(x) {
-        hot.updateSettings({
-	  data: x.data
-	});
+        hot.loadData(x.data);
+/*	  data: x.data
+	});  */
+	/* TODO: check why the if statement below is necessary */
+	/* TODO: try handsontable afterLoadData */
+	if (HTMLWidgets.shinyMode) {
+          Shiny.setInputValue(el.id, hot.getData());
+        }
 
 	/* this code must be here, for unknown reasons  and not in the main body for unknown reaons */
         /*Handsontable.dom.addEvent(search_field, 'keyup', function (event) {

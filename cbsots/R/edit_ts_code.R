@@ -87,7 +87,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       "Press reorder to reorder after changing the table",
       p(),
       fluidRow(
-        column(5, selectInput("order_table", label = NULL,
+        column(5, selectInput("table_order", label = NULL,
                               choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), 
                               width = "100%")),
         column(1, actionButton("reorder", "Reorder"), offset = 1)
@@ -107,13 +107,40 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       actionButton("save", "Save Codes")
     ),
     mainPanel(
-      uiOutput('table_pane')
+      tabsetPanel(
+        id = "switcher",
+        type = "hidden",
+        tabPanelBody("empty", NULL),
+        tabPanelBody("tables", 
+          htmlOutput("table_title"),
+          orderInput(inputId = "dimension_order", 
+                     label = paste("Order of dimensions used to create",
+                                   "names (drag and drop items to",
+                                   "change order):"), 
+                     items = "dummy"),
+          p(),
+          p(),
+          tags$div(
+            HTML("&#128270;"),
+            tags$input(type = "text", id = "search_field",
+                       placeholder = "Search ..."),
+            tags$button(HTML("&#8249;"), class = "previous round", 
+                        id = "prev_button"),
+            tags$button(HTML("&#8250;"), class = "next round", 
+                        id = "next_button")
+          ),
+          uiOutput("dimension_tabsetpanel"),
+          codetableOutput("hot")
+        )
+      )
     )
   )
   
   server <- function(input, output, session) {
     
     session$onSessionEnded(shiny::stopApp)
+    
+    table_present <- length(ts_code) > 0
     
     # register reactive values
     values <- reactiveValues(ts_code = ts_code, table_id = NA_character_,
@@ -122,10 +149,26 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                              table_descs = table_descs,
                              table_desc_stack = character(0),
                              table_open = FALSE,
-                             table_present = length(ts_code) > 0)
-    #
-    # local functions
-    #
+                             table_present = table_present,
+                             dimension = NA_character_)
+    
+    # disable some input elements
+    input_ids <- c("update_table", "table_order", "reorder")
+    if (!table_present) {
+      input_ids <- c(input_ids, "update_all_tables", "delete_table")
+    }
+    invisible(lapply(input_ids, FUN = shinyjs::disable))
+    
+    ############################################################################
+    # internal function in the server function
+    ############################################################################
+    
+    render_hot_table <- function(dimension) {
+      tab_data <- values$ts_code[[values$table_id]]$codes[[dimension]]
+      output$hot <- renderCodetable(codetable(tab_data))
+      values$dimension <- dimension
+      return(invisible())
+    }
     
     get_order_type <- function(dimension) {
       has_cbs_order <- values$ts_code[[values$table_id]]$cbs_key_order[[dimension]]
@@ -135,65 +178,216 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         return(SELECTED_FIRST_ORDER)
       }
     }
+   
+    open_table <- function(selected_dimension = NULL) {
+      if (debug) {
+        cat(sprintf("\nOpening table_id %s (function open_table()).\n", 
+                    values$table_id))
+      }
+      
+      output$table_title <- renderUI(HTML("<h3>Tabel", values$table_desc, "</h3>"))
+      
+      updateOrderInput(
+        session = getDefaultReactiveDomain(),
+        inputId = "dimension_order",
+        items = values$ts_code[[values$table_id]]$order
+      )
+      
+      # create a tabsetpanel with empty panels
+      tabset_panel <- do.call(tabsetPanel, c(
+        list(
+          id = "dimension",
+          selected = selected_dimension
+        ),
+        lapply(values$dimensions, FUN = tabPanel)
+      ))
+      output$dimension_tabsetpanel <- renderUI(tabset_panel)
+      
+      dimension <- selected_dimension
+      if (is.null(dimension)) dimension <- values$dimensions[1]
+      render_hot_table(dimension)   
+      
+      updateSelectInput(session, "table_order", 
+                        selected = get_order_type(dimension))
+      
+      if (debug) cat("The table has been opened\n\n")
+      
+      return(invisible())
+    }
+
+    # Order the ts code for table value$table_id and dimension value$dimension
+    order_ts_code <- function() {
+      table_id <- values$table_id
+      dim <- values$dimension
+      tab_data <- values$ts_code[[table_id]]$codes[[dim]]
+      cbs_order <- get_order_type(dim) == CBS_ORDER
+      tab_data_ordered <- order_code_rows(tab_data, cbs_order = cbs_order)
+      values$ts_code[[table_id]]$codes[[dim]] <- tab_data_ordered
+      return(!identical(tab_data$Key, tab_data_ordered$Key))
+    }
     
-    observeEvent(input$table_desc, {
+    # Store the handsontable data in values$ts_code.
+    # If reorder = TRUE, then the data is also reordered for the order type
+    # SELECTED_FIRST_ORDER.
+    store_hot_data <- function(reorder = TRUE) {
+      if (is.null(input$hot)) {
+        return(invisible()) # this may happen at the very beginning
+      }
+      if (debug) {
+        cat("\nUpdating ts_code with data of hot table (function store_hot_data).\n")
+      }
+      hot_data <- convert_codetable(input$hot)
+      if (is.null(hot_data)) {
+        shinyalert("Error", "Internal error: hot data not correct")
+        return()
+      }
+      
+      table_id <- values$table_id
+      dim <- values$dimension
       
       if (debug) {
-        cat(sprintf("table_desc event, table_desc = %s\n", input$table_desc))
+        cat("table_id = ", table_id, "\n")
+        cat("dimension = ", dim, "\n")
+        cat("old values:\n")
+        print(head(values$ts_code[[table_id]]$codes[[dim]][, 1:3]))
+        cat("\nNew values:\n")
+        print(head(hot_data[, 1:3]))
       }
       
-      if (input$table_desc == "") {
+      # check hot data
+      data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
+      if (!identical(data_old$Key, hot_data$Key) ||
+          !identical(data_old$Title, hot_data$Title)) {
+        shinyalert("Error", "Internal Error: hot data not correct")
         return()
       }
       
-      if (length(values$ts_code) == 0) {
-        output$table_pane <- renderUI({return(NULL)})
-        return(invisible(NULL))
+      # Store hot data in values$ts_code
+      values$ts_code[[table_id]]$codes[[dim]][, 1:4] <- hot_data[, 1:4]
+      
+      # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
+      # (for CBS_ORDER the table is already in the correct order).
+      if (reorder && input$table_order == SELECTED_FIRST_ORDER) {
+        order_ts_code()
+      }
+      if (debug) cat("ts_code has been updated\n\n")
+      
+      return(invisible())
+    }
+    
+    # Reorder the table that is currently displayed.
+    reorder_table <- function() {
+      if (debug) cat("\nIn reorder_table\n\n")
+      store_hot_data(reorder = FALSE)
+      dimension <- values$dimension
+      if (order_ts_code()) {
+        if (debug) cat("The table has been reordered\n\n")
+        render_hot_table(dimension)
+      } else {
+        if (debug) cat("The table was already in correct ordering.\n\n")
+      }
+      return(invisible())
+    }
+   
+    insert_new_table <- function() {
+      
+      if (debug) {
+        cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
+                    values$new_table_id))
       }
       
-      if (!is.na(values$table_id) && check_duplicates(session, values)) {
-        # There are duplicates in the current table. Select original table
-        # and return.
-        updateSelectInput(session, "table_desc", selected = values$table_desc)
-        return()
+      values$table_ids <- c(values$table_ids, values$new_table_id)
+      values$table_descs[values$new_table_id] <- values$new_table_desc
+      values$ts_code[[values$new_table_id]]  <- values$new_table
+      
+      # reorder the tables alphabetically 
+      ord <- order(values$table_ids)
+      # use create_ts_code, because otherwise the attributes (class and 
+      # package version) are lost.
+      values$ts_code <- create_ts_code(values$ts_code[ord])
+      values$table_ids <- values$table_ids[ord]
+      values$table_descs <- values$table_descs[values$table_ids]
+      values$table_present <- TRUE
+      
+      updateSelectInput(session, inputId = "table_desc",
+                        choices = create_table_choices(values$table_descs), 
+                        selected = values$new_table_desc)
+    }
+    
+    
+    update_table <- function(update_table_result) {
+      if (debug) cat("\nIn update_table\n")
+      values$ts_code[[values$table_id]] <- update_table_result
+      # TODO: is het nodig om de hele tabel opnieuw te openen?
+      # Dit is alleen nodig als het aantal en de namen van de dimensies
+      # gewijzigd kan zijn. Is dit mogelijk?
+      open_table(selected_tab = input$dimension)
+    }
+    
+    ############################################################################
+    # observers
+    ############################################################################
+    
+    observeEvent(input$table_desc, {
+      if (debug) {
+        cat(sprintf("\nA table has been selected, table_desc = %s\n", 
+                    input$table_desc))
+      }
+
+      if (values$table_open) {
+        if (check_duplicates(values$ts_code, values$table_id)) {
+          # There are duplicates in the code of the current table, which 
+          # the user must correct first. Select original table and return.
+          updateSelectInput(session, "table_desc", selected = values$table_desc)
+          return()
+        }
+        
+        # update data in hot table
+        store_hot_data()
+      
+        # save ordering current table
+        values$ts_code[[values$table_id]]$order <- input$dimension_order
       }
       
       new_table_id <- get_table_id(input$table_desc)
 
       if (debug) {
-        cat(sprintf("Opening table with id = %s\n", new_table_id))
+        cat(sprintf("Opening table with id = %s\n\n", new_table_id))
       }
       
-      if (!is.na(values$table_id)) {
-        # save ordering current table
-        values$ts_code[[values$table_id]]$order <- input$order_input
-      }
+      dimensions <- names(values$ts_code[[new_table_id]]$codes)
+      
       
       values$table_id <- new_table_id
       values$table_desc <- values$table_descs[new_table_id]
-      values$tab_names <- names(values$ts_code[[new_table_id]]$codes)
+      values$dimensions <- names(values$ts_code[[new_table_id]]$codes)
       values$table_open <- TRUE
    
-      open_table(values, input, output, debug = debug)
+      open_table()
       
-      values$tab_name <- values$tab_names[1]
-      
-      updateSelectInput(session, "order_table", selected = get_order_type(1))
-    
-    })  # table_description_event
+      # table_order aanpassen aan de naam van de eerste dimensie
+      current_type <- get_order_type(values$dimension)
+      updateSelectInput(session, "table_order", selected = current_type)
+    }, ignoreInit = TRUE)  # table_description_event
     
     observeEvent(values$table_open, {
-      if (debug) cat("table_open modified. New value:", values$table_open, 
+      if (debug) cat("\ntable_open modified. New value:", values$table_open, 
                      "\n")
-      input_ids <- c("update_table", "order_table", "reorder")
-      if (values$table_open) {
-        fun <- shinyjs::enable
-      } else {
-        fun <- shinyjs::disable
-      }
+      # Update different action buttons
+      input_ids <- c("update_table", "table_order")
+      fun <- if (values$table_open) shinyjs::enable else shinyjs::disable
       invisible(lapply(input_ids, FUN = fun))
-      return()
-    })
+      if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
+        shinyjs::enable("reorder")
+      } else {
+        shinyjs::disable("reorder")
+      }
+     
+      # make the panel with information of the table visible
+      selected <- if (values$table_open) "tables" else "empty"
+      updateTabsetPanel(inputId = "switcher", selected = selected)
+
+    }, ignoreInit = TRUE)
     
     observeEvent(values$table_present, {
       if (debug) cat("table_present modified. New value:", values$table_present, 
@@ -205,8 +399,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         fun <- shinyjs::disable
       }
       invisible(lapply(input_ids, FUN = fun))
-      return()
-    })
+    }, ignoreInit = TRUE)
     
     observeEvent(input$new_table, {
       
@@ -263,31 +456,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       })
     })
     
-    insert_new_table <- function() {
-      
-      if (debug) {
-        cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
-                    values$new_table_id))
-      }
-      
-      values$table_ids <- c(values$table_ids, values$new_table_id)
-      values$table_descs[values$new_table_id] <- values$new_table_desc
-      values$ts_code[[values$new_table_id]]  <- values$new_table
-     
-      # reorder the tables alphabetically 
-      ord <- order(values$table_ids)
-      # use create_ts_code, because otherwise the attributes (class and 
-      # package version) are lost.
-      values$ts_code <- create_ts_code(values$ts_code[ord])
-      values$table_ids <- values$table_ids[ord]
-      values$table_descs <- values$table_descs[values$table_ids]
-      values$table_present <- TRUE
-      
-      updateSelectInput(session, inputId = "table_desc",
-                        choices = create_table_choices(values$table_descs), 
-                        selected = values$new_table_desc)
-    }
-    
     observeEvent(input$filled_table_ok, {
       insert_new_table()
       removeModal()
@@ -341,16 +509,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (is.na(values$table_id) || values$delete_table_id == values$table_id) {
         updateSelectInput(session, inputId = "table_desc", choices = choices)
-        output$table_pane <- renderUI({return(NULL)})
-        values$table_id <- NA_character_
-        values$table_open <- FALSE
-        selected <- NULL
+        if (!is.na(values$table_id)) {
+          values$table_id <- NA_character_
+          values$table_desc <- NA_character_
+          values$dimension <- NA_character_
+          values$table_open <- FALSE
+        }
       } else {
-        selected <- values$table_desc
+        updateSelectInput(session, inputId = "table_desc", choices = choices,
+                          selected = values$table_desc)
       }
-      updateSelectInput(session, inputId = "table_desc", choices = choices,
-                        selected = selected)
-      
+    
       values$table_present <- length(values$ts_code) > 0
       removeModal()
     })
@@ -386,13 +555,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         }
       }
     })
-    
-    update_table <- function(update_table_result) {
-      if (debug) cat("in insert_update_table\n")
-      values$ts_code[[values$table_id]] <- update_table_result
-      open_table(values, input, output, selected_tab = input$tabsetpanel, 
-                 debug = debug)
-    }
     
     observeEvent(input$update_table_ok, {
       removeModal()
@@ -466,129 +628,75 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       if (!is.na(values$table_id)) {
         # reopen the table which has been updated
         open_table(values, input, output, debug = debug)
+        # TODO: select the tab that has been selected previously
       }
     }
     
-    observeEvent(input$tabsetpanel, {
-      cat("\ntabsetpanel event\n")
-      # a new tab has been selected
-    
-      if (debug) cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
-                         input$tabsetpanel))
-
-      name <- input$tabsetpanel
-      tab_id <- name
-      # het is noodzakelijk om 
+    observeEvent(input$dimension, {
+      if (debug) {
+        cat(sprintf("\nSelected dimension changed, new dimension =  %s.\n", 
+                             input$dimension))
+        cat("input$dimension:", input$dimension, "\n")
+        cat("values$dimension:", values$dimension, "\n")
+      }
       
-      x <- codetable(values$ts_code[[values$table_id]]$codes[[name]])
-      print(x)
-      #output[["hot"]] <- renderPrint("piet") 
-      output[["hot"]] <- renderCodetable(x)
-    
-      return()
-      
-      # first clean all tabs, the table for the selected tab will be recreated.
-      make_empty_table <- function(name) {
-        hot_id <- get_hot_id(values$table_id, name)
-        
-        output[[hot_id]] <- NULL
+      if (values$dimension == input$dimension) {
+        # this may happen when the table has just been opened
+        cat("No action required\n\n")
         return()
+      } else {
+        cat("\n")
       }
-      lapply(values$tab_names, FUN = make_empty_table)
-    
-      name <- input$tabsetpanel
-      
-      # Update the order_table input if necessary, and reorder the table if
-      # the table is ordered with SELECTED_FIRST_ORDER
-      current_type <- get_order_type(name)
-      if (input$order_table != current_type) {
-        # Update the select input for order_table. Note that this will also 
-        # cause an "order_table" event, so that funtion reorder_table() will be 
-        # called. If current_type == SELECTED_FIRST_ORDER then the table will
-        # actually be reordered.
-        updateSelectInput(session, "order_table", selected = current_type)
-      } else if (current_type == SELECTED_FIRST_ORDER) {
-        reorder_table()
-      }
-      
-      # When a new tab has been selected, we want to re-render the table, 
-      # because sometimes handsontable does not render the table correctly when 
-      # the tab selection changes. 
-      # This may be a problem with suspend, try this option.
-      # If current_type == SELECTED_ORDER, then the tables have already been 
-      # re-rendered by function reorder_table() (see code above).
-      if (current_type != SELECTED_FIRST_ORDER) {
-        tab <- values$ts_code[[values$table_id]]$codes[[name]]
-        hot_id <- get_hot_id(values$table_id, name)
-        output[[hot_id]] <- renderCodetable(codetable(tab))
-      }
+
+      store_hot_data()
+      render_hot_table(input$dimension)
+      current_type <- get_order_type(values$dimension)
+      updateSelectInput(session, "table_order", selected = current_type)
     })
   
-    # Reorder the table in the current tab
-    reorder_table <- function() {
+    observeEvent(input$table_order, {
+      if (debug) cat(sprintf("table_order event (dimension = %s).\n", 
+                             values$dimension))
+      dimension <- values$dimension
 
-      name <- input$tabsetpanel
-      if (is.null(name)) {
-        # this happens when the app starts
-        return()
-      }
-      
-      new_type <- input$order_table
-      current_type <- get_order_type(name)
-      if (current_type != new_type || new_type == SELECTED_FIRST_ORDER) {
-        # for the SELECTED_FIRST_ORDER we always want to reorder since the
-        # selection may have changed. This is not necessary for CBS_ORDER.
-        hot_id <- get_hot_id(values$table_id, name)        
-        if (debug) cat(sprintf("Reordering table %s.\n", hot_id))
-        tab <- values$ts_code[[values$table_id]]$codes[[name]]
-        tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
-        values$ts_code[[values$table_id]]$codes[[name]] <- tab
-        output[[hot_id]] <- renderCodetable(codetable(tab))
-      }
-      
-      return()
-    }
-    
-    
-    observeEvent(input$order_table, {
-      
-      if (debug) cat(sprintf("order_table event (tab = %s).\n", 
-                             input$tabsetpanel))
-      
-      name <- input$tabsetpanel
-      if (is.null(name)) {
-        # this happens when the app starts
-        return()
-      }
-      
-      # first reorder table
+      # reorder table
       reorder_table()
       
-      # and then update cbs_key_order
-      values$ts_code[[values$table_id]]$cbs_key_order[[name]] <- 
-                                             input$order_table == CBS_ORDER
+      # update cbs_key_order
+      values$ts_code[[values$table_id]]$cbs_key_order[[dimension]] <-
+        input$table_order == CBS_ORDER
       
       if (debug) {
         cat("Updating cbs_key_order, new value = \n")
         print(values$ts_code[[values$table_id]]$cbs_key_order)
+        cat("\n")
       }
-
-    })
+      
+      # update reorder button
+      reorder_allowed <- input$table_order == SELECTED_FIRST_ORDER
+      if (reorder_allowed && values$table_open) {
+        shinyjs::enable("reorder")
+      } else {
+        shinyjs::disable("reorder")
+      }      
+    }, ignoreInit = TRUE)
     
     observeEvent(input$reorder, {
-      if (debug) cat(sprintf("reorder event (tab = %s).\n", input$tabsetpanel))
+      if (debug) cat(sprintf("reorder event (dimension = %s).\n", 
+                             values$dimension))
       reorder_table()
     })
     
     observeEvent(input$save, {
       
-      if (check_duplicates(session, values)) return()
+      # TODO: what happend when values$table_id is NA (not a single table open)?
+      if (check_duplicates(values$ts_code, values$table_id)) return()
       
       # reorder the table in the current tab
       reorder_table()
       
       # save ordering  
-      values$ts_code[[values$table_id]]$order <- input$order_input
+      values$ts_code[[values$table_id]]$order <- input$dimension_order
       if (debug) {
         cat("saving ts_code\n")
         print(values$ts_code)
@@ -596,6 +704,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       saveRDS(values$ts_code, file = ts_code_file)
     })
+    
+    # observeEvent(input$hot, {
+    #   cat("\nHot table changed\n")
+    # })
   }
   
   app_list <- list(ui = ui, server = server)
