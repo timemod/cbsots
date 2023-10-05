@@ -33,7 +33,7 @@ fill_tables_from_table <- function(ts_code, ids,  base_id, base_url = NULL) {
     if (id %in% names(ts_code)) {
       table <- ts_code[[id]]
     } else {
-      table <- create_new_table(id, base_url)
+      table <- table_code(id, base_url)
       new_table_created <- TRUE
     }
     

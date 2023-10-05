@@ -194,7 +194,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         items = values$ts_code[[values$table_id]]$order
       )
       
-      dimensions <- names(values$ts_code[[values$table_id]]$codes)
+      dimensions <- get_dimensions(values$ts_code[[values$table_id]])
+      dimension <- dimensions[1]
       
       # create a tabsetpanel with empty panels
       tabset_panel <- do.call(tabsetPanel, c(
@@ -203,8 +204,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       ))
       output$dimension_tabsetpanel <- renderUI(tabset_panel)
       
-      dimension <- dimensions[1]
-      values$dimensions <- dimensions
+     
       values$dimension <- dimension
       render_hot_table()   
       
@@ -271,13 +271,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     # Order the ts code for table value$table_id and dimension value$dimension
+    # Returns TRUE is the data has actually been reordered.
     order_ts_code <- function(cbs_order) {
       table_id <- values$table_id
       dim <- values$dimension
-      tab_data <- values$ts_code[[table_id]]$codes[[dim]]
-      tab_data_ordered <- order_code_rows(tab_data, cbs_order = cbs_order)
-      values$ts_code[[table_id]]$codes[[dim]] <- tab_data_ordered
-      return(!identical(tab_data$Key, tab_data_ordered$Key))
+      code <- values$ts_code[[table_id]]$codes[[dim]]
+      code_ordered <- order_code_rows(code, cbs_order = cbs_order)
+      values$ts_code[[table_id]]$codes[[dim]] <- code_ordered
+      return(!identical(code$Key, code_ordered$Key))
     }
     
     # Reorder the table that is currently displayed.
@@ -635,7 +636,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       # add new table
       tryCatch({
         
-        values$new_table <- create_new_table(new_table_id, base_url)
+        values$new_table <- table_code(new_table_id, base_url)
         values$new_table_id <- new_table_id
         values$new_table_desc <- new_table_desc
   
@@ -755,7 +756,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       removeModal()
       if (values$table_open) fetch_hot_data()
       id <- values$table_id
-      new_table <- create_new_table(id, base_url)
+      new_table <- table_code(id, base_url)
       ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
       if (is.null(ret)) return() # something went wrong
       if (length(ret$warnings) > 0) {

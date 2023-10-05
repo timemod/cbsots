@@ -161,7 +161,7 @@ perform_update_all_tables <- function(ts_code, base_url, debug) {
   i <- 0
   update_single_table <- function(id) {
     if (debug) cat("Updating table ..", id, "\n")
-    new_table <- create_new_table(id, base_url)
+    new_table <- table_code(id, base_url)
     ret <- call_update_table(new_table, ts_code[[id]], id, id)
     ret$has_warning <- length(ret$warnings) > 0
     ret$warnings <- NULL
