@@ -455,6 +455,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         cat("input$table_desc:", input$table_desc, "\n")
         cat("values$table_desc:", values$table_desc, "\n")
       }
+      if (input$table_desc == "") {
+        cat("\nNo table selected, no action required\n")
+        return()
+      }
       if (values$table_open && input$table_desc == values$table_desc) {
         # This situation occurs when the table has been updated and the 
         # short table title (and hence table_desc) has been modified.
@@ -708,6 +712,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     })
     
     observeEvent(input$delete_table_confirmed, {
+      if (debug) cat("\nIn delete_table_confirmed\n")
       
       values$ts_code[[values$delete_table_id]] <- NULL
       
@@ -722,9 +727,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         values$dimension <- NA_character_
         values$table_open <- FALSE
       }
-      
+
       # update table  inputs
-      selected <- if (values$table_open) NULL else values$table_desc
+      selected <- if (values$table_open) values$table_desc else NULL
       updateSelectInput(session, inputId = "table_desc", 
                         choices = create_table_choices(values$table_descs),
                         selected = selected)
