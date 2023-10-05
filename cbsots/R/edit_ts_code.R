@@ -22,7 +22,6 @@
 #' @importFrom utils packageVersion
 #' @importFrom utils packageName
 #' @importFrom shinyalert shinyalert
-#' @importFrom shinybusy show_modal_progress_line update_modal_progress 
 #' @importFrom shinybusy remove_modal_progress
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
@@ -220,26 +219,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       return(invisible())
     }
-
-    # Order the ts code for table value$table_id and dimension value$dimension
-    order_ts_code <- function() {
-      table_id <- values$table_id
-      dim <- values$dimension
-      tab_data <- values$ts_code[[table_id]]$codes[[dim]]
-      cbs_order <- get_order_type(dim) == CBS_ORDER
-      tab_data_ordered <- order_code_rows(tab_data, cbs_order = cbs_order)
-      values$ts_code[[table_id]]$codes[[dim]] <- tab_data_ordered
-      return(!identical(tab_data$Key, tab_data_ordered$Key))
-    }
     
     # Store the handsontable data in values$ts_code.
-    store_hot_data <- function() {
+    fetch_hot_data <- function() {
       if (is.null(input$hot)) {
         return(invisible()) # this may happen at the very beginning
       }
-      if (debug) {
-        cat("\nUpdating ts_code with data of hot table (function store_hot_data).\n")
-      }
+      if (debug) cat("\nFetching hot data\n")
       hot_data <- convert_codetable(input$hot)
       if (is.null(hot_data)) {
         shinyalert("Error", "Internal error: hot data not correct")
@@ -248,6 +234,15 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       table_id <- values$table_id
       dim <- values$dimension
+      
+      data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
+      
+      if (identical(data_old, hot_data)) {
+        if (debug) {
+          cat("\nHot data has not been modified, no action required\n")
+        }
+        return()
+      }
       
       if (debug) {
         cat("table_id = ", table_id, "\n")
@@ -259,7 +254,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       
       # check hot data
-      data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
       if (!identical(data_old$Key, hot_data$Key) ||
           !identical(data_old$Title, hot_data$Title)) {
         shinyalert("Error", "Internal Error: hot data not correct")
@@ -280,11 +274,22 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       return(invisible())
     }
     
+    # Order the ts code for table value$table_id and dimension value$dimension
+    order_ts_code <- function(cbs_order) {
+      table_id <- values$table_id
+      dim <- values$dimension
+      tab_data <- values$ts_code[[table_id]]$codes[[dim]]
+      tab_data_ordered <- order_code_rows(tab_data, cbs_order = cbs_order)
+      values$ts_code[[table_id]]$codes[[dim]] <- tab_data_ordered
+      return(!identical(tab_data$Key, tab_data_ordered$Key))
+    }
+    
     # Reorder the table that is currently displayed.
     reorder_table <- function() {
       if (debug) cat("\nIn reorder_table\n\n")
-      store_hot_data()
-      if (order_ts_code()) {
+      fetch_hot_data()
+      cbs_order <- input$table_order == CBS_ORDER
+      if (order_ts_code(cbs_order)) {
         render_hot_table()
         if (debug) cat("The table has been reordered\n\n")
       } else {
@@ -294,7 +299,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
    
     insert_new_table <- function() {
-      
       if (debug) {
         cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
                     values$new_table_id))
@@ -344,8 +348,39 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     ############################################################################
-    # observers
+    # Observers 
     ############################################################################
+    
+    observeEvent(values$table_open, {
+      if (debug) cat("\ntable_open modified. New value:", values$table_open, 
+                     "\n")
+      # Update different action buttons
+      input_ids <- c("update_table", "table_order")
+      fun <- if (values$table_open) shinyjs::enable else shinyjs::disable
+      invisible(lapply(input_ids, FUN = fun))
+      if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
+        shinyjs::enable("reorder")
+      } else {
+        shinyjs::disable("reorder")
+      }
+      
+      # make the panel with information of the table visible
+      selected <- if (values$table_open) "tables" else "empty"
+      updateTabsetPanel(inputId = "switcher", selected = selected)
+      
+    }, ignoreInit = TRUE)
+    
+    observeEvent(values$table_present, {
+      if (debug) cat("table_present modified. New value:", values$table_present, 
+                     "\n")
+      input_ids <- c("update_all_tables", "delete_table")
+      if (values$table_present) {
+        fun <- shinyjs::enable
+      } else {
+        fun <- shinyjs::disable
+      }
+      invisible(lapply(input_ids, FUN = fun))
+    }, ignoreInit = TRUE)
     
     observeEvent(input$table_desc, {
       if (debug) {
@@ -355,20 +390,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
 
       if (values$table_open) {
         
-        store_hot_data()
+        fetch_hot_data()
         
-        if (check_duplicates(values$ts_code, values$table_id)) {
-          # There are duplicates in the code of the current table, which 
-          # the user must correct first. Select original table and return.
+        if (check_duplicates(values$ts_code, values$table_id, 
+                             values$dimension)) {
+          # The user must first correct the duplicates, therefore do not 
+          # open the new table.
           updateSelectInput(session, "table_desc", selected = values$table_desc)
           return()
         }
         
         # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
         # (for CBS_ORDER the table is already in the correct order).
-        if (input$table_order == SELECTED_FIRST_ORDER) {
-          order_ts_code()
-        }
+        if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
         
         store_dimension_order()
       }
@@ -390,36 +424,112 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   
     }, ignoreInit = TRUE)  # table_description_event
     
-    observeEvent(values$table_open, {
-      if (debug) cat("\ntable_open modified. New value:", values$table_open, 
-                     "\n")
-      # Update different action buttons
-      input_ids <- c("update_table", "table_order")
-      fun <- if (values$table_open) shinyjs::enable else shinyjs::disable
-      invisible(lapply(input_ids, FUN = fun))
+    observeEvent(input$dimension, {
+      if (debug) {
+        cat(sprintf("\nSelected dimension changed, new dimension =  %s.\n", 
+                    input$dimension))
+        cat("input$dimension:", input$dimension, "\n")
+        cat("values$dimension:", values$dimension, "\n")
+      }
+      
+      if (values$dimension == input$dimension) {
+        # this may happen when the table has just been opened
+        cat("No action required\n\n")
+        return()
+      } else {
+        cat("\n")
+      }
+      
+      # Store handsontabledata in values$ts_code
+      fetch_hot_data()
+      
+      if (check_duplicates(values$ts_code, values$table_id, 
+                           values$dimension)) {
+        # There are duplicates in the code of the current table, which 
+        # the user must correct first. Select original tab and return
+        updateTabsetPanel(session, "dimension", selected = values$dimension)
+        return()
+      }
+      
+      # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
+      # (for CBS_ORDER the table is already in the correct order).
+      if (input$table_order == SELECTED_FIRST_ORDER) {
+        order_ts_code(FALSE)
+      }
+      
+      # now open table for a new dimension
+      dimension <- input$dimension
+      values$dimension <- dimension
+      render_hot_table()
+      updateSelectInput(session, "table_order", 
+                        selected =  get_order_type(dimension))
+    })
+    
+    observeEvent(input$table_order, {
+      if (debug) {
+        cat(sprintf("\nThe table order has been modified (dimension = %s).\n", 
+                    values$dimension))
+      }
+   
+      reorder_table()
+      
+      # update cbs_key_order
+      values$ts_code[[values$table_id]]$cbs_key_order[[values$dimension]] <-
+        input$table_order == CBS_ORDER
+      
+      if (debug) {
+        cat("Updating cbs_key_order, new value = \n")
+        print(values$ts_code[[values$table_id]]$cbs_key_order)
+        cat("\n\n")
+      }
+      
+      # update reorder button
       if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
         shinyjs::enable("reorder")
       } else {
         shinyjs::disable("reorder")
-      }
-     
-      # make the panel with information of the table visible
-      selected <- if (values$table_open) "tables" else "empty"
-      updateTabsetPanel(inputId = "switcher", selected = selected)
-
+      }      
     }, ignoreInit = TRUE)
     
-    observeEvent(values$table_present, {
-      if (debug) cat("table_present modified. New value:", values$table_present, 
-                     "\n")
-      input_ids <- c("update_all_tables", "delete_table")
-      if (values$table_present) {
-        fun <- shinyjs::enable
-      } else {
-        fun <- shinyjs::disable
+    observeEvent(input$reorder, {
+      if (debug) cat(sprintf("\nReorder button pressed (dimension = %s).\n", 
+                             values$dimension))
+      reorder_table()
+    })
+    
+    observeEvent(input$save, {
+      if (debug) cat("\nSave button pressed\n")
+      
+      if (values$table_open) {
+        if (input$table_order == SELECTED_FIRST_ORDER) {
+          reorder_table()
+          # reorder_table calls fetch_hot_data(), so no need to call this
+          # function now
+        } else {
+          fetch_hot_data()
+        }
+        if (check_duplicates(values$ts_code, values$table_id, 
+                             values$dimension)) return()
+        
+        store_dimension_order()
       }
-      invisible(lapply(input_ids, FUN = fun))
-    }, ignoreInit = TRUE)
+    
+      saveRDS(values$ts_code, file = ts_code_file)
+      
+      if (debug) {
+        cat("ts_code:\n")
+        print(values$ts_code)
+        cat("\nsaved to ", ts_code_file, "\n\n")
+      }
+    })
+    
+    # observeEvent(input$hot, {
+    #   cat("\nHot table changed\n")
+    # })
+    
+    ############################################################################
+    # Observers for adding a new table or deleting a table
+    ############################################################################
     
     observeEvent(input$new_table, {
       
@@ -544,35 +654,36 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       removeModal()
     })
     
+    ############################################################################
+    # Observers for updating the selected table or all tables.
+    ############################################################################
+    
     observeEvent(input$update_table, {
-      table_id <- values$table_id
-      if (!is.na(table_id)) {
-        showModal(modalDialog(
-          title = "Confirm",
-          HTML(paste0("Do you want to update \"", table_id, "\"",
-                      "<br>with recent table information on the CBS website?")),
-          footer = tagList(
-            modalButton("No"),
-            actionButton("update_table_confirmed", "Yes")
-          ),
-          easyClose = TRUE
-        ))
-      }
+      showModal(modalDialog(
+        title = "Confirm",
+        HTML(paste0(
+          "Do you want to update \"", values$table_id, "\"",
+          "<br>with recent table information on the CBS website?"
+        )),
+        footer = tagList(
+          modalButton("No"),
+          actionButton("update_table_confirmed", "Yes")
+        ),
+        easyClose = TRUE
+      ))
     })
-  
+    
     observeEvent(input$update_table_confirmed, {
       removeModal()
       id <- values$table_id
-      if (!is.na(id)) {
-        new_table <- create_new_table(id, base_url)
-        ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
-        if (is.null(ret)) return() # something went wrong
-        if (length(ret$warnings) > 0) {
-          values$update_table_result <- ret$new_table
-          showWarningsDialog(ret$warnings, "update_table_ok")
-        } else {
-          update_table(ret$new_table)
-        }
+      new_table <- create_new_table(id, base_url)
+      ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
+      if (is.null(ret)) return() # something went wrong
+      if (length(ret$warnings) > 0) {
+        values$update_table_result <- ret$new_table
+        showWarningsDialog(ret$warnings, "update_table_ok")
+      } else {
+        update_table(ret$new_table)
       }
     })
     
@@ -598,28 +709,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$update_all_tables_confirmed, {
       if (debug) cat("Update all tables confirmed\n")
-      ids <- names(values$ts_code)
-      n_ids <- length(ids)
       removeModal()
-      show_modal_progress_line(text = "Updating tables")
-      i <- 0
-      update_single_table <- function(id) {
-        if (debug) cat("updating table ..", id, "\n")
-        new_table <- create_new_table(id, base_url)
-        ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
-        ret$has_warning <- length(ret$warnings) > 0
-        ret$warnings <- NULL
-        i <<- i + 1
-        update_modal_progress(i / n_ids)
-        return(ret)
-      }
-      update_all_tables_result <- sapply(names(values$ts_code), 
-                                         FUN = update_single_table,
-                                         simplify = FALSE)
-      has_warning <- sapply(update_all_tables_result, 
-                            FUN = function(x) return(x$has_warning))
-      warning_ids <- names(has_warning[has_warning])
-      remove_modal_progress()
+      retval <- perform_update_all_tables(values$ts_code, base_url = base_url,
+                                          debug = debug)
+      update_all_tables_result <- retval$result
+      warning_ids <- retval$warning_ids
       if (length(warning_ids) > 0) {
         values$update_all_tables_result <- update_all_tables_result
         wmsg <- paste("For tables", paste(warning_ids, collapse = ", "),
@@ -639,108 +733,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       removeModal()
       update_all_tables(values$update_all_tables_result)
     })
-    
-    observeEvent(input$dimension, {
-      if (debug) {
-        cat(sprintf("\nSelected dimension changed, new dimension =  %s.\n", 
-                             input$dimension))
-        cat("input$dimension:", input$dimension, "\n")
-        cat("values$dimension:", values$dimension, "\n")
-      }
-      
-      if (values$dimension == input$dimension) {
-        # this may happen when the table has just been opened
-        cat("No action required\n\n")
-        return()
-      } else {
-        cat("\n")
-      }
-      
-      # Store handsontabledata in values$ts_code
-      store_hot_data()
-      
-      if (check_duplicates(values$ts_code, values$table_id)) {
-        # There are duplicates in the code of the current table, which 
-        # the user must correct first. Select original tab and return
-        updateTabsetPanel(session, "dimension", selected = values$dimension)
-        return()
-      }
-      
-      # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
-      # (for CBS_ORDER the table is already in the correct order).
-      if (input$table_order == SELECTED_FIRST_ORDER) {
-        order_ts_code()
-      }
-      
-      # now open table for a new dimension
-      dimension <- input$dimension
-      values$dimension <- dimension
-      render_hot_table()
-      updateSelectInput(session, "table_order", 
-                        selected =  get_order_type(dimension))
-    })
-  
-    observeEvent(input$table_order, {
-      if (debug) cat(sprintf("table_order event (dimension = %s).\n", 
-                             values$dimension))
-      dimension <- values$dimension
-
-      # reorder table
-      reorder_table()
-      
-      # update cbs_key_order
-      values$ts_code[[values$table_id]]$cbs_key_order[[dimension]] <-
-        input$table_order == CBS_ORDER
-      
-      if (debug) {
-        cat("Updating cbs_key_order, new value = \n")
-        print(values$ts_code[[values$table_id]]$cbs_key_order)
-        cat("\n\n")
-      }
-      
-      # update reorder button
-      reorder_allowed <- input$table_order == SELECTED_FIRST_ORDER
-      if (reorder_allowed && values$table_open) {
-        shinyjs::enable("reorder")
-      } else {
-        shinyjs::disable("reorder")
-      }      
-    }, ignoreInit = TRUE)
-    
-    observeEvent(input$reorder, {
-      if (debug) cat(sprintf("reorder event (dimension = %s).\n", 
-                             values$dimension))
-      reorder_table()
-    })
-    
-    observeEvent(input$save, {
-      if (values$table_open) {
-        if (input$table_order == SELECTED_FIRST_ORDER) {
-          reorder_table()
-          # After reorder_table, hot and tscode are in sync, so it is not
-          # needed to call store_hot_data()
-        } else {
-          store_hot_data()
-        }
-        if (check_duplicates(values$ts_code, values$table_id)) return()
-      }
-    
-      if (debug) {
-        cat("saving ts_code\n")
-        print(values$ts_code)
-        cat("\n")
-      }
-      
-      saveRDS(values$ts_code, file = ts_code_file)
-    })
-    
-    # observeEvent(input$hot, {
-    #   cat("\nHot table changed\n")
-    # })
   }
   
   app_list <- list(ui = ui, server = server)
-  
   
   if (use_browser) {
     old_browser <- options("browser")
@@ -754,36 +749,5 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     runApp(app_list)
   }
   
-  
   return(invisible(NULL))
-}
-
-
-find_browser <- function(browser) {
-  
-  if (!missing(browser)) {
-    if (browser == "default") {
-      return(options("browser")$browser)
-    } else if (!file.exists(browser)) {
-      stop(sprintf("Executable %s does not exist.\n", browser))
-    }
-  }
-    
-  if (.Platform$OS.type != "windows") {
-    return(options("browser")$browser)
-  } else {
-    paths <- c("C:/progs/Google/Chrome/Application/chrome.exe",
-               "D:/progs/Google/Chrome/Application/chrome.exe",
-               "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
-               "c:/Program Files/Mozilla Firefox/firefox.exe")
-               
-    for (path in paths) {
-      if (file.exists(path)) {
-        return(path)
-      }
-    }
-    stop("Unable to find Chrome or FireFox on Windows.\n",
-         "Use argument use_browser = FALSE or specify the path of the",
-         " browser with argument browser.")
-  }
 }

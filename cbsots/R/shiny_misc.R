@@ -34,41 +34,41 @@ get_table_id <- function(table_desc) {
   return(unlist(ret)[1])
 }
 
-# TODO: should be also check for duplicates when the user selects another 
-# tab in the tabsetpanel?
-check_duplicates <- function(ts_code, table_id, dimension = NULL) {
+check_duplicates <- function(ts_code, table_id, dimension) {
   ts_code <- ts_code[[table_id]]$codes
-  dim_names <- if (missing(dimension)) names(ts_code) else dimension
-  for (name in dim_names) {
-    tab <- ts_code[[name]]
-    # first check for duplicate keys in the selected entries
-    keys <- tab$Key[tab$Select]
-    if (anyDuplicated(keys)) {
-      dupl <- keys[duplicated(keys)]
-      showModal(modalDialog(
-        title = "Duplicates in selected keys",
-        HTML(paste0("Duplicates in selected keys of ", name,
-                    "<br>Duplicate keys:\n", paste(dupl, collapse = ", "),
-                    "<br>Correct before proceeding by deselecting duplicate keys.")),
-        easyClose = TRUE
-      ))
-      return(TRUE)
-    }
-    # check for duplicate codes for selected entries
-    codes <- tab$Code[tab$Select]
-    codes <- codes[nchar(codes) > 0]
-    if (anyDuplicated(codes)) {
-      dupl <- codes[duplicated(codes)]
-      showModal(modalDialog(
-        title = "Duplicates in code",
-        HTML(paste0("Duplicate code for the selected keys of ", name,
-                    "<br>Duplicate codes:\n", paste(dupl, collapse = ", "),
-                    "<br>Correct before proceeding.")),
-        easyClose = TRUE
-      ))
-      return(TRUE)
-    }
+  tab <- ts_code[[dimension]]
+  # first check for duplicate keys in the selected entries
+  keys <- tab$Key[tab$Select]
+  if (anyDuplicated(keys)) {
+    dupl <- keys[duplicated(keys)]
+    showModal(modalDialog(
+      title = "Duplicates in selected keys",
+      HTML(paste0(
+        "Duplicates in selected keys of ", dimension,
+        "<br>Duplicate keys:\n", paste(dupl, collapse = ", "),
+        "<br>Correct before proceeding by deselecting duplicate keys."
+      )),
+      easyClose = TRUE
+    ))
+    return(TRUE)
   }
+  # check for duplicate codes for selected entries
+  codes <- tab$Code[tab$Select]
+  codes <- codes[nchar(codes) > 0]
+  if (anyDuplicated(codes)) {
+    dupl <- codes[duplicated(codes)]
+    showModal(modalDialog(
+      title = "Duplicates in code",
+      HTML(paste0(
+        "Duplicate code for the selected keys of ", dimension,
+        "<br>Duplicate codes:\n", paste(dupl, collapse = ", "),
+        "<br>Correct before proceeding."
+      )),
+      easyClose = TRUE
+    ))
+    return(TRUE)
+  }
+
   return(FALSE)
 }
 
@@ -144,6 +144,35 @@ call_update_table <- function(table, base_table, table_id, base_table_id) {
   })
 }
 
+#' @importFrom shinybusy show_modal_progress_line update_modal_progress 
+perform_update_all_tables <- function(ts_code, base_url, debug) {
+  
+  show_modal_progress_line(text = "Updating tables")
+  
+  ids <- names(ts_code)
+  n_ids <- length(ids)
+  
+  i <- 0
+  update_single_table <- function(id) {
+    if (debug) cat("Updating table ..", id, "\n")
+    new_table <- create_new_table(id, base_url)
+    ret <- call_update_table(new_table, ts_code[[id]], id, id)
+    ret$has_warning <- length(ret$warnings) > 0
+    ret$warnings <- NULL
+    i <<- i + 1
+    update_modal_progress(i / n_ids)
+    return(ret)
+  }
+  result <- sapply(ids, FUN = update_single_table, simplify = FALSE)
+  
+  remove_modal_progress()
+  
+  has_warning <- sapply(result, FUN = function(x) return(x$has_warning))
+  warning_ids <- names(has_warning[has_warning])
+  
+  return(list(result = result, warning_ids = warning_ids))
+}
+
 showWarningsDialog <- function(warnings, ok_button_id) {
   showModal(modalDialog(
     title = "Warning(s):",
@@ -155,4 +184,38 @@ showWarningsDialog <- function(warnings, ok_button_id) {
     ),
     easyClose = TRUE
   ))
+}
+
+
+
+
+
+
+find_browser <- function(browser) {
+  
+  if (!missing(browser)) {
+    if (browser == "default") {
+      return(options("browser")$browser)
+    } else if (!file.exists(browser)) {
+      stop(sprintf("Executable %s does not exist.\n", browser))
+    }
+  }
+  
+  if (.Platform$OS.type != "windows") {
+    return(options("browser")$browser)
+  } else {
+    paths <- c("C:/progs/Google/Chrome/Application/chrome.exe",
+               "D:/progs/Google/Chrome/Application/chrome.exe",
+               "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+               "c:/Program Files/Mozilla Firefox/firefox.exe")
+    
+    for (path in paths) {
+      if (file.exists(path)) {
+        return(path)
+      }
+    }
+    stop("Unable to find Chrome or FireFox on Windows.\n",
+         "Use argument use_browser = FALSE or specify the path of the",
+         " browser with argument browser.")
+  }
 }
