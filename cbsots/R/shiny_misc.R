@@ -25,6 +25,12 @@ get_table_description <- function(ids, short_titles) {
   return(ret)
 }
 
+get_table_descs <- function(ts_code) {
+  table_ids <- names(ts_code)
+  short_titles <- sapply(ts_code, FUN = function(x) return(x$short_title))
+  return(get_table_description(table_ids, short_titles))
+}
+
 # Convert a string with a table description to a table id. The table id is the 
 # text before the first " - "  substring.  NOTE: we assume here that the
 # table id does not contain a substring " - ".
@@ -185,11 +191,6 @@ showWarningsDialog <- function(warnings, ok_button_id) {
     easyClose = TRUE
   ))
 }
-
-
-
-
-
 
 find_browser <- function(browser) {
   

@@ -48,8 +48,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   # create a vector with table ids and a named vector with table descriptions
   if (length(ts_code) > 0) {
     table_ids <- names(ts_code)
-    short_titles <- sapply(ts_code, FUN = function(x) return(x$short_title))
-    table_descs <- get_table_description(table_ids, short_titles)
+    table_descs <- get_table_descs(ts_code)
   } else {
     table_ids <- character(0)
     table_descs  <- character(0)
@@ -177,10 +176,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
     }
    
-    # Open a table. This function is called when a new table has been selected,
-    # when the open table has been updated, or when all tables have been
-    # updated.
-    open_table <- function(selected_dimension = NULL) {
+    # Open a table. This function is called when a new table has been selected
+    # or when the selected table is updated with the update or update_all_tables
+    # button.
+    open_table <- function() {
       if (debug) {
         cat(sprintf("\nOpening table_id %s (function open_table()).\n", 
                     values$table_id))
@@ -195,20 +194,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         items = values$ts_code[[values$table_id]]$order
       )
       
+      dimensions <- names(values$ts_code[[values$table_id]]$codes)
+      
       # create a tabsetpanel with empty panels
       tabset_panel <- do.call(tabsetPanel, c(
-        list(
-          id = "dimension",
-          selected = selected_dimension
-        ),
-        lapply(values$dimensions, FUN = tabPanel)
+        list(id = "dimension"),
+        lapply(dimensions, FUN = tabPanel)
       ))
       output$dimension_tabsetpanel <- renderUI(tabset_panel)
       
-      dimension <- selected_dimension
-      if (is.null(dimension) || !dimension %in% values$dimensions) {
-        dimension <- values$dimensions[1]
-      }
+      dimension <- dimensions[1]
+      values$dimensions <- dimensions
       values$dimension <- dimension
       render_hot_table()   
       
@@ -318,33 +314,103 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       values$table_present <- TRUE
       
       updateSelectInput(session, inputId = "table_desc",
-                        choices = create_table_choices(values$table_descs), 
-                        selected = values$new_table_desc)
+                        choices = create_table_choices(values$table_descs),
+                        selected = values$new_table_desc
+      )
     }
     
     # update the open table
     update_table <- function(update_table_result) {
-      if (debug) cat("\nIn update_table\n")
-      values$ts_code[[values$table_id]] <- update_table_result
-      open_table(selected_dimension = values$dimension)
+      if (debug) cat(sprintf("\nUpdating table %s\n", values$table_id))
       
-      # TODO: update table_descs and table_desc? These may have changed
+      data_modified <- !identical(values$ts_code[[values$table_id]],
+                                  update_table_result)
+      
+      old_table_desc <- values$table_descs[values$table_id] 
+      new_table_desc <- get_table_description(values$table_id, 
+                                              update_table_result$short_title)
+      table_desc_modified <- old_table_desc != new_table_desc
+      
+      if (!data_modified && !table_desc_modified) {
+        if (debug) {
+          cat("Updated table is identical to original table. Nothing to do.\n\n")
+        }
+        return(invisible())
+      }
+      
+      if (data_modified) {
+        if (debug) cat("\nUpdating table data\n")
+        values$ts_code[[values$table_id]] <- update_table_result
+      }
+      
+      old_table_desc <- values$table_descs[values$table_id] 
+      new_table_desc <- get_table_description(values$table_id, 
+                                              update_table_result$short_title)
+      if (table_desc_modified) {
+        if (debug) cat("Table description has changed: ", new_table_desc, "\n")
+        values$table_descs[values$table_id] <- new_table_desc
+        values$table_desc <- new_table_desc
+        updateSelectInput(session, inputId = "table_desc",
+                          choices = create_table_choices(values$table_descs), 
+                          selected = new_table_desc)
+      }
+      
+      # now open the table
+      open_table()
+      
+      if (debug) cat("\n")
+      return(invisible())
     }
     
     # update all tables
     update_all_tables <- function(update_all_tables_result) {
+      if (debug) cat("\nUpdating all tables\n")
+      
       new_ts_code <- sapply(update_all_tables_result,
         FUN = function(x) {
           return(x$new_table)
         },
         simplify = FALSE
       )
-      values$ts_code <- create_ts_code(new_ts_code)
+      
+      ts_code_new <- create_ts_code(new_ts_code)
+      
+      # first check if data in the open table has been modified
       if (values$table_open) {
-        open_table(selected_dimension = values$dimension)
+        old_data <- values$ts_code[[values$table_id]]
+        new_data <- ts_code_new[[values$table_id]]
+        data_open_table_modified <- !identical(old_data, new_data)
+      } else {
+        data_open_table_modified <- FALSE
       }
       
-      # TODO: update table_descs and table_desc? These may have changed
+      # update ts_code for all tables
+      values$ts_code <- ts_code_new
+      
+      # check if table_descs have been modified
+      table_descs_new <- get_table_descs(ts_code_new)
+      if (!identical(values$table_descs, table_descs_new)) {
+        if (debug) cat("Table descriptions have changed.\n")
+        values$table_descs <- table_descs_new
+        if (values$table_open) {
+          values$table_desc <- values$table_descs[values$table_id]
+          selected <- table_descs_new[values$table_id]
+        } else {
+         selected <- NULL
+        }
+        updateSelectInput(session, inputId = "table_desc",
+                          choices = create_table_choices(values$table_descs), 
+                          selected = selected)
+      }
+      
+      if (data_open_table_modified) {
+        if (debug) cat("Data for table", values$table_id, " updated.\n")
+        open_table()
+      }
+      
+      if (debug) cat("\n")
+      
+      return(invisible())
     }
     
     ############################################################################
@@ -384,6 +450,22 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$table_desc, {
       if (debug) {
+        cat("\nTable desc has changed:\n")
+        cat("input$table_desc:", input$table_desc, "\n")
+        cat("values$table_desc:", values$table_desc, "\n")
+      }
+      if (values$table_open && input$table_desc == values$table_desc) {
+        # This situation occurs when the table has been updated and the 
+        # short table title (and hence table_desc) has been modified.
+        # Do not do do anything in this case.
+        if (debug) {
+          cat("No action required because",
+              "input$table_desc == values$table_desc\n\n")
+        }
+        return()
+      }
+      
+      if (debug) {
         cat(sprintf("\nA table has been selected, table_desc = %s\n", 
                     input$table_desc))
       }
@@ -396,7 +478,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                              values$dimension)) {
           # The user must first correct the duplicates, therefore do not 
           # open the new table.
-          updateSelectInput(session, "table_desc", selected = values$table_desc)
+          updateSelectInput(session, inputId = "table_desc",
+                            selected = values$table_desc)
           return()
         }
         
@@ -408,16 +491,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       
       new_table_id <- get_table_id(input$table_desc)
-
       if (debug) {
-        cat(sprintf("Opening table with id = %s\n\n", new_table_id))
+        cat(sprintf("\nOpening table with id = %s\n\n", new_table_id))
       }
-      
-      dimensions <- names(values$ts_code[[new_table_id]]$codes)
       
       values$table_id <- new_table_id
       values$table_desc <- values$table_descs[new_table_id]
-      values$dimensions <- names(values$ts_code[[new_table_id]]$codes)
       values$table_open <- TRUE
    
       open_table()
@@ -426,15 +505,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$dimension, {
       if (debug) {
-        cat(sprintf("\nSelected dimension changed, new dimension =  %s.\n", 
-                    input$dimension))
+        cat(sprintf("\nSelected dimension changed for table %s:\n", 
+                    values$table_id))
         cat("input$dimension:", input$dimension, "\n")
         cat("values$dimension:", values$dimension, "\n")
       }
       
       if (values$dimension == input$dimension) {
-        # this may happen when the table has just been opened
-        cat("No action required\n\n")
+        # This may happen if a new table has just been opened.
+        cat("No action required because",
+            "input$dimension == values$dimension\n\n")
         return()
       } else {
         cat("\n")
@@ -643,11 +723,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       
       # update table  inputs
-      # TODO: create general function for this, also used for chaning
-      # table desc because of update_table?
-      choices <- create_table_choices(values$table_descs)                 
-      selected <- if (is.na(values$table_desc)) NULL else values$table_desc
-      updateSelectInput(session, inputId = "table_desc", choices = choices,
+      selected <- if (values$table_open) NULL else values$table_desc
+      updateSelectInput(session, inputId = "table_desc", 
+                        choices = create_table_choices(values$table_descs),
                         selected = selected)
     
       values$table_present <- length(values$ts_code) > 0
@@ -675,6 +753,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$update_table_confirmed, {
       removeModal()
+      if (values$table_open) fetch_hot_data()
       id <- values$table_id
       new_table <- create_new_table(id, base_url)
       ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
@@ -710,6 +789,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(input$update_all_tables_confirmed, {
       if (debug) cat("Update all tables confirmed\n")
       removeModal()
+      if (values$table_open) fetch_hot_data()
       retval <- perform_update_all_tables(values$ts_code, base_url = base_url,
                                           debug = debug)
       update_all_tables_result <- retval$result

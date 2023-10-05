@@ -72,7 +72,21 @@ convert_ts_code <- function(ts_code) {
   
   }
   
-  # TODO: order all tables using the specified ordering.
-  # This should not be necessary, but is a safety measure.
+  reorder_dimension <- function(dimension, table_code) {
+    cbs_order <- table_code$cbs_key_order[[dimension]]
+    return(order_code_rows(table_code$codes[[dimension]], 
+                           cbs_order = cbs_order))
+  }
+  
+  reorder_table_code <- function(table_code) {
+    codes <- table_code$codes
+    dimensions <- names(codes)
+    table_code$codes[] <- lapply(dimensions, FUN = reorder_dimension, 
+                                table_code = table_code)
+    return(table_code)
+  } 
+
+  ts_code[] <- lapply(ts_code, FUN = reorder_table_code) 
+
   return(ts_code)
 }

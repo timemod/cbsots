@@ -13,6 +13,7 @@ print.ts_code <- function(x, ...) {
 #' @export
 print.table_code <- function(x, ...) {
   cat("ts_code_table object\n")
+  cat(sprintf("Short title : %s\n", x$short_title))
   cat(sprintf("Order : %s\n", paste(x$order, collapse = ", ")))
   cat("cbs_key_order for each dimension:\n")
   print(x$cbs_key_order)
