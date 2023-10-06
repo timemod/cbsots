@@ -32,13 +32,17 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     ts_code <- readRDS(ts_code_file)
     ts_code <- convert_ts_code(ts_code)
     
+    # Reorder all table_code objects in ts_code, to make sure that
+    # all tables are correctly ordered.
+    ts_code[] <- lapply(ts_code, FUN = order_table_code)
+    
     if (is.null(ts_code)) {
       stop(paste("File", ts_code_file, "does not contain a ts_code object"))
     }
     
   } else {
     
-    ts_code <- create_ts_code()
+    ts_code <- new_ts_code()
     
   }
   
@@ -307,9 +311,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       # reorder the tables alphabetically 
       ord <- order(values$table_ids)
-      # use create_ts_code, because otherwise the attributes (class and 
+      # use new_ts_code, because otherwise the attributes (class and 
       # package version) are lost.
-      values$ts_code <- create_ts_code(values$ts_code[ord])
+      values$ts_code <- new_ts_code(values$ts_code[ord])
       values$table_ids <- values$table_ids[ord]
       values$table_descs <- values$table_descs[values$table_ids]
       values$table_present <- TRUE
@@ -374,7 +378,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         simplify = FALSE
       )
       
-      ts_code_new <- create_ts_code(new_ts_code)
+      ts_code_new <- new_ts_code(new_ts_code)
       
       # first check if data in the open table has been modified
       if (values$table_open) {

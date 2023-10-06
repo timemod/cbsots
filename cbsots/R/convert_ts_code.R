@@ -19,7 +19,7 @@ convert_ts_code <- function(ts_code) {
     
     old_package_version <- ts_code$package_version
   
-    ts_code <- create_ts_code(ts_code$table_code)
+    ts_code <- new_ts_code(ts_code$table_code)
     
     if (old_package_version < "0.4") {
       
@@ -71,9 +71,6 @@ convert_ts_code <- function(ts_code) {
     attr(ts_code, "package_version") <- packageVersion("cbsots")
   
   }
-  
-  # order all table_code objects in ts_code
-  ts_code[] <- lapply(ts_code, FUN = order_table_code)
 
   return(ts_code)
 }

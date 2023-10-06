@@ -44,6 +44,12 @@ order_table_code <- function(tbl_code) {
 order_code_rows <- function(code,  cbs_order) {
   
   orig_key_order <- code$OrigKeyOrder
+
+  if (!identical(sort(code$Key), sort(orig_key_order))) {
+    warning("Internal error: sorting not possible because of a corrupt",
+      " orig_key_order. Sorting is skipped")
+    return(code)
+  }
   
   if (cbs_order) {
     
@@ -61,9 +67,22 @@ order_code_rows <- function(code,  cbs_order) {
                                                not_selected)]
     required_order <- c(selected_ordered, not_selected_ordered) 
   }
+
   
   order <- match(required_order, code$Key)
+
+  nrows <- nrow(code)
   
+  # Fix problem with duplicate Keys.
+  if (anyDuplicated(order)) {
+    missing <- setdiff(seq_len(nrows), order)
+    order[duplicated(order)] <- missing
+  }
+  if (length(order) != nrows || anyDuplicated(order)) {
+    warning("Internal error: problem when sorting code, sorting skipped")
+    return(code) 
+  }
+ 
   code[, 1:4] <- code[order, 1:4]
   
   return(code)

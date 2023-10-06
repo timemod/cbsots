@@ -26,3 +26,8 @@ composed of the table id and dimension, e.g. \code{81810NED_Topic.xlsx}.
 This function is still experimental and you should always check the results
 carefully.
 }
+\examples{
+\dontrun{
+update_tables(ts_code_example)
+}
+}
