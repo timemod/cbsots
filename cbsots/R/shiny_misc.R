@@ -130,20 +130,26 @@ convert_codetable <- function(table) {
   }
 }
 
+# This function calls update_table and captures warnings. 
+# It returns a list containing the updated table and the captured warnings.
 #' @importFrom utils capture.output
-call_update_table <- function(table, base_table, table_id, base_table_id) {
-  # This function calls update_table and captures warnings. 
-  # It returns a list containing the updated table and the captured warnings.
+perform_update_table <- function(table_code_base, table_id, base_url) {
+  
+  # create a new empty table_code object:
+  table_code_new  <- table_code(table_id, base_url = base_url)
+ 
   tryCatch({
     warnings <- character(0)
     dum <- capture.output({
       withCallingHandlers(
-        new_table <- update_table(table, base_table, table_id, base_table_id), 
+        table_code_upd <- update_table(table_code_new, table_code_base, 
+                                       table_id = table_id, 
+                                       old_table_id = table_id), 
         warning = function(w) {
           warnings <<- c(warnings, w$message)
         }
       )}, type = "message")
-    return(list(new_table = new_table, warnings = warnings))
+    return(list(table_code_upd = table_code_upd, warnings = warnings))
   }, error = function(e) {
     shinyalert("Error", e$message, type = "error")
     return(NULL)
@@ -161,8 +167,8 @@ perform_update_all_tables <- function(ts_code, base_url, debug) {
   i <- 0
   update_single_table <- function(id) {
     if (debug) cat("Updating table ..", id, "\n")
-    new_table <- table_code(id, base_url)
-    ret <- call_update_table(new_table, ts_code[[id]], id, id)
+    ret <- perform_update_table(ts_code[[id]], table_id = id, 
+                                base_url = base_url)
     ret$has_warning <- length(ret$warnings) > 0
     ret$warnings <- NULL
     i <<- i + 1
@@ -176,7 +182,11 @@ perform_update_all_tables <- function(ts_code, base_url, debug) {
   has_warning <- sapply(result, FUN = function(x) return(x$has_warning))
   warning_ids <- names(has_warning[has_warning])
   
-  return(list(result = result, warning_ids = warning_ids))
+  ts_code_upd <- sapply(result, FUN = function(x) return(x$table_code_upd),
+   simplify = FALSE
+  )
+  
+  return(list(ts_code_upd = ts_code_upd, warning_ids = warning_ids))
 }
 
 showWarningsDialog <- function(warnings, ok_button_id) {

@@ -14,7 +14,7 @@
 #' The function tries to find the location of Chrome or FireFox and if the search
 #' is succesful then this browser is used. Otherwise an error is issued.
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
-#'  (only for developpers)
+#'  (only for developers)
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
 #' @import shiny
@@ -239,7 +239,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (identical(data_old, hot_data)) {
         if (debug) {
-          cat("\nHot data has not been modified, no action required\n")
+          cat("\nHot data has not been modified, no action required\n\n")
         }
         return()
       }
@@ -269,7 +269,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     # save dimension ordering:
-    store_dimension_order <- function() {
+    fetch_dimension_order <- function() {
       if (!identical(sort(input$dimension_order), 
                      sort(values$ts_code[[values$table_id]]$order))) {
         shinyalert("Error", "Internal Error: dimension_order not correct")
@@ -277,6 +277,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       values$ts_code[[values$table_id]]$order <- input$dimension_order
       return(invisible())
+    }
+    
+    fetch_table_data <- function() {
+      fetch_hot_data()
+      fetch_dimension_order()
     }
     
     # Order the ts code for table value$table_id and dimension value$dimension
@@ -330,35 +335,24 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     # update the open table
-    update_table <- function(update_table_result) {
+    update_table <- function(table_code_upd) {
       if (debug) cat(sprintf("\nUpdating table %s\n", values$table_id))
+
+      # Save the original short title
+      short_title_old <- values$ts_code[[values$table_id]]$short_title
       
-      data_modified <- !identical(values$ts_code[[values$table_id]],
-                                  update_table_result)
-      
-      old_table_desc <- values$table_descs[values$table_id] 
-      new_table_desc <- get_table_description(values$table_id, 
-                                              update_table_result$short_title)
-      table_desc_modified <- old_table_desc != new_table_desc
-      
-      if (!data_modified && !table_desc_modified) {
-        if (debug) {
-          cat("Updated table is identical to original table. Nothing to do.\n\n")
-        }
-        return(invisible())
-      }
-      
-      if (data_modified) {
-        if (debug) cat("\nUpdating table data\n")
-        values$ts_code[[values$table_id]] <- update_table_result
-      }
-      
-      old_table_desc <- values$table_descs[values$table_id] 
-      new_table_desc <- get_table_description(values$table_id, 
-                                              update_table_result$short_title)
-      if (table_desc_modified) {
+      # Update ts_code
+      values$ts_code[[values$table_id]] <- table_code_upd
+     
+      # Handle change of short table title
+      short_title_new <-  table_code_upd$short_title
+      if (short_title_old != short_title_new) {
+        new_table_desc <- get_table_description(values$table_id, 
+                                                short_title_new)
         if (debug) cat("Table description has changed: ", new_table_desc, "\n")
         values$table_descs[values$table_id] <- new_table_desc
+        # The following statement is essential: if prevents that 
+        # fetch_hot_data() is called in the observer for input$table_desc:
         values$table_desc <- new_table_desc
         updateSelectInput(session, inputId = "table_desc",
                           choices = create_table_choices(values$table_descs), 
@@ -373,38 +367,31 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     
     # update all tables
-    update_all_tables <- function(update_all_tables_result) {
+    update_all_tables <- function(ts_code_upd) {
       if (debug) cat("\nUpdating all tables\n")
-      
-      new_ts_code <- sapply(update_all_tables_result,
-        FUN = function(x) {
-          return(x$new_table)
-        },
-        simplify = FALSE
-      )
-      
-      ts_code_new <- new_ts_code(new_ts_code)
-      
-      # first check if data in the open table has been modified
+  
+      # First check if data in the open table has been modified
       if (values$table_open) {
-        old_data <- values$ts_code[[values$table_id]]
-        new_data <- ts_code_new[[values$table_id]]
-        data_open_table_modified <- !identical(old_data, new_data)
+        table_code_old <- values$ts_code[[values$table_id]]
+        table_code_new <- ts_code_upd[[values$table_id]]
+        open_table_modified <- !identical(table_code_old, table_code_new)
       } else {
-        data_open_table_modified <- FALSE
+        open_table_modified <- FALSE
       }
       
-      # update ts_code for all tables
-      values$ts_code <- ts_code_new
+      # Update ts_code for all tables
+      values$ts_code <- ts_code_upd
       
-      # check if table_descs have been modified
-      table_descs_new <- get_table_descs(ts_code_new)
+      # Check if table_descs have been modified
+      table_descs_new <- get_table_descs(ts_code_upd)
       if (!identical(values$table_descs, table_descs_new)) {
         if (debug) cat("Table descriptions have changed.\n")
         values$table_descs <- table_descs_new
         if (values$table_open) {
-          values$table_desc <- values$table_descs[values$table_id]
-          selected <- table_descs_new[values$table_id]
+          selected <- values$table_desc
+          # The following statement is essential: if prevents that 
+          # fetch_hot_data() is called in the observer for input$table_desc:
+          values$table_desc <- table_descs_new[values$table_id]
         } else {
          selected <- NULL
         }
@@ -413,7 +400,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                           selected = selected)
       }
       
-      if (data_open_table_modified) {
+      if (open_table_modified) {
         if (debug) cat("Data for table", values$table_id, " updated.\n")
         open_table()
       }
@@ -486,7 +473,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
 
       if (values$table_open) {
         
-        fetch_hot_data()
+        fetch_table_data()
         
         if (check_duplicates(values$ts_code, values$table_id, 
                              values$dimension)) {
@@ -500,8 +487,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
         # (for CBS_ORDER the table is already in the correct order).
         if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
-        
-        store_dimension_order()
       }
       
       new_table_id <- get_table_id(input$table_desc)
@@ -605,7 +590,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         if (check_duplicates(values$ts_code, values$table_id, 
                              values$dimension)) return()
         
-        store_dimension_order()
+        fetch_dimension_order()
       }
     
       saveRDS(values$ts_code, file = ts_code_file)
@@ -767,23 +752,29 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     })
     
     observeEvent(input$update_table_confirmed, {
+      if (debug) cat("\nUpdate tables confirmed\n")
       removeModal()
-      if (values$table_open) fetch_hot_data()
+      if (values$table_open) fetch_table_data()
       id <- values$table_id
-      new_table <- table_code(id, base_url)
-      ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
+      ret <- perform_update_table(values$ts_code[[id]], table_id = id, 
+                                  base_url = base_url)
       if (is.null(ret)) return() # something went wrong
+      table_code_upd <- ret$table_code_upd
+      if (identical(table_code_upd, values$ts_code[[id]])) {
+        if (debug) cat("All tables are already up to date, nothing to do\n\n")
+        return()
+      }
       if (length(ret$warnings) > 0) {
-        values$update_table_result <- ret$new_table
+        values$table_code_upd <- table_code_upd
         showWarningsDialog(ret$warnings, "update_table_ok")
       } else {
-        update_table(ret$new_table)
+        update_table(table_code_upd)
       }
     })
     
     observeEvent(input$update_table_ok, {
       removeModal()
-      update_table(values$update_table_result)
+      update_table(values$table_code_upd)
     })
     
     observeEvent(input$update_all_tables, {
@@ -802,15 +793,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     })
     
     observeEvent(input$update_all_tables_confirmed, {
-      if (debug) cat("Update all tables confirmed\n")
+      if (debug) cat("\nUpdate all tables confirmed\n")
       removeModal()
-      if (values$table_open) fetch_hot_data()
+      if (values$table_open) fetch_table_data()
       retval <- perform_update_all_tables(values$ts_code, base_url = base_url,
                                           debug = debug)
-      update_all_tables_result <- retval$result
+      ts_code_upd <- retval$ts_code_upd
+      if (identical(ts_code_upd, values$ts_code)) {
+        if (debug) cat("All tables are already up to date, nothing to do")
+        return()
+      }
       warning_ids <- retval$warning_ids
       if (length(warning_ids) > 0) {
-        values$update_all_tables_result <- update_all_tables_result
+        values$ts_code_upd <- ts_code_upd
         wmsg <- paste("For tables", paste(warning_ids, collapse = ", "),
                       "some old keys do not match perfectly with new keys.\n",
                       "Check the match reports in directory 'match_reports'.")
@@ -818,7 +813,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         wmsg <- paste(wmsg, collapse = "\n")
         showWarningsDialog(wmsg, "update_all_tables_ok")
       } else {
-        update_all_tables(update_all_tables_result)
+        update_all_tables(ts_code_upd)
       }
       return()
     })
@@ -826,7 +821,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(input$update_all_tables_ok, {
       if (debug) cat("Update all tables ok\n")
       removeModal()
-      update_all_tables(values$update_all_tables_result)
+      update_all_tables(values$ts_code_upd)
     })
   }
   
