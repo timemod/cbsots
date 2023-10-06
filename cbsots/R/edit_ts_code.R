@@ -270,6 +270,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     # save dimension ordering:
     store_dimension_order <- function() {
+      if (!identical(sort(input$dimension_order), 
+                     sort(values$ts_code[[values$table_id]]$order))) {
+        shinyalert("Error", "Internal Error: dimension_order not correct")
+        return()
+      }
       values$ts_code[[values$table_id]]$order <- input$dimension_order
       return(invisible())
     }
@@ -522,7 +527,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (values$dimension == input$dimension) {
         # This may happen if a new table has just been opened.
-        cat("No action required because",
+        if (debug) cat("No action required because",
             "input$dimension == values$dimension\n\n")
         return()
       } else {
