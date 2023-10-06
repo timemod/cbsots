@@ -216,55 +216,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       return(invisible())
     }
     
-    # Store the handsontable data in values$ts_code.
-    fetch_hot_data <- function() {
-      if (is.null(input$hot)) {
-        return(invisible()) # this may happen at the very beginning
-      }
-      if (debug) cat("\nFetching hot data\n")
-      hot_data <- convert_codetable(input$hot)
-      if (is.null(hot_data)) {
-        shinyalert("Error", "Internal error: hot data not correct")
-        return()
-      }
-      
-      table_id <- values$table_id
-      dim <- values$dimension
-      
-      data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
-      
-      if (identical(data_old, hot_data)) {
-        if (debug) {
-          cat("\nHot data has not been modified, no action required\n\n")
-        }
-        return()
-      }
-      
-      if (debug) {
-        cat("table_id = ", table_id, "\n")
-        cat("dimension = ", dim, "\n")
-        cat("old values:\n")
-        print(head(values$ts_code[[table_id]]$codes[[dim]][, 1:3]))
-        cat("\nNew values:\n")
-        print(head(hot_data[, 1:3]))
-      }
-      
-      # check hot data
-      if (!identical(data_old$Key, hot_data$Key) ||
-          !identical(data_old$Title, hot_data$Title)) {
-        shinyalert("Error", "Internal Error: hot data not correct")
-        return()
-      }
-      
-      # Store hot data in values$ts_code
-      values$ts_code[[table_id]]$codes[[dim]][, 1:4] <- hot_data[, 1:4]
-    
-      if (debug) cat("ts_code has been updated\n\n")
-      
-      return(invisible())
-    }
-    
-    # save dimension ordering:
+     # save dimension ordering:
     fetch_dimension_order <- function() {
       if (!identical(sort(input$dimension_order), 
                      sort(values$ts_code[[values$table_id]]$order))) {
@@ -273,11 +225,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       values$ts_code[[values$table_id]]$order <- input$dimension_order
       return(invisible())
-    }
-    
-    fetch_table_data <- function() {
-      fetch_hot_data()
-      fetch_dimension_order()
     }
     
     # Order the ts code for table value$table_id and dimension value$dimension
@@ -293,8 +240,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     # Reorder the table that is currently displayed.
     reorder_table <- function() {
-      if (debug) cat("\nIn reorder_table\n\n")
-      fetch_hot_data()
+      if (debug) cat("\nIn reorder_table\n")
       cbs_order <- input$table_order == CBS_ORDER
       if (order_ts_code(cbs_order)) {
         render_hot_table()
@@ -348,7 +294,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         if (debug) cat("Table description has changed: ", new_table_desc, "\n")
         values$table_descs[values$table_id] <- new_table_desc
         # The following statement is essential: if prevents that 
-        # fetch_hot_data() is called in the observer for input$table_desc:
+        # action is taken in the observer for input$table_desc:
         values$table_desc <- new_table_desc
         updateSelectInput(session, inputId = "table_desc",
                           choices = create_table_choices(values$table_descs), 
@@ -386,7 +332,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         if (values$table_open) {
           selected <- values$table_desc
           # The following statement is essential: if prevents that 
-          # fetch_hot_data() is called in the observer for input$table_desc:
+          # action is taken in the observer for input$table_desc:
           values$table_desc <- table_descs_new[values$table_id]
         } else {
          selected <- NULL
@@ -469,7 +415,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
 
       if (values$table_open) {
         
-        fetch_table_data()
+        fetch_dimension_order()
         
         if (check_duplicates(values$ts_code, values$table_id, 
                              values$dimension)) {
@@ -514,9 +460,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       } else {
         cat("\n")
       }
-      
-      # Store handsontabledata in values$ts_code
-      fetch_hot_data()
       
       if (check_duplicates(values$ts_code, values$table_id, 
                            values$dimension)) {
@@ -578,10 +521,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       if (values$table_open) {
         if (input$table_order == SELECTED_FIRST_ORDER) {
           reorder_table()
-          # reorder_table calls fetch_hot_data(), so no need to call this
-          # function now
-        } else {
-          fetch_hot_data()
         }
         if (check_duplicates(values$ts_code, values$table_id, 
                              values$dimension)) return()
@@ -598,9 +537,46 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
     })
     
-    # observeEvent(input$hot, {
-    #   cat("\nHot table changed\n")
-    # })
+    observeEvent(input$hot, {
+      if (debug) cat("\nHot table data changed\n")
+      hot_data <- input$hot
+      if (is.null(hot_data)) {
+        shinyalert("Error", "Internal error: hot data not available")
+        return()
+      }
+      hot_data <- convert_codetable(input$hot)
+      if (is.null(hot_data)) {
+        shinyalert("Error", "Internal error: hot data not correct")
+        return()
+      }
+      
+      table_id <- values$table_id
+      dim <- values$dimension
+      # TODO: check table_id and dim with hidden columns, or not?
+      # add hidden columns to HOT table and check them
+      
+      data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
+      if (debug) {
+        cat("table_id = ", table_id, "\n")
+        cat("dimension = ", dim, "\n")
+        cat("old values:\n")
+        print(head(data_old[, 1:3]))
+        cat("\nNew values:\n")
+        print(head(hot_data[, 1:3]))
+      }
+      
+      # check hot data
+      if (!identical(data_old$Key, hot_data$Key) ||
+          !identical(data_old$Title, hot_data$Title)) {
+        shinyalert("Error", "Internal Error: hot data not correct")
+        return()
+      }
+      
+      # Store hot data in values$ts_code
+      values$ts_code[[table_id]]$codes[[dim]][, 1:4] <- hot_data[, 1:4]
+      
+      if (debug) cat("ts_code has been updated with hot data\n\n")
+    })
     
     ############################################################################
     # Observers for adding a new table or deleting a table
@@ -750,7 +726,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(input$update_table_confirmed, {
       if (debug) cat("\nUpdate tables confirmed\n")
       removeModal()
-      if (values$table_open) fetch_table_data()
+      if (values$table_open) fetch_dimension_order()
       id <- values$table_id
       ret <- perform_update_table(values$ts_code[[id]], table_id = id, 
                                   base_url = base_url)
@@ -791,7 +767,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(input$update_all_tables_confirmed, {
       if (debug) cat("\nUpdate all tables confirmed\n")
       removeModal()
-      if (values$table_open) fetch_table_data()
+      if (values$table_open) fetch_dimension_order()
       retval <- perform_update_all_tables(values$ts_code, base_url = base_url,
                                           debug = debug)
       ts_code_upd <- retval$ts_code_upd

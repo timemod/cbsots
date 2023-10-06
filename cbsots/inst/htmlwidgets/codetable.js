@@ -38,6 +38,14 @@ HTMLWidgets.widget({
         multiSelect: false,
         outsideClickDeselects : false,
         contextMenu: ['undo', 'redo'],
+	afterLoadData: function(initialLoad) {
+	    if (initialLoad) {
+	       /* initialLoad is TRUE when the hot table is created.
+		* It is FALSE when the table is actually rendered. */
+               return;
+            }
+            init_search();
+	},
         afterChange: function(changes, source) {
             if (!changes) {
                 return;
@@ -53,7 +61,7 @@ HTMLWidgets.widget({
 
         // do not highlight search results in the Select column.
 
-        if (col != BOOLEAN_COL) {
+       if (col != BOOLEAN_COL) {
              DEFAULT_CALLBACK.apply(this, arguments);
         }
     }
@@ -157,12 +165,7 @@ HTMLWidgets.widget({
     Handsontable.dom.addEvent(search_field, 'keyup', function(event) {
         if (event.keyCode == 13 && search_result.length > 0) {
 	    // Pressed on enter
-
-	    console.log("enter pressed");
-	    console.log(new_search_result);
-	    console.log(nrow);
-	    console.log(ncol);
-
+	
             var cell = get_search_result(!new_search_result);
             hot.selectCell(cell.row, cell.col, cell.row, cell.col, true, 
                            false);
@@ -242,15 +245,6 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
         hot.loadData(x.data);
-	console.log(el.id);
-	console.log(HTMLWidgets.shinyMode);
-	if (HTMLWidgets.shinyMode) {
-          console.log(typeof Shiny.setInputValue);
-          Shiny.setInputValue(el.id, hot.getData());
-        }
-
-        /* initialise  variables for searching */
-        init_search();
       },
 
       resize: function(width, height) {
