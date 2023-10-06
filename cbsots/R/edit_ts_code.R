@@ -121,16 +121,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                                    "change order):"), 
                      items = "dummy"),
           p(),
+          icon("search"),
+          tags$input(type = "text", id = "search_field",
+                     placeholder = "Search ..."),
+          tags$button(icon("caret-left"), id = "prev_button"),
+          tags$button(icon("caret-right"),  id = "next_button"),
           p(),
-          tags$div(
-            HTML("&#128270;"),
-            tags$input(type = "text", id = "search_field",
-                       placeholder = "Search ..."),
-            tags$button(HTML("&#8249;"), class = "previous round", 
-                        id = "prev_button"),
-            tags$button(HTML("&#8250;"), class = "next round", 
-                        id = "next_button")
-          ),
           uiOutput("dimension_tabsetpanel"),
           codetableOutput("hot")
         )
