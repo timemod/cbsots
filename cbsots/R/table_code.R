@@ -17,9 +17,16 @@ table_code <- function(id, base_url = NULL) {
   cbs_key_order <- rep(TRUE,  length(codes))
   names(cbs_key_order) <- names(codes)
   
-  return(structure(list(short_title = meta$TableInfos$ShortTitle,
-                        order = names(codes), cbs_key_order = cbs_key_order,
-                        codes = codes), class = "table_code"))
+  return(new_table_code(list(
+    id = id,
+    short_title = meta$TableInfos$ShortTitle,
+    order = names(codes), cbs_key_order = cbs_key_order,
+    codes = codes
+  )))
+}
+
+new_table_code <- function(x) {
+  return(structure(x,  class = "table_code"))
 }
 
 # returns all dimensions for the tbl_code  

@@ -71,6 +71,18 @@ convert_ts_code <- function(ts_code) {
     attr(ts_code, "package_version") <- packageVersion("cbsots")
   
   }
+  
+    # New version of cbsots: add id to table_code_object
+  # TODO: only do this for new version 2.0.0.
+  add_id <- function(x, id) {
+    x_names <- names(x)
+    if (!"id" %in% x_names) {
+      x$id <- id
+      x <- new_table_code(x[c("id", x_names)])
+    }
+    return(x)
+  }
+  ts_code[] <- mapply(FUN = add_id, ts_code, names(ts_code), SIMPLIFY = FALSE)
 
   return(ts_code)
 }

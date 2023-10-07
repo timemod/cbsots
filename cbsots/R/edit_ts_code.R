@@ -99,9 +99,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       "Updated Keys and Titles with recent information on the CBS website",
       p(),
       fluidRow(
-        column(5, actionButton("update_table", "Update This Table")),
-        column(1, actionButton("update_all_tables", "Update All Tables"), 
-                               offset = 1),
+        column(5, updateTableInput(id = "update_table")),
+        column(1, updateAllTablesInput(id = "update_all_table"), offset = 1),
       ),
       h3("Save Code"), 
       paste("Save the Code to File", ts_code_file),
@@ -157,10 +156,28 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       input_ids <- c(input_ids, "update_all_tables", "delete_table")
     }
     invisible(lapply(input_ids, FUN = shinyjs::disable))
+  
+    
+    tblcod_for_upd <- reactive({
+      cat("\nEvaluating ts_code_for_upd\n\n")
+      tblcod <- values$ts_code[[values$table_id]]
+      tblcod$order <- input$dimension_order
+      tblcod
+    })
+    
+    tblcod_upd <- updateTableServer("update_table",
+     table_open = reactive(values$table_open),
+     tblcod = tblcod_for_upd,
+     table_id = reactive(values$table_id),
+     base_url = base_url,
+     debug = debug
+   )
+    
+  
     
     ############################################################################
     # internal function in the server function
-    ############################################################################
+    ##################s##########################################################
     
     render_hot_table <- function() {
       tab_data <- values$ts_code[[values$table_id]]$codes[[values$dimension]]
@@ -276,38 +293,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                         choices = create_table_choices(values$table_descs),
                         selected = values$new_table_desc
       )
-    }
-    
-    # update the open table
-    update_table <- function(table_code_upd) {
-      if (debug) cat(sprintf("\nUpdating table %s\n", values$table_id))
-
-      # Save the original short title
-      short_title_old <- values$ts_code[[values$table_id]]$short_title
-      
-      # Update ts_code
-      values$ts_code[[values$table_id]] <- table_code_upd
-     
-      # Handle change of short table title
-      short_title_new <-  table_code_upd$short_title
-      if (short_title_old != short_title_new) {
-        new_table_desc <- get_table_description(values$table_id, 
-                                                short_title_new)
-        if (debug) cat("Table description has changed: ", new_table_desc, "\n")
-        values$table_descs[values$table_id] <- new_table_desc
-        # The following statement is essential: if prevents that 
-        # action is taken in the observer for input$table_desc:
-        values$table_desc <- new_table_desc
-        updateSelectInput(session, inputId = "table_desc",
-                          choices = create_table_choices(values$table_descs), 
-                          selected = new_table_desc)
-      }
-      
-      # now open the table
-      open_table()
-      
-      if (debug) cat("\n")
-      return(invisible())
     }
     
     # update all tables
@@ -703,46 +688,44 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     # Observers for updating the selected table or all tables.
     ############################################################################
     
-    observeEvent(input$update_table, {
-      showModal(modalDialog(
-        title = "Confirm",
-        HTML(paste0(
-          "Do you want to update \"", values$table_id, "\"",
-          "<br>with recent table information on the CBS website?"
-        )),
-        footer = tagList(
-          modalButton("No"),
-          actionButton("update_table_confirmed", "Yes")
-        ),
-        easyClose = TRUE
-      ))
+    observeEvent(tblcod_upd(), {
+      table_code_upd <- tblcod_upd()
+      table_id <- table_code_upd$id
+      if (debug) {
+        cat(sprintf("\nUpdate voor tabel %s\n", table_id, "\n\n"))
+        #print(table_code_upd)
+      }
+
+      # TODO: check table_id == values$table_id?
+      
+      # Save the original short title
+      short_title_old <- values$ts_code[[table_id]]$short_title
+      
+      # Update ts_code
+      values$ts_code[[table_id]] <- table_code_upd
+      
+      # Handle change of short table title
+      short_title_new <-  table_code_upd$short_title
+      if (short_title_old != short_title_new) {
+        new_table_desc <- get_table_description(values$table_id, 
+                                                short_title_new)
+        if (debug) cat("Table description has changed: ", new_table_desc, "\n")
+        values$table_descs[values$table_id] <- new_table_desc
+        # The following statement is essential: if prevents that 
+        # action is taken in the observer for input$table_desc:
+        values$table_desc <- new_table_desc
+        updateSelectInput(session, inputId = "table_desc",
+                          choices = create_table_choices(values$table_descs), 
+                          selected = new_table_desc)
+      }
+      
+      # now open the table
+      open_table()
+      
+      if (debug) cat("\n")
+      return(invisible())
     })
     
-    observeEvent(input$update_table_confirmed, {
-      if (debug) cat("\nUpdate tables confirmed\n")
-      removeModal()
-      if (values$table_open) fetch_dimension_order()
-      id <- values$table_id
-      ret <- perform_update_table(values$ts_code[[id]], table_id = id, 
-                                  base_url = base_url)
-      if (is.null(ret)) return() # something went wrong
-      table_code_upd <- ret$table_code_upd
-      if (identical(table_code_upd, values$ts_code[[id]])) {
-        if (debug) cat("All tables are already up to date, nothing to do\n\n")
-        return()
-      }
-      if (length(ret$warnings) > 0) {
-        values$table_code_upd <- table_code_upd
-        showWarningsDialog(ret$warnings, "update_table_ok")
-      } else {
-        update_table(table_code_upd)
-      }
-    })
-    
-    observeEvent(input$update_table_ok, {
-      removeModal()
-      update_table(values$table_code_upd)
-    })
     
     observeEvent(input$update_all_tables, {
       if (length(values$ts_code) > 0) {
