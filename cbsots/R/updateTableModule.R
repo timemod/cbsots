@@ -5,14 +5,19 @@ updateTableInput <- function(id) {
   actionButton(NS(id, "update"), "Update This Table")
 }
 
-updateTableServer <- function(id, table_open, tblcod, table_id, base_url, debug) {
+updateTableServer <- function(id, table_open, tblcod, table_id, base_url, 
+                              debug) {
+  
   moduleServer(id, function(input, ouput, servers) {
     
     r_values <- reactiveValues()
     
     observeEvent(table_open(), {
-      cat("\nupdateTableServer: table_open changed, new value: ", table_open(), 
+      if (debug) {
+        cat("\nupdateTableServer: table_open changed, new value: ", 
+            table_open(), 
           "\n\n")
+      }
       if (table_open()) {
         cat("\nenabling update button\n")
         shinyjs::enable("update")

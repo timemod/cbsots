@@ -77,9 +77,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       selectInput("table_desc", label = NULL, 
                   choices = create_table_choices(table_descs)),
       p(),
-      h3("Create new code table"),
-      p(),
-      actionButton("new_table", "New table"),
+      newTableInput(id = "new_table"),
       p(),
       h3("Delete Code Table"),
       actionButton("delete_table", "Delete table"),
@@ -173,7 +171,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
      debug = debug
    )
     
-    tscod_for_upd <- reactive({
+    tscod_for_modules <- reactive({
       tscod <- values$ts_code
       if (values$table_open) {
         tscod[[values$table_id]]$order <- input$dimension_order
@@ -183,9 +181,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     tscod_upd <- updateAllTablesServer("update_all_tables",
      table_present = reactive(values$table_present),
-     tscod = tscod_for_upd,
+     tscod = tscod_for_modules,
      base_url = base_url,
      debug = debug
+    )
+    
+    tblcod_new <- newTableServer("new_table",
+      table_descs = reactive(values$table_descs),
+      ts_code = tscod_for_modules,
+      base_url = base_url,
+      debug = debug
     )
 
     ############################################################################
@@ -284,28 +289,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
    
     insert_new_table <- function() {
-      if (debug) {
-        cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
-                    values$new_table_id))
-      }
-      
-      values$table_ids <- c(values$table_ids, values$new_table_id)
-      values$table_descs[values$new_table_id] <- values$new_table_desc
-      values$ts_code[[values$new_table_id]]  <- values$new_table
-      
-      # reorder the tables alphabetically 
-      ord <- order(values$table_ids)
-      # use new_ts_code, because otherwise the attributes (class and 
-      # package version) are lost.
-      values$ts_code <- new_ts_code(values$ts_code[ord])
-      values$table_ids <- values$table_ids[ord]
-      values$table_descs <- values$table_descs[values$table_ids]
-      values$table_present <- TRUE
-      
-      updateSelectInput(session, inputId = "table_desc",
-                        choices = create_table_choices(values$table_descs),
-                        selected = values$new_table_desc
-      )
+     
     }
     
     ############################################################################
@@ -530,67 +514,41 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     ############################################################################
     # Observers for adding a new table or deleting a table
     ############################################################################
-    
-    observeEvent(input$new_table, {
-      
-      new_table_descs <- get_new_table_descs(values$table_ids, base_url)
-      
-      if (is.null(new_table_descs)) {
-        shinyalert("Error", "Error downloading list of tables" , type = "error")
-      } else {
-        values$new_table_descs <- new_table_descs
-        showModal(select_new_table_dialog(new_table_descs, values$table_descs))
-      } 
-    })
-    
-    observeEvent(input$new_table_ok, {
-      
-      new_table_desc <- input$new_table_desc
-      if (new_table_desc == "") {
-        return()
+   
+    observeEvent(tblcod_new(), {
+      tblcod_new <- tblcod_new()
+      table_id_new <- tblcod_new$id
+      if (debug) {
+        cat(sprintf("\nA new table has been selected, new table = %s\n",
+                    table_id_new))
+        #print(tscod_new)
       }
-      new_table_id <- get_table_id(new_table_desc)
-      new_table_desc <- values$new_table_descs[new_table_id]
       
-      # add new table
-      tryCatch({
-        
-        values$new_table <- table_code(new_table_id, base_url)
-        values$new_table_id <- new_table_id
-        values$new_table_desc <- new_table_desc
-  
-        base_table_desc <-  input$new_table_base_desc
-        if (base_table_desc != "") {
-          base_table_id <- get_table_id(base_table_desc)
-          base_table <- values$ts_code[[base_table_id]]
-          ret <- call_update_table(values$new_table, base_table, new_table_id,
-                                   base_table_id)
-          if (is.null(ret)) return()
-          values$new_table <- ret$new_table
-          if (length(ret$warnings) > 0) {
-            showWarningsDialog(ret$warnings, "filled_table_ok")
-          } else {
-            insert_new_table()
-            removeModal()
-          }
-        } else {
-          insert_new_table()
-          removeModal()
-        }
-      }, error = function(e) {
-        cat("error\n")
-        print(e)
-        shinyalert("Error", paste("Error while downloading table", 
-                                  new_table_id) , 
-                   type = "error")
-      })
+      table_ids_new <- c(values$table_ids, table_id_new)
+      table_desc_new <- get_table_description(table_id_new,
+        tblcod_new$short_title)
+      
+      table_descs_new <- values$table_descs
+      table_descs_new[table_id_new] <- table_desc_new
+      
+      values$ts_code[[table_id_new]]  <- tblcod_new
+      
+      # sort the table ids alphabetically: 
+      table_ids_new <- sort(table_ids_new)
+      table_descs_new <- table_descs_new[table_ids_new]
+      # use new_ts_code, because otherwise the attributes (class and 
+      # package version) are lost.
+      values$ts_code <- new_ts_code(values$ts_code[table_ids_new])
+      values$table_ids <- table_ids_new
+      values$table_descs <- table_descs_new
+      values$table_present <- TRUE
+      updateSelectInput(session,
+        inputId = "table_desc",
+        choices = create_table_choices(values$table_descs),
+        selected = table_desc_new
+      )
     })
-    
-    observeEvent(input$filled_table_ok, {
-      insert_new_table()
-      removeModal()
-    })
-    
+   
     observeEvent(input$delete_table, {
       
       if (length(values$ts_code) == 0) {
