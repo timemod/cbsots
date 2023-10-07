@@ -100,7 +100,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       p(),
       fluidRow(
         column(5, updateTableInput(id = "update_table")),
-        column(1, updateAllTablesInput(id = "update_all_table"), offset = 1),
+        column(1, updateAllTablesInput(id = "update_all_tables"), offset = 1),
       ),
       h3("Save Code"), 
       paste("Save the Code to File", ts_code_file),
@@ -173,8 +173,21 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
      debug = debug
    )
     
-  
+    tscod_for_upd <- reactive({
+      tscod <- values$ts_code
+      if (values$table_open) {
+        tscod[[values$table_id]]$order <- input$dimension_order
+      }
+      tscod
+    })
     
+    tscod_upd <- updateAllTablesServer("update_all_tables",
+     table_present = reactive(values$table_present),
+     tscod = tscod_for_upd,
+     base_url = base_url,
+     debug = debug
+    )
+
     ############################################################################
     # internal function in the server function
     ##################s##########################################################
@@ -293,50 +306,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                         choices = create_table_choices(values$table_descs),
                         selected = values$new_table_desc
       )
-    }
-    
-    # update all tables
-    update_all_tables <- function(ts_code_upd) {
-      if (debug) cat("\nUpdating all tables\n")
-  
-      # First check if data in the open table has been modified
-      if (values$table_open) {
-        table_code_old <- values$ts_code[[values$table_id]]
-        table_code_new <- ts_code_upd[[values$table_id]]
-        open_table_modified <- !identical(table_code_old, table_code_new)
-      } else {
-        open_table_modified <- FALSE
-      }
-      
-      # Update ts_code for all tables
-      values$ts_code <- ts_code_upd
-      
-      # Check if table_descs have been modified
-      table_descs_new <- get_table_descs(ts_code_upd)
-      if (!identical(values$table_descs, table_descs_new)) {
-        if (debug) cat("Table descriptions have changed.\n")
-        values$table_descs <- table_descs_new
-        if (values$table_open) {
-          selected <- values$table_desc
-          # The following statement is essential: if prevents that 
-          # action is taken in the observer for input$table_desc:
-          values$table_desc <- table_descs_new[values$table_id]
-        } else {
-         selected <- NULL
-        }
-        updateSelectInput(session, inputId = "table_desc",
-                          choices = create_table_choices(values$table_descs), 
-                          selected = selected)
-      }
-      
-      if (open_table_modified) {
-        if (debug) cat("Data for table", values$table_id, " updated.\n")
-        open_table()
-      }
-      
-      if (debug) cat("\n")
-      
-      return(invisible())
     }
     
     ############################################################################
@@ -726,52 +695,53 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       return(invisible())
     })
     
-    
-    observeEvent(input$update_all_tables, {
-      if (length(values$ts_code) > 0) {
-        showModal(modalDialog(
-          title = "Confirm",
-          HTML(paste0("Do you want to update all tables",
-                      "<br>with recent table information on the CBS website?")),
-          footer = tagList(
-            modalButton("No"),
-            actionButton("update_all_tables_confirmed", "Yes")
-          ),
-          easyClose = TRUE
-        ))
+    observeEvent(tscod_upd(), {
+      if (debug) {
+        cat("\nUpdate for all tables\n\n")
       }
-    })
-    
-    observeEvent(input$update_all_tables_confirmed, {
-      if (debug) cat("\nUpdate all tables confirmed\n")
-      removeModal()
-      if (values$table_open) fetch_dimension_order()
-      retval <- perform_update_all_tables(values$ts_code, base_url = base_url,
-                                          debug = debug)
-      ts_code_upd <- retval$ts_code_upd
-      if (identical(ts_code_upd, values$ts_code)) {
-        if (debug) cat("All tables are already up to date, nothing to do")
-        return()
-      }
-      warning_ids <- retval$warning_ids
-      if (length(warning_ids) > 0) {
-        values$ts_code_upd <- ts_code_upd
-        wmsg <- paste("For tables", paste(warning_ids, collapse = ", "),
-                      "some old keys do not match perfectly with new keys.\n",
-                      "Check the match reports in directory 'match_reports'.")
-        wmsg <- strwrap(wmsg, width = 80)
-        wmsg <- paste(wmsg, collapse = "\n")
-        showWarningsDialog(wmsg, "update_all_tables_ok")
+      
+      ts_code_upd <- tscod_upd()
+      
+      # First check if data in the open table has been modified
+      if (values$table_open) {
+        table_code_old <- values$ts_code[[values$table_id]]
+        table_code_new <- ts_code_upd[[values$table_id]]
+        open_table_modified <- !identical(table_code_old, table_code_new)
       } else {
-        update_all_tables(ts_code_upd)
+        open_table_modified <- FALSE
       }
-      return()
-    })
-    
-    observeEvent(input$update_all_tables_ok, {
-      if (debug) cat("Update all tables ok\n")
-      removeModal()
-      update_all_tables(values$ts_code_upd)
+      
+      # Update ts_code for all tables
+      values$ts_code <- ts_code_upd
+      
+      # Check if table_descs have been modified
+      table_descs_new <- get_table_descs(ts_code_upd)
+      if (!identical(values$table_descs, table_descs_new)) {
+        if (debug) cat("Table descriptions have changed.\n")
+        values$table_descs <- table_descs_new
+        if (values$table_open) {
+          selected <- values$table_desc
+          # The following statement is essential: if prevents that 
+          # action is taken in the observer for input$table_desc:
+          values$table_desc <- table_descs_new[values$table_id]
+        } else {
+          selected <- NULL
+        }
+        updateSelectInput(session,
+          inputId = "table_desc",
+          choices = create_table_choices(values$table_descs),
+          selected = selected
+        )
+      }
+      
+      if (open_table_modified) {
+        if (debug) cat("Data for table", values$table_id, " updated.\n")
+        open_table()
+      }
+      
+      if (debug) cat("\n")
+      
+      return(invisible())
     })
   }
   

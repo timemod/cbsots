@@ -43,8 +43,7 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url, debug)
       if (debug) cat("\nupdateTableServer: update confirmed\n")
      
       tblcod_old <- tblcod()
-      tbl_id <- table_id()
-      r_values$table_id <- tbl_id
+      tbl_id <- tblcod_old$id
      
       # TODO: modal spinner?
       ret <- perform_update_table(tblcod_old, table_id = tbl_id, 
@@ -61,9 +60,6 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url, debug)
       } else {
         if (debug) cat("\n")
       }
-      
-      
-      
       if (length(ret$warnings) > 0) {
         r_values$tblcod_upd_candidate <- tblcod_upd
         showWarningsDialog(ret$warnings, NS(id, "accept_warnings"))
