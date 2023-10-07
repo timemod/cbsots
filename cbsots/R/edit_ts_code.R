@@ -155,7 +155,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     invisible(lapply(input_ids, FUN = shinyjs::disable))
   
-    
     tblcod_for_upd <- reactive({
       cat("\nEvaluating ts_code_for_upd\n\n")
       tblcod <- values$ts_code[[values$table_id]]
@@ -170,6 +169,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
      base_url = base_url,
      debug = debug
    )
+    
+    # TODO: dimension_order direct opslaan in values$ts_code[[values$table_id?]]
+    # Dan kan de code nog verder vereenvoudigd worden.
     
     tscod_for_modules <- reactive({
       tscod <- values$ts_code
@@ -549,6 +551,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       )
     })
    
+    # TODO: create a module for this?
+    
     observeEvent(input$delete_table, {
       
       if (length(values$ts_code) == 0) {
