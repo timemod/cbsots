@@ -191,14 +191,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
 
     tscod_upd <- updateAllTablesServer("update_all_tables",
      table_present = reactive(values$table_present),
-     tscod = reactive(values$tscod),
+     tscod = reactive(values$ts_code),
      base_url = base_url,
      debug = debug
     )
     
     tblcod_new <- newTableServer("new_table",
       table_descs = reactive(values$table_descs),
-      tscod = reactive(values$tscod),
+      tscod = reactive(values$ts_code),
       base_url = base_url,
       debug = debug
     )
@@ -547,6 +547,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         choices = create_table_choices(values$table_descs),
         selected = table_desc_new
       )
+      
+      shinybusy::remove_modal_spinner()
     })
    
     observeEvent(delete_table_id(), {
@@ -591,7 +593,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         #print(table_code_upd)
       }
 
-      # TODO: check table_id == values$table_id?
+      # TODO: check table_id == values$table_id? based on data in the
+      # javascript object?
       
       # Save the original short title
       short_title_old <- values$ts_code[[table_id]]$short_title
@@ -618,6 +621,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       open_table()
       
       if (debug) cat("\n")
+      
+      shinybusy::remove_modal_spinner()
+      
       return(invisible())
     })
     
@@ -666,6 +672,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       
       if (debug) cat("\n")
+      
+      shinybusy::remove_modal_spinner()
       
       return(invisible())
     })

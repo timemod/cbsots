@@ -159,7 +159,7 @@ perform_update_table <- function(table_code_base, table_id,
 
 #' @importFrom shinybusy show_modal_progress_line update_modal_progress 
 perform_update_all_tables <- function(ts_code, base_url, debug) {
-  
+
   show_modal_progress_line(text = "Updating tables")
   
   ids <- names(ts_code)
