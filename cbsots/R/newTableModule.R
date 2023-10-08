@@ -135,7 +135,7 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
     
     observeEvent(input$warnings_ok, {
       shinybusy::show_modal_spinner(text = "Processing new table ...")
-      r_values$tblcod_new <- tblcod_new_candidate
+      r_values$tblcod_new <- r_values$tblcod_new_candidate
       removeModal()
     })
     

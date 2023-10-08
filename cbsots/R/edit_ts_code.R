@@ -174,12 +174,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                              dimension = NA_character_,
                              table_order = CBS_ORDER)
     
-    # disable some input elements
-    input_ids <- c("update_table", "table_order", "reorder")
-    if (!table_present) {
-      input_ids <- c(input_ids, "update_all_tables", "delete_table")
-    }
-    invisible(lapply(input_ids, FUN = shinyjs::disable))
+    # disable the reorder button
+    shinyjs::disable("reorder")
   
     tblcod_upd <- updateTableServer("update_table",
      table_open = reactive(values$table_open),
@@ -310,7 +306,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       if (values$table_open) {
         shinyjs::enable("table_order")
       } else {
-        shinyjs:disable("table_order")
+        shinyjs::disable("table_order")
       }
       if (values$table_open && values$table_order == SELECTED_FIRST_ORDER) {
         shinyjs::enable("reorder")
