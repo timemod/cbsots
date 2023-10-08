@@ -114,15 +114,17 @@ create_table_choices <- function(names) {
   return(c("Select a table ..." = "", unname(names)))
 }
 
-convert_codetable <- function(table) {
-  if (length(table) %% 4 != 0) {
+# convert the data in the hot input
+convert_hot_input_data <- function(data) {
+  data <- unlist(data)
+  if (length(data) %% 4 != 0) {
     warning("Internal error: length hot data not divisible by 4")
     return(NULL)
   } else if (length(table) == 0) {
     warning("Internal error: length hot data is 0")
     return(NULL)
   } else {
-    data <- matrix(table, ncol = 4, byrow = TRUE)
+    data <- matrix(data, ncol = 4, byrow = TRUE)
     colnames(data) <- c("Key", "Select", "Code", "Title")
     data <- as.data.table(data)
     data$Select <- as.logical(data$Select)

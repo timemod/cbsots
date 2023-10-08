@@ -2,15 +2,20 @@ rm(list = ls())
 library(shiny)
 library(cbsots)
 
-df <- data.frame(Key = c("A", "B", "C", "D", "E", "F"),
-                Select = c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE),
-                Code = c("p", "q", "r", "s", "t", "u"),
-                Title = c("Aap", "Noot", "Mies", "Centraal Planbureau", "Piet", "Klaas"))
-               
+df <- data.frame(
+  Key = c("A", "B", "C", "D", "E", "F"),
+  Select = c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE),
+  Code = c("p", "q", "r", "s", "t", "u"),
+  Title = c("Aap", "Noot", "Mies", "Centraal Planbureau", "Piet", "Klaas")
+)
+
 df_small <- df[1:2, ]
 
 df_error <- df
 df_error[3, "Key"] <- NA
+
+table_id <- "1NED"
+dimension <- "Topic"
 
 maak_app <- function() {
   ui <- fluidPage(
@@ -20,27 +25,39 @@ maak_app <- function() {
     actionButton("show_error_data", "Show data with error"),
     p(),
     icon("search"),
-    tags$input(type = "text", id = "search_field",
-                 placeholder = "Search ..."),
+    tags$input(
+      type = "text", id = "search_field",
+      placeholder = "Search ..."
+    ),
     tags$button(icon("caret-left"), id = "prev_button"),
-    tags$button(icon("caret-right"),  id = "next_button"),
+    tags$button(icon("caret-right"), id = "next_button"),
     p(),
     cbsots:::codetableOutput("hot")
   )
   server <- function(input, output, session) {
     session$onSessionEnded(shiny::stopApp)
     observeEvent(input$show_data, {
-      output$hot <- cbsots:::renderCodetable(cbsots:::codetable(df))  
+      output$hot <- cbsots:::renderCodetable(cbsots:::codetable(df,
+        table_id = table_id,
+        dimension = dimension
+      ))
     })
     observeEvent(input$show_small_data, {
-      output$hot <- cbsots:::renderCodetable(cbsots:::codetable(df_small))  
+      output$hot <- cbsots:::renderCodetable(cbsots:::codetable(df_small,
+        table_id = table_id,
+        dimension = dimension
+      ))
     })
     observeEvent(input$show_error_data, {
-      output$hot <- cbsots:::renderCodetable(cbsots:::codetable(df_error))  
+      output$hot <- cbsots:::renderCodetable(cbsots:::codetable(df_error,
+        table_id = table_id,
+        dimension = dimension
+      ))
     })
     observeEvent(input$hot, {
       cat("\nDe tabel is gewijzigd\n\n")
       print(input$hot)
+      hot <<- input$hot
     })
   }
   return(shinyApp(ui, server))

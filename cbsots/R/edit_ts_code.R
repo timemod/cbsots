@@ -215,7 +215,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     render_hot_table <- function() {
       tab_data <- values$ts_code[[values$table_id]]$codes[[values$dimension]]
-      output$hot <- renderCodetable(codetable(tab_data))
+      output$hot <- renderCodetable(codetable(tab_data,
+        table_id = values$table_id,
+        dimension = values$dimension
+      ))
       return(invisible())
     }
     
@@ -283,6 +286,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     # Reorder the table that is currently displayed.
     reorder_table <- function() {
       if (debug) cat("\nIn reorder_table\n")
+      # use a modal spinner to prevent any user input during reordering
       shinybusy::show_modal_spinner(text = "Reordering table")
       cbs_order <- values$table_order == CBS_ORDER
       if (order_ts_code(cbs_order)) {
@@ -474,22 +478,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     observeEvent(input$hot, {
       if (debug) cat("\nHot table data changed\n")
-      hot_data <- input$hot
-      if (is.null(hot_data)) {
-        shinyalert("Error", "Internal error: hot data not available")
-        return()
-      }
-      hot_data <- convert_codetable(input$hot)
-      if (is.null(hot_data)) {
-        shinyalert("Error", "Internal error: hot data not correct")
-        return()
-      }
-      
+      hot_input <- input$hot
       table_id <- values$table_id
       dim <- values$dimension
-      # TODO: store table_id and dimension is codetable widget and retrieve 
-      # them
-      
+      if (table_id !=  hot_input$table_id || dim != hot_input$dim) {
+        shinyalert("Error", 
+                   "Internal Error: table_id and dimension in hot table incorrect")
+        return()
+      }
+      hot_data <- convert_hot_input_data(hot_input$data)
+      if (is.null(hot_data)) {
+        shinyalert("Error", "Internal error: data in hot table not correct")
+        return()
+      }
       data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
       if (debug) {
         cat("table_id = ", table_id, "\n")

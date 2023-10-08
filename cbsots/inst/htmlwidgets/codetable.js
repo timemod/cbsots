@@ -12,6 +12,9 @@ HTMLWidgets.widget({
     const DEFAULT_CALLBACK = function(instance, row, col, data, testResult) {
               instance.getCellMeta(row, col).isSearchResult = testResult;
     };
+ 
+    var table_id;
+    var table_dim;
 
     var hot = new Handsontable(el, {
         rowHeaders: true,
@@ -51,7 +54,11 @@ HTMLWidgets.widget({
                 return;
             }
 	    if (HTMLWidgets.shinyMode) {
-               Shiny.setInputValue(el.id, hot.getData());
+               Shiny.setInputValue(el.id, {
+	               table_id: table_id,
+	               dimension: table_dim,
+		       data: hot.getData()
+	       });
             }
         },
         licenseKey: "non-commercial-and-evaluation"
@@ -245,6 +252,8 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
         hot.loadData(x.data);
+	table_id = x.table_id;
+	table_dim = x.dimension;
       },
 
       resize: function(width, height) {

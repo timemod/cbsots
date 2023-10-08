@@ -1,36 +1,39 @@
 #' @import htmlwidgets
-codetable <- function(data, width = NULL, height = NULL) {
+codetable <- function(tblcod, table_id, dimension, 
+                      width = NULL, height = NULL) {
   
-  if (is.null(data))  {
+  if (is.null(tblcod))  {
     
     # NOTE: errors in shinyWidgets constructors are turned into warnings,
     # and the error is shown in red at the position were the widget should
     # be rendered.
-    stop("Internal error: no data available")
+    stop("Internal error: no tblcod available")
     
-  } else if (ncol(data) < 4) {
+  } else if (ncol(tblcod) < 4) {
     
-    stop("Internal error: data has less than 4 columns")
+    stop("Internal error: tblcod has less than 4 columns")
     
     # TODO: also check column names and column types? 
     
   } else {
       
-    data <- data[, 1:4]
+    tblcod <- tblcod[, 1:4]
     
-    # Remove NA values in data$Code, sometimes there is an NA value in this 
+    # Remove NA values in tblcod$Code, sometimes there is an NA value in this 
     # column. It is not clear what causes this problem, but it may result
     # in serious problems.
-    data$Code[is.na(data$Code)] <- ""
+    tblcod$Code[is.na(tblcod$Code)] <- ""
   
-    if (any(is.na(data))) {
+    if (any(is.na(tblcod))) {
       # See the note about errors above.
-      stop("Internal error: data contains NA values")
+      stop("Internal error: tblcod contains NA values")
     }
   }
 
   x <- list(
-    data = jsonlite::toJSON(data, na = "string", rownames = FALSE)
+    data = jsonlite::toJSON(tblcod, na = "string", rownames = FALSE),
+    table_id = table_id,
+    dimension = dimension
   )
   
   # create widget
