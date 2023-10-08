@@ -83,6 +83,8 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
       }
       new_table_id <- get_table_id(new_table_desc)
       
+      removeModal()
+      
       # add new table
       tryCatch({
     
@@ -94,22 +96,25 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
         
         base_table_desc <-  input$new_table_base_desc
         if (base_table_desc != "") {
+          shinybusy::show_modal_spinner(text = "Fillling code with base table ...")
           base_table_id <- get_table_id(base_table_desc)
           base_table <- tscod()[[base_table_id]]
-          ret <- call_update_table(r_values$tblcod_new, base_table, new_table_id,
-                                   base_table_id)
+          ret <- perform_update_table(
+            tblcod_new, base_table,
+            table_id = new_table_id,
+            base_table_id = base_table_id
+          )
+          shinybusy::remove_modal_spinner()
           if (is.null(ret)) return()
-          tblcod_new <- ret$new_table
+          tblcod_new <- ret$table_code_upd
           if (length(ret$warnings) > 0) {
             r_values$tblcod_new_candidate <- tblcod_new
             showWarningsDialog(ret$warnings, NS(id, "warnings_ok"))
           } else {
             r_values$tblcod_new <- tblcod_new
-            removeModal()
           }
         } else {
           r_values$tblcod_new <- tblcod_new
-          removeModal()
         }
       }, error = function(e) {
         cat("error\n")

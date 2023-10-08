@@ -133,7 +133,8 @@ convert_codetable <- function(table) {
 # This function calls update_table and captures warnings. 
 # It returns a list containing the updated table and the captured warnings.
 #' @importFrom utils capture.output
-perform_update_table <- function(table_code_base, table_id, base_url) {
+perform_update_table <- function(table_code_base, table_id, 
+                                 base_table_id = table_id, base_url) {
   
   # create a new empty table_code object:
   table_code_new  <- table_code(table_id, base_url = base_url)
@@ -144,7 +145,7 @@ perform_update_table <- function(table_code_base, table_id, base_url) {
       withCallingHandlers(
         table_code_upd <- update_table(table_code_new, table_code_base, 
                                        table_id = table_id, 
-                                       old_table_id = table_id), 
+                                       old_table_id = base_table_id), 
         warning = function(w) {
           warnings <<- c(warnings, w$message)
         }
