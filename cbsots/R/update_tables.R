@@ -15,6 +15,10 @@
 #' @param ids ids of tables to be updated
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
+#' @examples
+#' \dontrun{
+#' update_tables(ts_code_example)
+#' }
 #' @export
 update_tables <- function(ts_code, ids, base_url = NULL) {
  
@@ -28,7 +32,7 @@ update_tables <- function(ts_code, ids, base_url = NULL) {
       stop(paste("Table", id, "not in list of tables"))
     }
     
-    new_table <- create_new_table(id, base_url)
+    new_table <- table_code(id, base_url)
     
     table <- update_table(new_table, table, id, id)
     

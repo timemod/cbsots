@@ -1,0 +1,85 @@
+updateAllTablesInput <- function(id, button_width) {
+  actionButton(NS(id, "update"), "Update All Tables",
+    style = sprintf("width: %s", button_width)
+  )
+}
+
+updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
+  moduleServer(id, function(input, ouput, servers) {
+    
+    r_values <- reactiveValues()
+    
+    observeEvent(table_present(), {
+      if (debug) {
+        cat("\nupdateAllTablesServer: table_present changed, new value: ", 
+          table_present(), "\n\n")
+      }
+      if (table_present()) {
+        shinyjs::enable("update")
+      } else {
+        shinyjs::disable("update")
+      }
+      return()
+    })
+    
+    observeEvent(input$update, {
+     if (debug) cat("\nupdateAllTablesServer: update button pressed\n\n")
+     showModal(modalDialog(
+       title = "Confirm",
+       HTML(paste0(
+         "Do you want to update all tables",
+         "<br>with recent table information on the CBS website?"
+       )),
+       footer = tagList(
+         modalButton("No"),
+         actionButton(NS(id, "update_all_tables_confirmed"), "Yes")
+       ),
+       easyClose = TRUE
+     ))
+   })
+    
+    observeEvent(input$update_all_tables_confirmed, {
+      if (debug) cat("\nUpdate all tables confirmed\n")
+      removeModal()
+      tscod_old <- tscod()
+      retval <- perform_update_all_tables(tscod_old, base_url = base_url,
+                                          debug = debug)
+      
+  
+      # Start a modal spinner, this is removed in edit_ts_code.R is al action
+      # is complete. This should prevent any user input until the update 
+      # is completely removed.
+      shinybusy::show_modal_spinner(text = "Processing update ...")
+      
+      tscod_upd <- retval$ts_code_upd
+      if (identical(tscod_upd, tscod_old)) {
+        if (debug) cat("All tables are already up to date, nothing to do")
+        shinybusy::remove_modal_spinner()
+        return()
+      }
+      warning_ids <- retval$warning_ids
+      if (length(warning_ids) > 0) {
+        r_values$tscod_upd_candidate <- tscod_upd
+        wmsg <- paste("For tables", paste(warning_ids, collapse = ", "),
+                      "some old keys do not match perfectly with new keys.\n",
+                      "Check the match reports in directory 'match_reports'.")
+        wmsg <- strwrap(wmsg, width = 80)
+        wmsg <- paste(wmsg, collapse = "\n")
+        shinybusy::remove_modal_spinner()
+        showWarningsDialog(wmsg, NS(id, "accept_warnings"))
+      } else {
+        r_values$tscod_upd <- tscod_upd
+      }
+      return()
+    })
+    
+    observeEvent(input$accept_warnings, {
+      if (debug) cat("\nupdateAllTablesServer: accept_warnings\n\n")
+      removeModal()
+      shinybusy::show_modal_spinner(text = "Processing update ...")
+      r_values$tscod_upd <- r_values$tscod_upd_candidate
+    })
+    
+    return(reactive(r_values$tscod_upd))
+  })   
+}

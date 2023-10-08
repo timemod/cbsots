@@ -33,7 +33,7 @@ fill_tables_from_table <- function(ts_code, ids,  base_id, base_url = NULL) {
     if (id %in% names(ts_code)) {
       table <- ts_code[[id]]
     } else {
-      table <- create_new_table(id, base_url)
+      table <- table_code(id, base_url)
       new_table_created <- TRUE
     }
     
@@ -46,7 +46,7 @@ fill_tables_from_table <- function(ts_code, ids,  base_id, base_url = NULL) {
   if (new_table_created) {
     # order tables alphabetically while keeping the class and package
     # version 
-    ts_code <- create_ts_code(ts_code[order(names(ts_code))])
+    ts_code <- new_ts_code(ts_code[order(names(ts_code))])
   }
   
   return(ts_code)

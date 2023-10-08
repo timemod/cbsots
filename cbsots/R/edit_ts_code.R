@@ -14,7 +14,7 @@
 #' The function tries to find the location of Chrome or FireFox and if the search
 #' is succesful then this browser is used. Otherwise an error is issued.
 #' @param debug a logical. If \code{TRUE}, then use the debugging mode
-#'  (only for developpers)
+#'  (only for developers)
 #' @param base_url optionally specify a different server. Useful for third party
 #' data services implementing the same protocol.
 #' @import shiny
@@ -22,7 +22,6 @@
 #' @importFrom utils packageVersion
 #' @importFrom utils packageName
 #' @importFrom shinyalert shinyalert
-#' @importFrom shinybusy show_modal_progress_line update_modal_progress 
 #' @importFrom shinybusy remove_modal_progress
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
@@ -33,24 +32,29 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     ts_code <- readRDS(ts_code_file)
     ts_code <- convert_ts_code(ts_code)
     
+    # Reorder all table_code objects in ts_code, to make sure that
+    # all tables are correctly ordered.
+    ts_code[] <- lapply(ts_code, FUN = order_table_code)
+    
     if (is.null(ts_code)) {
       stop(paste("File", ts_code_file, "does not contain a ts_code object"))
     }
     
   } else {
     
-    ts_code <- create_ts_code()
+    ts_code <- new_ts_code()
     
   }
   
-  CBS_ORDER <- "Original CBS order"
-  SELECTED_FIRST_ORDER <- "Selected first"
+  CBS_ORDER <- "Original CBS Order"
+  SELECTED_FIRST_ORDER <- "Selected First"
   
+  button_width <- "200px"
+
   # create a vector with table ids and a named vector with table descriptions
   if (length(ts_code) > 0) {
     table_ids <- names(ts_code)
-    short_titles <- sapply(ts_code, FUN = function(x) return(x$short_title))
-    table_descs <- get_table_description(table_ids, short_titles)
+    table_descs <- get_table_descs(ts_code)
   } else {
     table_ids <- character(0)
     table_descs  <- character(0)
@@ -59,61 +63,105 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   ui <- fluidPage(
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
     shinyjs::useShinyjs(),
-    headerPanel('CBS Timeseries Coding'),
+    headerPanel("CBS Timeseries Coding"),
     sidebarPanel(
       # the following tag is a workaround for a problem with the actionButton:
       # the button is still highlighted when clicked
       tags$script(HTML("
         $(document).ready(function() {
-          $('.btn').on('click', function(){$(this).blur()});
-        })
-        ")),
+        $('.btn').on('click', function(){$(this).blur()});
+       })
+      ")),
       h3("Open Existing Code Table"),
       "You can enter a search query in the text field below.",
       "When necessary, use Backspace to erase the text field.",
       p(),
-      selectInput("table_desc", label = NULL, 
-                  choices = create_table_choices(table_descs)),
+      selectInput("table_desc",
+        label = NULL,
+        choices = create_table_choices(table_descs)
+      ),
       p(),
-      h3("Create new code table"),
+      newTableInput(id = "new_table", button_width = button_width),
       p(),
-      actionButton("new_table", "New table"),
-      p(),
-      h3("Delete Code Table"),
-      actionButton("delete_table", "Delete table"),
+      deleteTableInput(id = "delete_table", button_width = button_width),
       p(),
       h3("Order Code Table"),
       "Select an order type below",
       "Press reorder to reorder after changing the table",
       p(),
       fluidRow(
-        column(5, selectInput("order_table", label = NULL,
-                              choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), 
-                              width = "100%")),
-        column(1, actionButton("reorder", "Reorder"), offset = 1)
+        column(5,
+          selectInput("table_order",
+            label = NULL,
+            choices = c(CBS_ORDER, SELECTED_FIRST_ORDER),
+            width = button_width
+          )
+        ),
+        column(1,
+          actionButton("reorder", "Reorder",
+            style = sprintf("width: %s", button_width)
+          ),
+          offset = 1
+        )
       ),
       p(),
       h3("Update Table(s)"),
       "Updated Keys and Titles with recent information on the CBS website",
       p(),
       fluidRow(
-        column(5, actionButton("update_table", "Update This Table")),
-        column(1, actionButton("update_all_tables", "Update All Tables"), 
-                               offset = 1),
+        column(5, updateTableInput(
+          id = "update_table",
+          button_width = button_width
+        )),
+        column(1, updateAllTablesInput(
+          id = "update_all_tables",
+          button_width = button_width
+        ), offset = 1),
       ),
-      h3("Save Code"), 
+      h3("Save Code"),
       paste("Save the Code to File", ts_code_file),
       p(),
-      actionButton("save", "Save Codes")
+      actionButton("save", "Save Codes",
+        style = sprintf("width: %s", button_width)
+      )
     ),
     mainPanel(
-      uiOutput('table_pane')
+      tabsetPanel(
+        id = "switcher",
+        type = "hidden",
+        tabPanelBody("empty", NULL),
+        tabPanelBody(
+          "tables",
+          htmlOutput("table_title"),
+          orderInput(
+            inputId = "dimension_order",
+            label = paste(
+              "Order of dimensions used to create",
+              "names (drag and drop items to",
+              "change order):"
+            ),
+            items = "dummy"
+          ),
+          p(),
+          icon("search"),
+          tags$input(
+            type = "text", id = "search_field",
+            placeholder = "Search ..."
+          ),
+          tags$button(icon("caret-left"), id = "prev_button"),
+          tags$button(icon("caret-right"), id = "next_button"),
+          p(),
+          uiOutput("dimension_tabsetpanel"),
+          codetableOutput("hot")
+        )
+      )
     )
   )
-  
   server <- function(input, output, session) {
     
     session$onSessionEnded(shiny::stopApp)
+    
+    table_present <- length(ts_code) > 0
     
     # register reactive values
     values <- reactiveValues(ts_code = ts_code, table_id = NA_character_,
@@ -122,10 +170,53 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                              table_descs = table_descs,
                              table_desc_stack = character(0),
                              table_open = FALSE,
-                             table_present = length(ts_code) > 0)
-    #
-    # local functions
-    #
+                             table_present = table_present,
+                             dimension = NA_character_,
+                             table_order = CBS_ORDER)
+    
+    # disable the reorder button
+    shinyjs::disable("reorder")
+  
+    tblcod_upd <- updateTableServer("update_table",
+     table_open = reactive(values$table_open),
+     tblcod = reactive(values$ts_code[[values$table_id]]),
+     table_id = reactive(values$table_id),
+     base_url = base_url,
+     debug = debug
+   )
+
+    tscod_upd <- updateAllTablesServer("update_all_tables",
+     table_present = reactive(values$table_present),
+     tscod = reactive(values$ts_code),
+     base_url = base_url,
+     debug = debug
+    )
+    
+    tblcod_new <- newTableServer("new_table",
+      table_descs = reactive(values$table_descs),
+      tscod = reactive(values$ts_code),
+      base_url = base_url,
+      debug = debug
+    )
+    
+    delete_table_id <- deleteTableServer("delete_table",
+      table_present = reactive(values$table_present),
+      table_descs = reactive(values$table_descs),
+      debug = debug
+    )
+
+    ############################################################################
+    # internal function in the server function
+    ##################s##########################################################
+    
+    render_hot_table <- function() {
+      tab_data <- values$ts_code[[values$table_id]]$codes[[values$dimension]]
+      output$hot <- renderCodetable(codetable(tab_data,
+        table_id = values$table_id,
+        dimension = values$dimension
+      ))
+      return(invisible())
+    }
     
     get_order_type <- function(dimension) {
       has_cbs_order <- values$ts_code[[values$table_id]]$cbs_key_order[[dimension]]
@@ -136,455 +227,458 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
     }
     
+    # Open a table. This function is called when a new table has been selected
+    # or when the selected table is updated with the update or update_all_tables
+    # button.
+    open_table <- function() {
+      if (debug) {
+        cat(sprintf("\nOpening table_id %s (function open_table()).\n", 
+                    values$table_id))
+      }
+      
+      output$table_title <- renderUI(HTML("<h3>Tabel", values$table_desc, 
+                                          "</h3>"))
+      
+      updateOrderInput(
+        session = getDefaultReactiveDomain(),
+        inputId = "dimension_order",
+        items = values$ts_code[[values$table_id]]$order
+      )
+      
+      dimensions <- get_dimensions(values$ts_code[[values$table_id]])
+      dimension <- dimensions[1]
+      
+      values$dimension <- dimension
+      
+      # create a tabsetpanel with empty panels
+      tabset_panel <- do.call(tabsetPanel, c(
+        list(id = "dimension"),
+        lapply(dimensions, FUN = tabPanel)
+      ))
+      output$dimension_tabsetpanel <- renderUI(tabset_panel)
+      
+      render_hot_table()   
+      
+      values$table_order <- get_order_type(dimension)
+      updateSelectInput(session, "table_order", 
+                        selected = values$table_order)
+      
+      if (debug) cat("The table has been opened\n\n")
+      
+      return(invisible())
+    }
+    
+    # Order the ts code for table value$table_id and dimension value$dimension
+    # Returns TRUE is the data has actually been reordered.
+    order_ts_code <- function(cbs_order) {
+      table_id <- values$table_id
+      dim <- values$dimension
+      code <- values$ts_code[[table_id]]$codes[[dim]]
+      code_ordered <- order_code_rows(code, cbs_order = cbs_order)
+      values$ts_code[[table_id]]$codes[[dim]] <- code_ordered
+      return(!identical(code$Key, code_ordered$Key))
+    }
+    
+    # Reorder the table that is currently displayed.
+    reorder_table <- function() {
+      if (debug) cat("\nIn reorder_table\n")
+      # use a modal spinner to prevent any user input during reordering
+      shinybusy::show_modal_spinner(text = "Reordering table")
+      cbs_order <- values$table_order == CBS_ORDER
+      if (order_ts_code(cbs_order)) {
+        render_hot_table()
+        if (debug) cat("The table has been reordered\n\n")
+      } else {
+        if (debug) cat("The table was already in correct ordering.\n\n")
+      }
+      shinybusy::remove_modal_spinner()
+      return(invisible())
+    }
+   
+    ############################################################################
+    # Observers 
+    ############################################################################
+    
+    observeEvent(values$table_open, {
+      if (debug) cat("\ntable_open modified. New value:", values$table_open, 
+                     "\n")
+      # Update different action buttons
+      if (values$table_open) {
+        shinyjs::enable("table_order")
+      } else {
+        shinyjs::disable("table_order")
+      }
+      if (values$table_open && values$table_order == SELECTED_FIRST_ORDER) {
+        shinyjs::enable("reorder")
+      } else {
+        shinyjs::disable("reorder")
+      }
+      
+      # make the panel with information of the table visible
+      selected <- if (values$table_open) "tables" else "empty"
+      updateTabsetPanel(inputId = "switcher", selected = selected)
+      
+    }, ignoreInit = TRUE)
+    
     observeEvent(input$table_desc, {
+      if (debug) {
+        cat("\nTable desc has changed:\n")
+        cat("input$table_desc:", input$table_desc, "\n")
+        cat("values$table_desc:", values$table_desc, "\n")
+      }
+      if (input$table_desc == "") {
+        cat("\nNo table selected, no action required\n")
+        return()
+      }
+      if (values$table_open && input$table_desc == values$table_desc) {
+        # This situation occurs when the table has been updated and the 
+        # short table title (and hence table_desc) has been modified.
+        # Do not do do anything in this case.
+        if (debug) {
+          cat("No action required because",
+              "input$table_desc == values$table_desc\n\n")
+        }
+        return()
+      }
       
       if (debug) {
-        cat(sprintf("table_desc event, table_desc = %s\n", input$table_desc))
+        cat(sprintf("\nA table has been selected, table_desc = %s\n", 
+                    input$table_desc))
       }
-      
-      if (input$table_desc == "") {
-        return()
-      }
-      
-      if (length(values$ts_code) == 0) {
-        output$table_pane <- renderUI({return(NULL)})
-        return(invisible(NULL))
-      }
-      
-      if (!is.na(values$table_id) && check_duplicates(session, values)) {
-        # There are duplicates in the current table. Select original table
-        # and return.
-        updateSelectInput(session, "table_desc", selected = values$table_desc)
-        return()
+
+      if (values$table_open) {
+        
+        if (check_duplicates(values$ts_code, values$table_id, 
+                             values$dimension)) {
+          # The user must first correct the duplicates, therefore do not 
+          # open the new table.
+          updateSelectInput(session, inputId = "table_desc",
+                            selected = values$table_desc)
+          return()
+        }
+        
+        # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
+        # (for CBS_ORDER the table is already in the correct order).
+        if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
       }
       
       new_table_id <- get_table_id(input$table_desc)
-
       if (debug) {
-        cat(sprintf("Opening table with id = %s\n", new_table_id))
-      }
-      
-      if (!is.na(values$table_id)) {
-        # save ordering current table
-        values$ts_code[[values$table_id]]$order <- input$order_input
+        cat(sprintf("\nOpening table with id = %s\n\n", new_table_id))
       }
       
       values$table_id <- new_table_id
       values$table_desc <- values$table_descs[new_table_id]
-      values$tab_names <- names(values$ts_code[[new_table_id]]$codes)
       values$table_open <- TRUE
    
-      open_table(values, input, output, debug = debug)
-      
-      updateSelectInput(session, "order_table", selected = get_order_type(1))
-    
-    })  # table_description_event
-    
-    observeEvent(values$table_open, {
-      if (debug) cat("table_open modified. New value:", values$table_open, 
-                     "\n")
-      input_ids <- c("update_table", "order_table", "reorder")
-      if (values$table_open) {
-        fun <- shinyjs::enable
-      } else {
-        fun <- shinyjs::disable
-      }
-      invisible(lapply(input_ids, FUN = fun))
-      return()
-    })
-    
-    observeEvent(values$table_present, {
-      if (debug) cat("table_present modified. New value:", values$table_present, 
-                     "\n")
-      input_ids <- c("update_all_tables", "delete_table")
-      if (values$table_present) {
-        fun <- shinyjs::enable
-      } else {
-        fun <- shinyjs::disable
-      }
-      invisible(lapply(input_ids, FUN = fun))
-      return()
-    })
-    
-    observeEvent(input$new_table, {
-      
-      new_table_descs <- get_new_table_descs(values$table_ids, base_url)
-      
-      if (is.null(new_table_descs)) {
-        shinyalert("Error", "Error downloading list of tables" , type = "error")
-      } else {
-        values$new_table_descs <- new_table_descs
-        showModal(select_new_table_dialog(new_table_descs, values$table_descs))
-      } 
-    })
-    
-    observeEvent(input$new_table_ok, {
-      
-      new_table_desc <- input$new_table_desc
-      if (new_table_desc == "") {
-        return()
-      }
-      new_table_id <- get_table_id(new_table_desc)
-      new_table_desc <- values$new_table_descs[new_table_id]
-      
-      # add new table
-      tryCatch({
-        
-        values$new_table <- create_new_table(new_table_id, base_url)
-        values$new_table_id <- new_table_id
-        values$new_table_desc <- new_table_desc
+      open_table()
   
-        base_table_desc <-  input$new_table_base_desc
-        if (base_table_desc != "") {
-          base_table_id <- get_table_id(base_table_desc)
-          base_table <- values$ts_code[[base_table_id]]
-          ret <- call_update_table(values$new_table, base_table, new_table_id,
-                                   base_table_id)
-          if (is.null(ret)) return()
-          values$new_table <- ret$new_table
-          if (length(ret$warnings) > 0) {
-            showWarningsDialog(ret$warnings, "filled_table_ok")
-          } else {
-            insert_new_table()
-            removeModal()
-          }
-        } else {
-          insert_new_table()
-          removeModal()
-        }
-      }, error = function(e) {
-        cat("error\n")
-        print(e)
-        shinyalert("Error", paste("Error while downloading table", 
-                                  new_table_id) , 
-                   type = "error")
-      })
-    })
+    }, ignoreInit = TRUE)  # table_description_event
     
-    insert_new_table <- function() {
-      
+    observeEvent(input$dimension, {
+      if (values$dimension == input$dimension) return()
       if (debug) {
-        cat(sprintf("In function insert_new_table, new_table_id = %s.\n",
-                    values$new_table_id))
+        cat(sprintf("\nSelected dimension changed for table %s:\n", 
+                    values$table_id))
+        cat("input$dimension:", input$dimension, "\n")
+        cat("values$dimension:", values$dimension, "\n\n")
       }
       
-      values$table_ids <- c(values$table_ids, values$new_table_id)
-      values$table_descs[values$new_table_id] <- values$new_table_desc
-      values$ts_code[[values$new_table_id]]  <- values$new_table
-     
-      # reorder the tables alphabetically 
-      ord <- order(values$table_ids)
-      # use create_ts_code, because otherwise the attributes (class and 
-      # package version) are lost.
-      values$ts_code <- create_ts_code(values$ts_code[ord])
-      values$table_ids <- values$table_ids[ord]
-      values$table_descs <- values$table_descs[values$table_ids]
-      values$table_present <- TRUE
-      
-      updateSelectInput(session, inputId = "table_desc",
-                        choices = create_table_choices(values$table_descs), 
-                        selected = values$new_table_desc)
-    }
-    
-    observeEvent(input$filled_table_ok, {
-      insert_new_table()
-      removeModal()
-    })
-    
-    observeEvent(input$delete_table, {
-      
-      if (length(values$ts_code) == 0) {
-        showModal(modalDialog(
-          title = "No tables to delete", "There are no tables to delete",
-          easyClose = TRUE)) 
-      } else {
-        showModal(select_table_dialog("delete_table", "Delete Table", 
-                                      values$table_descs))
-      }
-    })
-    
-    observeEvent(input$delete_table_ok, {
-      
-      delete_table_desc <- input$delete_table_desc
-      if (delete_table_desc == "") {
-        return()
-      }
-      delete_table_id <- get_table_id(delete_table_desc)
-      delete_table_desc <- values$table_descs[delete_table_id]
-      values$delete_table_id <- delete_table_id
-      
-      showModal(modalDialog(
-        title = "Confirm",
-        HTML(paste0("Table \"", delete_table_desc, 
-                    "\" will be permanently deleted",
-                    "<br>Are you sure?")),
-        footer = tagList(
-          modalButton("No"),
-          actionButton("delete_table_confirmed", "Yes")
-        ),
-        easyClose = TRUE
-      ))
-    })
-    
-    observeEvent(input$delete_table_confirmed, {
-      
-      values$ts_code[[values$delete_table_id]] <- NULL
-      
-      # update table_ids
-      idx <- pmatch(values$delete_table_id, values$table_ids)
-      values$table_ids <- values$table_ids[-idx]
-      values$table_descs <- values$table_descs[values$table_ids]
-      
-      choices <- create_table_choices(values$table_descs)                 
-      
-      if (is.na(values$table_id) || values$delete_table_id == values$table_id) {
-        updateSelectInput(session, inputId = "table_desc", choices = choices)
-        output$table_pane <- renderUI({return(NULL)})
-        values$table_id <- NA_character_
-        values$table_open <- FALSE
-        selected <- NULL
-      } else {
-        selected <- values$table_desc
-      }
-      updateSelectInput(session, inputId = "table_desc", choices = choices,
-                        selected = selected)
-      
-      values$table_present <- length(values$ts_code) > 0
-      removeModal()
-    })
-    
-    observeEvent(input$update_table, {
-      table_id <- values$table_id
-      if (!is.na(table_id)) {
-        showModal(modalDialog(
-          title = "Confirm",
-          HTML(paste0("Do you want to update \"", table_id, "\"",
-                      "<br>with recent table information on the CBS website?")),
-          footer = tagList(
-            modalButton("No"),
-            actionButton("update_table_confirmed", "Yes")
-          ),
-          easyClose = TRUE
-        ))
-      }
-    })
-  
-    observeEvent(input$update_table_confirmed, {
-      removeModal()
-      id <- values$table_id
-      if (!is.na(id)) {
-        new_table <- create_new_table(id, base_url)
-        ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
-        if (is.null(ret)) return() # something went wrong
-        if (length(ret$warnings) > 0) {
-          values$update_table_result <- ret$new_table
-          showWarningsDialog(ret$warnings, "update_table_ok")
-        } else {
-          update_table(ret$new_table)
-        }
-      }
-    })
-    
-    update_table <- function(update_table_result) {
-      if (debug) cat("in insert_update_table\n")
-      values$ts_code[[values$table_id]] <- update_table_result
-      open_table(values, input, output, selected_tab = input$tabsetpanel, 
-                 debug = debug)
-    }
-    
-    observeEvent(input$update_table_ok, {
-      removeModal()
-      update_table(values$update_table_result)
-    })
-    
-    observeEvent(input$update_all_tables, {
-      if (length(values$ts_code) > 0) {
-        showModal(modalDialog(
-          title = "Confirm",
-          HTML(paste0("Do you want to update all tables",
-                      "<br>with recent table information on the CBS website?")),
-          footer = tagList(
-            modalButton("No"),
-            actionButton("update_all_tables_confirmed", "Yes")
-          ),
-          easyClose = TRUE
-        ))
-      }
-    })
-    
-    observeEvent(input$update_all_tables_confirmed, {
-      if (debug) cat("Update all tables confirmed\n")
-      ids <- names(values$ts_code)
-      n_ids <- length(ids)
-      removeModal()
-      show_modal_progress_line(text = "Updating tables")
-      i <- 0
-      update_single_table <- function(id) {
-        if (debug) cat("updating table ..", id, "\n")
-        new_table <- create_new_table(id, base_url)
-        ret <- call_update_table(new_table, values$ts_code[[id]], id, id)
-        ret$has_warning <- length(ret$warnings) > 0
-        ret$warnings <- NULL
-        i <<- i + 1
-        update_modal_progress(i / n_ids)
-        return(ret)
-      }
-      update_all_tables_result <- sapply(names(values$ts_code), 
-                                         FUN = update_single_table,
-                                         simplify = FALSE)
-      has_warning <- sapply(update_all_tables_result, 
-                            FUN = function(x) return(x$has_warning))
-      warning_ids <- names(has_warning[has_warning])
-      remove_modal_progress()
-      if (length(warning_ids) > 0) {
-        values$update_all_tables_result <- update_all_tables_result
-        wmsg <- paste("For tables", paste(warning_ids, collapse = ", "),
-                      "some old keys do not match perfectly with new keys.\n",
-                      "Check the match reports in directory 'match_reports'.")
-        wmsg <- strwrap(wmsg, width = 80)
-        wmsg <- paste(wmsg, collapse = "\n")
-        showWarningsDialog(wmsg, "update_all_tables_ok")
-      } else {
-        update_all_tables(update_all_tables_result)
-      }
-      return()
-    })
-    
-    observeEvent(input$update_all_tables_ok, {
-      if (debug) cat("Update all tables ok\n")
-      removeModal()
-      update_all_tables(values$update_all_tables_result)
-    })
-    
-    update_all_tables <- function(update_all_tables_result) {
-      new_ts_code <- sapply(update_all_tables_result,
-                            FUN = function(x) return(x$new_table),
-                            simplify = FALSE)
-      values$ts_code <- create_ts_code(new_ts_code)
-      if (!is.na(values$table_id)) {
-        # reopen the table which has been updated
-        open_table(values, input, output, debug = debug)
-      }
-    }
-    
-    observeEvent(input$tabsetpanel, {
-      
-      # a new tab has been selected
-    
-      if (debug) cat(sprintf("tab selection changed, new selected tab =  %s.\n", 
-                         input$tabsetpanel))
-      
-      # first clean all tabs, the table for the selected tab will be recreated.
-      make_empty_table <- function(name) {
-        hot_id <- get_hot_id(values$table_id, name)
-        output[[hot_id]] <- NULL
-        return()
-      }
-      lapply(values$tab_names, FUN = make_empty_table)
-    
-      name <- input$tabsetpanel
-      
-      # Update the order_table input if necessary, and reorder the table if
-      # the table is ordered with SELECTED_FIRST_ORDER
-      current_type <- get_order_type(name)
-      if (input$order_table != current_type) {
-        # Update the select input for order_table. Note that this will also 
-        # cause an "order_table" event, so that funtion reorder_table() will be 
-        # called. If current_type == SELECTED_FIRST_ORDER then the table will
-        # actually be reordered.
-        updateSelectInput(session, "order_table", selected = current_type)
-      } else if (current_type == SELECTED_FIRST_ORDER) {
-        reorder_table()
-      }
-      
-      # When a new tab has been selected, we want to re-render the table, 
-      # because sometimes handsontable does not render the table correctly when 
-      # the tab selection changes. 
-      # If current_type == SELECTED_ORDER, then the tables have already been 
-      # re-rendered by function reorder_table() (see code above).
-      if (current_type != SELECTED_FIRST_ORDER) {
-        tab <- values$ts_code[[values$table_id]]$codes[[name]]
-        hot_id <- get_hot_id(values$table_id, name)
-        output[[hot_id]] <- renderCodetable(codetable(tab))
-      }
-    })
-  
-    # Reorder the table in the current tab
-    reorder_table <- function() {
-
-      name <- input$tabsetpanel
-      if (is.null(name)) {
-        # this happens when the app starts
+      if (check_duplicates(values$ts_code, values$table_id, 
+                           values$dimension)) {
+        # There are duplicates in the code of the current table, which 
+        # the user must correct first. Select original tab and return
+        updateTabsetPanel(session, "dimension", selected = values$dimension)
         return()
       }
       
-      new_type <- input$order_table
-      current_type <- get_order_type(name)
-      if (current_type != new_type || new_type == SELECTED_FIRST_ORDER) {
-        # for the SELECTED_FIRST_ORDER we always want to reorder since the
-        # selection may have changed. This is not necessary for CBS_ORDER.
-        hot_id <- get_hot_id(values$table_id, name)        
-        if (debug) cat(sprintf("Reordering table %s.\n", hot_id))
-        tab <- values$ts_code[[values$table_id]]$codes[[name]]
-        tab <- order_code_rows(tab, cbs_order = new_type == CBS_ORDER)
-        values$ts_code[[values$table_id]]$codes[[name]] <- tab
-        output[[hot_id]] <- renderCodetable(codetable(tab))
+      # Reorder for the table that is currently open, this is only necessary 
+      # for SELECTED_FIRST_ORDER (for CBS_ORDER the table is already in the 
+      # correct order).
+      if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
+      
+      # now open table for a new dimension
+      dimension <- input$dimension
+      values$dimension <- dimension
+      render_hot_table()
+      values$table_order <- get_order_type(dimension)
+      updateSelectInput(session, "table_order", selected = values$table_order)
+    })
+    
+    observeEvent(input$table_order, {
+      if (input$table_order == values$table_order) return()
+      if (debug) {
+        cat(sprintf("\nThe table order has been modified (dimension = %s).\n", 
+                    values$dimension))
       }
       
-      return()
-    }
-    
-    
-    observeEvent(input$order_table, {
+      values$table_order <- input$table_order 
       
-      if (debug) cat(sprintf("order_table event (tab = %s).\n", 
-                             input$tabsetpanel))
-      
-      name <- input$tabsetpanel
-      if (is.null(name)) {
-        # this happens when the app starts
-        return()
-      }
-      
-      # first reorder table
       reorder_table()
       
-      # and then update cbs_key_order
-      values$ts_code[[values$table_id]]$cbs_key_order[[name]] <- 
-                                             input$order_table == CBS_ORDER
+      # update cbs_key_order
+      values$ts_code[[values$table_id]]$cbs_key_order[[values$dimension]] <-
+        input$table_order == CBS_ORDER
       
       if (debug) {
         cat("Updating cbs_key_order, new value = \n")
         print(values$ts_code[[values$table_id]]$cbs_key_order)
+        cat("\n\n")
       }
-
-    })
+      
+      # update reorder button
+      if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
+        shinyjs::enable("reorder")
+      } else {
+        shinyjs::disable("reorder")
+      }      
+    }, ignoreInit = TRUE)
+    
+    observeEvent(input$dimension_order, {
+      if (debug) {
+        cat(sprintf("\nDimension order has changed, new value: %s\n\n",
+                    paste(input$dimension_order, collapse = ", ")))     
+      }
+      if (!identical(sort(input$dimension_order), 
+                     sort(values$ts_code[[values$table_id]]$order))) {
+        shinyalert("Error", "Internal Error: dimension_order not correct")
+        return()
+      }
+      values$ts_code[[values$table_id]]$order <- input$dimension_order
+    }, ignoreInit = TRUE)
     
     observeEvent(input$reorder, {
-      if (debug) cat(sprintf("reorder event (tab = %s).\n", input$tabsetpanel))
+      if (debug) cat(sprintf("\nReorder button pressed (dimension = %s).\n", 
+                             values$dimension))
       reorder_table()
     })
     
     observeEvent(input$save, {
+      if (debug) cat("\nSave button pressed\n")
       
-      if (check_duplicates(session, values)) return()
+      if (values$table_open) {
+        if (input$table_order == SELECTED_FIRST_ORDER) reorder_table()
+
+        if (check_duplicates(values$ts_code, values$table_id, 
+                             values$dimension)) return()
+      }
+    
+      saveRDS(values$ts_code, file = ts_code_file)
       
-      # reorder the table in the current tab
-      reorder_table()
-      
-      # save ordering  
-      values$ts_code[[values$table_id]]$order <- input$order_input
       if (debug) {
-        cat("saving ts_code\n")
+        cat("ts_code:\n")
         print(values$ts_code)
+        cat("\nsaved to ", ts_code_file, "\n\n")
+      }
+    })
+    
+    observeEvent(input$hot, {
+      if (debug) cat("\nHot table data changed\n")
+      hot_input <- input$hot
+      table_id <- values$table_id
+      dim <- values$dimension
+      if (table_id !=  hot_input$table_id || dim != hot_input$dim) {
+        shinyalert("Error", 
+                   "Internal Error: table_id and dimension in hot table incorrect")
+        return()
+      }
+      hot_data <- convert_hot_input_data(hot_input$data)
+      if (is.null(hot_data)) {
+        shinyalert("Error", "Internal error: data in hot table not correct")
+        return()
+      }
+      data_old <- values$ts_code[[table_id]]$codes[[dim]][, 1:4]
+      if (debug) {
+        cat("table_id = ", table_id, "\n")
+        cat("dimension = ", dim, "\n")
+        cat("old values:\n")
+        print(head(data_old[, 1:3]))
+        cat("\nNew values:\n")
+        print(head(hot_data[, 1:3]))
       }
       
-      saveRDS(values$ts_code, file = ts_code_file)
+      # check hot data
+      if (!identical(data_old$Key, hot_data$Key) ||
+          !identical(data_old$Title, hot_data$Title)) {
+        shinyalert("Error", "Internal Error: hot data not correct")
+        return()
+      }
+      
+      # Store hot data in values$ts_code
+      values$ts_code[[table_id]]$codes[[dim]][, 1:4] <- hot_data[, 1:4]
+      
+      if (debug) cat("ts_code has been updated with hot data\n\n")
+    })
+    
+    ############################################################################
+    # Observers for adding a new table or deleting a table
+    ############################################################################
+   
+    observeEvent(tblcod_new(), {
+      tblcod_new <- tblcod_new()
+      table_id_new <- tblcod_new$id
+      if (debug) {
+        cat(sprintf("\nA new table has been selected, new table = %s\n",
+                    table_id_new))
+        #print(tscod_new)
+      }
+      
+      table_ids_new <- c(values$table_ids, table_id_new)
+      table_desc_new <- get_table_description(table_id_new,
+        tblcod_new$short_title)
+      
+      table_descs_new <- values$table_descs
+      table_descs_new[table_id_new] <- table_desc_new
+      
+      values$ts_code[[table_id_new]]  <- tblcod_new
+      
+      # sort the table ids alphabetically: 
+      table_ids_new <- sort(table_ids_new)
+      table_descs_new <- table_descs_new[table_ids_new]
+      # use new_ts_code, because otherwise the attributes (class and 
+      # package version) are lost.
+      values$ts_code <- new_ts_code(values$ts_code[table_ids_new])
+      values$table_ids <- table_ids_new
+      values$table_descs <- table_descs_new
+      values$table_present <- TRUE
+      updateSelectInput(session,
+        inputId = "table_desc",
+        choices = create_table_choices(values$table_descs),
+        selected = table_desc_new
+      )
+      
+      shinybusy::remove_modal_spinner()
+    })
+   
+    observeEvent(delete_table_id(), {
+      if (debug) cat(sprintf("\nDeleting table %s\n\n", delete_table_id()))
+      
+      delete_id <- delete_table_id()
+      values$ts_code[[delete_id]] <- NULL
+      
+      # update table_ids
+      idx <- match(delete_id, values$table_ids)
+      values$table_ids <- values$table_ids[-idx]
+      values$table_descs <- values$table_descs[values$table_ids]
+      
+      if (values$table_open && delete_id == values$table_id) {
+        values$table_id <- NA_character_
+        values$table_desc <- NA_character_
+        values$dimension <- NA_character_
+        values$table_open <- FALSE
+        values$table_order <- CBS_ORDER
+      }
+
+      # update table inputs
+      selected <- if (values$table_open) values$table_desc else NULL
+      updateSelectInput(session, inputId = "table_desc", 
+                        choices = create_table_choices(values$table_descs),
+                        selected = selected)
+    
+      values$table_present <- length(values$ts_code) > 0
+      
+      removeModal()
+    })
+    
+    ############################################################################
+    # Observers for updating the selected table or all tables.
+    ############################################################################
+    
+    observeEvent(tblcod_upd(), {
+      table_code_upd <- tblcod_upd()
+      table_id <- table_code_upd$id
+      if (debug) {
+        cat(sprintf("\nUpdate voor tabel %s\n", table_id, "\n\n"))
+        #print(table_code_upd)
+      }
+
+      # TODO: check table_id == values$table_id? based on data in the
+      # javascript object?
+      
+      # Save the original short title
+      short_title_old <- values$ts_code[[table_id]]$short_title
+      
+      # Update ts_code
+      values$ts_code[[table_id]] <- table_code_upd
+      
+      # Handle change of short table title
+      short_title_new <-  table_code_upd$short_title
+      if (short_title_old != short_title_new) {
+        new_table_desc <- get_table_description(values$table_id, 
+                                                short_title_new)
+        if (debug) cat("Table description has changed: ", new_table_desc, "\n")
+        values$table_descs[values$table_id] <- new_table_desc
+        # The following statement is essential: if prevents that 
+        # action is taken in the observer for input$table_desc:
+        values$table_desc <- new_table_desc
+        updateSelectInput(session, inputId = "table_desc",
+                          choices = create_table_choices(values$table_descs), 
+                          selected = new_table_desc)
+      }
+      
+      # now open the table
+      open_table()
+      
+      if (debug) cat("\n")
+      
+      shinybusy::remove_modal_spinner()
+      
+      return(invisible())
+    })
+    
+    observeEvent(tscod_upd(), {
+      if (debug) {
+        cat("\nUpdate for all tables\n\n")
+      }
+      
+      ts_code_upd <- tscod_upd()
+      
+      # First check if data in the open table has been modified
+      if (values$table_open) {
+        table_code_old <- values$ts_code[[values$table_id]]
+        table_code_new <- ts_code_upd[[values$table_id]]
+        open_table_modified <- !identical(table_code_old, table_code_new)
+      } else {
+        open_table_modified <- FALSE
+      }
+      
+      # Update ts_code for all tables
+      values$ts_code <- ts_code_upd
+      
+      # Check if table_descs have been modified
+      table_descs_new <- get_table_descs(ts_code_upd)
+      if (!identical(values$table_descs, table_descs_new)) {
+        if (debug) cat("Table descriptions have changed.\n")
+        values$table_descs <- table_descs_new
+        if (values$table_open) {
+          selected <- values$table_desc
+          # The following statement is essential: if prevents that 
+          # action is taken in the observer for input$table_desc:
+          values$table_desc <- table_descs_new[values$table_id]
+        } else {
+          selected <- NULL
+        }
+        updateSelectInput(session,
+          inputId = "table_desc",
+          choices = create_table_choices(values$table_descs),
+          selected = selected
+        )
+      }
+      
+      if (open_table_modified) {
+        if (debug) cat("Data for table", values$table_id, " updated.\n")
+        open_table()
+      }
+      
+      if (debug) cat("\n")
+      
+      shinybusy::remove_modal_spinner()
+      
+      return(invisible())
     })
   }
   
   app_list <- list(ui = ui, server = server)
-  
   
   if (use_browser) {
     old_browser <- options("browser")
@@ -598,36 +692,5 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     runApp(app_list)
   }
   
-  
   return(invisible(NULL))
-}
-
-
-find_browser <- function(browser) {
-  
-  if (!missing(browser)) {
-    if (browser == "default") {
-      return(options("browser")$browser)
-    } else if (!file.exists(browser)) {
-      stop(sprintf("Executable %s does not exist.\n", browser))
-    }
-  }
-    
-  if (.Platform$OS.type != "windows") {
-    return(options("browser")$browser)
-  } else {
-    paths <- c("C:/progs/Google/Chrome/Application/chrome.exe",
-               "D:/progs/Google/Chrome/Application/chrome.exe",
-               "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
-               "c:/Program Files/Mozilla Firefox/firefox.exe")
-               
-    for (path in paths) {
-      if (file.exists(path)) {
-        return(path)
-      }
-    }
-    stop("Unable to find Chrome or FireFox on Windows.\n",
-         "Use argument use_browser = FALSE or specify the path of the",
-         " browser with argument browser.")
-  }
 }

@@ -25,7 +25,7 @@ The function tries to find the location of Chrome or FireFox and if the search
 is succesful then this browser is used. Otherwise an error is issued.}
 
 \item{debug}{a logical. If \code{TRUE}, then use the debugging mode
-(only for developpers)}
+(only for developers)}
 
 \item{base_url}{optionally specify a different server. Useful for third party
 data services implementing the same protocol.}

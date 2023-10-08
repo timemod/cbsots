@@ -1,0 +1,145 @@
+newTableInput <- function(id, button_width) {
+  tagList(
+    h3("Create new code table"),
+    p(),
+    actionButton(NS(id, "new_table"), "New Table",
+      style = sprintf("width: %s", button_width))
+  )
+}
+
+newTableServer <- function(id, table_descs, tscod, base_url, debug) {
+  
+  # Function that creates a dialog asking for a table and an optional base table.
+  select_new_table_dialog <- function(table_descriptions, 
+                                      base_table_descriptions) {
+    
+    choices <- create_table_choices(table_descriptions)
+    base_table_choices <- c("Do not use base table" = "", 
+                            base_table_descriptions)
+    
+    dialog <- modalDialog(
+      h3("New Table"),
+      "You can enter a search query in the text field below.",
+      "When necessary, use Backspace to erase the text field.",
+      selectizeInput(NS(id, "new_table_desc"), label = "",
+                     choices = NULL, width = "200%"),
+      p(),
+      "Optionally specify an existing table (the \"base table\") used to fill in",
+      "the new table. Leave the text field empty to create an empty new table.",
+      "When necessary, use Backspace to erase the text field.",
+      selectizeInput(NS(id, "new_table_base_desc"), label = "",
+                     choices = NULL, width = "200%"),
+      p(),
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton(NS(id, "new_table_ok"), "OK")
+      ),
+      easyClose = TRUE
+    )
+    
+    updateSelectizeInput(
+      inputId = "new_table_desc", choices = choices,
+      options = list(maxOptions = length(choices)),
+      server = TRUE
+    )
+
+    updateSelectizeInput(
+      inputId = "new_table_base_desc",
+      choices = base_table_choices,
+      options = list(
+        maxOptions =
+          length(base_table_choices)
+      ),
+      server = TRUE
+    )
+
+    return(dialog)
+  }
+  
+  moduleServer(id, function(input, ouput, servers) {
+    
+    r_values <- reactiveValues()
+    
+    observeEvent(input$new_table, {
+      if (debug) cat("\nnewTableServer: new table button pressed\n")
+      old_table_descs <- table_descs()
+      old_table_ids <- names(old_table_descs)
+      print(old_table_ids)
+      
+      shinybusy::show_modal_spinner(text = "Downloading list of tables ...")
+      new_table_descs <- get_new_table_descs(old_table_ids, base_url)
+      shinybusy::remove_modal_spinner()
+      
+      if (is.null(new_table_descs)) {
+        shinyalert("Error", "Error downloading list of tables" , type = "error")
+      } else {
+        showModal(select_new_table_dialog(new_table_descs, table_descs()))
+      } 
+    })
+    
+    observeEvent(input$new_table_ok, {
+      new_table_desc <- input$new_table_desc
+      if (new_table_desc == "") {
+        return()
+      }
+      new_table_id <- get_table_id(new_table_desc)
+      
+      removeModal()
+      
+      # add new table
+      tryCatch({
+    
+        shinybusy::show_modal_spinner(text = "Downloading table ...")
+        tblcod_new <- table_code(new_table_id, base_url)
+        shinybusy::remove_modal_spinner()
+        
+        # Start a modal spinner, this is removed in edit_ts_code.R is al action
+        # is complete. This should prevent any user input until the update 
+        # is completely removed.
+        shinybusy::show_modal_spinner(text = "Processing new table ...")
+        
+        # check if there is a base table
+        
+        base_table_desc <-  input$new_table_base_desc
+        if (base_table_desc != "") {
+          base_table_id <- get_table_id(base_table_desc)
+          base_table <- tscod()[[base_table_id]]
+          ret <- perform_update_table(
+            tblcod_new, base_table,
+            table_id = new_table_id,
+            base_table_id = base_table_id
+          )
+          if (is.null(ret)) {
+            shinybusy::remove_modal_spinner()
+            return()
+          }
+          tblcod_new <- ret$table_code_upd
+          if (length(ret$warnings) > 0) {
+            r_values$tblcod_new_candidate <- tblcod_new
+            shinybusy::remove_modal_spinner()
+            showWarningsDialog(ret$warnings, NS(id, "warnings_ok"))
+          } else {
+            r_values$tblcod_new <- tblcod_new
+          }
+        } else {
+          r_values$tblcod_new <- tblcod_new
+        }
+      }, error = function(e) {
+        cat("error\n")
+        print(e)
+        shinyalert("Error", paste("Error while downloading table", 
+                                  new_table_id) , 
+                   type = "error")
+      })
+    })
+    
+    observeEvent(input$warnings_ok, {
+      shinybusy::show_modal_spinner(text = "Processing new table ...")
+      r_values$tblcod_new <- r_values$tblcod_new_candidate
+      removeModal()
+    })
+    
+    
+    return(reactive(r_values$tblcod_new))
+  })   
+}

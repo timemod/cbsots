@@ -53,32 +53,3 @@ check_min_year <- function(min_year, period_key_info) {
   }
   return(invisible())
 }
-
-
-order_code_rows <- function(code,  cbs_order) {
-
-  orig_key_order <- code$OrigKeyOrder
-  
-  if (cbs_order) {
-    
-    required_order <- orig_key_order
-    
-  } else {
-    
-    # selected rows first
-    selected <- code$Key[code$Select]
-    not_selected <- code$Key[!code$Select]
-    selected_ordered <- selected[match(intersect(orig_key_order, selected),
-                                       selected)]
-    not_selected_ordered <- not_selected[match(intersect(orig_key_order, 
-                                                         not_selected), 
-                                               not_selected)]
-    required_order <- c(selected_ordered, not_selected_ordered) 
-  }
-  
-  order <-  match(required_order, code$Key)
-  
-  code[ , 1:4] <- code[order, 1:4]
-  
-  return(code)
-}

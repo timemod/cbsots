@@ -1,50 +1,50 @@
 #' @import htmlwidgets
-codetable <- function(data, width = NULL, height = NULL) {
-
-  if (is.null(data))  {
-    data <- as.data.frame("Internal error: no data available")
+codetable <- function(tblcod, table_id, dimension, 
+                      width = NULL, height = NULL) {
+  
+  if (is.null(tblcod))  {
+    
+    # NOTE: errors in shinyWidgets constructors are turned into warnings,
+    # and the error is shown in red at the position were the widget should
+    # be rendered.
+    stop("Internal error: no tblcod available")
+    
+  } else if (!identical(colnames(tblcod)[1:4], 
+                        c("Key", "Select", "Code", "Title"))) {
+    
   } else {
       
-    data <- data[ , 1:4]
+    tblcod <- tblcod[, 1:4]
     
-    # remove NA values in data$Code, sometimes there is an NA value in this 
-    # column. It is not clear what caused that problem, but is may result
-    # is serious problems
-    data$Code[is.na(data$Code)] <- ""
+    # Remove NA values in tblcod$Code, sometimes there is an NA value in this 
+    # column. It is not clear what causes this problem, but it may result
+    # in serious problems.
+    tblcod$Code[is.na(tblcod$Code)] <- ""
   
-    if (any(is.na(data))) {
-      stop("Internal error in codetable... data contains NA values")
+    if (any(is.na(tblcod))) {
+      # See the note about errors above.
+      stop("Internal error: tblcod contains NA values")
     }
   }
-  
+
   x <- list(
-    data = jsonlite::toJSON(data, na = "string", rownames = FALSE)
+    data = jsonlite::toJSON(tblcod, na = "string", rownames = FALSE),
+    table_id = table_id,
+    dimension = dimension
   )
   
-
   # create widget
-  htmlwidgets::createWidget(
-    name = 'codetable', x, width = width, height = height, package = 'cbsots',
-    elementId = NULL)
+  htmlwidgets::createWidget("codetable", x, width = width, height = height, 
+                            package = "cbsots")
 }
 
+#
 # Shiny bindings for code_table
 #
-# Output and render functions for using code_table within Shiny
-# applications and interactive Rmd documents.
-#
-# @param outputId output variable to read from
-# @param width,height Must be a valid CSS unit (like \code{'100\%'},
-#   \code{'400px'}, \code{'auto'}) or a number, which will be coerced to a
-#   string and have \code{'px'} appended.
-# @param expr An expression that generates a code_table
-# @param env The environment in which to evaluate \code{expr}.
-# @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
-#   is useful if you want to save an expression in a variable.
-#
-codetableOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'codetable', width, height, 
-                                 package = 'cbsots')
+
+codetableOutput <- function(outputId, width = "100%", height = "400px") {
+  htmlwidgets::shinyWidgetOutput(outputId, "codetable", width, height, 
+                                 package = "cbsots")
 }
 
 renderCodetable <- function(expr, env = parent.frame(), quoted = FALSE) {

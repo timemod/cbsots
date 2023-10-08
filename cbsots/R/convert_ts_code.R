@@ -10,6 +10,19 @@ convert_ts_code <- function(ts_code) {
     # table_code_collection.
     return(NULL)
   }
+  
+  add_table_ids <- function(ts_code) {
+    add_id <- function(x, id) {
+      x_names <- names(x)
+      if (!"id" %in% x_names) {
+        x$id <- id
+        x <- new_table_code(x[c("id", x_names)])
+      }
+      return(x)
+    }
+    ts_code[] <- mapply(FUN = add_id, ts_code, names(ts_code), SIMPLIFY = FALSE)
+    return(ts_code)
+  }
 
   if (is.null(attr(ts_code, "package_version"))) {
     
@@ -19,7 +32,7 @@ convert_ts_code <- function(ts_code) {
     
     old_package_version <- ts_code$package_version
   
-    ts_code <- create_ts_code(ts_code$table_code)
+    ts_code <- new_ts_code(ts_code$table_code)
     
     if (old_package_version < "0.4") {
       
@@ -61,15 +74,25 @@ convert_ts_code <- function(ts_code) {
       
       
       ts_code[] <- lapply(ts_code, FUN = create_cbs_key_order) 
+      
+      ts_code <- add_table_ids(ts_code)
     }
     
   } else {
+    
+    # Since version 2.0.0, table_cod objects have an extra field id (table_id).
+    # Add the ids if the ts code has been created with an older version.
+    old_package_version <- attr(ts_code, "package_version")
+    
+    if (old_package_version < "2.0.0") {
+      ts_code <- add_table_ids(ts_code)
+    }
 
     # ts_code has now been updated to new package version, so modify
     # the package_version attribute
-  
     attr(ts_code, "package_version") <- packageVersion("cbsots")
   
   }
+  
   return(ts_code)
 }

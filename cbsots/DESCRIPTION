@@ -1,7 +1,7 @@
 Package: cbsots
 Type: Package
 Title: CBS Open Timeseries
-Version: 1.9.2
+Version: 2.0.0
 Authors@R: c(
  person("Rob", "van Harrevelt", email = "rvanharrevelt@gmail.com", role = c("aut", "cre"))
  )
@@ -11,6 +11,7 @@ Description: Tools from downloading timeseries using the cbsodataR package.
 License: GPL-3
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
+LazyData: TRUE
 Depends:
     R (>= 3.5.0),
     regts
