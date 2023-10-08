@@ -283,6 +283,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     # Reorder the table that is currently displayed.
     reorder_table <- function() {
       if (debug) cat("\nIn reorder_table\n")
+      shinybusy::show_modal_spinner(text = "Reordering table")
       cbs_order <- values$table_order == CBS_ORDER
       if (order_ts_code(cbs_order)) {
         render_hot_table()
@@ -290,6 +291,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       } else {
         if (debug) cat("The table was already in correct ordering.\n\n")
       }
+      shinybusy::remove_modal_spinner()
       return(invisible())
     }
    
@@ -409,7 +411,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         cat(sprintf("\nThe table order has been modified (dimension = %s).\n", 
                     values$dimension))
       }
-
+      
       values$table_order <- input$table_order 
       
       reorder_table()
