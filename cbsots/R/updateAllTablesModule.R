@@ -15,7 +15,6 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
           table_present(), "\n\n")
       }
       if (table_present()) {
-        cat("\nenabling update button\n")
         shinyjs::enable("update")
       } else {
         shinyjs::disable("update")
@@ -24,7 +23,7 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
     })
     
     observeEvent(input$update, {
-     cat("\nupdateAllTablesServer: update button pressed\n\n")
+     if (debug) cat("\nupdateAllTablesServer: update button pressed\n\n")
      showModal(modalDialog(
        title = "Confirm",
        HTML(paste0(

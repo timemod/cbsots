@@ -9,11 +9,8 @@ codetable <- function(tblcod, table_id, dimension,
     # be rendered.
     stop("Internal error: no tblcod available")
     
-  } else if (ncol(tblcod) < 4) {
-    
-    stop("Internal error: tblcod has less than 4 columns")
-    
-    # TODO: also check column names and column types? 
+  } else if (!identical(colnames(tblcod)[1:4], 
+                        c("Key", "Select", "Code", "Title"))) {
     
   } else {
       
