@@ -6,7 +6,7 @@ newTableInput <- function(id) {
   )
 }
 
-newTableServer <- function(id, table_descs, ts_code, base_url, debug) {
+newTableServer <- function(id, table_descs, tscod, base_url, debug) {
   
   # Function that creates a dialog asking for a table and an optional base table.
   select_new_table_dialog <- function(table_descriptions, 
@@ -86,15 +86,16 @@ newTableServer <- function(id, table_descs, ts_code, base_url, debug) {
       # add new table
       tryCatch({
     
-        # TODO: modal spinner?    
+        shinybusy::show_modal_spinner(text = "Downloading ...")
         tblcod_new <- table_code(new_table_id, base_url)
+        shinybusy::remove_modal_spinner()
         
         # check if there is a base table
         
         base_table_desc <-  input$new_table_base_desc
         if (base_table_desc != "") {
           base_table_id <- get_table_id(base_table_desc)
-          base_table <- ts_code()[[base_table_id]]
+          base_table <- tscod()[[base_table_id]]
           ret <- call_update_table(r_values$tblcod_new, base_table, new_table_id,
                                    base_table_id)
           if (is.null(ret)) return()

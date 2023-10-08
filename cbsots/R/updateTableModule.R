@@ -46,16 +46,16 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
     
     observeEvent(input$update_confirmed, {
       if (debug) cat("\nupdateTableServer: update confirmed\n")
+    
+      removeModal()
      
       tblcod_old <- tblcod()
       tbl_id <- tblcod_old$id
      
-      # TODO: modal spinner?
+      shinybusy::show_modal_spinner(text = "Downloading ...")
       ret <- perform_update_table(tblcod_old, table_id = tbl_id, 
                                   base_url = base_url)
-      
-      # remove modal when we are finished
-      removeModal()
+      shinybusy::remove_modal_spinner()
       
       if (is.null(ret)) return() # something went wrong
       tblcod_upd <- ret$table_code_upd
@@ -71,7 +71,6 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
       } else {
         r_values$tblcod_upd <- tblcod_upd
       }
-      
     })
     
     observeEvent(input$accept_warnings, {

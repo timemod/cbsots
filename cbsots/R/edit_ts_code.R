@@ -155,42 +155,24 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     }
     invisible(lapply(input_ids, FUN = shinyjs::disable))
   
-    tblcod_for_upd <- reactive({
-      cat("\nEvaluating ts_code_for_upd\n\n")
-      tblcod <- values$ts_code[[values$table_id]]
-      tblcod$order <- input$dimension_order
-      tblcod
-    })
-    
     tblcod_upd <- updateTableServer("update_table",
      table_open = reactive(values$table_open),
-     tblcod = tblcod_for_upd,
+     tblcod = reactive(values$ts_code[[values$table_id]]),
      table_id = reactive(values$table_id),
      base_url = base_url,
      debug = debug
    )
-    
-    # TODO: dimension_order direct opslaan in values$ts_code[[values$table_id?]]
-    # Dan kan de code nog verder vereenvoudigd worden.
-    
-    tscod_for_modules <- reactive({
-      tscod <- values$ts_code
-      if (values$table_open) {
-        tscod[[values$table_id]]$order <- input$dimension_order
-      }
-      tscod
-    })
-    
+
     tscod_upd <- updateAllTablesServer("update_all_tables",
      table_present = reactive(values$table_present),
-     tscod = tscod_for_modules,
+     tscod = reactive(values$tscod),
      base_url = base_url,
      debug = debug
     )
     
     tblcod_new <- newTableServer("new_table",
       table_descs = reactive(values$table_descs),
-      ts_code = tscod_for_modules,
+      tscod = reactive(values$tscod),
       base_url = base_url,
       debug = debug
     )
@@ -255,17 +237,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       return(invisible())
     }
     
-     # save dimension ordering:
-    fetch_dimension_order <- function() {
-      if (!identical(sort(input$dimension_order), 
-                     sort(values$ts_code[[values$table_id]]$order))) {
-        shinyalert("Error", "Internal Error: dimension_order not correct")
-        return()
-      }
-      values$ts_code[[values$table_id]]$order <- input$dimension_order
-      return(invisible())
-    }
-    
     # Order the ts code for table value$table_id and dimension value$dimension
     # Returns TRUE is the data has actually been reordered.
     order_ts_code <- function(cbs_order) {
@@ -290,10 +261,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       return(invisible())
     }
    
-    insert_new_table <- function() {
-     
-    }
-    
     ############################################################################
     # Observers 
     ############################################################################
@@ -369,8 +336,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
         # (for CBS_ORDER the table is already in the correct order).
         if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
-        
-        fetch_dimension_order()
       }
       
       new_table_id <- get_table_id(input$table_desc)
@@ -445,6 +410,19 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }      
     }, ignoreInit = TRUE)
     
+    observeEvent(input$dimension_order, {
+      if (debug) {
+        cat(sprintf("\nDimension order has changed, new value: %s\n\n",
+                    paste(input$dimension_order, collapse = ", ")))     
+      }
+      if (!identical(sort(input$dimension_order), 
+                     sort(values$ts_code[[values$table_id]]$order))) {
+        shinyalert("Error", "Internal Error: dimension_order not correct")
+        return()
+      }
+      values$ts_code[[values$table_id]]$order <- input$dimension_order
+    }, ignoreInit = TRUE)
+    
     observeEvent(input$reorder, {
       if (debug) cat(sprintf("\nReorder button pressed (dimension = %s).\n", 
                              values$dimension))
@@ -459,8 +437,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
 
         if (check_duplicates(values$ts_code, values$table_id, 
                              values$dimension)) return()
-        
-        fetch_dimension_order()
       }
     
       saveRDS(values$ts_code, file = ts_code_file)
