@@ -46,9 +46,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
   }
   
-  CBS_ORDER <- "Original CBS order"
-  SELECTED_FIRST_ORDER <- "Selected first"
+  CBS_ORDER <- "Original CBS Order"
+  SELECTED_FIRST_ORDER <- "Selected First"
   
+  button_width <- "200px"
+
   # create a vector with table ids and a named vector with table descriptions
   if (length(ts_code) > 0) {
     table_ids <- names(ts_code)
@@ -61,68 +63,93 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
   ui <- fluidPage(
     includeCSS(system.file("css", "cbsots.css", package = packageName())),
     shinyjs::useShinyjs(),
-    headerPanel('CBS Timeseries Coding'),
+    headerPanel("CBS Timeseries Coding"),
     sidebarPanel(
       # the following tag is a workaround for a problem with the actionButton:
       # the button is still highlighted when clicked
       tags$script(HTML("
         $(document).ready(function() {
-          $('.btn').on('click', function(){$(this).blur()});
-        })
-        ")),
+        $('.btn').on('click', function(){$(this).blur()});
+       })
+      ")),
       h3("Open Existing Code Table"),
       "You can enter a search query in the text field below.",
       "When necessary, use Backspace to erase the text field.",
       p(),
-      selectInput("table_desc", label = NULL, 
-                  choices = create_table_choices(table_descs)),
+      selectInput("table_desc",
+        label = NULL,
+        choices = create_table_choices(table_descs)
+      ),
       p(),
-      # TODO: algemene knopbreeedte
-      newTableInput(id = "new_table"),
+      newTableInput(id = "new_table", button_width = button_width),
       p(),
-      deleteTableInput(id = "delete_table"),
+      deleteTableInput(id = "delete_table", button_width = button_width),
       p(),
       h3("Order Code Table"),
       "Select an order type below",
       "Press reorder to reorder after changing the table",
       p(),
       fluidRow(
-        column(5, selectInput("table_order", label = NULL,
-                              choices = c(CBS_ORDER, SELECTED_FIRST_ORDER), 
-                              width = "100%")),
-        column(1, actionButton("reorder", "Reorder"), offset = 1)
+        column(5,
+          selectInput("table_order",
+            label = NULL,
+            choices = c(CBS_ORDER, SELECTED_FIRST_ORDER),
+            width = button_width
+          )
+        ),
+        column(1,
+          actionButton("reorder", "Reorder",
+            style = sprintf("width: %s", button_width)
+          ),
+          offset = 1
+        )
       ),
       p(),
       h3("Update Table(s)"),
       "Updated Keys and Titles with recent information on the CBS website",
       p(),
       fluidRow(
-        column(5, updateTableInput(id = "update_table")),
-        column(1, updateAllTablesInput(id = "update_all_tables"), offset = 1),
+        column(5, updateTableInput(
+          id = "update_table",
+          button_width = button_width
+        )),
+        column(1, updateAllTablesInput(
+          id = "update_all_tables",
+          button_width = button_width
+        ), offset = 1),
       ),
-      h3("Save Code"), 
+      h3("Save Code"),
       paste("Save the Code to File", ts_code_file),
       p(),
-      actionButton("save", "Save Codes")
+      actionButton("save", "Save Codes",
+        style = sprintf("width: %s", button_width)
+      )
     ),
     mainPanel(
       tabsetPanel(
         id = "switcher",
         type = "hidden",
         tabPanelBody("empty", NULL),
-        tabPanelBody("tables", 
+        tabPanelBody(
+          "tables",
           htmlOutput("table_title"),
-          orderInput(inputId = "dimension_order", 
-                     label = paste("Order of dimensions used to create",
-                                   "names (drag and drop items to",
-                                   "change order):"), 
-                     items = "dummy"),
+          orderInput(
+            inputId = "dimension_order",
+            label = paste(
+              "Order of dimensions used to create",
+              "names (drag and drop items to",
+              "change order):"
+            ),
+            items = "dummy"
+          ),
           p(),
           icon("search"),
-          tags$input(type = "text", id = "search_field",
-                     placeholder = "Search ..."),
+          tags$input(
+            type = "text", id = "search_field",
+            placeholder = "Search ..."
+          ),
           tags$button(icon("caret-left"), id = "prev_button"),
-          tags$button(icon("caret-right"),  id = "next_button"),
+          tags$button(icon("caret-right"), id = "next_button"),
           p(),
           uiOutput("dimension_tabsetpanel"),
           codetableOutput("hot")
@@ -130,7 +157,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       )
     )
   )
-  
   server <- function(input, output, session) {
     
     session$onSessionEnded(shiny::stopApp)
@@ -275,10 +301,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       if (debug) cat("\ntable_open modified. New value:", values$table_open, 
                      "\n")
       # Update different action buttons
-      input_ids <- c("update_table", "table_order")
-      fun <- if (values$table_open) shinyjs::enable else shinyjs::disable
-      invisible(lapply(input_ids, FUN = fun))
-      if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
+      if (values$table_open) {
+        shinyjs::enable("table_order")
+      } else {
+        shinyjs:disable("table_order")
+      }
+      if (values$table_open && values$table_order == SELECTED_FIRST_ORDER) {
         shinyjs::enable("reorder")
       } else {
         shinyjs::disable("reorder")
@@ -288,18 +316,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       selected <- if (values$table_open) "tables" else "empty"
       updateTabsetPanel(inputId = "switcher", selected = selected)
       
-    }, ignoreInit = TRUE)
-    
-    observeEvent(values$table_present, {
-      if (debug) cat("table_present modified. New value:", values$table_present, 
-                     "\n")
-      input_ids <- c("update_all_tables", "delete_table")
-      if (values$table_present) {
-        fun <- shinyjs::enable
-      } else {
-        fun <- shinyjs::disable
-      }
-      invisible(lapply(input_ids, FUN = fun))
     }, ignoreInit = TRUE)
     
     observeEvent(input$table_desc, {

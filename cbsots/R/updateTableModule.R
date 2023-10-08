@@ -1,8 +1,10 @@
 #
 # This module handles the action for updating a single table.
 #
-updateTableInput <- function(id) {
-  actionButton(NS(id, "update"), "Update This Table")
+updateTableInput <- function(id, button_width) {
+  actionButton(NS(id, "update"), "Update This Table",
+    style = sprintf("width: %s", button_width)
+  )
 }
 
 updateTableServer <- function(id, table_open, tblcod, table_id, base_url, 

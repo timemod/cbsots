@@ -1,8 +1,9 @@
-newTableInput <- function(id) {
+newTableInput <- function(id, button_width) {
   tagList(
     h3("Create new code table"),
     p(),
-    actionButton(NS(id, "new_table"), "New table")
+    actionButton(NS(id, "new_table"), "New Table",
+      style = sprintf("width: %s", button_width))
   )
 }
 

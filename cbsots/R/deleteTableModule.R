@@ -1,7 +1,9 @@
-deleteTableInput <- function(id) {
+deleteTableInput <- function(id, button_width) {
   tagList(
     h3("Delete Code Table"),
-    actionButton(NS(id, "delete"), "Delete table")
+    actionButton(NS(id, "delete"), "Delete Table",
+      style = sprintf("width: %s", button_width))
+                 
   )
 }
 

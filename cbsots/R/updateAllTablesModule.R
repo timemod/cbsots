@@ -1,5 +1,7 @@
-updateAllTablesInput <- function(id) {
-  actionButton(NS(id, "update"), "Update All Tables")
+updateAllTablesInput <- function(id, button_width) {
+  actionButton(NS(id, "update"), "Update All Tables",
+    style = sprintf("width: %s", button_width)
+  )
 }
 
 updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
