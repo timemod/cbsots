@@ -8,8 +8,10 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
     r_values <- reactiveValues()
     
     observeEvent(table_present(), {
-      cat("\nupdateAllTablesServer: table_present changed, new value: ", 
+      if (debug) {
+        cat("\nupdateAllTablesServer: table_present changed, new value: ", 
           table_present(), "\n\n")
+      }
       if (table_present()) {
         cat("\nenabling update button\n")
         shinyjs::enable("update")

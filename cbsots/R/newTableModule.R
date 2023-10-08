@@ -2,7 +2,7 @@ newTableInput <- function(id) {
   tagList(
     h3("Create new code table"),
     p(),
-    actionButton(NS(id, "new_table"), "New table"),
+    actionButton(NS(id, "new_table"), "New table")
   )
 }
 

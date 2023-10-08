@@ -77,10 +77,10 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       selectInput("table_desc", label = NULL, 
                   choices = create_table_choices(table_descs)),
       p(),
+      # TODO: algemene knopbreeedte
       newTableInput(id = "new_table"),
       p(),
-      h3("Delete Code Table"),
-      actionButton("delete_table", "Delete table"),
+      deleteTableInput(id = "delete_table"),
       p(),
       h3("Order Code Table"),
       "Select an order type below",
@@ -174,6 +174,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       table_descs = reactive(values$table_descs),
       tscod = reactive(values$tscod),
       base_url = base_url,
+      debug = debug
+    )
+    
+    delete_table_id <- deleteTableServer("delete_table",
+      table_present = reactive(values$table_present),
+      table_descs = reactive(values$table_descs),
       debug = debug
     )
 
@@ -527,53 +533,18 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       )
     })
    
-    # TODO: create a module for this?
-    
-    observeEvent(input$delete_table, {
+    observeEvent(delete_table_id(), {
+      if (debug) cat(sprintf("\nDeleting table %s\n\n", delete_table_id()))
       
-      if (length(values$ts_code) == 0) {
-        showModal(modalDialog(
-          title = "No tables to delete", "There are no tables to delete",
-          easyClose = TRUE)) 
-      } else {
-        showModal(select_table_dialog("delete_table", "Delete Table", 
-                                      values$table_descs))
-      }
-    })
-    
-    observeEvent(input$delete_table_ok, {
-      delete_table_desc <- input$delete_table_desc
-      if (delete_table_desc == "") {
-        return()
-      }
-      delete_table_id <- get_table_id(delete_table_desc)
-      delete_table_desc <- values$table_descs[delete_table_id]
-      values$delete_table_id <- delete_table_id
-      
-      showModal(modalDialog(
-        title = "Confirm",
-        HTML(paste0("Table \"", delete_table_desc, 
-                    "\" will be permanently deleted",
-                    "<br>Are you sure?")),
-        footer = tagList(
-          modalButton("No"),
-          actionButton("delete_table_confirmed", "Yes")
-        ),
-        easyClose = TRUE
-      ))
-    })
-    
-    observeEvent(input$delete_table_confirmed, {
-      if (debug) cat("\nIn delete_table_confirmed\n")
-      
-      values$ts_code[[values$delete_table_id]] <- NULL
+      delete_id <- delete_table_id()
+      values$ts_code[[delete_id]] <- NULL
       
       # update table_ids
-      idx <- pmatch(values$delete_table_id, values$table_ids)
+      idx <- match(delete_id, values$table_ids)
       values$table_ids <- values$table_ids[-idx]
       values$table_descs <- values$table_descs[values$table_ids]
       
-      if (values$table_open && values$delete_table_id == values$table_id) {
+      if (values$table_open && delete_id == values$table_id) {
         values$table_id <- NA_character_
         values$table_desc <- NA_character_
         values$dimension <- NA_character_
@@ -581,13 +552,14 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         values$table_order <- CBS_ORDER
       }
 
-      # update table  inputs
+      # update table inputs
       selected <- if (values$table_open) values$table_desc else NULL
       updateSelectInput(session, inputId = "table_desc", 
                         choices = create_table_choices(values$table_descs),
                         selected = selected)
     
       values$table_present <- length(values$ts_code) > 0
+      
       removeModal()
     })
     
