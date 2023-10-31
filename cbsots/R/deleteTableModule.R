@@ -9,7 +9,7 @@ deleteTableInput <- function(id, button_width) {
 
 deleteTableServer <- function(id, table_present, table_descs, debug) {
   
-  moduleServer(id, function(input, ouput, servers) {
+  moduleServer(id, function(input, ouput, session) {
     
     r_values <- reactiveValues()
     
@@ -28,6 +28,7 @@ deleteTableServer <- function(id, table_present, table_descs, debug) {
     
     observeEvent(input$delete, {
       if (debug) cat("\ndeleteTableServer: delete button pressed\n\n")
+      r_values$delete_table_id <- NULL
       showModal(select_table_dialog(
         NS(id, "delete"),
         "Delete Table",
@@ -58,6 +59,7 @@ deleteTableServer <- function(id, table_present, table_descs, debug) {
     observeEvent(input$delete_confirmed, {
       if (debug) cat("\ndelete_table_confirmed\n")
       r_values$delete_table_id <- r_values$delete_table_id_candidate
+      removeModal()
     })
   
     

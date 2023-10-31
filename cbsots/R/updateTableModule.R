@@ -10,7 +10,7 @@ updateTableInput <- function(id, button_width) {
 updateTableServer <- function(id, table_open, tblcod, table_id, base_url, 
                               debug) {
   
-  moduleServer(id, function(input, ouput, servers) {
+  moduleServer(id, function(input, ouput, session) {
     
     r_values <- reactiveValues()
     

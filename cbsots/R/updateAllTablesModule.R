@@ -5,7 +5,7 @@ updateAllTablesInput <- function(id, button_width) {
 }
 
 updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
-  moduleServer(id, function(input, ouput, servers) {
+  moduleServer(id, function(input, ouput, session) {
     
     r_values <- reactiveValues()
     

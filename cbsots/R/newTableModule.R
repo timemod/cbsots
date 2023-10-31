@@ -56,7 +56,7 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
     return(dialog)
   }
   
-  moduleServer(id, function(input, ouput, servers) {
+  moduleServer(id, function(input, ouput, session) {
     
     r_values <- reactiveValues()
     
