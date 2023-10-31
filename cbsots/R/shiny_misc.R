@@ -83,6 +83,9 @@ check_duplicates <- function(ts_code, table_id, dimension) {
 #' @importFrom cbsodataR cbs_get_toc
 get_new_table_descs <- function(old_table_ids, base_url) {
   
+  show_modal_spinner(text = "Downloading list of tables ...")
+  on.exit(remove_modal_spinner())
+  
   tryCatch({
     
     # select does not work anymore
@@ -137,7 +140,7 @@ convert_hot_input_data <- function(data) {
 #' @importFrom utils capture.output
 perform_update_table <- function(table_code_base, table_id, 
                                  base_table_id = table_id, base_url) {
-  
+
   # create a new empty table_code object:
   table_code_new  <- table_code(table_id, base_url = base_url)
  
@@ -163,6 +166,7 @@ perform_update_table <- function(table_code_base, table_id,
 perform_update_all_tables <- function(ts_code, base_url, debug) {
 
   show_modal_progress_line(text = "Updating tables")
+  on.exit(remove_modal_progress)
   
   ids <- names(ts_code)
   n_ids <- length(ids)
@@ -179,8 +183,6 @@ perform_update_all_tables <- function(ts_code, base_url, debug) {
     return(ret)
   }
   result <- sapply(ids, FUN = update_single_table, simplify = FALSE)
-  
-  remove_modal_progress()
   
   has_warning <- sapply(result, FUN = function(x) return(x$has_warning))
   warning_ids <- names(has_warning[has_warning])

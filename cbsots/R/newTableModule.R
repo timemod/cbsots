@@ -62,12 +62,16 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
     
     observeEvent(input$new_table, {
       if (debug) cat("\nnewTableServer: new table button pressed\n")
+      
+      # the next statement ensures that an event will be fired if the same
+      # table is downloaded for the second time, which is posisble if the
+      # table has been deleted in the meantime.
+      r_values$tblcod_new <- NULL
+      
       old_table_descs <- table_descs()
       old_table_ids <- names(old_table_descs)
-
-      show_modal_spinner(text = "Downloading list of tables ...")
+      
       new_table_descs <- get_new_table_descs(old_table_ids, base_url)
-      remove_modal_spinner()
      
       if (is.null(new_table_descs)) {
         shinyalert("Error", "Error downloading list of tables" , type = "error")
@@ -87,13 +91,11 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
       
       # add new table
       tryCatch({
-    
         show_modal_spinner(text = "Downloading table ...")
-        on.exit(remove_modal_spinner)
-      
         base_table_desc <- input$new_table_base_desc
         if (base_table_desc == "") {
           r_values$tblcod_new <- table_code(new_table_id, base_url)
+          remove_modal_spinner()
         } else {
           base_table_id <- get_table_id(base_table_desc)
           base_table <- tscod()[[base_table_id]]
@@ -102,6 +104,7 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
             base_table_id = base_table_id,
             base_url = base_url
           )
+          remove_modal_spinner()
           if (is.null(ret)) return()
           tblcod_new <- ret$table_code_upd
           if (length(ret$warnings) > 0) {

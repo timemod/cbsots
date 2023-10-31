@@ -20,6 +20,7 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
             table_open(), 
           "\n\n")
       }
+      r_values$tblcod_upd <- NULL
       if (table_open()) {
         shinyjs::enable("update")
       } else {
@@ -55,11 +56,10 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
       tblcod_old <- tblcod()
       tbl_id <- tblcod_old$id
      
-      show_modal_spinner(text = "Downloading ...")
-      on.exit(remove_modal_spinner())
+      show_modal_spinner(text = "Downloading list of tables ...")
       ret <- perform_update_table(tblcod_old, table_id = tbl_id, 
                                   base_url = base_url)
-      
+      remove_modal_spinner()
       if (is.null(ret)) {
         # something went wrong
         return()

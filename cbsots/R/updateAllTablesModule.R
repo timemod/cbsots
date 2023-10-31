@@ -24,6 +24,7 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
     
     observeEvent(input$update, {
      if (debug) cat("\nupdateAllTablesServer: update button pressed\n\n")
+     r_values$tsod_upd <- NULL
      showModal(modalDialog(
        title = "Confirm",
        HTML(paste0(
@@ -44,9 +45,6 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
       tscod_old <- tscod()
       retval <- perform_update_all_tables(tscod_old, base_url = base_url,
                                           debug = debug)
-      
-      show_modal_spinner(text = "Processing update ...")
-      on.exit(remove_modal_spinner)
       
       tscod_upd <- retval$ts_code_upd
       if (identical(tscod_upd, tscod_old)) {
