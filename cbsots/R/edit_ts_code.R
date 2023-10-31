@@ -45,7 +45,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
 }
 
 create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
-                         debug = FALSE, base_url = NULL) {
+                         debug = FALSE, base_url = NULL,
+                         testServer = FALSE) {
   
   if (file.exists(ts_code_file)) {
     
@@ -196,7 +197,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
     
     # disable the reorder button
     shinyjs::disable("reorder")
-  
+    
     tblcod_upd <- updateTableServer("update_table",
      table_open = reactive(values$table_open),
      tblcod = reactive(values$ts_code[[values$table_id]]),
@@ -282,6 +283,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       values$table_order <- get_order_type(dimension)
       updateSelectInput(session, "table_order", 
                         selected = values$table_order)
+      if (testServer) session$setInputs(table_order = values$table_order)
       
       if (debug) cat("The table has been opened\n\n")
       
@@ -375,6 +377,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
           # open the new table.
           updateSelectInput(session, inputId = "table_desc",
                             selected = values$table_desc)
+          if (testServer) session$setInputs(table_desc = values$table_desc)
           return()
         }
         
@@ -424,6 +427,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       render_hot_table()
       values$table_order <- get_order_type(dimension)
       updateSelectInput(session, "table_order", selected = values$table_order)
+      if (testServer) session$setInputs(table_order = values$table_order)
     })
     
     observeEvent(input$table_order, {
@@ -567,6 +571,9 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         choices = create_table_choices(values$table_descs),
         selected = table_desc_new
       )
+      if (testServer) {
+        session$setInputs(table_desc = table_desc_new)
+      }
     })
    
     observeEvent(delete_table_id(), {
@@ -605,7 +612,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       table_code_upd <- tblcod_upd()
       table_id <- table_code_upd$id
       if (debug) {
-        cat(sprintf("\nUpdate voor tabel %s\n", table_id, "\n\n"))
+        cat(sprintf("\nUpdate voor tabel %s\n\n", table_id))
         #print(table_code_upd)
       }
 
@@ -631,6 +638,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         updateSelectInput(session, inputId = "table_desc",
                           choices = create_table_choices(values$table_descs), 
                           selected = new_table_desc)
+        if (testServer) session$setInputs(table_desc = new_table_desc)
       }
       
       # now open the table
@@ -678,6 +686,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
           choices = create_table_choices(values$table_descs),
           selected = selected
         )
+        if (testServer) session$setInputs(table_desc = selected)
       }
       
       if (open_table_modified) {

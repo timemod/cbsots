@@ -1,25 +1,21 @@
+rm(list = ls())
 library(shiny)
 library(cbsots)
 library(testthat)
-library(tictoc)
 
 ts_code_file <- "tscode/tscode_test_shiny.rds"
 
-tic("total test")
 
+source("utils/testServer_gereedschap.R")
 
 test_that("selecting and deselecting variables and table order", {
   app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file,
-                                   debug = FALSE)
+                                   debug = FALSE, testServer = TRUE)
   
   testServer(app, {
-    #print(values$ts_code$`83667NED`)
+    init_app(session)
+   
     table_id <- "83667NED"
-    # the first time the event will be ignored
-    session$setInputs(table_desc = "")
-    expect_true(is.na(values$table_id))
-    expect_true(is.na(values$dimension))
-    
     session$setInputs(table_desc = unname(values$table_descs[table_id]))
     expect_equal(values$table_id, table_id)
     expect_equal(values$dimension, "Topic")
@@ -73,16 +69,24 @@ test_that("deleting and adding tables", {
   table_ids_init <- c("81234ned", "83667NED", "83693NED")
   
   app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file,
-                                   debug = FALSE)
+                                   debug = FALSE,
+                                   testServer = TRUE)
   
   testServer(app, {
     expect_true(is.na(values$table_id))
+    init_app(session)
     table_ids <- names(values$ts_code)
     expect_equal(names(values$ts_code), table_ids_init)
     expect_equal(values$table_ids, table_ids_init)
     
-    session$setInputs(`delete_table-delete` = 1)
     delete_id <- "81234ned"
+    
+    # first select the table to be deleted
+    session$setInputs(table_desc = values$table_descs[delete_id])
+    expect_equal(values$table_id, delete_id)
+
+    # now delete the table
+    session$setInputs(`delete_table-delete` = 1)
     delete_table_desc <- values$table_descs[delete_id] 
     session$setInputs(`delete_table-delete_desc` = delete_table_desc)
     session$setInputs(`delete_table-delete_ok` = 1)
@@ -90,6 +94,7 @@ test_that("deleting and adding tables", {
     session$setInputs(`delete_table-delete_confirmed` = 1)
     expect_equal(delete_table_id(), delete_id)
     expect_equal(values$table_ids, setdiff(table_ids_init, delete_id))
+    expect_true(is.na(values$table_id))
     
     # Add the table again
     session$setInputs(`new_table-new_table` = 1)
@@ -99,6 +104,7 @@ test_that("deleting and adding tables", {
     session$setInputs(`new_table-new_table_ok` = 1)
     expect_equal(tblcod_new()$id, delete_id)
     expect_equal(values$table_ids, table_ids_init)
+    expect_equal(values$table_id, delete_id)
     
     # And delete again. Note that the the delete table desc may have changed
     # because of a change of the table title
@@ -109,6 +115,7 @@ test_that("deleting and adding tables", {
     session$setInputs(`delete_table-delete_confirmed` = 1)
     expect_equal(delete_table_id(), delete_id)
     expect_equal(values$table_ids, setdiff(table_ids_init, delete_id))
+    expect_true(is.na(values$table_id))
     
     # and now add the table again
     session$setInputs(`new_table-new_table` = 1)
@@ -118,5 +125,7 @@ test_that("deleting and adding tables", {
     session$setInputs(`new_table-new_table_ok` = 1)
     expect_equal(tblcod_new()$id, delete_id)
     expect_equal(values$table_ids, table_ids_init)
+    expect_equal(values$table_id, delete_id)
+    expect_equal(input$table_desc, values$table_descs[delete_id])
   })
 })
