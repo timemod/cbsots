@@ -45,16 +45,12 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
       retval <- perform_update_all_tables(tscod_old, base_url = base_url,
                                           debug = debug)
       
-  
-      # Start a modal spinner, this is removed in edit_ts_code.R is al action
-      # is complete. This should prevent any user input until the update 
-      # is completely removed.
-      shinybusy::show_modal_spinner(text = "Processing update ...")
+      show_modal_spinner(text = "Processing update ...")
+      on.exit(remove_modal_spinner)
       
       tscod_upd <- retval$ts_code_upd
       if (identical(tscod_upd, tscod_old)) {
-        if (debug) cat("All tables are already up to date, nothing to do")
-        shinybusy::remove_modal_spinner()
+        if (debug) cat("\nAll tables are already up to date, nothing to do\n\n")
         return()
       }
       warning_ids <- retval$warning_ids
@@ -65,7 +61,6 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
                       "Check the match reports in directory 'match_reports'.")
         wmsg <- strwrap(wmsg, width = 80)
         wmsg <- paste(wmsg, collapse = "\n")
-        shinybusy::remove_modal_spinner()
         showWarningsDialog(wmsg, NS(id, "accept_warnings"))
       } else {
         r_values$tscod_upd <- tscod_upd
@@ -76,7 +71,6 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
     observeEvent(input$accept_warnings, {
       if (debug) cat("\nupdateAllTablesServer: accept_warnings\n\n")
       removeModal()
-      shinybusy::show_modal_spinner(text = "Processing update ...")
       r_values$tscod_upd <- r_values$tscod_upd_candidate
     })
     

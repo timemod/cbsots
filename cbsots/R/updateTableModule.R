@@ -55,31 +55,24 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
       tblcod_old <- tblcod()
       tbl_id <- tblcod_old$id
      
-      shinybusy::show_modal_spinner(text = "Downloading ...")
+      show_modal_spinner(text = "Downloading ...")
+      on.exit(remove_modal_spinner())
       ret <- perform_update_table(tblcod_old, table_id = tbl_id, 
                                   base_url = base_url)
-      shinybusy::remove_modal_spinner()
       
       if (is.null(ret)) {
         # something went wrong
         return()
       }
       
-      # Start a modal spinner, this is removed in edit_ts_code.R is al action
-      # is complete. This should prevent any user input until the update 
-      # is completely removed.
-      shinybusy::show_modal_spinner(text = "Processing update ...")
-      
       tblcod_upd <- ret$table_code_upd
       if (identical(tblcod_old, tblcod_upd)) {
-        if (debug) cat("All tables are already up to date, nothing to do\n\n")
-        shinybusy::remove_modal_spinner()
+        if (debug) cat("\nThe tables is already up to date, nothing to do.\n\n")
         return()
       } else if (debug) cat("\n")
       
       if (length(ret$warnings) > 0) {
         r_values$tblcod_upd_candidate <- tblcod_upd
-        shinybusy::remove_modal_spinner()
         showWarningsDialog(ret$warnings, NS(id, "accept_warnings"))
       } else {
         r_values$tblcod_upd <- tblcod_upd
@@ -89,7 +82,6 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
     observeEvent(input$accept_warnings, {
       if (debug) cat("\nupdateTableServer: accept_warnings\n\n")
       removeModal()
-      shinybusy::show_modal_spinner(text = "Processing update ...")
       r_values$tblcod_upd <- r_values$tblcod_upd_candidate
     })
     

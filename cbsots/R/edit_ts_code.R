@@ -22,7 +22,8 @@
 #' @importFrom utils packageVersion
 #' @importFrom utils packageName
 #' @importFrom shinyalert shinyalert
-#' @importFrom shinybusy remove_modal_progress
+#' @importFrom shinybusy remove_modal_progress show_modal_spinner 
+#' remove_modal_spinner
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                          debug = FALSE, base_url = NULL) {
@@ -283,7 +284,8 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     reorder_table <- function() {
       if (debug) cat("\nIn reorder_table\n")
       # use a modal spinner to prevent any user input during reordering
-      shinybusy::show_modal_spinner(text = "Reordering table")
+      show_modal_spinner(text = "Reordering table")
+      on.exit(remove_modal_spinner())
       cbs_order <- values$table_order == CBS_ORDER
       if (order_ts_code(cbs_order)) {
         render_hot_table()
@@ -291,7 +293,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       } else {
         if (debug) cat("The table was already in correct ordering.\n\n")
       }
-      shinybusy::remove_modal_spinner()
+      
       return(invisible())
     }
    
@@ -431,7 +433,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         shinyjs::enable("reorder")
       } else {
         shinyjs::disable("reorder")
-      }      
+      }  
     }, ignoreInit = TRUE)
     
     observeEvent(input$dimension_order, {
@@ -546,8 +548,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         choices = create_table_choices(values$table_descs),
         selected = table_desc_new
       )
-      
-      shinybusy::remove_modal_spinner()
     })
    
     observeEvent(delete_table_id(), {
@@ -621,8 +621,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (debug) cat("\n")
       
-      shinybusy::remove_modal_spinner()
-      
       return(invisible())
     })
     
@@ -671,8 +669,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       }
       
       if (debug) cat("\n")
-      
-      shinybusy::remove_modal_spinner()
       
       return(invisible())
     })

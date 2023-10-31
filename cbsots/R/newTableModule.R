@@ -64,12 +64,11 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
       if (debug) cat("\nnewTableServer: new table button pressed\n")
       old_table_descs <- table_descs()
       old_table_ids <- names(old_table_descs)
-      print(old_table_ids)
-      
-      shinybusy::show_modal_spinner(text = "Downloading list of tables ...")
+
+      show_modal_spinner(text = "Downloading list of tables ...")
       new_table_descs <- get_new_table_descs(old_table_ids, base_url)
-      shinybusy::remove_modal_spinner()
-      
+      remove_modal_spinner()
+     
       if (is.null(new_table_descs)) {
         shinyalert("Error", "Error downloading list of tables" , type = "error")
       } else {
@@ -89,41 +88,29 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
       # add new table
       tryCatch({
     
-        shinybusy::show_modal_spinner(text = "Downloading table ...")
-        tblcod_new <- table_code(new_table_id, base_url)
-        shinybusy::remove_modal_spinner()
-        
-        # Start a modal spinner, this is removed in edit_ts_code.R is al action
-        # is complete. This should prevent any user input until the update 
-        # is completely removed.
-        shinybusy::show_modal_spinner(text = "Processing new table ...")
-        
-        # check if there is a base table
-        
-        base_table_desc <-  input$new_table_base_desc
-        if (base_table_desc != "") {
+        show_modal_spinner(text = "Downloading table ...")
+        on.exit(remove_modal_spinner)
+      
+        base_table_desc <- input$new_table_base_desc
+        if (base_table_desc == "") {
+          r_values$tblcod_new <- table_code(new_table_id, base_url)
+        } else {
           base_table_id <- get_table_id(base_table_desc)
           base_table <- tscod()[[base_table_id]]
-          ret <- perform_update_table(
-            tblcod_new, base_table,
+          ret <- perform_update_table(base_table,
             table_id = new_table_id,
-            base_table_id = base_table_id
+            base_table_id = base_table_id,
+            base_url = base_url
           )
-          if (is.null(ret)) {
-            shinybusy::remove_modal_spinner()
-            return()
-          }
+          if (is.null(ret)) return()
           tblcod_new <- ret$table_code_upd
           if (length(ret$warnings) > 0) {
             r_values$tblcod_new_candidate <- tblcod_new
-            shinybusy::remove_modal_spinner()
             showWarningsDialog(ret$warnings, NS(id, "warnings_ok"))
           } else {
             r_values$tblcod_new <- tblcod_new
           }
-        } else {
-          r_values$tblcod_new <- tblcod_new
-        }
+        } 
       }, error = function(e) {
         cat("error\n")
         print(e)
@@ -134,11 +121,9 @@ newTableServer <- function(id, table_descs, tscod, base_url, debug) {
     })
     
     observeEvent(input$warnings_ok, {
-      shinybusy::show_modal_spinner(text = "Processing new table ...")
       r_values$tblcod_new <- r_values$tblcod_new_candidate
       removeModal()
     })
-    
     
     return(reactive(r_values$tblcod_new))
   })   
