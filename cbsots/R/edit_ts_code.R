@@ -27,6 +27,25 @@
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                          debug = FALSE, base_url = NULL) {
+
+  app <- create_shiny_app(ts_code_file, use_browser = use_browser,
+                          browser = browser, debug = debug,
+                          base_url = base_url)
+  if (use_browser) {
+    old_browser <- options("browser")
+    tryCatch({
+      options(browser = find_browser(browser))
+      runApp(app, launch.browser = TRUE)
+    }, finally = {
+      options(browser = old_browser$browser)
+    })
+  } else {
+    runApp(app)
+  }
+}
+
+create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
+                         debug = FALSE, base_url = NULL) {
   
   if (file.exists(ts_code_file)) {
     
@@ -576,8 +595,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                         selected = selected)
     
       values$table_present <- length(values$ts_code) > 0
-      
-      removeModal()
     })
     
     ############################################################################
@@ -674,19 +691,5 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     })
   }
   
-  app_list <- list(ui = ui, server = server)
-  
-  if (use_browser) {
-    old_browser <- options("browser")
-    tryCatch({
-      options(browser = find_browser(browser))
-      runApp(app_list, launch.browser = TRUE)
-    }, finally = {
-      options(browser = old_browser$browser)
-    })
-  } else {
-    runApp(app_list)
-  }
-  
-  return(invisible(NULL))
+  return(shinyApp(ui = ui, server = server))
 }
