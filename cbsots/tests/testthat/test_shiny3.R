@@ -61,11 +61,14 @@ test_that("preparations", {
     ts_code_orig <- values$ts_code
     id <- "81234ned"
     dim <- "Topic"
+    
+    
     d <- ts_code_orig[[id]]$codes[[dim]]
     d$Key <- paste0(d$Key, "_a")
     d$OrigKeyOrder <-  paste0(d$OrigKeyOrder, "_a")
     values$ts_code[[id]]$codes[[dim]] <- d
-    
+    values$ts_code[[id]]$short_title <- paste(values$ts_code[[id]]$short_title,
+                                              "CBS")
     dim <- "BedrijfstakkenBranchesSBI2008"
     d <- ts_code_orig[[id]]$codes[[dim]]
     d[1:2, "Title"] <- paste(d[1:2, ]$Title , "x")
@@ -106,9 +109,13 @@ test_that("update a single table", {
       expect_equal(values$table_id, id)
       expect_equal(values$dimension, dim)
       
+      expect_true(endsWith(values$ts_code[[id]]$short_title, " CBS"))
+        
       session$setInputs(`update_table-update` = 1)
       session$setInputs(`update_table-update_confirmed` = 1)
       session$setInputs(`update_table-accept_warnings` = 1)
+ 
+      expect_false(endsWith(values$ts_code[[id]]$short_title, " CBS"))
       
       expect_equal(values$ts_code[[id]], ts_code_ok[[id]])
      
@@ -116,14 +123,14 @@ test_that("update a single table", {
       
       expect_known_value(read_match_report(values$ts_code, id),
                          file = file.path("expected_output", 
-                                          paste0("match_report", "_shiny3_1.rds")))
+                                          paste0("shiny3_match_report_", id, "_1.rds")))
       
       session$setInputs(`update_table-update` = 1)
       session$setInputs(`update_table-update_confirmed` = 1)
       
       expect_known_value(read_match_report(values$ts_code, id),
                          file = file.path("expected_output", 
-                                          paste0("match_report", "_shiny3_2.rds")))
+                                          paste0("shiny3_match_report_", id, "_2.rds")))
       
       id <- "83667NED"
       expect_equal(values$ts_code[[id]], ts_code_init[[id]])
@@ -138,7 +145,7 @@ test_that("update a single table", {
       
       expect_known_value(read_match_report(values$ts_code, id),
                          file = file.path("expected_output", 
-                                          paste0("match_report", "_shiny3_3.rds")))
+                                          paste0("shiny3_match_report_", id, ".rds")))
   
       expect_equal(values$ts_code, ts_code_ok)
     })
@@ -170,13 +177,13 @@ test_that("update all tables", {
       id <-  "81234ned"
       expect_known_value(read_match_report(values$ts_code, id),
                          file = file.path("expected_output", 
-                                          paste0("match_report", "_shiny3_1.rds")),
+                                          paste0("shiny3_match_report_", id, "_1.rds")),
                          update = FALSE)
       
       id <- "83667NED"
       expect_known_value(read_match_report(values$ts_code, id),
                          file = file.path("expected_output", 
-                                          paste0("match_report", "_shiny3_3.rds")),
+                                          paste0("shiny3_match_report_", id, ".rds")),
                          update = FALSE)
     })
   })
