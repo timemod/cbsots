@@ -251,7 +251,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
     # Open a table. This function is called when a new table has been selected
     # or when the selected table is updated with the update or update_all_tables
     # button.
-    open_table <- function() {
+    open_table <- function(selected_dimension) {
       if (debug) {
         cat(sprintf("\nOpening table_id %s (function open_table()).\n", 
                     values$table_id))
@@ -267,7 +267,13 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       )
       
       dimensions <- get_dimensions(values$ts_code[[values$table_id]])
-      dimension <- dimensions[1]
+      
+      if (missing(selected_dimension) || is.null(selected_dimension) || 
+          is.na(selected_dimension) || !selected_dimension %in% dimensions) {
+        dimension <- dimensions[1]
+      } else {
+        dimension <- selected_dimension
+      }     
       
       values$dimension <- dimension
       
@@ -279,6 +285,12 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       output$dimension_tabsetpanel <- renderUI(tabset_panel)
       
       render_hot_table()   
+      
+      if (dimension != dimensions[1]) {
+        updateTabsetPanel(session = session, inputId = "dimension",
+                          selected = dimension)
+      }
+      if (testServer) session$setInputs(dimension = dimension)
       
       values$table_order <- get_order_type(dimension)
       updateSelectInput(session, "table_order", 
@@ -642,7 +654,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       }
       
       # now open the table
-      open_table()
+      open_table(selected_dimension = values$dimension)
       
       if (debug) cat("\n")
       
@@ -691,7 +703,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       
       if (open_table_modified) {
         if (debug) cat("Data for table", values$table_id, " updated.\n")
-        open_table()
+        open_table(selected_dimension = values$dimension)
       }
       
       if (debug) cat("\n")

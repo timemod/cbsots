@@ -9,10 +9,19 @@ source("utils/read_match_report.R")
 ts_code_file_ok <- tempfile(pattern = "ts_code_", fileext = ".rds")
 ts_code_file_err <- tempfile(pattern = "ts_code_", fileext = ".rds")
 
+
+remove_match_reports <- function() {
+  pattern <- "(81234ned|83667NED)_.+\\.xlsx"
+  files <- list.files("match_reports", pattern = pattern, full.names = TRUE)
+  stopifnot(all(file.remove(files)))
+}
+
+ids <-  c("81234ned", "83667NED") 
+
 test_that("preparations", {
   app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file_err,
                                    debug = FALSE, testServer = TRUE)
-  
+
   testServer(app, {
     # add a new table
     id <- "81234ned"
@@ -87,10 +96,10 @@ test_that("preparations", {
 
 test_that("update a single table", {
   
+  remove_match_reports()
+  
   app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file_err,
                                    debug = FALSE, testServer = TRUE)
-  
-  # TODO: remove match reports
   
   ts_code_ok <- readRDS(ts_code_file_ok)
   
@@ -108,7 +117,7 @@ test_that("update a single table", {
       session$setInputs(dimension = dim)
       expect_equal(values$table_id, id)
       expect_equal(values$dimension, dim)
-      
+     
       expect_true(endsWith(values$ts_code[[id]]$short_title, " CBS"))
         
       session$setInputs(`update_table-update` = 1)
@@ -118,8 +127,8 @@ test_that("update a single table", {
       expect_false(endsWith(values$ts_code[[id]]$short_title, " CBS"))
       
       expect_equal(values$ts_code[[id]], ts_code_ok[[id]])
-     
-      expect_equal(values$dimension, "Topic")
+
+      expect_equal(values$dimension, "BedrijfstakkenBranchesSBI2008")
       
       expect_known_value(read_match_report(values$ts_code, id),
                          file = file.path("expected_output", 
@@ -152,9 +161,10 @@ test_that("update a single table", {
   })
 })
 
-test_that("update all tables", {
+test_that("update all tables (1)", {
   
-  # TODO: remove match reports
+  remove_match_reports()
+  
   app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file_err,
                                    debug = FALSE, testServer = TRUE)
   
@@ -189,3 +199,46 @@ test_that("update all tables", {
   })
 })
 
+test_that("update all tables (2)", {
+  
+  remove_match_reports()
+  
+  app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file_err,
+                                   debug = FALSE, testServer = TRUE)
+  
+  ts_code_ok <- readRDS(ts_code_file_ok)
+  
+  expect_warning({
+    testServer(app, {
+      init_app(session)
+      
+      ts_code_init <- values$ts_code
+      
+      session$setInputs(table_desc =  
+                          cbsots:::get_table_description("83667NED", "xxxx"))
+      selected_dim <- "Gebouwbestemming"
+      session$setInputs(dimension = selected_dim)
+      expect_equal(values$dimension, selected_dim)
+      
+      session$setInputs(`update_all_tables-update` = 1)
+      session$setInputs(`update_all_tables-update_confirmed` = 1)
+      expect_equal(values$ts_code, ts_code_init)
+      session$setInputs(`update_all_tables-accept_warnings` = 1)
+      expect_equal(values$ts_code, ts_code_ok)
+      
+      expect_equal(values$dimension, selected_dim)
+    
+      id <-  "81234ned"
+      expect_known_value(read_match_report(values$ts_code, id),
+                         file = file.path("expected_output", 
+                                          paste0("shiny3_match_report_", id, "_1.rds")),
+                         update = FALSE)
+      
+      id <- "83667NED"
+      expect_known_value(read_match_report(values$ts_code, id),
+                         file = file.path("expected_output", 
+                                          paste0("shiny3_match_report_", id, ".rds")),
+                         update = FALSE)
+    })
+  })
+})
