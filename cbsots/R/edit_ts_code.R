@@ -195,6 +195,8 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
                              dimension = NA_character_,
                              table_order = CBS_ORDER)
     
+    shiny::exportTestValues(ts_code = values$ts_code)
+    
     # disable the reorder button
     shinyjs::disable("reorder")
     
