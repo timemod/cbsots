@@ -34,7 +34,6 @@ test_that("create new table with base table", {
       expect_null(tblcod_new())
       session$setInputs(`new_table-warnings_ok` = 1)
       expect_equal(tblcod_new()$id, new_id)
-      print(values$table_ids)
       expect_true(new_id %in% values$table_ids)
       expect_equal(values$table_id, new_id)
       expect_equal(input$table_desc, values$table_descs[new_id])
