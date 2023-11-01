@@ -627,10 +627,13 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         cat(sprintf("\nUpdate voor tabel %s\n\n", table_id))
         #print(table_code_upd)
       }
-
-      # TODO: check table_id == values$table_id? based on data in the
-      # javascript object?
       
+      if (table_id != values$table_id) {
+        shinyalert("Error", 
+                   "Internal Error: table_id of update does not agree with id")
+        return()
+      }
+
       # Save the original short title
       short_title_old <- values$ts_code[[table_id]]$short_title
       
