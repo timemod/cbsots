@@ -73,10 +73,7 @@ testServer(app, {
       "EconomischKlimaat_2"                   , FALSE  , "ek"    , "Economisch klimaat",                     
       "Koopbereidheid_3"                      , TRUE  , "koop"   , "Koopbereidheid",                         
       "EconomischeSituatieLaatste12Maanden_4" , FALSE , ""       , "Economische situatie laatste 12 maanden",
-      "EconomischeSituatieKomende12Maanden_5" , FALSE , "xxx"    , "Economische situatie komende 12 maanden",
-      "FinancieleSituatieLaatste12Maanden_6"  , FALSE , ""       , "Financiële situatie laatste 12 maanden",
-      "FinancieleSituatieKomende12Maanden_7"  , FALSE , ""       , "Financiële situatie komende 12 maanden",
-      "GunstigeTijdVoorGroteAankopen_8"       , FALSE , ""       , "Gunstige tijd voor grote aankopen"      
+      "EconomischeSituatieKomende12Maanden_5" , FALSE , "xxx"    , "Economische situatie komende 12 maanden"
     )
   )
   session$setInputs(hot = hot_input)
