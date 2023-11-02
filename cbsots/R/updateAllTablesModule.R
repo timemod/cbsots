@@ -33,13 +33,13 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
        )),
        footer = tagList(
          modalButton("No"),
-         actionButton(NS(id, "update_all_tables_confirmed"), "Yes")
+         actionButton(NS(id, "update_confirmed"), "Yes")
        ),
        easyClose = TRUE
      ))
    })
     
-    observeEvent(input$update_all_tables_confirmed, {
+    observeEvent(input$update_confirmed, {
       if (debug) cat("\nUpdate all tables confirmed\n")
       removeModal()
       tscod_old <- tscod()
@@ -67,7 +67,7 @@ updateAllTablesServer <- function(id, table_present, tscod, base_url, debug) {
     })
     
     observeEvent(input$accept_warnings, {
-      if (debug) cat("\nupdateAllTablesServer: accept_warnings\n\n")
+      if (debug) cat("\nupdateAllTablesServer: warnings accepted\n\n")
       removeModal()
       r_values$tscod_upd <- r_values$tscod_upd_candidate
     })

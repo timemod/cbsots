@@ -49,14 +49,14 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
     })
     
     observeEvent(input$update_confirmed, {
-      if (debug) cat("\nupdateTableServer: update confirmed\n")
+      if (debug) cat("\nupdateTableServer: update confirmed\\n\n")
     
       removeModal()
      
       tblcod_old <- tblcod()
       tbl_id <- tblcod_old$id
      
-      show_modal_spinner(text = "Downloading list of tables ...")
+      show_modal_spinner(text = "Downloading table ...")
       ret <- perform_update_table(tblcod_old, table_id = tbl_id, 
                                   base_url = base_url)
       remove_modal_spinner()
@@ -70,7 +70,6 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
         if (debug) cat("\nThe tables is already up to date, nothing to do.\n\n")
         return()
       } else if (debug) cat("\n")
-      
       if (length(ret$warnings) > 0) {
         r_values$tblcod_upd_candidate <- tblcod_upd
         showWarningsDialog(ret$warnings, NS(id, "accept_warnings"))
@@ -80,7 +79,7 @@ updateTableServer <- function(id, table_open, tblcod, table_id, base_url,
     })
     
     observeEvent(input$accept_warnings, {
-      if (debug) cat("\nupdateTableServer: accept_warnings\n\n")
+      if (debug) cat("\nupdateTableServer: warnings accepted\n\n")
       removeModal()
       r_values$tblcod_upd <- r_values$tblcod_upd_candidate
     })

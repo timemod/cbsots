@@ -190,6 +190,7 @@ perform_update_all_tables <- function(ts_code, base_url, debug) {
   ts_code_upd <- sapply(result, FUN = function(x) return(x$table_code_upd),
    simplify = FALSE
   )
+  ts_code_upd <- new_ts_code(ts_code_upd)
   
   return(list(ts_code_upd = ts_code_upd, warning_ids = warning_ids))
 }

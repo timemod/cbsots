@@ -27,6 +27,26 @@
 #' @export
 edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                          debug = FALSE, base_url = NULL) {
+
+  app <- create_shiny_app(ts_code_file, use_browser = use_browser,
+                          browser = browser, debug = debug,
+                          base_url = base_url)
+  if (use_browser) {
+    old_browser <- options("browser")
+    tryCatch({
+      options(browser = find_browser(browser))
+      runApp(app, launch.browser = TRUE)
+    }, finally = {
+      options(browser = old_browser$browser)
+    })
+  } else {
+    runApp(app)
+  }
+}
+
+create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
+                         debug = FALSE, base_url = NULL,
+                         testServer = FALSE) {
   
   if (file.exists(ts_code_file)) {
     
@@ -177,7 +197,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     
     # disable the reorder button
     shinyjs::disable("reorder")
-  
+    
     tblcod_upd <- updateTableServer("update_table",
      table_open = reactive(values$table_open),
      tblcod = reactive(values$ts_code[[values$table_id]]),
@@ -231,7 +251,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     # Open a table. This function is called when a new table has been selected
     # or when the selected table is updated with the update or update_all_tables
     # button.
-    open_table <- function() {
+    open_table <- function(selected_dimension) {
       if (debug) {
         cat(sprintf("\nOpening table_id %s (function open_table()).\n", 
                     values$table_id))
@@ -247,7 +267,13 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       )
       
       dimensions <- get_dimensions(values$ts_code[[values$table_id]])
-      dimension <- dimensions[1]
+      
+      if (missing(selected_dimension) || is.null(selected_dimension) || 
+          is.na(selected_dimension) || !selected_dimension %in% dimensions) {
+        dimension <- dimensions[1]
+      } else {
+        dimension <- selected_dimension
+      }     
       
       values$dimension <- dimension
       
@@ -260,9 +286,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       
       render_hot_table()   
       
+      if (dimension != dimensions[1]) {
+        updateTabsetPanel(session = session, inputId = "dimension",
+                          selected = dimension)
+      }
+      if (testServer) session$setInputs(dimension = dimension)
+      
       values$table_order <- get_order_type(dimension)
       updateSelectInput(session, "table_order", 
                         selected = values$table_order)
+      if (testServer) session$setInputs(table_order = values$table_order)
       
       if (debug) cat("The table has been opened\n\n")
       
@@ -356,6 +389,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
           # open the new table.
           updateSelectInput(session, inputId = "table_desc",
                             selected = values$table_desc)
+          if (testServer) session$setInputs(table_desc = values$table_desc)
           return()
         }
         
@@ -405,6 +439,7 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       render_hot_table()
       values$table_order <- get_order_type(dimension)
       updateSelectInput(session, "table_order", selected = values$table_order)
+      if (testServer) session$setInputs(table_order = values$table_order)
     })
     
     observeEvent(input$table_order, {
@@ -548,6 +583,9 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         choices = create_table_choices(values$table_descs),
         selected = table_desc_new
       )
+      if (testServer) {
+        session$setInputs(table_desc = table_desc_new)
+      }
     })
    
     observeEvent(delete_table_id(), {
@@ -576,8 +614,6 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
                         selected = selected)
     
       values$table_present <- length(values$ts_code) > 0
-      
-      removeModal()
     })
     
     ############################################################################
@@ -588,13 +624,16 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
       table_code_upd <- tblcod_upd()
       table_id <- table_code_upd$id
       if (debug) {
-        cat(sprintf("\nUpdate voor tabel %s\n", table_id, "\n\n"))
+        cat(sprintf("\nUpdate voor tabel %s\n\n", table_id))
         #print(table_code_upd)
       }
-
-      # TODO: check table_id == values$table_id? based on data in the
-      # javascript object?
       
+      if (table_id != values$table_id) {
+        shinyalert("Error", 
+                   "Internal Error: table_id of update does not agree with id")
+        return()
+      }
+
       # Save the original short title
       short_title_old <- values$ts_code[[table_id]]$short_title
       
@@ -614,10 +653,11 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
         updateSelectInput(session, inputId = "table_desc",
                           choices = create_table_choices(values$table_descs), 
                           selected = new_table_desc)
+        if (testServer) session$setInputs(table_desc = new_table_desc)
       }
       
       # now open the table
-      open_table()
+      open_table(selected_dimension = values$dimension)
       
       if (debug) cat("\n")
       
@@ -661,11 +701,12 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
           choices = create_table_choices(values$table_descs),
           selected = selected
         )
+        if (testServer) session$setInputs(table_desc = selected)
       }
       
       if (open_table_modified) {
         if (debug) cat("Data for table", values$table_id, " updated.\n")
-        open_table()
+        open_table(selected_dimension = values$dimension)
       }
       
       if (debug) cat("\n")
@@ -674,19 +715,5 @@ edit_ts_code <- function(ts_code_file, use_browser = TRUE, browser,
     })
   }
   
-  app_list <- list(ui = ui, server = server)
-  
-  if (use_browser) {
-    old_browser <- options("browser")
-    tryCatch({
-      options(browser = find_browser(browser))
-      runApp(app_list, launch.browser = TRUE)
-    }, finally = {
-      options(browser = old_browser$browser)
-    })
-  } else {
-    runApp(app_list)
-  }
-  
-  return(invisible(NULL))
+  return(shinyApp(ui = ui, server = server))
 }
