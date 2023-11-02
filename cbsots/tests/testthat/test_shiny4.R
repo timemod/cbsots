@@ -1,5 +1,5 @@
 rm(list = ls())
-library(shinytest)
+library(shiny)
 library(testthat)
 library(cbsots)
 
