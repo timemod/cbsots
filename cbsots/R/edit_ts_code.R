@@ -232,9 +232,11 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
     
     render_hot_table <- function() {
       tab_data <- values$ts_code[[values$table_id]]$codes[[values$dimension]]
+      selection <- values$selections[[values$dimension]]
       output$hot <- renderCodetable(codetable(tab_data,
         table_id = values$table_id,
-        dimension = values$dimension
+        dimension = values$dimension,
+        selection = selection
       ))
       return(invisible())
     }
@@ -247,6 +249,9 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         return(SELECTED_FIRST_ORDER)
       }
     }
+    
+    default_selection <- list(row = 0, column = 0, row2 = 0, 
+                              column2 = 0)
     
     # Open a table. This function is called when a new table has been selected
     # or when the selected table is updated with the update or update_all_tables
@@ -276,6 +281,12 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       }     
       
       values$dimension <- dimension
+      
+      # selections
+      
+      selections <- rep(list(default_selection), length(dimensions))
+      names(selections) <- dimensions
+      values$selections <- selections
       
       # create a tabsetpanel with empty panels
       tabset_panel <- do.call(tabsetPanel, c(
@@ -321,6 +332,8 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       on.exit(remove_modal_spinner())
       cbs_order <- values$table_order == CBS_ORDER
       if (order_ts_code(cbs_order)) {
+        # after reordering, restore the default selection
+        values$selections[[values$dimension]] <- default_selection
         render_hot_table()
         if (debug) cat("The table has been reordered\n\n")
       } else {
@@ -329,7 +342,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       
       return(invisible())
     }
-   
+    
     ############################################################################
     # Observers 
     ############################################################################
@@ -420,6 +433,11 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         cat("values$dimension:", values$dimension, "\n\n")
       }
       
+      # save selection of the current table
+      if (!is.na(values$dimension)) {
+        values$selections[[values$dimension]] <- input$hot_selection
+      }
+      
       if (check_duplicates(values$ts_code, values$table_id, 
                            values$dimension)) {
         # There are duplicates in the code of the current table, which 
@@ -431,7 +449,8 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       # Reorder for the table that is currently open, this is only necessary 
       # for SELECTED_FIRST_ORDER (for CBS_ORDER the table is already in the 
       # correct order).
-      if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
+      # Modified: do not reorder after a dimension change.
+      #if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
       
       # now open table for a new dimension
       dimension <- input$dimension
@@ -547,6 +566,11 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       if (debug) cat("ts_code has been updated with hot data\n\n")
     })
     
+    # observeEvent(input$hot_selection, {
+    #     cat("selection changed:\n")
+    #     print(input$hot_selection)
+    # })
+    # 
     ############################################################################
     # Observers for adding a new table or deleting a table
     ############################################################################

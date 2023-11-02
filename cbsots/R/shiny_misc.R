@@ -191,7 +191,6 @@ perform_update_all_tables <- function(ts_code, base_url, debug) {
    simplify = FALSE
   )
   ts_code_upd <- new_ts_code(ts_code_upd)
-  
   return(list(ts_code_upd = ts_code_upd, warning_ids = warning_ids))
 }
 

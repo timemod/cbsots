@@ -1,5 +1,5 @@
 #' @import htmlwidgets
-codetable <- function(tblcod, table_id, dimension, 
+codetable <- function(tblcod, table_id, dimension, selection,
                       width = NULL, height = NULL) {
   
   if (is.null(tblcod))  {
@@ -25,12 +25,17 @@ codetable <- function(tblcod, table_id, dimension,
       # See the note about errors above.
       stop("Internal error: tblcod contains NA values")
     }
+    # TODO: use validate?
   }
+  
+  # TODO: check if selection is valid, otherwise replace by standard
+  # selection (first row/column)
 
   x <- list(
     data = jsonlite::toJSON(tblcod, na = "string", rownames = FALSE),
     table_id = table_id,
-    dimension = dimension
+    dimension = dimension,
+    selection = selection
   )
   
   # create widget

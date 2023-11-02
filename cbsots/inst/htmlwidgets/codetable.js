@@ -61,6 +61,16 @@ HTMLWidgets.widget({
 	       });
             }
         },
+        afterSelection: function(row, column, row2, column2, preventScrolling, selectionLayerLevel) {
+	    if (HTMLWidgets.shinyMode) {
+               Shiny.setInputValue(el.id + "_selection", {
+	               row:     row,
+	               column:  column,
+		       row2 :   row2,
+	               column2: column2
+	       });
+            }
+        },
         licenseKey: "non-commercial-and-evaluation"
     });
 
@@ -254,6 +264,11 @@ HTMLWidgets.widget({
         hot.loadData(x.data);
 	table_id = x.table_id;
 	table_dim = x.dimension;
+	var sel = x.selection;
+	console.log(sel);
+	console.log(sel.row);
+	console.log(sel.column);
+	hot.selectCell(sel.row, sel.column, sel.row2, sel.column2, true, false);
       },
 
       resize: function(width, height) {
