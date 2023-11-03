@@ -193,7 +193,8 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
                              table_open = FALSE,
                              table_present = table_present,
                              dimension = NA_character_,
-                             table_order = CBS_ORDER)
+                             table_order = CBS_ORDER,
+                             selections = NULL)
     
     # disable the reorder button
     shinyjs::disable("reorder")
@@ -232,7 +233,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
     
     render_hot_table <- function() {
       tab_data <- values$ts_code[[values$table_id]]$codes[[values$dimension]]
-      selection <- values$selections[[values$dimension]]
+      selection <- values$selections[[values$table_id]][[values$dimension]]
       output$hot <- renderCodetable(codetable(tab_data,
         table_id = values$table_id,
         dimension = values$dimension,
@@ -283,11 +284,12 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       values$dimension <- dimension
       
       # selections
-      
-      selections <- rep(list(default_selection), length(dimensions))
-      names(selections) <- dimensions
-      values$selections <- selections
-      
+      if (is.null(values$selections[[values$table_id]])) {
+        selections <- sapply(dimensions, FUN = \(x) default_selection,
+                             simplify = FALSE)
+        values$selections[[values$table_id]] <- selections
+      }
+    
       # create a tabsetpanel with empty panels
       tabset_panel <- do.call(tabsetPanel, c(
         list(id = "dimension"),
@@ -333,7 +335,8 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       cbs_order <- values$table_order == CBS_ORDER
       if (order_ts_code(cbs_order)) {
         # after reordering, restore the default selection
-        values$selections[[values$dimension]] <- default_selection
+        values$selections[[values$table_id]][[values$dimension]] <- 
+          default_selection
         render_hot_table()
         if (debug) cat("The table has been reordered\n\n")
       } else {
@@ -408,7 +411,15 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         
         # Reorder data, this is only necessary for SELECTED_FIRST_ORDER
         # (for CBS_ORDER the table is already in the correct order).
-        if (input$table_order == SELECTED_FIRST_ORDER) order_ts_code(FALSE)
+        if (input$table_order == SELECTED_FIRST_ORDER &&
+            order_ts_code(FALSE)) {
+            # reset current selections
+          values$selections[[values$table_id]][[values$dimension]] <- 
+              default_selection
+        } else {
+          values$selections[[values$table_id]][[values$dimension]] <- 
+            input$hot_selection
+        }
       }
       
       new_table_id <- get_table_id(input$table_desc)
@@ -435,7 +446,8 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       
       # save selection of the current table
       if (!is.na(values$dimension)) {
-        values$selections[[values$dimension]] <- input$hot_selection
+        values$selections[[values$table_id]][[values$dimension]] <- 
+          input$hot_selection
       }
       
       if (check_duplicates(values$ts_code, values$table_id, 
@@ -629,6 +641,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         values$dimension <- NA_character_
         values$table_open <- FALSE
         values$table_order <- CBS_ORDER
+        values$selections[[delete_id]] <- NULL
       }
 
       # update table inputs
