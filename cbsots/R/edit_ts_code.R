@@ -474,11 +474,18 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
     })
     
     observeEvent(input$table_order, {
-      if (input$table_order == values$table_order) return()
       if (debug) {
         cat(sprintf("\nThe table order has been modified (dimension = %s).\n", 
                     values$dimension))
       }
+      # update reorder button
+      if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
+        shinyjs::enable("reorder")
+      } else {
+        shinyjs::disable("reorder")
+      }
+      
+      if (input$table_order == values$table_order) return()
       
       values$table_order <- input$table_order 
       
@@ -494,12 +501,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
         cat("\n\n")
       }
       
-      # update reorder button
-      if (values$table_open && input$table_order == SELECTED_FIRST_ORDER) {
-        shinyjs::enable("reorder")
-      } else {
-        shinyjs::disable("reorder")
-      }  
+     
     }, ignoreInit = TRUE)
     
     observeEvent(input$dimension_order, {
