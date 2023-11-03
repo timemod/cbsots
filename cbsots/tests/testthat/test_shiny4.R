@@ -3,8 +3,10 @@ library(shiny)
 library(testthat)
 library(cbsots)
 
-ts_code_file <- "tscode/tscode_test_shiny.rds"
-
+ts_code_file_orig <- "tscode/tscode_test_shiny.rds"
+ts_code_file <- tempfile(pattern = "ts_code_", fileext = ".rds")
+stopifnot(file.copy(ts_code_file_orig, ts_code_file))
+          
 source("utils/testServer_gereedschap.R")
 
 app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file,
@@ -61,9 +63,9 @@ testServer(app, {
   expect_equal(values$table_id, id)
   expect_equal(values$dimension, "Topic")
   
-  # after selecting a new table, the original table should be reordered
+  # after selecting a new table, the table is no longer reordered
   gebouwbestemming2 <- values$ts_code$`83667NED`$codes$Gebouwbestemming
-  expect_equal(gebouwbestemming2$Key, c("A007237", "T001032", "A007232"))
+  expect_equal(gebouwbestemming2$Key, c("A007232", "A007237", "T001032"))
   
   hot_input <- list(
     table_id = id,
@@ -77,8 +79,21 @@ testServer(app, {
     )
   )
   session$setInputs(hot = hot_input)
+
+  session$setInputs(save = 1)
   
   #print(values$ts_code)
   expect_known_value(values$ts_code, "expected_output/shiny4_ts_code.rds")
+
 })
 
+
+app <- cbsots:::create_shiny_app(ts_code_file = ts_code_file,
+                                 debug = FALSE, testServer = TRUE)
+
+testServer(app, {
+  # now gebouwbestemming should be sorted (when the ts_code is read from the
+  # file it is ordered)
+  gebouwbestemming <- values$ts_code$`83667NED`$codes$Gebouwbestemming
+  expect_equal(gebouwbestemming$Key, c("A007237", "T001032", "A007232"))
+})

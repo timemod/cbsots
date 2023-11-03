@@ -1,13 +1,14 @@
 #' @import htmlwidgets
-codetable <- function(tblcod, table_id, dimension, 
+codetable <- function(tblcod, table_id, dimension, selection,
                       width = NULL, height = NULL) {
+
   
   if (is.null(tblcod))  {
     
     # NOTE: errors in shinyWidgets constructors are turned into warnings,
     # and the error is shown in red at the position were the widget should
     # be rendered.
-    stop("Internal error: no tblcod available")
+    validate("Internal error: no tblcod available")
     
   } else if (!identical(colnames(tblcod)[1:4], 
                         c("Key", "Select", "Code", "Title"))) {
@@ -23,14 +24,26 @@ codetable <- function(tblcod, table_id, dimension,
   
     if (any(is.na(tblcod))) {
       # See the note about errors above.
-      stop("Internal error: tblcod contains NA values")
+      validate("Internal error: tblcod contains NA values")
     }
   }
 
+  if (is.null(selection)) {
+    selection <- list(row = 0, column = 0, row2 = 0, column2 = 0)
+  } else {
+    nr <- nrow(tblcod)
+    nc <- ncol(tblcod)
+    selection$row <- max(0, min(selection$row, nr - 1))
+    selection$row2 <- max(0, min(selection$row2, nr - 1))
+    selection$column <- max(0, min(selection$column, nc - 1))
+    selection$column2 <- max(0, min(selection$column2, nc - 1))
+  }
+    
   x <- list(
     data = jsonlite::toJSON(tblcod, na = "string", rownames = FALSE),
     table_id = table_id,
-    dimension = dimension
+    dimension = dimension,
+    selection = selection
   )
   
   # create widget
