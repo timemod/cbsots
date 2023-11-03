@@ -257,8 +257,7 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       }
     }
     
-    default_selection <- list(row = 0, column = 0, row2 = 0, 
-                              column2 = 0)
+    default_selection <- list(row = 0, column = 0, row2 = 0, column2 = 0)
     
     # Open a table. This function is called when a new table has been selected
     # or when the selected table is updated with the update or update_all_tables
@@ -592,11 +591,6 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
       if (debug) cat("ts_code has been updated with hot data\n\n")
     })
     
-    # observeEvent(input$hot_selection, {
-    #     cat("selection changed:\n")
-    #     print(input$hot_selection)
-    # })
-    # 
     ############################################################################
     # Observers for adding a new table or deleting a table
     ############################################################################

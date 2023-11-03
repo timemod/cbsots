@@ -27,11 +27,18 @@ codetable <- function(tblcod, table_id, dimension, selection,
       validate("Internal error: tblcod contains NA values")
     }
   }
-  
-  # TODO: check if selection is valid: max is nrow(etc.) otherwise replace by standard
-  # selection (first row/column)
-  
 
+  if (is.null(selection)) {
+    selection <- list(row = 0, column = 0, row2 = 0, column2 = 0)
+  } else {
+    nr <- nrow(tblcod)
+    nc <- ncol(tblcod)
+    selection$row <- max(0, min(selection$row, nr - 1))
+    selection$row2 <- max(0, min(selection$row2, nr - 1))
+    selection$column <- max(0, min(selection$column, nc - 1))
+    selection$column2 <- max(0, min(selection$column2, nc - 1))
+  }
+    
   x <- list(
     data = jsonlite::toJSON(tblcod, na = "string", rownames = FALSE),
     table_id = table_id,
