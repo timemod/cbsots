@@ -537,11 +537,9 @@ create_shiny_app <- function(ts_code_file, use_browser = TRUE, browser,
     observeEvent(input$save, {
       if (debug) cat("\nSave button pressed\n")
       
-      if (values$table_open) {
-        if (input$table_order == SELECTED_FIRST_ORDER) reorder_table()
-
-        if (check_duplicates(values$ts_code, values$table_id, 
-                             values$dimension)) return()
+      if (values$table_open && 
+          check_duplicates(values$ts_code, values$table_id, values$dimension)) {
+        return()
       }
     
       saveRDS(values$ts_code, file = ts_code_file)
